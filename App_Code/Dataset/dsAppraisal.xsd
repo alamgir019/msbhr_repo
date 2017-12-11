@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsAppraisal" targetNamespace="http://tempuri.org/dsAppraisal.xsd" xmlns:mstns="http://tempuri.org/dsAppraisal.xsd" xmlns="http://tempuri.org/dsAppraisal.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsAppraisal" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsAppraisal" msprop:Generator_UserDSName="dsAppraisal">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtAPAActivity" msprop:Generator_TableClassName="dtAPAActivityDataTable" msprop:Generator_TableVarName="tabledtAPAActivity" msprop:Generator_RowChangedName="dtAPAActivityRowChanged" msprop:Generator_TablePropName="dtAPAActivity" msprop:Generator_RowDeletingName="dtAPAActivityRowDeleting" msprop:Generator_RowChangingName="dtAPAActivityRowChanging" msprop:Generator_RowEvHandlerName="dtAPAActivityRowChangeEventHandler" msprop:Generator_RowDeletedName="dtAPAActivityRowDeleted" msprop:Generator_RowClassName="dtAPAActivityRow" msprop:Generator_UserTableName="dtAPAActivity" msprop:Generator_RowEvArgName="dtAPAActivityRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ActivityName" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnActivityName" msprop:Generator_ColumnPropNameInRow="ActivityName" msprop:Generator_ColumnPropNameInTable="ActivityNameColumn" msprop:Generator_UserColumnName="ActivityName" type="xs:string" minOccurs="0" />
+              <xs:element name="ActivityDesc" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnActivityDesc" msprop:Generator_ColumnPropNameInRow="ActivityDesc" msprop:Generator_ColumnPropNameInTable="ActivityDescColumn" msprop:Generator_UserColumnName="ActivityDesc" type="xs:string" minOccurs="0" />
+              <xs:element name="Rating" msprop:Generator_ColumnVarNameInTable="columnRating" msprop:Generator_ColumnPropNameInRow="Rating" msprop:Generator_ColumnPropNameInTable="RatingColumn" msprop:Generator_UserColumnName="Rating" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtDevelopNeed" msprop:Generator_TableClassName="dtDevelopNeedDataTable" msprop:Generator_TableVarName="tabledtDevelopNeed" msprop:Generator_RowChangedName="dtDevelopNeedRowChanged" msprop:Generator_TablePropName="dtDevelopNeed" msprop:Generator_RowDeletingName="dtDevelopNeedRowDeleting" msprop:Generator_RowChangingName="dtDevelopNeedRowChanging" msprop:Generator_RowEvHandlerName="dtDevelopNeedRowChangeEventHandler" msprop:Generator_RowDeletedName="dtDevelopNeedRowDeleted" msprop:Generator_RowClassName="dtDevelopNeedRow" msprop:Generator_UserTableName="dtDevelopNeed" msprop:Generator_RowEvArgName="dtDevelopNeedRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="LActivityName" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnLActivityName" msprop:Generator_ColumnPropNameInRow="LActivityName" msprop:Generator_ColumnPropNameInTable="LActivityNameColumn" msprop:Generator_UserColumnName="LActivityName" type="xs:string" minOccurs="0" />
+              <xs:element name="LMethodName" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnLMethodName" msprop:Generator_ColumnPropNameInRow="LMethodName" msprop:Generator_ColumnPropNameInTable="LMethodNameColumn" msprop:Generator_UserColumnName="LMethodName" type="xs:string" minOccurs="0" />
+              <xs:element name="LAreaName" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnLAreaName" msprop:Generator_ColumnPropNameInRow="LAreaName" msprop:Generator_ColumnPropNameInTable="LAreaNameColumn" msprop:Generator_UserColumnName="LAreaName" type="xs:string" minOccurs="0" />
+              <xs:element name="TMonth" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnTMonth" msprop:Generator_ColumnPropNameInRow="TMonth" msprop:Generator_ColumnPropNameInTable="TMonthColumn" msprop:Generator_UserColumnName="TMonth" type="xs:string" minOccurs="0" />
+              <xs:element name="TYear" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnTYear" msprop:Generator_ColumnPropNameInRow="TYear" msprop:Generator_ColumnPropNameInTable="TYearColumn" msprop:Generator_UserColumnName="TYear" type="xs:string" minOccurs="0" />
+              <xs:element name="Cost" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnCost" msprop:Generator_ColumnPropNameInRow="Cost" msprop:Generator_ColumnPropNameInTable="CostColumn" msprop:Generator_UserColumnName="Cost" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ResourcePersonName" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnResourcePersonName" msprop:Generator_ColumnPropNameInRow="ResourcePersonName" msprop:Generator_ColumnPropNameInTable="ResourcePersonNameColumn" msprop:Generator_UserColumnName="ResourcePersonName" type="xs:string" minOccurs="0" />
+              <xs:element name="LActivityId" msprop:Generator_ColumnVarNameInTable="columnLActivityId" msprop:Generator_ColumnPropNameInRow="LActivityId" msprop:Generator_ColumnPropNameInTable="LActivityIdColumn" msprop:Generator_UserColumnName="LActivityId" type="xs:string" minOccurs="0" />
+              <xs:element name="LMethodId" msprop:Generator_ColumnVarNameInTable="columnLMethodId" msprop:Generator_ColumnPropNameInRow="LMethodId" msprop:Generator_ColumnPropNameInTable="LMethodIdColumn" msprop:Generator_UserColumnName="LMethodId" type="xs:string" minOccurs="0" />
+              <xs:element name="LAreaId" msprop:Generator_ColumnVarNameInTable="columnLAreaId" msprop:Generator_ColumnPropNameInRow="LAreaId" msprop:Generator_ColumnPropNameInTable="LAreaIdColumn" msprop:Generator_UserColumnName="LAreaId" type="xs:string" minOccurs="0" />
+              <xs:element name="ResourcePersonId" msprop:Generator_ColumnVarNameInTable="columnResourcePersonId" msprop:Generator_ColumnPropNameInRow="ResourcePersonId" msprop:Generator_ColumnPropNameInTable="ResourcePersonIdColumn" msprop:Generator_UserColumnName="ResourcePersonId" type="xs:string" minOccurs="0" />
+              <xs:element name="AMonth" msprop:Generator_ColumnVarNameInTable="columnAMonth" msprop:Generator_ColumnPropNameInRow="AMonth" msprop:Generator_ColumnPropNameInTable="AMonthColumn" msprop:Generator_UserColumnName="AMonth" type="xs:string" minOccurs="0" />
+              <xs:element name="AYear" msprop:Generator_ColumnVarNameInTable="columnAYear" msprop:Generator_ColumnPropNameInRow="AYear" msprop:Generator_ColumnPropNameInTable="AYearColumn" msprop:Generator_UserColumnName="AYear" type="xs:string" minOccurs="0" />
+              <xs:element name="IsBudgetReq" msprop:Generator_ColumnVarNameInTable="columnIsBudgetReq" msprop:Generator_ColumnPropNameInRow="IsBudgetReq" msprop:Generator_ColumnPropNameInTable="IsBudgetReqColumn" msprop:Generator_UserColumnName="IsBudgetReq" type="xs:string" minOccurs="0" />
+              <xs:element name="DevId" msprop:Generator_ColumnVarNameInTable="columnDevId" msprop:Generator_ColumnPropNameInRow="DevId" msprop:Generator_ColumnPropNameInTable="DevIdColumn" msprop:Generator_UserColumnName="DevId" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

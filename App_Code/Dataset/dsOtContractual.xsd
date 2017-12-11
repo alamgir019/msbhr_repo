@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsOtContractual" targetNamespace="http://tempuri.org/dsOtContractual.xsd" xmlns:mstns="http://tempuri.org/dsOtContractual.xsd" xmlns="http://tempuri.org/dsOtContractual.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsOtContractual" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtOtContractual">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmpId" type="xs:string" minOccurs="0" />
+              <xs:element name="FullName" type="xs:string" minOccurs="0" />
+              <xs:element name="OTTK" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OTRate" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AttndDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="OtHour" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SignInTime" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="SignOutTime" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Policy" type="xs:string" minOccurs="0" />
+              <xs:element name="Status" type="xs:string" minOccurs="0" />
+              <xs:element name="otRecmndBy" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,106 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" CodeFile="ProvidentFundPFUpload.aspx.cs" 
+Inherits="Payroll_Payroll_ProvidentFundPFUpload" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <script language="javascript" type="text/javascript" src="../../JScripts/Confirmation.js"></script>
+    <script language="javascript" type="text/javascript" src="../../JScripts/datetimepicker.js"></script>
+    <script language="javascript" type="text/javascript">
+        function ToUpper(ctrl) {
+            var t = ctrl.value;
+            ctrl.value = t.toUpperCase();
+        }
+
+    </script>
+        <div class="formStyle">
+        <div id="formhead1">
+            <div style="width: 98%; float: left;">
+                Payroll Process</div>
+            <div style="margin: 2px; float: left; padding-right: 3px;">
+                <a href="../../Default.aspx">
+                    <img src="../../Images/close_icon.gif" /></a></div>
+        </div>
+        <div class="MsgBox">
+            <asp:Label ID="lblMsg" runat="server" Font-Bold="True" ForeColor="Fuchsia"></asp:Label>
+        </div>
+        <div class="Div950">
+        <div style="background-color: #EFF3FB; border: solid 1px #3E506C;">
+               <table>
+                    <tr>
+                        <td class="textlevel">
+                            Fiscal Year :
+                        </td>
+                        <td>
+                            <asp:DropDownList ID="ddlFiscalYear" runat="server" Width="130px" CssClass="textlevelleft">
+                            </asp:DropDownList>
+                        </td>
+                        <td>
+                        </td>
+                       
+                        <td>
+                           <asp:Button ID="btnGenerate" runat="server" Text="Generate" Width="80px" OnClick="btnGenerate_Click" />
+                        </td>
+                     </tr>
+                 </table>
+          </div>
+
+          <hr style="border: solid 1px #3399FF;" />
+            <div style="border: solid 1px #3E506C;">
+                <div style="width: 60%; overflow: scroll; height: 420px;">
+                    <asp:GridView ID="grPFBF" runat="server" EmptyDataText="No Record Found" Font-Size="9px"
+                        Width="100%" AutoGenerateColumns="False" DataKeyNames="EMPID,FullName,FisYear,CF,TotalCon,TotalInter,BroadForword">
+                        <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
+                        <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
+                        </SelectedRowStyle>
+                        <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
+                        <Columns>
+
+                            <asp:BoundField DataField="EMPID" HeaderText="Emp ID">
+                                <ItemStyle CssClass="ItemStylecss" Width="5%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="FullName" HeaderText="Name">
+                                <ItemStyle CssClass="ItemStylecss" Width="11%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="FisYear" HeaderText="Fiscal Year">
+                                <ItemStyle CssClass="ItemStylecss" Width="11%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="CF" HeaderText="Carry Forward">
+                                <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="TotalCon" HeaderText="Total Contribution">
+                                <ItemStyle CssClass="ItemStylecss" Width="5%"></ItemStyle>
+                            </asp:BoundField>
+
+                            <asp:BoundField DataField="TotalInter" HeaderText="Total Interest">
+                                <ItemStyle CssClass="ItemStylecss" Width="5%"></ItemStyle>
+                            </asp:BoundField>
+
+
+                            <asp:BoundField DataField="BroadForword" HeaderText="Broad Forward">
+                                <ItemStyle CssClass="ItemStylecssCenter" Width="4%"></ItemStyle>
+                            </asp:BoundField>
+                          
+                        </Columns>
+                    </asp:GridView>
+                </div>
+                 <div id="DivCommand1" style="padding-top: 3px;">
+                <div style="text-align: left; float: left">
+                   
+                </div>
+                <div style="text-align: right;">
+                  
+                    <asp:Button ID="btnSave" runat="server" Text="Prepare" Width="70px" UseSubmitBehavior="False"
+                        OnClick="btnSave_Click" />
+                   
+                </div>
+            </div>
+               <%-- <span style="color: #3366CC; font-size: 12px; font-family: Tahoma; font-weight: bold;">
+                    Total Records:
+                    <asp:Label ID="lblRecordCount" runat="server" Text=""></asp:Label>
+                </span>--%>
+            </div>
+
+        </div>
+        </div>
+</asp:Content>
+

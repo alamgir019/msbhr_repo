@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsOverTime" targetNamespace="http://tempuri.org/dsOverTime.xsd" xmlns:mstns="http://tempuri.org/dsOverTime.xsd" xmlns="http://tempuri.org/dsOverTime.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsOverTime" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tblOverTime">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmpId" type="xs:string" minOccurs="0" />
+              <xs:element name="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="Designation" type="xs:string" minOccurs="0" />
+              <xs:element name="DivisionName" type="xs:string" minOccurs="0" />
+              <xs:element name="SBUName" type="xs:string" minOccurs="0" />
+              <xs:element name="Department" type="xs:string" minOccurs="0" />
+              <xs:element name="AttndDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="InTime" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="OutTime" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ETimeWork" type="xs:long" minOccurs="0" />
+              <xs:element name="ETimeWorkF" type="xs:long" minOccurs="0" />
+              <xs:element name="DivisionId" type="xs:string" minOccurs="0" />
+              <xs:element name="SbuId" type="xs:string" minOccurs="0" />
+              <xs:element name="DeptId" type="xs:string" minOccurs="0" />
+              <xs:element name="otRecmndBy" type="xs:string" minOccurs="0" />
+              <xs:element name="otRecmndDate" type="xs:string" minOccurs="0" />
+              <xs:element name="Status" type="xs:string" minOccurs="0" />
+              <xs:element name="otApproveBy" type="xs:string" minOccurs="0" />
+              <xs:element name="otApproveDate" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

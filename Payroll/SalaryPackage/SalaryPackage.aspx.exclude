@@ -1,0 +1,404 @@
+<%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true"
+    CodeFile="SalaryPackage.aspx.cs" Inherits="Payroll_SalaryPackage_SalaryPackage"
+    Title="Salary Package" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script language="javascript" type="text/javascript" src="../../JScripts/Confirmation.js"></script>
+    <div id="PayrollConfigForm2">
+        <div id="formhead1">
+            Employee Salary Package Setup
+        </div>
+        <div class="MsgBox">
+            <asp:Label ID="lblMsg" runat="server" CssClass="msglabel"></asp:Label>
+        </div>
+        <div id="PayrollConfigInner2">
+            <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Height="530px">
+                <cc1:TabPanel runat="server" Height="500px" ID="TabPanel1" HeaderText="Salary Package Setup">
+                    <ContentTemplate>
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="textlevel">
+                                            Package Title :
+                                        </td>
+                                        <td>
+                                            <asp:DropDownList ID="ddlSalPackTitle" runat="server" Width="255px" CssClass="textlevelleft">
+                                            </asp:DropDownList>
+                                        </td>
+                                        <td>
+                                            <asp:CompareValidator ID="CompareValidator2" runat="server" Operator="NotEqual" ValueToCompare="-1"
+                                                ControlToValidate="ddlSalPackTitle" ErrorMessage="*"></asp:CompareValidator>
+                                        </td>
+                                        <td class="textlevel">
+                                            Currency :
+                                        </td>
+                                        <td>
+                                            <asp:DropDownList ID="dlCurrency" runat="server" Width="156px" CssClass="textlevelleft">
+                                            </asp:DropDownList>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textlevel">
+                                            Description :
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="txtDescription" runat="server" Width="250px"></asp:TextBox>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td colspan="2">
+                                            <asp:CheckBox ID="chkConvert" runat="server" Text="Convert to operational currency "
+                                                CssClass="textlevelauto" Visible="False"></asp:CheckBox>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textlevel">
+                                            Payment Type :
+                                        </td>
+                                        <td>
+                                            <asp:DropDownList ID="ddlPaymentType" runat="server" Width="156px" CssClass="textlevelleft">
+                                                <asp:ListItem Value="3">Monthly</asp:ListItem>
+                                                <asp:ListItem Value="2">Daily</asp:ListItem>
+                                                <asp:ListItem Value="1">Hourly</asp:ListItem>
+                                            </asp:DropDownList>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td class="textlevel">
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="txtConvAmt" runat="server" Width="150px" Visible="False" Enabled="False">0.00</asp:TextBox>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textlevel">
+                                        </td>
+                                        <td colspan="4">
+                                            <asp:CheckBox ID="chkInActive" runat="server" Text="Make Inactive " CssClass="textlevelleft">
+                                            </asp:CheckBox>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <asp:HiddenField ID="hfID" runat="server"></asp:HiddenField>
+                            <asp:HiddenField ID="hfIsUpdate" runat="server"></asp:HiddenField>
+                            &nbsp;&nbsp;
+                        </fieldset>
+                        <%--<asp:UpdatePanel id="UpdatePanel1" runat="server">
+                            <contenttemplate>--%>
+                        <fieldset>
+                            <legend>Define Package</legend>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="textlevelleft" colspan="2" style="width: 300px;">
+                                            <asp:RadioButtonList Visible="false" ID="rdbtnGrossSalary" runat="server" CssClass="textlevelauto"
+                                                Width="163px" AutoPostBack="True" OnSelectedIndexChanged="rdbtnGrossSalary_SelectedIndexChanged">
+                                                <asp:ListItem Selected="True" Value="N">Fixed Gross Amount</asp:ListItem>
+                                            </asp:RadioButtonList>
+                                            Fixed Gross Amount :
+                                            <asp:TextBox ID="txtGrossAmount" runat="server" CssClass="TextBoxAmt60" Width="80px"
+                                                Enabled="True"></asp:TextBox>
+                                            <asp:Button runat="server" ID="btnCreate" Visible="false" Text="Create Package" CausesValidation="false"
+                                                OnClick="btnCreate_Click"></asp:Button>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td class="textlevelauto">
+                                            <cc1:FilteredTextBoxExtender ID="fltbGrossAmount" runat="server" ValidChars="." FilterType="Custom,Numbers"
+                                                TargetControlID="txtGrossAmount">
+                                            </cc1:FilteredTextBoxExtender>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textlevelleft">
+                                            Salary Item
+                                        </td>
+                                        <td class="textlevelleft">
+                                            Amount
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <asp:DropDownList ID="ddlSalHead" runat="server" Width="200px" CssClass="textlevelleft"
+                                                AutoPostBack="True" OnSelectedIndexChanged="ddlSalHead_SelectedIndexChanged">
+                                            </asp:DropDownList>
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="txtAmount" runat="server" CssClass="TextBoxAmt60" Width="80px"></asp:TextBox>&nbsp;
+                                        </td>
+                                        <td style="width: 80px" class="textlevelleft">
+                                            <asp:Button ID="btnAdd" OnClick="btnAdd_Click" runat="server" Text="Add" Width="70px"
+                                                UseSubmitBehavior="False"></asp:Button>
+                                        </td>
+                                        <td>
+                                            <asp:DropDownList ID="ddlPercentOf" runat="server" Width="156px" Visible="False"
+                                                Enabled="False">
+                                            </asp:DropDownList>
+                                            &nbsp;
+                                            <asp:CheckBox ID="chkPercent" runat="server" Text="In(%) of " OnCheckedChanged="chkPercent_CheckedChanged"
+                                                AutoPostBack="True" Visible="False" Enabled="False"></asp:CheckBox>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <asp:CompareValidator ID="CompareValidator1" runat="server" Operator="NotEqual" ValueToCompare="-1"
+                                                ControlToValidate="ddlSalHead" ErrorMessage="Select Salary Item"></asp:CompareValidator>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div style="overflow: scroll; width: 100%; height: 250px">
+                                <asp:GridView ID="grSalHead" runat="server" Width="99%" OnRowCommand="grSalHead_RowCommand"
+                                    DataKeyNames="SHEADID,ISPFUND,AMTCOMPAY,PERCNTFIELD" AutoGenerateColumns="false"
+                                    EmptyDataText="No Record Found" Font-Size="9px">
+                                    <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
+                                    <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
+                                    </SelectedRowStyle>
+                                    <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
+                                    <Columns>
+                                        <asp:ButtonField CommandName="DoubleClick" HeaderText="Remove" Text="Remove">
+                                            <ItemStyle Width="5%" CssClass="ItemStylecss" />
+                                        </asp:ButtonField>
+                                        <asp:BoundField DataField="HEADNAME" HeaderText="Salary Item">
+                                            <ItemStyle CssClass="ItemStylecss" Width="30%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="ISBASICSAL" HeaderText="Is Basic">
+                                            <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="PAYAMT" HeaderText="Amount">
+                                            <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="ISINPERCENT" HeaderText="Is(%)" Visible="False">
+                                            <ItemStyle CssClass="ItemStylecss" Width="0%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="PERCNTFIELD" HeaderText="Percent of" Visible="False">
+                                            <ItemStyle CssClass="ItemStylecss" Width="0%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="TOTAMNT" HeaderText="Value">
+                                            <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="CONVTOTALAMNT" HeaderText="Converted Amnt." Visible="False">
+                                            <ItemStyle CssClass="ItemStylecss" Width="0%"></ItemStyle>
+                                        </asp:BoundField>
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+                            <div style="width: 98%; text-align: right;">
+                                <table align="right">
+                                    <tr>
+                                        <td style="width: 350px;" class="textlevelleft">
+                                            Net payable amount :
+                                            <asp:TextBox ID="txtNetPayableAmt" runat="server" CssClass="TextBoxAmt80" ReadOnly="true"></asp:TextBox>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table style="width: 98%">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50%" class="textlevel">
+                                                &nbsp;
+                                            </td>
+                                            <td style="width: 20%">
+                                                <asp:TextBox ID="txtNetAmountIn" runat="server" CssClass="TextBoxAmt80" Visible="False"
+                                                    ReadOnly="true"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                        <%--</contenttemplate>
+                        </asp:UpdatePanel>--%>
+                        <asp:Panel ID="Panel1" runat="server">
+                            <fieldset>
+                                <div style="width: 98%">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td style="height: 26px" class="textlevel">
+                                                    Overtime Amount/Hour
+                                                </td>
+                                                <td style="height: 26px">
+                                                    <asp:TextBox ID="txtOTAmtPerHour" runat="server">0</asp:TextBox>
+                                                </td>
+                                                <td style="height: 26px" class="textlevelleft">
+                                                    <asp:CheckBox ID="chkOTPercentOf" runat="server" Text="In (%) of" OnCheckedChanged="chkOTPercentOf_CheckedChanged">
+                                                    </asp:CheckBox>
+                                                </td>
+                                                <td style="height: 26px">
+                                                    <asp:DropDownList ID="ddlOTSalHead" runat="server" Width="156px">
+                                                    </asp:DropDownList>
+                                                </td>
+                                                <td style="height: 26px">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="textlevel">
+                                                    Attendance Bonus Amount
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtAttndBonusAmt" runat="server">0</asp:TextBox>
+                                                </td>
+                                                <td class="textlevelleft">
+                                                    <asp:CheckBox ID="chkAttnBonusPercentOf" runat="server" Text="In (%) of"></asp:CheckBox>
+                                                </td>
+                                                <td>
+                                                    <asp:DropDownList ID="ddlAttnSalHead" runat="server" Width="156px">
+                                                    </asp:DropDownList>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: auto" class="textlevelleft" colspan="2">
+                                                    For
+                                                    <asp:TextBox ID="txtDelay" runat="server" Width="22px" OnTextChanged="txtDelay_TextChanged">0</asp:TextBox>
+                                                    day(s) delay, deduct
+                                                    <asp:TextBox ID="txtDeduct" runat="server" Width="22px">0</asp:TextBox>
+                                                    day(s) salary.
+                                                </td>
+                                                <td class="textlevel">
+                                                    Deduct as
+                                                </td>
+                                                <td>
+                                                    <asp:DropDownList ID="ddlDeductHead" runat="server" Width="156px">
+                                                    </asp:DropDownList>
+                                                </td>
+                                                <td style="text-align: left" class="textlevel">
+                                                    Salary head
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="textlevelleft">
+                                                    <asp:CheckBox ID="chkCompanyFacility" runat="server" Text="Benefits Package "></asp:CheckBox>
+                                                </td>
+                                                <td colspan="3">
+                                                    &nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <asp:CheckBox ID="chkBasic" runat="server" Text="Mark as Basic " CssClass="textlevelauto"
+                                        Visible="False"></asp:CheckBox></div>
+                            </fieldset>
+                            <cc1:FilteredTextBoxExtender ID="fltbAmount" runat="server" ValidChars="." FilterType="Custom,Numbers"
+                                TargetControlID="txtAmount">
+                            </cc1:FilteredTextBoxExtender>
+                            <asp:CheckBox ID="chkPF" runat="server" Text="Mark as Provident Fund Deduction" CssClass="textlevelauto"
+                                Visible="False"></asp:CheckBox><cc1:FilteredTextBoxExtender ID="fltbPfContribution"
+                                    runat="server" ValidChars="." FilterType="Custom,Numbers" TargetControlID="txtPfContribution">
+                                </cc1:FilteredTextBoxExtender>
+                            <asp:TextBox ID="txtPfContribution" runat="server" CssClass="TextBoxAmt60" Width="80px"
+                                Visible="False"></asp:TextBox><asp:HiddenField ID="hfIsBasic" runat="server">
+                            </asp:HiddenField>
+                            <asp:HiddenField ID="hfIsPf" runat="server"></asp:HiddenField>
+                        </asp:Panel>
+                    </ContentTemplate>
+                    <HeaderTemplate>
+                        Salary Package Setup
+                    </HeaderTemplate>
+                </cc1:TabPanel>
+                <cc1:TabPanel runat="server" Height="500px" ID="TabPanel2" HeaderText="Salary Package List">
+                    <ContentTemplate>
+                        <fieldset>
+                            <table>
+                                <tr>
+                                    <td class="textlevel">
+                                        <asp:CheckBox ID="chkShowAll" runat="server" Text="Show All Records" Checked="True"
+                                            AutoPostBack="True" OnCheckedChanged="chkShowAll_CheckedChanged" Visible="false" />
+                                    </td>
+                                    <td class="textlevel">
+                                        Emp ID :
+                                    </td>
+                                    <td>
+                                        <asp:TextBox ID="txtPackageTitleSearch" runat="server" Width="100px"></asp:TextBox>
+                                    </td>
+                                    <td>
+                                        <asp:Button ID="btnSearch" runat="server" Text="Search" Width="70px" UseSubmitBehavior="False"
+                                            OnClick="btnSearch_Click" CausesValidation="False" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                        <fieldset style="text-align: center;">
+                            <div style="width: 100%; overflow: scroll; height: 450px;">
+                                <asp:GridView ID="grPackageList" runat="server" AutoGenerateColumns="False" EmptyDataText="No Record Found"
+                                    Font-Size="9px" Width="100%" OnRowCommand="grPackageList_RowCommand" DataKeyNames="SalPakId">
+                                    <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
+                                    <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
+                                    </SelectedRowStyle>
+                                    <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
+                                    <Columns>
+                                        <asp:ButtonField CommandName="RowEdit" HeaderText="Edit" Text="Edit">
+                                            <ItemStyle Width="5%" CssClass="ItemStylecss" />
+                                        </asp:ButtonField>
+                                        <asp:BoundField DataField="SPTITLE" HeaderText="Package Title">
+                                            <ItemStyle CssClass="ItemStylecss" Width="20%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="Fullname" HeaderText="Owner">
+                                            <ItemStyle CssClass="ItemStylecss" Width="15%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="JobTitleName" HeaderText="Job Title">
+                                            <ItemStyle CssClass="ItemStylecss" Width="20%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="PostingPlaceName" HeaderText="Posting Place">
+                                            <ItemStyle CssClass="ItemStylecss" Width="20%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="TotalGrossSal" HeaderText="Gross Amount">
+                                            <ItemStyle CssClass="ItemStylecss" Width="8%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="TOTALSALARY" HeaderText="Net Pay Amount">
+                                            <ItemStyle CssClass="ItemStylecss" Width="8%"></ItemStyle>
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="ISACTIVE" HeaderText="Is Active">
+                                            <ItemStyle CssClass="ItemStylecss" Width="4%"></ItemStyle>
+                                        </asp:BoundField>
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+                            <asp:Label ID="lblPkgCount" runat="server" Font-Bold="True" ForeColor="#3366CC"></asp:Label>
+                        </fieldset>
+                    </ContentTemplate>
+                    <HeaderTemplate>
+                        Salary Package List
+                    </HeaderTemplate>
+                </cc1:TabPanel>
+            </cc1:TabContainer>
+            <div id="DivCommand1" style="padding-top: 3px;">
+                <div style="text-align: left; float: left">
+                    <asp:Button ID="btnRefresh" runat="server" Text="Refresh" Width="70px" CausesValidation="False"
+                        OnClick="btnRefresh_Click" />
+                    <asp:Button ID="btnNew" runat="server" Text="Save as New SalPack" Width="160px" UseSubmitBehavior="False"
+                        OnClick="btnNew_Click" CausesValidation="false" />
+                </div>
+                <div style="text-align: right;">
+                    <asp:Button ID="btnSave" runat="server" Text="Save" Width="70px" UseSubmitBehavior="False"
+                        OnClick="btnSave_Click" CausesValidation="False" />
+                    <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();"
+                        OnClick="btnDelete_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+</asp:Content>

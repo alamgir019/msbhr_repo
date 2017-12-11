@@ -1,0 +1,809 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class Payroll_SalaryPackage_SalaryPackage : System.Web.UI.Page
+{
+    DBConnector objDB = new DBConnector();
+    dsAttendance ds = new dsAttendance();
+    Payroll_MasterMgr objSalaryHeadMgr = new Payroll_MasterMgr();
+    Payroll_MasterMgr objSalaryHeadMgr2 = new Payroll_MasterMgr();
+    Payroll_MasterMgr objSalaryManager = new Payroll_MasterMgr();
+
+    Payroll_MasterMgr objSalaryPakDets = new Payroll_MasterMgr();
+    static DataTable dt = new DataTable();
+
+    DataTable dtSalaryPackage = new DataTable();
+    DataRow dr;
+    dsPayroll_SalaryPackage objDS = new dsPayroll_SalaryPackage();
+    Payroll_PaySlipOptionMgr objOpMgr = new Payroll_PaySlipOptionMgr();
+    Payroll_PaySlipOptionMgr objOpMgr2 = new Payroll_PaySlipOptionMgr();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            hfIsUpdate.Value = "N";
+            this.EntryMode(false);
+            Common.FillIdNameDropDownList2(objSalaryManager.SelectSalaryHead(0, "N"), ddlPercentOf, "HEADNAME", "SHEADID", false);
+            Common.FillIdNameDropDownList2(objSalaryHeadMgr.SelectSalaryHead(0, "N"), ddlOTSalHead, "HEADNAME", "SHEADID", false);
+            Common.FillIdNameDropDownList2(objSalaryPakDets.SelectSalaryHead(0, "N"), ddlAttnSalHead, "HEADNAME", "SHEADID", false);
+            Common.FillDropDownList(objSalaryHeadMgr2.SelectSalaryHeadCategoryWise("S"), ddlSalHead);
+            Common.FillDropDownList(objSalaryHeadMgr.SelectSalaryHeadDeduction(0, ""), ddlDeductHead);
+            Common.FillIdNameDropDownList2(objSalaryHeadMgr.SelectCurrencyList(0), dlCurrency, "CURNCNAME", "CURNCID", false);
+            Common.FillDropDownList(objSalaryPakDets.GenerateSalaryPackTitle(), ddlSalPackTitle, "SalPackTitle", "EMPID", true, "Select");
+
+            this.FillGrossSalary();
+            this.FillPackageInfo();
+            Panel1.Visible = false;
+            TabContainer1.ActiveTabIndex = 0;
+            chkShowAll.Checked = true;
+        }
+    }
+
+    private void FillPackageInfo()
+    {
+        grPackageList.DataSource = null;
+        grPackageList.DataBind();
+
+        dtSalaryPackage = objSalaryManager.SelectSalaryPackage(0);
+        if (dtSalaryPackage.Rows.Count > 0)
+        {
+            grPackageList.DataSource = dtSalaryPackage;
+            grPackageList.DataBind();
+            this.FormatSalaryPackageGrid();
+            lblPkgCount.Text = "Total Records : " + dtSalaryPackage.Rows.Count.ToString();
+        }
+    }
+
+    private void FormatSalaryPackageGrid()
+    {
+        foreach (GridViewRow grow in grPackageList.Rows)
+        {
+            if (Common.CheckNullString(grow.Cells[1].Text) != "")
+                grow.Cells[1].Text = grow.Cells[1].Text;
+        }
+    }
+
+    protected void EntryMode(bool IsUpdate)
+    {
+        if (IsUpdate == true)
+        {
+            btnSave.Text = "Update";
+            hfIsUpdate.Value = "Y";
+            btnNew.Visible = true;
+        }
+        else
+        {
+            Common.EmptyTextBoxValues(this);
+            btnSave.Text = "Save";
+            hfIsUpdate.Value = "N";
+            txtGrossAmount.Text = "0.00";
+            txtAmount.Text = "0.00";
+            txtPfContribution.Text = "0.00";
+            txtNetPayableAmt.Text = "0.00";
+            txtNetAmountIn.Text = "0.00";
+            txtOTAmtPerHour.Text = "0.00";
+            txtAttndBonusAmt.Text = "0.00";
+            txtDelay.Text = "0";
+            txtDeduct.Text = "0";
+            grSalHead.DataSource = null;
+            grSalHead.DataBind();
+            TabContainer1.ActiveTabIndex = 0;
+            chkShowAll.Checked = true;
+            btnNew.Visible = false;
+        }
+    }
+
+    protected void FillGrossSalary()
+    {
+        if (ddlPercentOf.Items.Count > 0)
+        {
+            chkPercent.Enabled = true;
+        }
+        else
+        {
+            chkPercent.Enabled = false;
+        }
+        ddlPercentOf.Items.Add("Gross Payment");
+    }
+
+    protected void FillOTGrossSalary()
+    {
+        ddlOTSalHead.Items.Add("Gross Payment");
+        ddlAttnSalHead.Items.Add("Gross Payment");
+    }
+
+    protected void chkPercent_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkPercent.Checked == true)
+        {
+            ddlPercentOf.Enabled = true;
+        }
+        else
+            ddlPercentOf.Enabled = false;
+    }
+
+    protected void rdbtnGrossSalary_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbtnGrossSalary.SelectedIndex == 0)
+        {
+            chkPercent.Enabled = false;
+            chkPercent.Checked = false;
+            ddlPercentOf.Enabled = false;
+            txtGrossAmount.Enabled = false;
+        }
+        else
+        {
+            chkPercent.Enabled = true;
+            txtGrossAmount.Enabled = true;
+        }
+    }
+
+    protected void btnAdd_Click(object sender, EventArgs e)
+    {
+        if (rdbtnGrossSalary.SelectedValue == "0")
+        {
+            this.AddToSalaryPakDetailsDataSet();
+        }
+        else
+        {
+            this.AddToSalaryPakDetailsDataSet();
+            //this.GetConvertedAmnt(Convert.ToDecimal(txtAmount.Text), Convert.ToDecimal(txtGrossAmount.Text)));
+        }
+        this.FillOTGrossSalary();
+        this.GetGrossNetPayableAmnt();
+        this.GetGrossSalary();
+    }
+
+    private void GetGrossNetPayableAmnt()
+    {
+        decimal dblNetPayableAmnt = 0;
+        foreach (GridViewRow gRow in grSalHead.Rows)
+        {
+            dblNetPayableAmnt = dblNetPayableAmnt + Convert.ToDecimal(gRow.Cells[6].Text);
+        }
+        txtNetPayableAmt.Text = dblNetPayableAmnt.ToString();
+    }
+
+    private decimal GetConvertedAmnt(Decimal dblAmt, Decimal dblGrossAmt)
+    {
+        Decimal dblConvertAmt = (dblGrossAmt * dblAmt) / 100;
+        return dblConvertAmt;
+    }
+
+    private decimal TotalAmount(Decimal strtotal)
+    {
+        Decimal txtNetPayableAmt = strtotal;
+        return txtNetPayableAmt;
+    }
+
+    protected void AddToSalaryPakDetailsDataSet()
+    {
+        Decimal dclTotalAmt = 0;
+
+        if (grSalHead.Rows.Count == 0)
+        {
+            DataRow nRow = objDS.dtSalaryPakDtls.NewRow();
+            nRow["SHEADID"] = ddlSalHead.SelectedValue.ToString();
+            nRow["HEADNAME"] = ddlSalHead.SelectedItem.Text.ToString();
+            nRow["ISBASICSAL"] = hfIsBasic.Value.ToString();//chkBasic.Checked == true ? "Y" : "N";
+            nRow["PAYAMT"] = txtAmount.Text.Trim();
+            nRow["ISINPERCENT"] = chkPercent.Checked == true ? "Y" : "N";
+            nRow["PERCNTFIELD"] = chkPercent.Checked == true ? ddlPercentOf.SelectedValue.ToString() : "";
+            dclTotalAmt = chkPercent.Checked == false ? Convert.ToDecimal(txtAmount.Text.Trim()) : Convert.ToDecimal(this.GetPercentValue());
+            nRow["TOTAMNT"] = dclTotalAmt * objSalaryHeadMgr.GetHeadNature(ddlSalHead.SelectedValue.ToString());
+            nRow["CONVTOTALAMNT"] = "0";
+            nRow["ISPFUND"] = hfIsPf.Value.ToString(); //chkPF.Checked == true ? "Y" : "N";
+            nRow["AMTCOMPAY"] = chkPercent.Checked == false ? txtPfContribution.Text.Trim() : this.GetCompPayPercentValue();
+            objDS.dtSalaryPakDtls.Rows.Add(nRow);
+        }
+        else
+        {
+            int i = 0;
+
+            foreach (GridViewRow gRow in grSalHead.Rows)
+            {
+                DataRow nRow = objDS.dtSalaryPakDtls.NewRow();
+                if (grSalHead.DataKeys[i].Values[0].ToString() != ddlSalHead.SelectedValue.ToString())
+                {
+                    nRow["SHEADID"] = grSalHead.DataKeys[i].Values[0].ToString();
+                    nRow["HEADNAME"] = gRow.Cells[1].Text.Trim();
+                    nRow["ISBASICSAL"] = gRow.Cells[2].Text.Trim();
+                    nRow["PAYAMT"] = gRow.Cells[3].Text.Trim();
+                    nRow["ISINPERCENT"] = gRow.Cells[4].Text.Trim();
+                    nRow["PERCNTFIELD"] = Common.CheckNullString(gRow.Cells[5].Text.Trim());
+                    nRow["TOTAMNT"] = gRow.Cells[6].Text.Trim();
+                    nRow["CONVTOTALAMNT"] = gRow.Cells[7].Text.Trim();
+                    nRow["ISPFUND"] = grSalHead.DataKeys[i].Values[1].ToString();
+                    nRow["AMTCOMPAY"] = grSalHead.DataKeys[i].Values[2].ToString();
+                    objDS.dtSalaryPakDtls.Rows.Add(nRow);
+                }
+
+                i++;
+            }
+            // New Row
+            dclTotalAmt = 0;
+            DataRow nRow2 = objDS.dtSalaryPakDtls.NewRow();
+            nRow2["SHEADID"] = ddlSalHead.SelectedValue.ToString();
+            nRow2["HEADNAME"] = ddlSalHead.SelectedItem.Text.ToString();
+            nRow2["ISBASICSAL"] = hfIsBasic.Value.ToString();//chkBasic.Checked == true ? "Y" : "N";
+            nRow2["PAYAMT"] = txtAmount.Text.Trim();
+            nRow2["ISINPERCENT"] = chkPercent.Checked == true ? "Y" : "N";
+            nRow2["PERCNTFIELD"] = chkPercent.Checked == true ? ddlPercentOf.SelectedValue.ToString() : "";
+            dclTotalAmt = chkPercent.Checked == false ? Convert.ToDecimal(txtAmount.Text.Trim()) : Convert.ToDecimal(this.GetPercentValue());
+            nRow2["TOTAMNT"] = dclTotalAmt * objSalaryHeadMgr.GetHeadNature(ddlSalHead.SelectedValue.ToString());
+            nRow2["CONVTOTALAMNT"] = "0";
+            nRow2["ISPFUND"] = hfIsPf.Value.ToString();//chkPF.Checked == true ? "Y" : "N";
+            nRow2["AMTCOMPAY"] = chkPercent.Checked == false ? txtPfContribution.Text.Trim() : this.GetCompPayPercentValue();
+            objDS.dtSalaryPakDtls.Rows.Add(nRow2);
+        }
+        objDS.dtSalaryPakDtls.AcceptChanges();
+        grSalHead.DataSource = objDS.dtSalaryPakDtls;
+        grSalHead.DataBind();        
+    }
+
+    private decimal GetTotalAmount(GridView grView)
+    {
+        decimal dclTotalAmt = 0;
+        foreach (GridViewRow gRow in grView.Rows)
+        {
+            if (Common.CheckNullString(gRow.Cells[6].Text.Trim()) != "")
+            {
+                dclTotalAmt = dclTotalAmt + Convert.ToDecimal(gRow.Cells[6].Text.Trim());
+            }
+        }
+        return dclTotalAmt;
+    }
+
+    private decimal GetHeadAMount(int dclSalHead)
+    {
+        decimal dclAmount = 0;
+        switch (dclSalHead)
+        {
+            //Basic
+            case 1:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString()));
+                hfIsBasic.Value = dclAmount.ToString();
+                break;
+
+            //Others
+            case 2:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString()));
+                break;
+
+            //Alico(+)
+            case 3:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString()));
+                break;
+
+            //Alico(-)
+            case 4:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString())) * (-1);
+                break;
+
+            //PF(iDE)
+            case 5:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString()));
+                break;
+
+            //PF(BOTH)
+            case 6:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString())) * (-1);
+                break;
+
+            //PF Loan
+            case 7:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString()));
+                break;
+
+            //PF Loan Interest
+            case 8:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString()));
+                break;
+
+            //Bonus(+)
+            case 9:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString())) / 12;
+                break;
+
+            //Bonus(-)
+            case 10:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString())) / 12 * (-1);
+                break;
+
+            //Gratuity(+)
+            case 11:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString())) / 12;
+                break;
+
+            //Gratuity(-)
+            case 12:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString())) / 12 * (-1);
+                break;
+
+            //Arrer(+)
+            case 13:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString()));
+                break;
+
+            //Arrer(-)
+            case 14:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString()));
+                break;
+
+            //ITD
+            case 15:
+                dclAmount = Convert.ToDecimal(GetPolicyWiseAmount2(dclSalHead.ToString()));
+                break;
+
+            //Mobile
+            case 16:
+                dclAmount = Convert.ToDecimal(objSalaryHeadMgr.GetGradeWiseMobileAllow(ddlSalPackTitle.SelectedValue.Trim()));
+                break;
+        }
+        return Math.Round(dclAmount, 0);
+    }
+
+    private void CreateSalaryPackage()
+    {
+        grSalHead.DataSource = null;
+        grSalHead.DataBind();
+
+        string strEmpType = objSalaryManager.GetEmpType(ddlSalPackTitle.SelectedValue.Trim());
+        //DataTable dtOptions = objOpMgr2.SelectPayrollBenefitsPolicyDataByType("0", strEmpType);
+
+        DataTable dtOptions = objSalaryHeadMgr.GetSalaryItem();
+
+        for (int i = 0; i < dtOptions.Rows.Count; i++)
+        {
+            decimal dclAmount = this.GetHeadAMount(Convert.ToInt32(dtOptions.Rows[i]["SHEADID"].ToString()));
+            DataRow nRow = objDS.dtSalaryPakDtls.NewRow();
+            nRow["SHEADID"] = Convert.ToDecimal(dtOptions.Rows[i]["SHEADID"].ToString());
+            nRow["HEADNAME"] = Common.FindInDdlTextData(ddlSalHead, dtOptions.Rows[i]["SHEADID"].ToString().Trim());
+            nRow["ISBASICSAL"] = dtOptions.Rows[i]["SHEADID"].ToString() == "1" ? "Y" : "N";
+            nRow["PAYAMT"] = Math.Abs(dclAmount);
+            nRow["ISINPERCENT"] = "N";
+            nRow["PERCNTFIELD"] = "";
+            nRow["TOTAMNT"] = dclAmount;
+            nRow["CONVTOTALAMNT"] = "0";
+            nRow["ISPFUND"] = dtOptions.Rows[i]["SHEADID"].ToString() == "6" ? "Y" : "N";
+            nRow["AMTCOMPAY"] = "0";
+            objDS.dtSalaryPakDtls.Rows.Add(nRow);
+        }
+
+        objDS.dtSalaryPakDtls.AcceptChanges();
+        grSalHead.DataSource = objDS.dtSalaryPakDtls;
+        grSalHead.DataBind();        
+        txtNetPayableAmt.Text = this.GetTotalAmount(grSalHead).ToString();
+        hfIsBasic.Value = "";
+    }
+
+    protected string GetPolicyWiseAmount2(string strSHeadID)
+    {
+        string strEmpType = objSalaryManager.GetEmpType(ddlSalPackTitle.SelectedValue.Trim());
+        DataTable dtOptions = objOpMgr.SelectPayrollBenefitsPolicyDataByType(strSHeadID, strEmpType);
+
+        decimal decAmount = 0;
+        decimal decPolicy = 0;
+        decPolicy = 0;
+        decAmount = 0;
+        if (dtOptions.Rows.Count > 0)
+        {
+            decPolicy = Common.RoundDecimal(dtOptions.Rows[0]["VALUE"].ToString().Trim(), 2);
+
+            if (dtOptions.Rows[0]["ISPERCENT"].ToString().Trim() == "Y")
+            {
+                if (dtOptions.Rows[0]["PERCENTOF"].ToString().Trim() == "99")
+                {
+                    decAmount = Common.RoundDecimal(txtGrossAmount.Text.Trim(), 0);
+                    decAmount = decAmount * decPolicy / 100;
+                    decAmount = Math.Round(decAmount, 0);                    
+                }
+                else if (dtOptions.Rows[0]["PERCENTOF"].ToString().Trim() == "1")
+                {
+                    decAmount = Common.RoundDecimal(hfIsBasic.Value, 0);
+                    decAmount = decAmount * decPolicy / 100;
+                    decAmount = Math.Round(decAmount, 0);                    
+                }
+            }
+            else
+            {
+                decAmount = decPolicy;
+            }
+        }
+        dtOptions.Rows.Clear();
+        dtOptions.Dispose();
+        return decAmount.ToString();
+    }
+
+    protected string GetPercentValue()
+    {
+        int i = 0;
+        decimal decValue = 0;
+        decimal decPercent = 0;
+        decimal decResult = 0;
+        if (ddlPercentOf.SelectedItem.Text.Trim() == "Gross Payment")
+        {
+            decValue = Convert.ToDecimal(txtGrossAmount.Text.Trim());
+            decPercent = Convert.ToDecimal(txtAmount.Text.Trim());
+            decResult = decValue * decPercent / 100;
+        }
+        else
+        {
+            foreach (GridViewRow gRow in grSalHead.Rows)
+            {
+                if (grSalHead.DataKeys[i].Values[0].ToString() == ddlPercentOf.SelectedValue.ToString())
+                {
+                    decValue = Convert.ToDecimal(gRow.Cells[6].Text.Trim());
+                    decPercent = Convert.ToDecimal(txtAmount.Text.Trim());
+                    decResult = decValue * decPercent / 100;
+                    break;
+                }
+                i++;
+            }
+        }
+        return Convert.ToString(decimal.Round(decResult));
+    }
+
+    protected string GetCompPayPercentValue()
+    {
+        int i = 0;
+        decimal decValue = 0;
+        decimal decPercent = 0;
+        decimal decResult = 0;
+        foreach (GridViewRow gRow in grSalHead.Rows)
+        {
+            if (ddlPercentOf.SelectedItem.Text.Trim() == "Gross Payment")
+            {
+                decValue = Convert.ToDecimal(txtGrossAmount.Text.Trim());
+                decPercent = Convert.ToDecimal(txtPfContribution.Text.Trim());
+                decResult = decValue * decPercent / 100;
+                break;
+            }
+            else if (grSalHead.DataKeys[i].Values[0].ToString() == ddlPercentOf.SelectedValue.ToString())
+            {
+                decValue = Convert.ToDecimal(gRow.Cells[6].Text.Trim());
+                decPercent = Convert.ToDecimal(txtPfContribution.Text.Trim());
+                decResult = decValue * decPercent / 100;
+                break;
+            }
+            i++;
+        }
+        return Convert.ToString(decimal.Round(decResult));
+    }
+
+    protected void txtDelay_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        this.ValidateAndSave("N");
+    }
+
+    protected void ValidateAndSave(string IsDelete)
+    {
+        try
+        {
+            if (hfIsUpdate.Value == "N")
+            {
+                if (objSalaryManager.GetDuplicatePackage(ddlSalPackTitle.SelectedValue.ToString().Trim()).Trim() == ddlSalPackTitle.SelectedValue.ToString().Trim())
+                {
+                    lblMsg.Text = "Salaray package already exist.";
+                    return;
+                }
+
+                if (grSalHead.Rows.Count == 0)
+                {
+                    lblMsg.Text = "Wrong Entry. No Data to Save.";
+                    return;
+                }
+            }
+            this.SaveData(IsDelete);
+            this.EntryMode(false);
+            this.FillPackageInfo();
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = ex.Message.ToString();
+        }
+    }
+
+    private void SaveData(string IsDelete)
+    {
+        long lngID = 0;
+        try
+        {
+            if (hfIsUpdate.Value == "N")
+                lngID = objDB.GerMaxIDNumber("SalaryPakMst", "SalPakId");
+            else
+                lngID = Convert.ToInt64(hfID.Value);
+
+            Payroll_SalaryPakMst objSalaryPakMst = new Payroll_SalaryPakMst(
+                 lngID.ToString(),
+                // txtHeadTitle.Text.Trim(), 
+                 ddlSalPackTitle.SelectedItem.Text.Trim(),
+                 txtDescription.Text.Trim(),
+                 dlCurrency.SelectedValue.ToString(),
+                (chkConvert.Checked == true ? "Y" : "N"),
+                 ddlPaymentType.SelectedValue.ToString(),
+                 txtOTAmtPerHour.Text.Trim(),
+                 (chkOTPercentOf.Checked == true ? "Y" : "N"),
+                 (chkOTPercentOf.Checked == true ? ddlOTSalHead.SelectedValue.ToString() : ""),
+                // ,
+                 txtAttndBonusAmt.Text.Trim(),
+                 (chkAttnBonusPercentOf.Checked == true ? "Y" : "N"),//ddlAttnSalHead.SelectedValue.ToString(),                 
+                 (chkAttnBonusPercentOf.Checked == true ? ddlAttnSalHead.SelectedValue.ToString() : ""),
+                 txtDelay.Text,
+                 txtDeduct.Text,
+                 (txtDeduct.Text != "0" ? ddlDeductHead.SelectedValue.ToString() : ""),
+                 txtGrossAmount.Text.Trim(),
+                 rdbtnGrossSalary.SelectedValue,
+                 txtNetPayableAmt.Text.Trim(),
+                 (chkInActive.Checked == true ? "N" : "Y"),
+                 (chkCompanyFacility.Checked == true ? "Y" : "N"),//ddlCompanyFacility.SelectedValue.ToString(),                 
+                 "1",
+                  Session["USERID"].ToString(),
+                 Common.SetDateTime(DateTime.Now.ToString()));
+            objSalaryManager.InsertSalaryPakMst(objSalaryPakMst, hfIsUpdate.Value, IsDelete, grSalHead, ddlSalPackTitle.SelectedValue.ToString());
+            if ((hfIsUpdate.Value == "N") && (IsDelete == "N"))
+                lblMsg.Text = "Record Saved Successfully";
+            else if ((hfIsUpdate.Value == "Y") && (IsDelete == "N"))
+                lblMsg.Text = "Record Updated Successfully";
+            else if (IsDelete == "Y")
+                lblMsg.Text = "Record Deleted Successfully";
+
+            //this.EntryMode(false);
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = "";
+            throw (ex);
+        }
+    }
+
+    protected void grPackageList_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        GridView _gridView = (GridView)sender;
+        // Get the selected index and the command name
+        int _selectedIndex = int.Parse(e.CommandArgument.ToString());
+        string _commandName = e.CommandName;
+        _gridView.SelectedIndex = _selectedIndex;
+        switch (_commandName)
+        {
+            case ("RowEdit"):
+                Payroll_MasterMgr objSalaryManager2 = new Payroll_MasterMgr();
+                dtSalaryPackage = objSalaryManager2.SelectSalaryPackage(Convert.ToInt32(grPackageList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim()));
+                if (dtSalaryPackage.Rows.Count > 0)
+                {
+                    hfIsUpdate.Value = "Y";
+                    hfID.Value = grPackageList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim();
+                    ddlSalPackTitle.SelectedValue = dtSalaryPackage.Rows[0]["EmpID"].ToString().Trim();
+                    //txtHeadTitle.Text = dtSalaryPackage.Rows[0]["SPTitle"].ToString().Trim();
+                    txtDescription.Text = dtSalaryPackage.Rows[0]["SPDesc"].ToString().Trim();
+                    dlCurrency.SelectedValue = dtSalaryPackage.Rows[0]["CurrId"].ToString().Trim();
+                    chkConvert.Checked = dtSalaryPackage.Rows[0]["WillConvert"].ToString().Trim() == "Y" ? true : false;
+                    ddlPaymentType.SelectedValue = dtSalaryPackage.Rows[0]["PayType"].ToString().Trim();
+                    txtConvAmt.Text = "0.00";
+                    chkConvert.Checked = dtSalaryPackage.Rows[0]["IsActive"].ToString().Trim() == "Y" ? true : false;
+                    rdbtnGrossSalary.SelectedValue = "N";
+                    txtGrossAmount.Text = dtSalaryPackage.Rows[0]["TotalGrossSal"].ToString().Trim();
+                    txtNetPayableAmt.Text = dtSalaryPackage.Rows[0]["totalSalary"].ToString().Trim();
+                    txtNetAmountIn.Text = "0";
+
+                    DataTable dtSalHeadDetails = objSalaryPakDets.SelectSalaryPakDetls(Convert.ToInt32(hfID.Value));
+                    grSalHead.DataSource = dtSalHeadDetails;
+                    grSalHead.DataBind();
+                    this.EntryMode(true);
+                }
+                TabContainer1.ActiveTabIndex = 0;
+                break;
+        }
+    }
+
+    protected void grSalHead_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        GridView _gridView = (GridView)sender;
+        // Get the selected index and the command name
+        int _selectedIndex = int.Parse(e.CommandArgument.ToString());
+        string _commandName = e.CommandName;
+        _gridView.SelectedIndex = _selectedIndex;
+        switch (_commandName)
+        {
+            case ("DoubleClick"):
+                int i = 0;
+                foreach (GridViewRow gRow in grSalHead.Rows)
+                {
+                    DataRow nRow = objDS.dtSalaryPakDtls.NewRow();
+                    if (grSalHead.DataKeys[i].Values[0].ToString() != grSalHead.DataKeys[_gridView.SelectedIndex].Values[0].ToString())
+                    {
+                        nRow["SHEADID"] = grSalHead.DataKeys[i].Values[0].ToString();
+                        nRow["HEADNAME"] = gRow.Cells[1].Text.Trim();
+                        nRow["ISBASICSAL"] = gRow.Cells[2].Text.Trim();
+                        nRow["PAYAMT"] = gRow.Cells[3].Text.Trim();
+                        nRow["ISINPERCENT"] = gRow.Cells[4].Text.Trim();
+                        nRow["PERCNTFIELD"] = Common.CheckNullString(gRow.Cells[5].Text.Trim());
+                        nRow["TOTAMNT"] = gRow.Cells[6].Text.Trim();
+                        nRow["CONVTOTALAMNT"] = gRow.Cells[7].Text.Trim();
+                        nRow["ISPFUND"] = grSalHead.DataKeys[i].Values[1].ToString();
+                        nRow["AMTCOMPAY"] = grSalHead.DataKeys[i].Values[2].ToString();
+                        objDS.dtSalaryPakDtls.Rows.Add(nRow);
+                    }
+                    i++;
+                }
+                objDS.dtSalaryPakDtls.AcceptChanges();
+                grSalHead.DataSource = objDS.dtSalaryPakDtls;
+                grSalHead.DataBind();
+                //EntryMode(true);
+                this.GetGrossNetPayableAmnt();
+                break;
+        }
+    }
+
+    protected void chkOTPercentOf_CheckedChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void btnRefresh_Click(object sender, EventArgs e)
+    {
+        this.EntryMode(false);
+    }
+
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        hfIsUpdate.Value = "";
+        this.ValidateAndSave("Y");
+    }
+
+    protected void ddlSalHead_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        DataTable dtIsBasicOrPF = objSalaryManager.GetIsBasicOrPF(ddlSalHead.SelectedValue.ToString());
+
+        if (dtIsBasicOrPF.Rows.Count > 0)
+        {
+            if (dtIsBasicOrPF.Rows[0]["ISBASIC"].ToString() == "Y")
+            {
+                hfIsBasic.Value = "Y";
+                hfIsPf.Value = "N";
+                txtAmount.Text = objSalaryManager.GetEmpBasic(ddlSalPackTitle.SelectedValue.Trim());
+            }
+            else if (dtIsBasicOrPF.Rows[0]["ISPF"].ToString() == "Y")
+            {
+                hfIsPf.Value = "Y";
+                hfIsBasic.Value = "N";
+
+                // Policy Amount Calculation
+                txtAmount.Text = this.GetPolicyWiseAmount(ddlSalHead.SelectedValue.Trim());
+            }
+            else
+            {
+                hfIsBasic.Value = "N";
+                hfIsPf.Value = "N";
+                txtAmount.Text = this.GetPolicyWiseAmount(ddlSalHead.SelectedValue.Trim());
+            }
+        }
+        dtIsBasicOrPF.Rows.Clear();
+        dtIsBasicOrPF.Dispose();
+    }
+
+    protected string GetPolicyWiseAmount(string strSHeadID)
+    {
+        string strEmpType = objSalaryManager.GetEmpType(ddlSalPackTitle.SelectedValue.Trim());
+        DataTable dtOptions = objOpMgr.SelectPayrollBenefitsPolicyDataByType(strSHeadID, strEmpType);
+
+        decimal decAmount = 0;
+        decimal decPolicy = 0;
+        decPolicy = 0;
+        decAmount = 0;
+        if (dtOptions.Rows.Count > 0)
+        {
+            decPolicy = Common.RoundDecimal(dtOptions.Rows[0]["VALUE"].ToString().Trim(), 2);
+            if (grSalHead.Rows.Count > 0)
+            {
+                foreach (GridViewRow gRow in grSalHead.Rows)
+                {
+                    if (dtOptions.Rows[0]["ISPERCENT"].ToString().Trim() == "Y")
+                    {
+                        if (dtOptions.Rows[0]["PERCENTOF"].ToString().Trim() == grSalHead.DataKeys[gRow.DataItemIndex].Values[0].ToString().Trim())
+                        {
+                            decAmount = Common.RoundDecimal(gRow.Cells[3].Text.Trim(), 0);
+                            decAmount = decAmount * decPolicy / 100;
+                            decAmount = Math.Round(decAmount, 0);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        decAmount = decPolicy;
+                    }
+                }
+            }
+        }
+        dtOptions.Rows.Clear();
+        dtOptions.Dispose();
+        return decAmount.ToString();
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        chkShowAll.Checked = false;
+        string strText = txtPackageTitleSearch.Text.Trim();
+        this.FillPackageInfoBySearch(strText);
+    }
+
+    protected void FillPackageInfoBySearch(string strText)
+    {
+        dtSalaryPackage.Rows.Clear();
+        dtSalaryPackage.Dispose();
+
+        grPackageList.DataSource = null;
+        grPackageList.DataBind();
+
+        dtSalaryPackage = objSalaryManager.GetPackageListBySearch(strText);
+        if (dtSalaryPackage.Rows.Count > 0)
+        {
+            grPackageList.DataSource = dtSalaryPackage;
+            grPackageList.DataBind();
+            this.FormatSalaryPackageGrid();
+            lblPkgCount.Text = "Total Records : " + dtSalaryPackage.Rows.Count.ToString();
+        }
+        TabContainer1.ActiveTabIndex = 1;
+    }
+
+    protected void chkShowAll_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkShowAll.Checked == true)
+        {
+            this.FillPackageInfo();
+            txtPackageTitleSearch.Text = "";
+            TabContainer1.ActiveTabIndex = 1;
+        }
+    }
+
+    protected void btnNew_Click(object sender, EventArgs e)
+    {
+        hfIsUpdate.Value = "N";
+        this.ValidateAndSave("N");
+    }
+
+    protected void btnCreate_Click(object sender, EventArgs e)
+    {
+        if (ddlSalPackTitle.SelectedIndex != 0)
+        {
+            this.CreateSalaryPackage();
+        }
+        else
+        {
+            lblMsg.Text = "Please select Package Title.";
+        }
+    }
+
+    private void GetGrossSalary()
+    {
+        DataTable dtGrossSalHead = objSalaryHeadMgr.SelectGrossSalHead(0);
+
+        decimal dclTotal = 0;
+        foreach (DataRow dRow in dtGrossSalHead.Rows)
+        {
+            foreach (GridViewRow gRow in grSalHead.Rows)
+            {
+                if (dRow["SHEADID"].ToString().Trim() == grSalHead.DataKeys[gRow.RowIndex].Values[0].ToString().Trim())
+                {
+                    dclTotal = dclTotal + Convert.ToDecimal(gRow.Cells[3].Text);
+                }
+            }
+        }
+
+        txtGrossAmount.Text = dclTotal.ToString();
+    }
+}

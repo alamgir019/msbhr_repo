@@ -1,0 +1,164 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class Attendance_SummaryAttendanceRpt : System.Web.UI.Page
+{
+    ReportManager objRptMgr = new ReportManager();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        string strFlag = "";
+        string strLocId = "";
+        string strDeptId = "";
+        string strEmpId = "";
+        string strDivId="";
+        
+        string strDay = "";
+        string strMon = "";
+        string strYear = "";
+
+        string[] strAttndValue = new string[3];
+
+        string strParams = Request.QueryString["params"];
+        string[] strVal = new string[7];
+        DataTable dtSummAttnd = new DataTable();
+        if (string.IsNullOrEmpty(strParams) == false)
+        {
+            char[] splitter ={ ',' };
+            strVal = Common.str_split(strParams, splitter);
+        }
+
+        lblFrom.Text = Common.DisplayDate(strVal[0].Trim());
+        lblTo.Text = Common.DisplayDate(strVal[1].Trim());
+
+
+
+        strLocId = strVal[2] == "99999" ? "0" : strVal[2];
+        strDeptId = strVal[3] == "99999" ? "0" : strVal[3];
+        strDivId = strVal[6] == "99999" ? "0" : strVal[6];
+
+        if (strVal.Length == 7)
+        {
+            if (strVal[4] != "")
+                strFlag = "E";
+            else
+                strFlag = "D";
+            dtSummAttnd = objRptMgr.Get_Monthly_Attandance_New(strFlag, strVal[0], strVal[1], strLocId, strDeptId, strVal[4],strVal[5],strDivId);
+
+            dsMonthlyAttandance objDS3 = new dsMonthlyAttandance();
+            DateTime dtDate2 = new DateTime();
+            int intMonthDay = Common.GetMonthDay(Convert.ToDateTime(strVal[0]));
+            int j=1;
+            foreach (DataRow dRow in dtSummAttnd.Rows)
+            {
+                if (strEmpId != dRow["EMPID"].ToString().Trim())
+                {
+                    strEmpId = dRow["EMPID"].ToString().Trim();
+                    DataRow nRow = objDS3.tblMonthlyAttandance.NewRow();
+                    nRow["EMPID"] = dRow["EMPID"].ToString().Trim();
+                    nRow["Name"] = dRow["Name"].ToString().Trim();                    
+                    nRow["DivisionName"] = dRow["DivisionName"].ToString().Trim();
+                    nRow["Designation"] = dRow["Designation"].ToString().Trim();
+
+                    dtDate2 = Convert.ToDateTime(strVal[0]).AddDays(1);
+                    for (j = 1; j <= intMonthDay; j++)
+                    {
+                        strAttndValue = null;
+                        if (j == 1)
+                        {
+                            strAttndValue=GetAttnStatus((strVal[0]), strEmpId, dtSummAttnd);
+                            nRow["St1"] = strAttndValue[0];
+                            nRow["In1"] = strAttndValue[1];
+                            nRow["Out1"] = strAttndValue[2];
+                        }
+                        else
+                        {
+                            strAttndValue = GetAttnStatus(Common.SetDate(dtDate2.ToString()), strEmpId, dtSummAttnd);
+                            nRow["St" + j.ToString()] = strAttndValue[0];
+                            nRow["In" + j.ToString()] = strAttndValue[1];
+                            nRow["Out" + j.ToString()] = strAttndValue[2];
+                            dtDate2 = dtDate2.AddDays(1);
+                        }
+                    }
+                    objDS3.tblMonthlyAttandance.Rows.Add(nRow);
+                    objDS3.tblMonthlyAttandance.AcceptChanges();
+                }
+            }
+            grSummaryAttnd.DataSource = objDS3.tblMonthlyAttandance;
+            grSummaryAttnd.DataBind();  
+        }
+        Int32 i = 1;
+        DateTime AttndDate = new DateTime();
+        foreach (GridViewRow gRow in grSummaryAttnd.Rows )
+        {
+            gRow.Cells[0].Text = i.ToString();
+            i++;
+        }
+        if (grSummaryAttnd.Rows.Count == 0)
+            return;
+        TimeSpan ts=Convert.ToDateTime(strVal[1].Trim())-Convert.ToDateTime(strVal[0].Trim());
+        int DaysDuration = ts.Days + 1;
+        for (i = 1; i <= DaysDuration; i++)
+        {
+            if (i == 1)
+                AttndDate = Convert.ToDateTime(strVal[0]);
+            else
+               AttndDate=AttndDate.AddDays(1);
+
+            grSummaryAttnd.HeaderRow.Cells[i + 4].Text = AttndDate.Day.ToString()+" <br/> " + Common.GetMonthNameShort(AttndDate.Month.ToString()) ;
+        }
+        i = 1;
+        for (i = DaysDuration + i; i <= 31; i++)
+        {
+            grSummaryAttnd.Columns[i + 4].Visible = false;
+        }
+        //    grSummaryAttnd.Columns[33].Visible = true; 
+        //grSummaryAttnd.Columns[34].Visible=true;
+        //grSummaryAttnd.Columns[35].Visible = true;
+
+        //if (Common.GetMonthDay(Convert.ToDateTime(strVal[1].Trim())) == 28)
+        //{
+        //    grSummaryAttnd.Columns[33].Visible = false;
+        //    grSummaryAttnd.Columns[34].Visible = false;
+        //    grSummaryAttnd.Columns[35].Visible = false;
+        //}
+        //else if (Common.GetMonthDay(Convert.ToDateTime(strVal[1].Trim())) == 29)
+        //{            
+        //    grSummaryAttnd.Columns[34].Visible = false;
+        //    grSummaryAttnd.Columns[35].Visible = false;
+        //}
+        //else if (Common.GetMonthDay(Convert.ToDateTime(strVal[1].Trim())) == 30)
+        //    grSummaryAttnd.Columns[35].Visible = false;
+    }
+
+    protected string[] GetAttnStatus(string FromDate, string strEmpId, DataTable dt)
+    {
+        string[] strRetValue = new string[3];
+        string strExpr = "AttanDate ='" + FromDate + "' AND EMPID='" + strEmpId + "'";
+        DataRow[] foundRows = dt.Select(strExpr);
+
+        if (foundRows.Length > 0)
+        {
+            strRetValue[0] = foundRows[0]["Status"].ToString().Trim() == "L" ? "P" : foundRows[0]["Status"].ToString().Trim();
+            strRetValue[1] = foundRows[0]["InTime"].ToString();
+            strRetValue[2] = foundRows[0]["OutTime"].ToString(); 
+        }
+        return strRetValue;
+    }
+
+    public string DisplayToolTipSignInOut(string strIn, string strOut)
+    {
+        if (string.IsNullOrEmpty(strIn) == true)
+            strIn = "?";
+        if (string.IsNullOrEmpty(strOut) == true)
+            strOut = "?";
+        return strIn + "  -  " + strOut;
+    }
+}

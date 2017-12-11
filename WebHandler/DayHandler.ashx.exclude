@@ -1,0 +1,157 @@
+<%@ WebHandler Language="C#" Class="LoadCities" %>
+using System;
+using System.Web;
+using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+public class LoadCities : IHttpHandler {
+   
+    public void ProcessRequest (HttpContext context) {
+        
+        string StateID = context.Request.QueryString["StateID"];       
+        
+        //Contact Database to get th elist of cities based on StateID
+        SqlDataAdapter da;
+        SqlCommand cmd;
+        DataTable dt;
+        string strCond = " AND CentCatCode='" + context.Request.QueryString["StateID"] + "'";
+        string Sql = "SELECT C.CentCode,C.CentName,C.CentCatCode FROM CostCenter C,SubComWsCostCenter SC" +
+               " WHERE C.CentCode=SC.CentCode" + strCond;
+        DataTable dtResult = getdatatable(Sql);
+
+        int iCount=0;
+        StringBuilder strCities = new StringBuilder();
+        strCities.Append("[");
+        foreach (DataRow row in dtResult.Rows)
+        {
+            strCities.Append("{");
+            strCities.Append("\"City\":\"'" + row["CentName"].ToString() + "'\",");
+            strCities.Append("\"ID\":\"'" + row["CentCode"].ToString() + "'\"");
+            if (iCount == dtResult.Rows.Count - 1)
+            {
+
+                strCities.Append("}");
+            }
+            else
+            {
+                strCities.Append("},");
+            }
+
+            iCount++;
+            
+        }
+        strCities.Append("]");
+        //if (StateID == "1")
+
+        //{
+
+        //    strCities.Append("[");
+
+ 
+
+        //    strCities.Append("{");
+
+        //    strCities.Append("\"City\":\"Chennai\",");
+
+        //    strCities.Append("\"ID\":\"1\"");
+
+        //    strCities.Append("},");
+
+ 
+
+        //    strCities.Append("{");
+
+        //    strCities.Append("\"City\":\"Coimbatore\",");
+
+        //    strCities.Append("\"ID\":\"2\"");
+
+        //    strCities.Append("}");
+
+ 
+
+            
+
+        //}
+
+        //else if (StateID == "2")
+
+        //{
+
+        //    strCities.Append("[");
+
+ 
+
+        //    strCities.Append("{");
+
+        //    strCities.Append("\"City\":\"Bangalore\",");
+
+        //    strCities.Append("\"ID\":\"1\"");
+
+        //    strCities.Append("},");
+
+ 
+
+        //    strCities.Append("{");
+
+        //    strCities.Append("\"City\":\"Belgaum\",");
+
+        //    strCities.Append("\"ID\":\"2\"");
+
+        //    strCities.Append("}");
+
+ 
+
+        //    strCities.Append("]");
+
+        //}
+
+        context.Response.ContentType = "application/json";
+
+        context.Response.ContentEncoding = Encoding.UTF8;
+
+        context.Response.Write(strCities.ToString());
+
+        context.Response.End();
+
+    }
+
+    public bool IsReusable {
+
+        get {
+
+            return false;
+
+        }
+
+    }
+    public DataTable getdatatable(String Query)
+    {
+        SqlCommand selcmd = new SqlCommand(Query);
+        DataTable dt = new DataTable();
+        dt = GetDataTable(selcmd);
+        return dt;
+
+    }
+    public DataTable GetDataTable(SqlCommand sqlCmd)
+    {
+        DataTable datatable = new DataTable();
+        try
+        {
+            using (SqlConnection objCon = new SqlConnection(conn))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                sqlCmd.Connection = objCon;
+                adapter.SelectCommand = sqlCmd;
+                adapter.Fill(datatable);
+                adapter.Dispose();
+                adapter = null;
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("SQL:" + sqlCmd.CommandText + " Error found" + ex.ToString());
+        }
+        return datatable;
+    }
+
+}

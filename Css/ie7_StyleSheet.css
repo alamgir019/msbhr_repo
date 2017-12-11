@@ -1,0 +1,32 @@
+﻿/*--CSS IE7--*/   
+
+#masterGreenBg {
+	width:33.2%;
+}
+#holidayBottomForm {
+	width:98%;
+}
+#holidayBottomFormInner1 {
+	width:97%;
+}
+#leavePackageList table {
+	width:97%;
+}
+.Div450 {
+	width:96%;
+}
+#mainContent {
+	min-height:516px;
+}
+.form-control {
+	width:92%;
+	height:20px;
+}
+.btn {
+	border:0px;
+	margin:0 auto;
+}
+#banner { width:97%;}
+
+.login-div  { margin-bottom:50px;}
+#footer { margin-top:50px;}

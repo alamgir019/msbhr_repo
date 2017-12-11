@@ -1,0 +1,2406 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+
+public partial class Attendance_TimeSheet : System.Web.UI.Page
+{
+    EmpInfoManager objEmpMgr = new EmpInfoManager();
+    TimeSheetManager timeSheetMgr = new TimeSheetManager();
+    Payroll_MasterMgr objPayMstMgr = new Payroll_MasterMgr();
+    GADRecoveryManager objGADMgr = new GADRecoveryManager();
+
+    DataTable dt = new DataTable();
+    DataTable dtEmpInfo = new DataTable();
+    DataTable dtTimeSheet = new DataTable();
+    DataTable dtWeekEnd = new DataTable();
+    DataTable dtHolidays = new DataTable();
+    DataTable dtLeave = new DataTable();
+    DataTable dtLeaveDate = new DataTable();
+    DataTable dtTimeSheetLeave = new DataTable();
+    DataTable dtMonHour = new DataTable();
+
+    ArrayList arl = new ArrayList();
+    string leaveHour = "";
+    //string grValue = "";
+    decimal monlyHour = 0.0M;
+    
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {            
+            Common.FillDropDownList(objPayMstMgr.SelectFiscalYear(0), ddlFiscalYear, "FISCALYRTITLE", "FISCALYRID", false);
+            hfIsUpdate.Value = "N";
+            hfLvIdUpdate.Value = "N";
+            txtAppDate.Text = Common.DisplayDate(DateTime.Today.ToShortDateString());
+            txtAppDate.ReadOnly = true;
+            //this.btnCal.Enabled = false;
+            Common.FillMonthList(ddlMonth);
+            Common.FillYearList(5, ddlYear);
+            ddlMonth.SelectedValue = DateTime.Today.Month.ToString();
+            ddlYear.SelectedValue = DateTime.Today.Year.ToString();
+            ddlFiscalYear.SelectedValue = Session["FISCALYEAR"].ToString().Trim();
+            leaveHour = System.Web.Configuration.WebConfigurationManager.AppSettings["LeaveHour"];
+
+            if (string.IsNullOrEmpty(Session["USERID"].ToString()) == false)
+            {
+                if (Session["USERID"].ToString().ToUpper() != "ADMIN")
+                {
+                    txtEmpID.Text = Session["EMPID"].ToString().ToUpper();
+                    imgBtnSearch.Visible = false;
+                    this.LoadEmployeeData();
+                    this.GetEveryThing();
+                    this.IMG1.Visible = false;
+                    this.IMG2.Visible = false;
+                    this.txtDtFrom.ReadOnly = true;
+                    this.txtDtTo.ReadOnly = true;                   
+                }
+                else
+                {
+                    txtEmpID.Text = "";
+                    imgBtnSearch.Visible = true;
+                    this.IMG1.Visible = true;
+                    this.IMG2.Visible = true;
+                    this.txtDtFrom.ReadOnly = false;
+                    this.txtDtTo.ReadOnly = false;                    
+                }
+            }
+        }
+    } 
+
+    protected void LoadEmployeeData()
+    {       
+        DataTable dtEmpMpc = new DataTable();
+        DataTable dtSuper = new DataTable();
+        dtEmpInfo = objEmpMgr.SelectEmpInfo(txtEmpID.Text.Trim());
+        dtEmpMpc = objEmpMgr.GET_EMP_MPCID(txtEmpID.Text.Trim());
+
+        if (dtEmpInfo.Rows.Count > 0)
+        {
+            foreach (DataRow row in dtEmpInfo.Rows)
+            {                
+                lblEmpName.Text = row["FullName"].ToString().Trim();
+                lblOffice.Text = row["PostingDivName"].ToString().Trim();
+                lblDesig.Text = row["JobTitleName"].ToString().Trim();
+                lblDept.Text = row["DeptName"].ToString().Trim();
+                lblLoc.Text = row["PostingPlaceName"].ToString().Trim();
+                lblJoiningDate.Text = Common.DisplayDate(row["JoiningDate"].ToString().Trim());
+
+                lblEmpType.Text = row["TypeName"].ToString().Trim();
+                hfSupervisor.Value = row["SupervisorId"].ToString().Trim();
+
+                if (hfSupervisor.Value != "")
+                {
+                    dtSuper = objEmpMgr.SelectEmpInfoOfficeWiseForLeaveSPV(hfSupervisor.Value.ToString(), "-1");
+                    if (dtSuper.Rows.Count > 0)
+                    {
+                        lblSupervisor.Text = dtSuper.Rows[0]["FullName"].ToString().Trim() + ", " + dtSuper.Rows[0]["DivisionName"].ToString().Trim()
+                             + ", " + dtSuper.Rows[0]["JobTitle"].ToString().Trim();
+                        hfSupervisorEmail.Value = dtSuper.Rows[0]["PersEmail1"].ToString().Trim();
+                    }
+                }
+                else
+                {
+                    lblSupervisor.Text = "";
+                }
+            }
+
+            if (dtEmpMpc.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dtEmpMpc.Rows)
+                {
+                    txtStartDt.Text = dr["PSTARTDAY"].ToString().Trim();
+                    txtEndDate.Text = dr["PENDDAY"].ToString().Trim();
+                }
+            }
+        }
+        else
+        {
+            lblMsg.Text = "Emp No. is not valid.";
+            lblEmpName.Text = "";
+            lblDept.Text = "";
+            lblDesig.Text = "";
+
+            return;
+        }
+    }
+
+    protected void imgBtnSearch_Click(object sender, ImageClickEventArgs e)
+    {
+        try
+        {
+            this.LoadEmployeeData();
+            this.FillTimeSheetData();
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = ex.Message;
+        }
+    }
+
+    private static List<DateTime> GetDateRange(DateTime StartingDate, DateTime EndingDate)
+    {
+        if (StartingDate > EndingDate)
+        {
+            return null;
+        }
+        List<DateTime> rv = new List<DateTime>();
+        DateTime tmpDate = StartingDate;
+        do
+        {
+            rv.Add(tmpDate);
+            tmpDate = tmpDate.AddDays(1);
+        }
+        while (tmpDate <= EndingDate);
+        return rv;
+    }
+
+
+    /// <summary>
+    /// Generating date value
+    /// </summary>
+    public void GenerateDate()
+    {
+        DateTime StartingDate = System.DateTime.Now;
+        DateTime EndingDate = System.DateTime.Now;
+
+
+        string strFromDate = "";
+        if (string.IsNullOrEmpty(txtDtFrom.Text.Trim()) == false)
+            strFromDate = Common.ReturnDate(txtDtFrom.Text.Trim());
+
+
+        string strEndDate = "";
+        if (string.IsNullOrEmpty(txtDtTo.Text.Trim()) == false)
+            strEndDate = Common.ReturnDate(txtDtTo.Text.Trim());
+
+
+        if (string.IsNullOrEmpty(Session["USERID"].ToString()) == false)
+        {
+            //if (Session["USERID"].ToString().ToUpper() != "ADMIN")
+            //{
+                int start = Convert.ToInt32(txtStartDt.Text);
+                int end = Convert.ToInt32(txtEndDate.Text);
+                if (start > end)
+                {
+                    StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+                    EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtEndDate.Text.Trim()); // DateTime.Parse(strEndDate);                
+                    StartingDate = StartingDate.AddMonths(-1);
+
+                    txtDtFrom.Text = StartingDate.ToString("dd/MM/yyyy");
+                    txtDtTo.Text = EndingDate.ToString("dd/MM/yyyy");
+                }
+                else
+                {
+                    int dtM = Convert.ToInt32(ddlMonth.SelectedValue.ToString());
+                    StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+                    EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + Common.GetMonthDay(dtM,ddlYear.SelectedValue.ToString())); // DateTime.Parse(strEndDate);                
+                    txtDtFrom.Text = StartingDate.ToString("dd/MM/yyyy");
+                    txtDtTo.Text = EndingDate.ToString("dd/MM/yyyy");
+
+                    //switch (dtM)
+                    //{
+                    //    case 1:
+                    //    case 3:
+                    //    case 5:
+                    //    case 7:
+                    //    case 8:
+                    //    case 10:
+                    //    case 12:
+                    //        StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+                    //        EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtEndDate.Text.Trim()); // DateTime.Parse(strEndDate);                
+                    //        txtDtFrom.Text = StartingDate.ToString("dd/MM/yyyy");
+                    //        txtDtTo.Text = EndingDate.ToString("dd/MM/yyyy");
+                    //        break;
+
+
+
+                    //    case 4:
+                    //    case 6:
+                    //    case 9:
+                    //    case 11:
+
+                    //        StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+                    //        EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + "30"); // DateTime.Parse(strEndDate);                
+                    //        txtDtFrom.Text = StartingDate.ToString("dd/MM/yyyy");
+                    //        txtDtTo.Text = EndingDate.ToString("dd/MM/yyyy");
+                    //        break;
+
+                        
+                    //    case 2:
+                    //        end = end - 3;
+                    //        txtEndDate.Text = end.ToString();
+
+                    //        StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+                    //        EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtEndDate.Text.Trim()); // DateTime.Parse(strEndDate);                
+                    //        txtDtFrom.Text = StartingDate.ToString("dd/MM/yyyy");
+                    //        txtDtTo.Text = EndingDate.ToString("dd/MM/yyyy");
+                    //        break;
+
+
+                    //}                   
+                }     
+            //}
+            //else
+            //{
+            //    StartingDate = DateTime.Parse(strFromDate);
+            //    EndingDate = DateTime.Parse(strEndDate);
+            //}
+
+        }
+        
+        foreach (DateTime date in GetDateRange(StartingDate, EndingDate))
+        {            
+            arl.Add(date.ToString("dd/MM/yyyy"));
+        }
+        string cnt = arl.Count.ToString();
+        txtArlCount.Text = cnt;
+        if (arl.Count <= 31)
+        {
+            lblMsg.Text = "Please select date range of 31 days";
+            grTimeSheet.DataSource = null;
+            grTimeSheet.DataBind();                             
+            
+            return;
+        }
+        else
+        {
+            lblMsg.Text = "";
+            this.btnCal.Enabled = true;
+        }
+    }
+
+
+    //This is a master method. This method holds all important methods of this form load.
+    protected void GetEveryThing()
+    {
+        GenerateDate();
+
+        
+        for (int i = 0; i < arl.Count; i++)
+        {
+            this.grTimeSheet.Columns[0].HeaderText = "Name of Project";            
+            this.grTimeSheet.Columns[i + 3].HeaderText = arl[i].ToString();
+
+
+            if (arl.Count == 30)
+            {
+                this.grTimeSheet.Columns[33].HeaderText = "";
+            }
+            if (arl.Count == 28)
+            {
+                this.grTimeSheet.Columns[33].HeaderText = "";
+                this.grTimeSheet.Columns[32].HeaderText = "";
+                this.grTimeSheet.Columns[31].HeaderText = "";
+            }
+            if (arl.Count == 29)
+            {
+                this.grTimeSheet.Columns[33].HeaderText = "";
+                this.grTimeSheet.Columns[32].HeaderText = "";                
+            }   
+        }
+
+        int aVal = 0;
+        if (arl.Count == 30)
+        {
+            aVal = 6;
+        }
+        else if (arl.Count == 29)
+        {
+            aVal = 7;
+        }
+        else if (arl.Count == 28)
+        {
+            aVal = 8;
+        }
+        else
+            aVal = 5;
+
+
+
+
+        BindGrid();
+        
+        //Cal(grTimeSheet);
+        //GetSummaryTotal(grTimeSheet, aVal);
+        //GetGrandTtal(grTimeSheet);
+        
+
+
+        for (int i = 0; i < arl.Count; i++)
+        {
+            this.grLeave.Columns[0].HeaderText = "Type  of  Leave";
+            this.grLeave.Columns[i + 3].HeaderText = arl[i].ToString();
+        }
+
+        int aVal1 = 0;
+        if (arl.Count == 30)
+        {
+            aVal1 = 5;
+        }
+        else if (arl.Count == 29)
+        {
+            aVal1 = 6;
+        }
+        else if (arl.Count == 28)
+        {
+            aVal1 = 7;
+        }
+        else
+            aVal1 = 4;
+
+
+
+        BindLeave(false);// For Leave Grid
+        DailyHourDistribution(); // For Leave Grid
+
+        Cal(grTimeSheet);
+        GetSummaryTotal(grTimeSheet, aVal);
+        GetGrandTtal(grTimeSheet);
+
+
+
+
+        Cal(grLeave); // For Leave Grid
+        GetSummaryTotal(grLeave, aVal1); // For Leave Grid
+        GetGrandTtal(grLeave); // For Leave Grid
+
+        GetMonthlyHour(); // For Leave Grid
+        RatCal();
+
+        GetFullSummary();// For Both Grid
+        
+    
+    }
+
+    protected void FillTimeSheetData()
+    {
+        GenerateDate();
+
+        this.grTimeSheet.Columns[0].HeaderText = "Name of Project";
+        for (int i = 0; i < arl.Count; i++)
+        {
+            this.grTimeSheet.Columns[i + 3].HeaderText = arl[i].ToString();
+
+            if (arl.Count == 30)
+            {
+                this.grTimeSheet.Columns[33].HeaderText = "";
+            }
+            if (arl.Count == 28)
+            {
+                this.grTimeSheet.Columns[33].HeaderText = "";
+                this.grTimeSheet.Columns[32].HeaderText = "";
+                this.grTimeSheet.Columns[31].HeaderText = "";
+            }
+            if (arl.Count == 29)
+            {
+                this.grTimeSheet.Columns[33].HeaderText = "";
+                this.grTimeSheet.Columns[32].HeaderText = "";
+            }
+        }
+
+        int aVal = 0;
+        if (arl.Count == 30)
+        {
+            aVal = 6;
+        }
+        else if (arl.Count == 29)
+        {
+            aVal = 7;
+        }
+        else if (arl.Count == 28)
+        {
+            aVal = 8;
+        }
+        else
+            aVal = 5;
+
+
+
+
+        BindGrid();
+        //Cal(grTimeSheet);
+        //GetSummaryTotal(grTimeSheet, aVal);
+        //GetGrandTtal(grTimeSheet);
+
+
+
+        for (int i = 0; i < arl.Count; i++)
+        {
+            this.grLeave.Columns[0].HeaderText = "Type  of  Leave";
+            this.grLeave.Columns[i + 3].HeaderText = arl[i].ToString();
+        }
+
+        int aVal1 = 0;
+        if (arl.Count == 30)
+        {
+            aVal1 = 5;
+        }
+        else if (arl.Count == 29)
+        {
+            aVal1 = 6;
+        }
+        else if (arl.Count == 28)
+        {
+            aVal1 = 7;
+        }
+        else
+            aVal1 = 4;
+
+
+
+        BindLeave(false);
+
+        DailyHourDistribution();
+
+        Cal(grTimeSheet);
+        GetSummaryTotal(grTimeSheet, aVal);
+        GetGrandTtal(grTimeSheet);
+
+
+        Cal(grLeave);
+        GetSummaryTotal(grLeave, aVal1);
+        GetGrandTtal(grLeave);
+
+        GetMonthlyHour();
+        RatCal();
+
+        GetFullSummary();
+    }
+
+    protected void imgBtnPayPeriod_Click(object sender, ImageClickEventArgs e)
+    {
+
+        this.FillTimeSheetData();
+        
+    }
+
+    public void GetMonthlyHour()
+    {
+        lblDayhour.Text = System.Web.Configuration.WebConfigurationManager.AppSettings["LeaveHour"];
+        dtMonHour = timeSheetMgr.GET_TimeSheetPolicy(ddlYear.SelectedValue.ToString(), ddlMonth.SelectedValue.ToString());
+        if (dtMonHour.Rows.Count > 0)
+        {
+            foreach (DataRow dr in dtMonHour.Rows)
+            {
+                monlyHour = Convert.ToDecimal(dr["PHour"].ToString());
+                lblMonthlyHour.Text = monlyHour.ToString();
+            }
+            lblMsg.Text = "";
+        }
+        else
+        {
+            monlyHour = 0.0M;
+            lblMonthlyHour.Text = "0";
+            lblMsg.Text = "No hour is assigned for this month-year";            
+        }
+    }
+
+
+    public void LeaveProto()
+    {
+        string dtFrmDate = "";
+        if (string.IsNullOrEmpty(txtDtFrom.Text.Trim()) == false)
+            dtFrmDate = Common.ReturnDate(txtDtFrom.Text.Trim());
+
+        string dtTillDate = "";
+        if (string.IsNullOrEmpty(txtDtTo.Text.Trim()) == false)
+            dtTillDate = Common.ReturnDate(txtDtTo.Text.Trim());
+
+
+        DateTime StartingDate = System.DateTime.Now;
+        DateTime EndingDate = System.DateTime.Now;
+
+
+
+        //if (string.IsNullOrEmpty(Session["USERID"].ToString()) == false)
+        //{
+        //    if (Session["USERID"].ToString().ToUpper() != "ADMIN")
+        //    {
+        //        int start = Convert.ToInt32(txtStartDt.Text);
+        //        int end = Convert.ToInt32(txtEndDate.Text);
+        //        if (start > end)
+        //        {
+        //            StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+        //            EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtEndDate.Text.Trim()); // DateTime.Parse(strEndDate);                
+        //            StartingDate = StartingDate.AddMonths(-1);
+        //            dtFrmDate = Common.ReturnDate(StartingDate.ToString("dd/MM/yyyy"));
+        //            dtTillDate = Common.ReturnDate(EndingDate.ToString("dd/MM/yyyy"));
+        //        }
+        //        else
+        //        {
+        //            int dtM = Convert.ToInt32(ddlMonth.SelectedValue.ToString());
+
+        //            switch (dtM)
+        //            {
+        //                case 1:
+        //                case 3:
+        //                case 5:
+        //                case 7:
+        //                case 8:
+        //                case 10:
+        //                case 12:
+        //                    StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+        //                    EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtEndDate.Text.Trim()); // DateTime.Parse(strEndDate);                
+        //                    txtDtFrom.Text = StartingDate.ToString("dd/MM/yyyy");
+        //                    txtDtTo.Text = EndingDate.ToString("dd/MM/yyyy");
+        //                    break;
+
+
+
+        //                case 4:
+        //                case 6:
+        //                case 9:
+        //                case 11:
+
+        //                    StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+        //                    EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + "30"); // DateTime.Parse(strEndDate);                
+        //                    txtDtFrom.Text = StartingDate.ToString("dd/MM/yyyy");
+        //                    txtDtTo.Text = EndingDate.ToString("dd/MM/yyyy");
+        //                    break;
+
+
+        //                case 2:
+        //                    end = end - 3;
+        //                    txtEndDate.Text = end.ToString();
+
+        //                    StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+        //                    EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtEndDate.Text.Trim()); // DateTime.Parse(strEndDate);                
+        //                    txtDtFrom.Text = StartingDate.ToString("dd/MM/yyyy");
+        //                    txtDtTo.Text = EndingDate.ToString("dd/MM/yyyy");
+        //                    break;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (string.IsNullOrEmpty(txtDtFrom.Text.Trim()) == false)
+        //            dtFrmDate = Common.ReturnDate(txtDtFrom.Text.Trim());
+
+        //        if (string.IsNullOrEmpty(txtDtTo.Text.Trim()) == false)
+        //            dtTillDate = Common.ReturnDate(txtDtTo.Text.Trim());
+        //    }
+
+        //}
+
+        if (string.IsNullOrEmpty(txtDtFrom.Text.Trim()) == false)
+            dtFrmDate = Common.ReturnDate(txtDtFrom.Text.Trim());
+
+        if (string.IsNullOrEmpty(txtDtTo.Text.Trim()) == false)
+            dtTillDate = Common.ReturnDate(txtDtTo.Text.Trim());
+
+        dtLeave = timeSheetMgr.GET_LeaveRecord_TimeSheet(txtEmpID.Text.Trim(), dtFrmDate, dtTillDate);
+        grLeave.DataSource = dtLeave;
+        grLeave.DataBind();
+
+        dtLeaveDate = timeSheetMgr.GET_LeaveDate_TimeSheet(txtEmpID.Text.Trim(), dtFrmDate, dtTillDate);
+
+        dtTimeSheetLeave = timeSheetMgr.GET_TimeSheetLeave(txtEmpID.Text.Trim(), ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.ToString(),
+            ddlFiscalYear.SelectedValue.ToString(), dtFrmDate, dtTillDate);
+    }
+
+
+    /// <summary>
+    /// Executing records with leave. 
+    /// </summary>
+    private void BindLeave(bool isFromLeaveRecord)
+    {
+        LeaveProto();
+
+        if (dtTimeSheetLeave.Rows.Count > 0)
+        {
+            lblLeaveFoundMSG.Text = "Record loaded from time sheet information. If you want to get record from leave information please click button below.";
+            btnLoadLeave.Enabled = true;
+            hfLvIdUpdate.Value = "Y";
+        }
+        else
+        {
+            lblLeaveFoundMSG.Text = "Record loaded from leave information.";
+            btnLoadLeave.Enabled = false;
+            hfLvIdUpdate.Value = "N";
+        }
+
+
+        DateTime dtVDate;
+        string vDay = "";
+        string weekEndDay = "";
+        DateTime leaveDay;
+        string strVDate = "";
+        DateTime holiDay;
+        DataRow[] fTRow;
+        string Ltype = "";
+
+        foreach (GridViewRow gr in grLeave.Rows)
+        {
+            Ltype = grLeave.DataKeys[gr.DataItemIndex].Values[0].ToString().Trim();
+
+            //foreach (DataRow row in dtLeave.Rows)
+            //{
+            //    if (grLeave.DataKeys[gr.DataItemIndex].Values[0].ToString().Trim() == row["Ltype"].ToString().Trim())
+            //    {
+            //        gr.Cells[1].Text = row["RecCount"].ToString().Trim();
+            //    }
+            //}
+
+            int aVal = 0;
+            if (arl.Count == 30)
+            {
+                aVal = 5;
+            }
+            else if (arl.Count == 29)
+            {
+                aVal = 6;
+            }
+            else if (arl.Count == 28)
+            {
+                aVal = 7;
+            }
+            else
+                aVal = 4;
+
+
+
+
+            for (int i = 0; i < grLeave.Columns.Count - aVal; i++)
+            {
+                strVDate = "";                
+                strVDate = grLeave.HeaderRow.Cells[i + 3].Text.Trim() + "/" + ddlYear.SelectedValue.Trim();
+                strVDate = Common.ReturnDate(strVDate);
+
+                dtVDate = Convert.ToDateTime(strVDate);
+                vDay = dtVDate.DayOfWeek.ToString();
+
+
+                //TextBox txtAcc = (TextBox)gr.Cells[2].FindControl("txtAccLine2");
+                TextBox txt = (TextBox)gr.Cells[i + 3].FindControl("txt" + Convert.ToString(i + 1));
+                LinkButton lb = (LinkButton)gr.Cells[i + 3].FindControl("lb" + Convert.ToString(i + 1));
+                if (isFromLeaveRecord == false)
+                {
+                    fTRow = dtTimeSheetLeave.Select("Ltype='" + Ltype + "' AND VDate='" + strVDate + "'");
+                    
+                    if (fTRow.Length > 0)
+                    {
+                        //txtAcc.Text = fTRow[0]["AccLine"].ToString().Trim();
+                        txt.Text = fTRow[0]["VHour"].ToString().Trim();
+                        txt.ToolTip = fTRow[0]["TransID"].ToString().Trim();
+                        lb.ToolTip = fTRow[0]["VTask"].ToString().Trim();
+                    }
+                    else
+                    {
+                        //txtAcc.Text = "";
+                        txt.Text = "";
+                        txt.ToolTip = "";
+                        lb.ToolTip = "";
+                    }
+                     txt.ReadOnly = true;
+                }
+                
+               
+
+                DataRow[] fLvDateRows = dtLeaveDate.Select("LType=" + Ltype);
+
+                foreach (DataRow dRow in fLvDateRows)
+                {
+
+                    leaveDay = Convert.ToDateTime(dRow["LevDate"].ToString().Trim());
+                    if (leaveDay == dtVDate)
+                    {
+                        //{
+                            gr.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#C0C0C0");
+                            grLeave.HeaderRow.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#C0C0C0");
+                            txt.BackColor = System.Drawing.ColorTranslator.FromHtml("#C0C0C0");
+                            if (isFromLeaveRecord == false)
+                            {
+                                if (dtTimeSheetLeave.Rows.Count == 0)
+                                {
+                                    txt.Text = System.Web.Configuration.WebConfigurationManager.AppSettings["LeaveHour"];
+                                }
+                            }
+                            else
+                            {
+                                txt.Text = System.Web.Configuration.WebConfigurationManager.AppSettings["LeaveHour"];
+                            }
+                        //}
+                    }
+                }
+
+                
+
+
+
+                foreach (DataRow dRow in dtHolidays.Rows)
+                {
+                    holiDay = Convert.ToDateTime(dRow["HoliDate"].ToString().Trim());
+                    if (holiDay == dtVDate)
+                    {
+                        {
+                            gr.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#F2DBDB");
+                            //gRow.Cells[i + 2].BackColor = System.Drawing.Color.Blue;
+                            grLeave.HeaderRow.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#F2DBDB");
+                            txt.BackColor = System.Drawing.ColorTranslator.FromHtml("#F2DBDB");
+                        }
+                    }
+                }
+
+                dtVDate = Convert.ToDateTime(strVDate);
+                vDay = dtVDate.DayOfWeek.ToString();
+                foreach (DataRow dtRw in dtWeekEnd.Rows)
+                {
+                    switch (vDay)
+                    {
+                        case "Sunday":
+                            weekEndDay = dtRw["WESun"].ToString().Trim();
+                            break;
+
+                        case "Monday":
+                            weekEndDay = dtRw["WEMon"].ToString().Trim();
+                            break;
+
+                        case "Tuesday":
+                            weekEndDay = dtRw["WETues"].ToString().Trim();
+                            break;
+
+                        case "Wednesday":
+                            weekEndDay = dtRw["WEWed"].ToString().Trim();
+                            break;
+
+                        case "Thursday":
+                            weekEndDay = dtRw["WETue"].ToString().Trim();
+                            break;
+
+                        case "Friday":
+                            weekEndDay = dtRw["WEFri"].ToString().Trim();
+                            break;
+
+                        case "Saturday":
+                            weekEndDay = dtRw["WESat"].ToString().Trim();
+                            break;
+                    }
+                }
+
+
+                if (weekEndDay == "Y")
+                {
+                    gr.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#B8CCE4");
+                    //gRow.Cells[i + 2].BackColor = System.Drawing.Color.Blue;
+                    grLeave.HeaderRow.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#B8CCE4");
+                    txt.BackColor = System.Drawing.ColorTranslator.FromHtml("#B8CCE4");
+                }            
+
+
+
+            }
+        }
+
+
+
+
+        //if (grLeave.Rows.Count > 0)
+        //{
+        //    for (int i = 0; i < grLeave.Columns.Count - aVal; i++)
+        //    {
+
+        //    }
+        //}
+    }
+
+
+    /// <summary>
+    /// Load existing leave record of an employee
+    /// </summary>
+    public void LoadLeaveRecord()
+    {
+        LeaveProto();
+
+        DateTime dtVDate;
+        string vDay = "";
+        string weekEndDay = "";
+        DateTime leaveDay;
+        string strVDate = "";
+        DateTime holiDay;
+        DataRow[] fTRow;
+        string Ltype = "";
+
+        int aVal = 0;
+        if (arl.Count == 30)
+        {
+            aVal = 5;
+        }
+        else if (arl.Count == 29)
+        {
+            aVal = 6;
+        }
+        else if (arl.Count == 28)
+        {
+            aVal = 7;
+        }
+        else
+            aVal = 4;
+
+
+
+
+        foreach (GridViewRow gr in grLeave.Rows)
+        {
+            Ltype = grLeave.DataKeys[gr.DataItemIndex].Values[0].ToString().Trim();
+
+            foreach (DataRow row in dtLeave.Rows)
+            {
+                if (grLeave.DataKeys[gr.DataItemIndex].Values[0].ToString().Trim() == row["Ltype"].ToString().Trim())
+                {
+                    gr.Cells[1].Text = row["RecCount"].ToString().Trim();
+                }
+            }
+
+            for (int i = 0; i < grLeave.Columns.Count - aVal; i++)
+            {
+                strVDate = "";
+                strVDate = grLeave.HeaderRow.Cells[i + 3].Text.Trim() + "/" + ddlYear.SelectedValue.Trim();
+                strVDate = Common.ReturnDate(strVDate);
+
+                dtVDate = Convert.ToDateTime(strVDate);
+                vDay = dtVDate.DayOfWeek.ToString();
+
+
+                TextBox txt = (TextBox)gr.Cells[i + 3].FindControl("txt" + Convert.ToString(i + 1));
+
+                foreach (DataRow dRow in dtLeaveDate.Rows)
+                {
+                    leaveDay = Convert.ToDateTime(dRow["LevDate"].ToString().Trim());
+                    if (leaveDay == dtVDate)
+                    {
+                        {
+                            gr.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#C0C0C0");
+                            grLeave.HeaderRow.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#C0C0C0");
+                            txt.BackColor = System.Drawing.ColorTranslator.FromHtml("#C0C0C0");
+                            txt.Text = System.Web.Configuration.WebConfigurationManager.AppSettings["LeaveHour"];
+                        }
+                    }
+                }
+
+
+
+                foreach (DataRow dRow in dtHolidays.Rows)
+                {
+                    holiDay = Convert.ToDateTime(dRow["HoliDate"].ToString().Trim());
+                    if (holiDay == dtVDate)
+                    {
+                        {
+                            gr.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#F2DBDB");
+                            //gRow.Cells[i + 2].BackColor = System.Drawing.Color.Blue;
+                            grLeave.HeaderRow.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#F2DBDB");
+                            txt.BackColor = System.Drawing.ColorTranslator.FromHtml("#F2DBDB");
+                        }
+                    }
+                }
+
+                dtVDate = Convert.ToDateTime(strVDate);
+                vDay = dtVDate.DayOfWeek.ToString();
+                foreach (DataRow dtRw in dtWeekEnd.Rows)
+                {
+                    switch (vDay)
+                    {
+                        case "Sunday":
+                            weekEndDay = dtRw["WESun"].ToString().Trim();
+                            break;
+
+                        case "Monday":
+                            weekEndDay = dtRw["WEMon"].ToString().Trim();
+                            break;
+
+                        case "Tuesday":
+                            weekEndDay = dtRw["WETues"].ToString().Trim();
+                            break;
+
+                        case "Wednesday":
+                            weekEndDay = dtRw["WEWed"].ToString().Trim();
+                            break;
+
+                        case "Thursday":
+                            weekEndDay = dtRw["WETue"].ToString().Trim();
+                            break;
+
+                        case "Friday":
+                            weekEndDay = dtRw["WEFri"].ToString().Trim();
+                            break;
+
+                        case "Saturday":
+                            weekEndDay = dtRw["WESat"].ToString().Trim();
+                            break;
+                    }
+                }
+
+
+                if (weekEndDay == "Y")
+                {
+                    gr.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#B8CCE4");
+                    //gRow.Cells[i + 2].BackColor = System.Drawing.Color.Blue;
+                    grLeave.HeaderRow.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#B8CCE4");
+                    txt.BackColor = System.Drawing.ColorTranslator.FromHtml("#B8CCE4");
+                }
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// To highlighted Leave column in Time Sheet grid.
+    /// Sorry for the method name. This name is totally irelevent from its functionality :D
+    /// </summary>
+    private void DailyHourDistribution()
+    {
+        int aVal = 0;
+        if (arl.Count == 30)
+        {
+            aVal = 5;
+        }
+        else if (arl.Count == 29)
+        {
+            aVal = 6;
+        }
+        else if (arl.Count == 28)
+        {
+            aVal = 7;
+        }
+        else
+            aVal = 4;
+
+
+
+        if (grLeave.Rows.Count > 0)
+        {
+            foreach (GridViewRow gr in grLeave.Rows)
+            {
+                for (int i = 0; i < grLeave.Columns.Count - aVal; i++)
+                {
+                    TextBox txt = (TextBox)gr.Cells[i + 3].FindControl("txt" + Convert.ToString(i + 1));
+                    if (txt.Text != "")
+                    {
+                        foreach (GridViewRow grr in grTimeSheet.Rows)
+                        {
+                            
+                            grTimeSheet.HeaderRow.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#C0C0C0");
+                            grr.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#C0C0C0");
+                                TextBox txtt = (TextBox)grr.Cells[i + 3].FindControl("txt" + Convert.ToString(i + 1));
+                                txtt.BackColor = System.Drawing.ColorTranslator.FromHtml("#C0C0C0");
+                                txtt.Text = "";
+                                txtt.ReadOnly = true;
+                        }
+
+
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
+
+
+    /// <summary>
+    /// To execute with time sheet record.
+    /// </summary>
+    private void BindGrid()
+    {
+        DateTime StartingDate = System.DateTime.Now;
+        DateTime EndingDate = System.DateTime.Now;
+
+
+        string dtFrmDate = "";
+        if (string.IsNullOrEmpty(txtDtFrom.Text.Trim()) == false)
+            dtFrmDate = Common.ReturnDate(txtDtFrom.Text.Trim());
+
+        string dtTillDate = "";
+        if (string.IsNullOrEmpty(txtDtTo.Text.Trim()) == false)
+            dtTillDate = Common.ReturnDate(txtDtTo.Text.Trim());
+
+
+        //if (string.IsNullOrEmpty(Session["USERID"].ToString()) == false)
+        //{
+        //    if (Session["USERID"].ToString().ToUpper() != "ADMIN")
+        //    {
+        //        int start = Convert.ToInt32(txtStartDt.Text);
+        //        int end = Convert.ToInt32(txtEndDate.Text);
+        //        if (start > end)
+        //        {
+        //            StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+        //            EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtEndDate.Text.Trim()); // DateTime.Parse(strEndDate);                
+        //            StartingDate = StartingDate.AddMonths(-1);
+        //            dtFrmDate = Common.ReturnDate(StartingDate.ToString("dd/MM/yyyy"));
+        //            dtTillDate = Common.ReturnDate(EndingDate.ToString("dd/MM/yyyy"));
+        //        }
+        //        else
+        //        {
+        //            int dtM = Convert.ToInt32(ddlMonth.SelectedValue.ToString());
+
+        //            switch (dtM)
+        //            {
+        //                case 1:
+        //                case 3:
+        //                case 5:
+        //                case 7:
+        //                case 8:
+        //                case 10:
+        //                case 12:
+        //                    StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+        //                    EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtEndDate.Text.Trim()); // DateTime.Parse(strEndDate);                
+        //                    txtDtFrom.Text = StartingDate.ToString("dd/MM/yyyy");
+        //                    txtDtTo.Text = EndingDate.ToString("dd/MM/yyyy");
+        //                    break;
+
+
+
+        //                case 4:
+        //                case 6:
+        //                case 9:
+        //                case 11:
+
+        //                    StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+        //                    EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + "30"); // DateTime.Parse(strEndDate);                
+        //                    txtDtFrom.Text = StartingDate.ToString("dd/MM/yyyy");
+        //                    txtDtTo.Text = EndingDate.ToString("dd/MM/yyyy");
+        //                    break;
+
+
+        //                case 2:
+        //                    end = end - 3;
+        //                    txtEndDate.Text = end.ToString();
+
+        //                    StartingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtStartDt.Text.Trim()); //DateTime.Parse(strFromDate);
+        //                    EndingDate = DateTime.Parse(ddlYear.SelectedValue.ToString() + @"/" + ddlMonth.SelectedValue.ToString() + @"/" + txtEndDate.Text.Trim()); // DateTime.Parse(strEndDate);                
+        //                    txtDtFrom.Text = StartingDate.ToString("dd/MM/yyyy");
+        //                    txtDtTo.Text = EndingDate.ToString("dd/MM/yyyy");
+        //                    break;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (string.IsNullOrEmpty(txtDtFrom.Text.Trim()) == false)
+        //            dtFrmDate = Common.ReturnDate(txtDtFrom.Text.Trim());
+
+        //        if (string.IsNullOrEmpty(txtDtTo.Text.Trim()) == false)
+        //            dtTillDate = Common.ReturnDate(txtDtTo.Text.Trim());
+        //    }
+
+        //}
+        if (string.IsNullOrEmpty(txtDtFrom.Text.Trim()) == false)
+            dtFrmDate = Common.ReturnDate(txtDtFrom.Text.Trim());
+        if (string.IsNullOrEmpty(txtDtTo.Text.Trim()) == false)
+            dtTillDate = Common.ReturnDate(txtDtTo.Text.Trim());
+
+        //DataTable dtTimeSheet = new DataTable();
+        dtTimeSheet = timeSheetMgr.GET_TimeSheet(txtEmpID.Text.Trim(), ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.ToString(),
+            ddlFiscalYear.SelectedValue.ToString(), dtFrmDate, dtTillDate);
+
+        dtWeekEnd = timeSheetMgr.GET_EMP_WeekEnd(txtEmpID.Text.Trim());
+
+        dtHolidays = timeSheetMgr.GET_Holidays_YrDay(ddlYear.SelectedValue.ToString(), dtFrmDate, dtTillDate);
+
+
+
+        if (dtTimeSheet.Rows.Count > 0)
+        {
+            hfIsUpdate.Value = "Y";
+            this.btnCal.Text = "Update";
+        }
+        else
+        {
+            hfIsUpdate.Value = "N";
+            this.btnCal.Text = "Save";
+        }
+        
+
+
+        string GADCODE = "";
+
+        DataTable dtCostRecData = objGADMgr.SelectCostRecoveryPlanData(ddlFiscalYear.SelectedValue.Trim(), txtEmpID.Text.Trim());
+        grTimeSheet.DataSource = dtCostRecData;
+        grTimeSheet.DataBind();
+
+        int month = Convert.ToInt32(ddlMonth.SelectedValue.ToString());
+        DataRow[] fTRow;
+        string strVDate = "";
+        bool IsLastRows = false;
+        decimal decColSum = 0;
+
+        foreach (GridViewRow gRow in grTimeSheet.Rows)
+        {
+            GADCODE = grTimeSheet.DataKeys[gRow.DataItemIndex].Values[0].ToString().Trim();
+
+            if (gRow.DataItemIndex == grTimeSheet.Rows.Count - 1)
+                IsLastRows = true;
+
+            fTRow = null;
+
+            //Retriving GAD Percentage value from Table CostRecovery.
+            foreach (DataRow row in dtCostRecData.Rows)
+            {
+                if (grTimeSheet.DataKeys[gRow.DataItemIndex].Values[0].ToString().Trim() == row["GADCODE"].ToString().Trim())
+                {
+                    switch (month)
+                    {
+                        case 1:
+                            gRow.Cells[1].Text = row["JAN"].ToString().Trim();
+                            break;
+
+                        case 2:
+                            gRow.Cells[1].Text = row["FEB"].ToString().Trim();
+                            break;
+
+                        case 3:
+                            gRow.Cells[1].Text = row["MAR"].ToString().Trim();
+                            break;
+
+                        case 4:
+                            gRow.Cells[1].Text = row["APR"].ToString().Trim();
+                            break;
+
+                        case 5:
+                            gRow.Cells[1].Text = row["MAY"].ToString().Trim();
+                            break;
+
+                        case 6:
+                            gRow.Cells[1].Text = row["JUN"].ToString().Trim();
+                            break;
+
+                        case 7:
+                            gRow.Cells[1].Text = row["JUL"].ToString().Trim();
+                            break;
+
+                        case 8:
+                            gRow.Cells[1].Text = row["AUG"].ToString().Trim();
+                            break;
+
+                        case 9:
+                            gRow.Cells[1].Text = row["SEP"].ToString().Trim();
+                            break;
+
+                        case 10:
+                            gRow.Cells[1].Text = row["OCT"].ToString().Trim();
+                            break;
+
+                        case 11:
+                            gRow.Cells[1].Text = row["NOV"].ToString().Trim();
+                            break;
+
+                        case 12:
+                            gRow.Cells[1].Text = row["DEC"].ToString().Trim();
+                            break;
+                    }
+                }
+
+            }
+
+
+            DateTime dtVDate;
+            string vDay = "";
+            string weekEndDay = "";
+            DateTime holiDay;
+
+            int aVal = 0;
+            if (arl.Count == 30)
+            {
+                aVal = 6;
+            }
+            else if (arl.Count == 29)
+            {
+                aVal = 7;
+            }
+            else if (arl.Count == 28)
+            {
+                aVal = 8;
+            }
+            else
+                aVal = 5;
+
+            
+            //Cross checking and filling the cell value from Table TimeSheet.
+            for (int i = 0; i < grTimeSheet.Columns.Count - aVal; i++)
+            {
+                strVDate = "";
+                fTRow = null;
+                strVDate = grTimeSheet.HeaderRow.Cells[i + 3].Text.Trim() +"/" + ddlYear.SelectedValue.Trim();
+                strVDate = Common.ReturnDate(strVDate);
+
+                dtVDate = Convert.ToDateTime(strVDate);
+                vDay = dtVDate.DayOfWeek.ToString();
+                foreach (DataRow dtRw in dtWeekEnd.Rows)
+                {
+                    switch (vDay)
+                    {
+                        case "Sunday":
+                        weekEndDay = dtRw["WESun"].ToString().Trim();
+                        break;
+
+                        case "Monday":
+                        weekEndDay = dtRw["WEMon"].ToString().Trim();
+                        break;
+
+                        case "Tuesday":
+                        weekEndDay = dtRw["WETues"].ToString().Trim();
+                        break;
+
+                        case "Wednesday":
+                        weekEndDay = dtRw["WEWed"].ToString().Trim();
+                        break;
+
+                        case "Thursday":
+                        weekEndDay = dtRw["WETue"].ToString().Trim();
+                        break;
+
+                        case "Friday":
+                        weekEndDay = dtRw["WEFri"].ToString().Trim();
+                        break;
+
+                        case "Saturday":
+                        weekEndDay = dtRw["WESat"].ToString().Trim();
+                        break;
+                    }
+                }
+
+
+
+                fTRow = dtTimeSheet.Select("GADCODE='" + GADCODE + "' AND VDate='" + strVDate + "'");
+                //TextBox txtAcc = (TextBox)gRow.Cells[2].FindControl("txtAccLine");
+                TextBox txt = (TextBox)gRow.Cells[i + 3].FindControl("txt" + Convert.ToString(i + 1));
+                LinkButton lb = (LinkButton)gRow.Cells[i + 3].FindControl("lb" + Convert.ToString(i + 1));
+
+                decimal allocatedPercentage = Convert.ToDecimal(gRow.Cells[1].Text);
+                decimal allocatedDailyHour = Convert.ToDecimal(System.Web.Configuration.WebConfigurationManager.AppSettings["LeaveHour"]);
+                decimal distributedHour = (allocatedDailyHour * allocatedPercentage) / 100;
+                distributedHour = Math.Truncate(distributedHour * 1000) / 1000;
+                decimal dtVal = 0;
+                if (fTRow.Length > 0)
+                {
+                    //txtAcc.Text = fTRow[0]["AccLine"].ToString().Trim();
+                    dtVal = fTRow[0]["VHour"].ToString()==""? 0: Convert.ToDecimal(fTRow[0]["VHour"].ToString().Trim());
+                    dtVal = Math.Truncate(dtVal * 1000) / 1000;
+                   // txt.Text = dtVal.ToString().Trim();
+                    txt.Text = Convert.ToString(Common.RoundDecimal5T1(dtVal.ToString(), 1));
+
+                    txt.ToolTip = fTRow[0]["TransID"].ToString().Trim();
+                    lb.ToolTip = fTRow[0]["VTask"].ToString().Trim();
+
+                    if ((fTRow[0]["aStatus"].ToString().Trim() == "P") || (fTRow[0]["aStatus"].ToString().Trim() == "A"))
+                    {
+                        Session["Status"] = "P";
+                        btnCal.Enabled = false;
+                    }
+                    else
+                    {
+                        btnCal.Enabled = true;
+                        Session["Status"] = "D";                   
+                    }
+                }
+                else
+                {
+                    //txtAcc.Text = "";
+                    //txt.Text = distributedHour.ToString();
+                    distributedHour = Common.RoundDecimal5T1(distributedHour.ToString(), 1);
+                    if (IsLastRows == true)
+                    {
+                        txt.Text = Convert.ToString(Common.RoundDecimal5T1(System.Web.Configuration.WebConfigurationManager.AppSettings["LeaveHour"], 1) - Common.RoundDecimal5T1(decColSum.ToString(), 1));
+                       // decColSum = 0;
+                    }
+                    else
+                    {
+                        txt.Text = distributedHour.ToString();
+                        if (i == 0)
+                            decColSum = decColSum + distributedHour;
+                    }
+                    txt.ToolTip = "";
+                    lb.ToolTip = "";
+                }
+
+                if (txt.Text != distributedHour.ToString())
+                {
+                    txt.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFA500");
+                }
+
+
+
+                
+
+
+                foreach (DataRow dRow in dtHolidays.Rows)
+                {
+                    holiDay = Convert.ToDateTime(dRow["HoliDate"].ToString().Trim());
+                    if (holiDay == dtVDate)
+                    {
+                        {
+                            gRow.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#F2DBDB");
+                            //gRow.Cells[i + 2].BackColor = System.Drawing.Color.Blue;
+                            grTimeSheet.HeaderRow.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#F2DBDB");
+                            txt.BackColor = System.Drawing.ColorTranslator.FromHtml("#F2DBDB");
+                            txt.Text = "";
+                            txt.ReadOnly = true;
+                        }
+                    }
+                }
+
+
+                if (weekEndDay == "Y")
+                {
+                    gRow.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#B8CCE4");
+                    //gRow.Cells[i + 2].BackColor = System.Drawing.Color.Blue;
+                    grTimeSheet.HeaderRow.Cells[i + 3].BackColor = System.Drawing.ColorTranslator.FromHtml("#B8CCE4");
+                    txt.BackColor = System.Drawing.ColorTranslator.FromHtml("#B8CCE4");
+                    txt.Text = "";
+                    txt.ReadOnly = true;
+                }                
+            }
+
+        }
+
+    }
+
+
+    /// <summary>
+    /// To save/update/post Time sheet and Leave records
+    /// </summary>
+    /// <param name="IsDelete"></param>
+    /// <param name="sts"></param>
+    public void SaveData(string IsDelete, string sts)
+    {
+        string TRANSID = "";
+        string empid = txtEmpID.Text.Trim();
+        string vMonth = ddlMonth.SelectedValue.ToString();
+        string vYear = ddlYear.SelectedValue.ToString();
+        string fsyr = ddlFiscalYear.SelectedValue.ToString();
+        string gadCode = "";
+        string strVDate = "";
+
+
+        int aVal = 0;
+        if (Convert.ToInt32(txtArlCount.Text) == 30)
+        {
+            aVal = 6;
+        }
+        else if (Convert.ToInt32(txtArlCount.Text) == 29)
+        {
+            aVal = 7;
+        }
+        else if (Convert.ToInt32(txtArlCount.Text) == 28)
+        {
+            aVal = 8;
+        }
+        else
+            aVal = 5;
+
+
+
+        //D = Drafted | P = Posted | A = Approved
+        
+        
+        timeSheetMgr.Insert_TimeSheetNew(TRANSID,empid, vMonth, vYear, fsyr, grTimeSheet,
+                Session["USERID"].ToString(), Common.SetDateTime(DateTime.Now.ToString()), sts, hfSupervisor.Value.ToString(), 
+                hfIsUpdate.Value, IsDelete, aVal);
+
+
+        int aVal1 = 0;
+        if (Convert.ToInt32(txtArlCount.Text) == 30)
+        {
+            aVal1 = 5;
+        }
+        else if (Convert.ToInt32(txtArlCount.Text) == 29)
+        {
+            aVal1 = 6;
+        }
+        else if (Convert.ToInt32(txtArlCount.Text) == 28)
+        {
+            aVal1 = 7;
+        }
+        else
+            aVal1 = 4;
+
+
+
+
+        if (grLeave.Rows.Count > 0)
+        {
+            timeSheetMgr.Insert_TimeSheetLeaveNew(TRANSID, empid, vMonth, vYear, fsyr, grLeave,
+                    Session["USERID"].ToString(), Common.SetDateTime(DateTime.Now.ToString()), sts, hfSupervisor.Value.ToString(), 
+                    hfLvIdUpdate.Value, IsDelete, aVal1);
+        }
+
+
+        if ((hfIsUpdate.Value == "N") && (IsDelete == "N"))
+        {
+            lblMsg.Text = "Record Saved Successfully";
+            //btnCal.Enabled = false;
+        }
+        else if ((hfIsUpdate.Value == "Y") && (IsDelete == "N"))
+            lblMsg.Text = "Record Updated Successfully";
+        
+    }   
+
+
+
+    /// <summary>
+    /// '% of Work' column's calculation is made here with GAD percentage
+    /// 
+    /// </summary>
+    public void RatCal()
+    {
+        decimal totalWorkHour = 0;
+        decimal ratio = 0;
+
+        foreach (GridViewRow gRow in grTimeSheet.Rows)
+        {
+            if (gRow.Cells[1].Text != "")
+            {
+                ratio = Convert.ToDecimal(gRow.Cells[1].Text);
+            }
+            else
+                ratio = 0;
+
+
+
+            TextBox txtTotal = (TextBox)gRow.Cells[34].FindControl("txtTotal");
+            if (txtTotal.Text == "")
+                totalWorkHour = 0;
+            else
+                totalWorkHour = Convert.ToDecimal(txtTotal.Text);
+
+
+
+            TextBox txtRatio = (TextBox)gRow.Cells[35].FindControl("txtRatio");
+
+
+            decimal gTotal = grTimeSheet.FooterRow.Cells[34].Text == "" ? Convert.ToDecimal("0") : Convert.ToDecimal(grTimeSheet.FooterRow.Cells[34].Text);
+            if (gTotal > 0)
+            {
+
+                decimal res = ((totalWorkHour / gTotal) * 100);  //(totalWorkHour * 100) / ((monlyHour * ratio) / 100);
+                txtRatio.Text = res.ToString("f2") + "%";
+            }
+        }
+
+    }
+
+
+    /// <summary>
+    /// 'Total Work Hour' of each row is made here
+    /// </summary>
+    /// <param name="grv"></param>
+    public void Cal(GridView grv)
+    {
+        decimal d1 = 0;
+        decimal d2 = 0;
+        decimal d3 = 0;
+        decimal d4 = 0;
+        decimal d5 = 0;
+        decimal d6 = 0;
+
+        decimal d7 = 0;
+        decimal d8 = 0;
+        decimal d9 = 0;
+        decimal d10 = 0;
+        decimal d11 = 0;
+        decimal d12 = 0;
+
+        decimal d13 = 0;
+        decimal d14 = 0;
+        decimal d15 = 0;
+        decimal d16 = 0;
+        decimal d17 = 0;
+        decimal d18 = 0;
+
+        decimal d19 = 0;
+        decimal d20 = 0;
+        decimal d21 = 0;
+        decimal d22 = 0;
+        decimal d23 = 0;
+        decimal d24 = 0;
+        decimal d25 = 0;
+        decimal d26 = 0;
+        decimal d27 = 0;
+        decimal d28 = 0;
+        decimal d29 = 0;
+        decimal d30 = 0;
+        decimal d31 = 0;
+
+
+
+        foreach (GridViewRow gRow in grv.Rows)
+        {
+            TextBox txtBox1 = (TextBox)gRow.Cells[3].FindControl("txt1");
+            if (txtBox1.Text == "")
+                d1 = 0;
+            else
+                d1 = Convert.ToDecimal(txtBox1.Text); 
+
+            TextBox txtBox2 = (TextBox)gRow.Cells[4].FindControl("txt2");
+            if (txtBox2.Text == "")
+                d2 = 0;
+            else
+                d2 = Convert.ToDecimal(txtBox2.Text); 
+
+
+            TextBox txtBox3 = (TextBox)gRow.Cells[5].FindControl("txt3");
+            if (txtBox3.Text == "")
+                d3 = 0;
+            else
+                d3 = Convert.ToDecimal(txtBox3.Text);
+
+            TextBox txtBox4 = (TextBox)gRow.Cells[6].FindControl("txt4");
+            if (txtBox4.Text == "")
+                d4 = 0;
+            else
+                d4 = Convert.ToDecimal(txtBox4.Text);
+
+            TextBox txtBox5 = (TextBox)gRow.Cells[7].FindControl("txt5");
+            if (txtBox5.Text == "")
+                d5 = 0;
+            else
+                d5 = Convert.ToDecimal(txtBox5.Text);
+
+
+            TextBox txtBox6 = (TextBox)gRow.Cells[8].FindControl("txt6");
+            if (txtBox6.Text == "")
+                d6 = 0;
+            else
+                d6 = Convert.ToDecimal(txtBox6.Text);
+
+
+
+
+            TextBox txtBox7 = (TextBox)gRow.Cells[9].FindControl("txt7");
+            if (txtBox7.Text == "")
+                d7 = 0;
+            else
+                d7 = Convert.ToDecimal(txtBox7.Text);
+
+
+            TextBox txtBox8 = (TextBox)gRow.Cells[10].FindControl("txt8");
+            if (txtBox8.Text == "")
+                d8 = 0;
+            else
+                d8 = Convert.ToDecimal(txtBox8.Text);
+
+
+            TextBox txtBox9 = (TextBox)gRow.Cells[11].FindControl("txt9");
+            if (txtBox9.Text == "")
+                d9 = 0;
+            else
+                d9 = Convert.ToDecimal(txtBox9.Text);
+
+            TextBox txtBox10 = (TextBox)gRow.Cells[12].FindControl("txt10");
+            if (txtBox10.Text == "")
+                d10 = 0;
+            else
+                d10 = Convert.ToDecimal(txtBox10.Text);
+
+            TextBox txtBox11 = (TextBox)gRow.Cells[13].FindControl("txt11");
+            if (txtBox11.Text == "")
+                d11 = 0;
+            else
+                d11 = Convert.ToDecimal(txtBox11.Text);
+
+
+            TextBox txtBox12 = (TextBox)gRow.Cells[14].FindControl("txt12");
+            if (txtBox12.Text == "")
+                d12 = 0;
+            else
+                d12 = Convert.ToDecimal(txtBox12.Text);
+
+
+
+
+
+
+
+            TextBox txtBox13 = (TextBox)gRow.Cells[15].FindControl("txt13");
+            if (txtBox13.Text == "")
+                d13 = 0;
+            else
+                d13 = Convert.ToDecimal(txtBox13.Text);
+
+            TextBox txtBox14 = (TextBox)gRow.Cells[16].FindControl("txt14");
+            if (txtBox14.Text == "")
+                d14 = 0;
+            else
+                d14 = Convert.ToDecimal(txtBox14.Text);
+
+
+            TextBox txtBox15 = (TextBox)gRow.Cells[17].FindControl("txt15");
+            if (txtBox15.Text == "")
+                d15 = 0;
+            else
+                d15 = Convert.ToDecimal(txtBox15.Text);
+
+            TextBox txtBox16 = (TextBox)gRow.Cells[18].FindControl("txt16");
+            if (txtBox16.Text == "")
+                d16 = 0;
+            else
+                d16 = Convert.ToDecimal(txtBox16.Text);
+
+            TextBox txtBox17 = (TextBox)gRow.Cells[19].FindControl("txt17");
+            if (txtBox17.Text == "")
+                d17 = 0;
+            else
+                d17 = Convert.ToDecimal(txtBox17.Text);                                                                         
+
+
+            TextBox txtBox18 = (TextBox)gRow.Cells[20].FindControl("txt18");
+            if (txtBox18.Text == "")
+                d18 = 0;
+            else
+                d18 = Convert.ToDecimal(txtBox18.Text);
+
+
+            TextBox txtBox19 = (TextBox)gRow.Cells[21].FindControl("txt19");
+            if (txtBox19.Text == "")
+                d19 = 0;
+            else
+                d19 = Convert.ToDecimal(txtBox19.Text);
+
+
+            TextBox txtBox20 = (TextBox)gRow.Cells[22].FindControl("txt20");
+            if (txtBox20.Text == "")
+                d20 = 0;
+            else
+                d20 = Convert.ToDecimal(txtBox20.Text);
+
+
+            TextBox txtBox21 = (TextBox)gRow.Cells[23].FindControl("txt21");
+            if (txtBox21.Text == "")
+                d21 = 0;
+            else
+                d21 = Convert.ToDecimal(txtBox21.Text);
+
+
+
+            TextBox txtBox22 = (TextBox)gRow.Cells[24].FindControl("txt22");
+            if (txtBox22.Text == "")
+                d22 = 0;
+            else
+                d22 = Convert.ToDecimal(txtBox22.Text);
+
+
+
+            TextBox txtBox23 = (TextBox)gRow.Cells[25].FindControl("txt23");
+            if (txtBox23.Text == "")
+                d23 = 0;
+            else
+                d23 = Convert.ToDecimal(txtBox23.Text);
+
+
+            TextBox txtBox24 = (TextBox)gRow.Cells[26].FindControl("txt24");
+            if (txtBox24.Text == "")
+                d24 = 0;
+            else
+                d24 = Convert.ToDecimal(txtBox24.Text);
+
+
+
+            TextBox txtBox25 = (TextBox)gRow.Cells[27].FindControl("txt25");
+            if (txtBox25.Text == "")
+                d25 = 0;
+            else
+                d25 = Convert.ToDecimal(txtBox25.Text);
+
+
+            TextBox txtBox26 = (TextBox)gRow.Cells[28].FindControl("txt26");
+            if (txtBox26.Text == "")
+                d26 = 0;
+            else
+                d26 = Convert.ToDecimal(txtBox26.Text);
+
+
+            TextBox txtBox27 = (TextBox)gRow.Cells[29].FindControl("txt27");
+            if (txtBox27.Text == "")
+                d27 = 0;
+            else
+                d27 = Convert.ToDecimal(txtBox27.Text);
+
+
+
+            TextBox txtBox28 = (TextBox)gRow.Cells[30].FindControl("txt28");
+            if (txtBox28.Text == "")
+                d28 = 0;
+            else
+                d28 = Convert.ToDecimal(txtBox28.Text);
+
+
+            TextBox txtBox29 = (TextBox)gRow.Cells[31].FindControl("txt29");
+            if (txtBox29.Text == "")
+                d29 = 0;
+            else
+                d29 = Convert.ToDecimal(txtBox29.Text);
+
+
+            TextBox txtBox30 = (TextBox)gRow.Cells[32].FindControl("txt30");
+            if (txtBox30.Text == "")
+                d30 = 0;
+            else
+                d30 = Convert.ToDecimal(txtBox30.Text);
+
+
+            TextBox txtBox31 = (TextBox)gRow.Cells[33].FindControl("txt31");
+            if (txtBox31.Text == "")
+                d31 = 0;
+            else
+                d31 = Convert.ToDecimal(txtBox31.Text);
+
+
+
+            TextBox txtTotal = (TextBox)gRow.Cells[34].FindControl("txtTotal");
+
+
+            decimal res = d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8 + d9 + d10 + d11 + d12 + d13 + d14 + d15 + d16 + d17 + d18 + d19 + d20 + d21 + d22 + d23 + d24 + d25 + d26 + d27 + d28 + d29 + d30 + d31; //Convert.ToDecimal(txtBox1.Text) + Convert.ToDecimal(txtBox2.Text) + Convert.ToDecimal(txtBox3.Text);
+            txtTotal.Text = res.ToString();
+        }
+    }
+
+
+
+
+//    INSERT INTO dbo.viewname (viewid,parentid,viewname,showtopage,pagename,nodelevel) VALUES (513,5,'Time Sheet','Attendance/TimeSheet.aspx','',9)
+
+//INSERT INTO dbo.UserPrivs VALUES ('admin',513,'Y','','2012-07-30','','','')
+
+    protected bool ValidateAndSave()
+    {
+        bool dailyHour = true;
+
+
+        int aVal = 0;
+        if (Convert.ToInt32(txtArlCount.Text) == 30)
+        {
+            aVal = 6;
+        }
+        else if (Convert.ToInt32(txtArlCount.Text) == 29)
+        {
+            aVal = 7;
+        }
+        else if (Convert.ToInt32(txtArlCount.Text) == 28)
+        {
+            aVal = 8;
+        }
+        else
+            aVal = 5;
+
+
+        Cal(grTimeSheet);
+        GetSummaryTotal(grTimeSheet, aVal);
+        GetGrandTtal(grTimeSheet);
+        this.RatCal();
+        this.GetFullSummary();
+
+        if (grTimeSheet.Columns.Count - 5 < 29 && grTimeSheet.Columns.Count - 5 > 36)
+        {
+            lblMsg.Text = "Date duration must be between 28 to 31";
+            txtDtFrom.Focus();
+            return false;
+        }
+
+        //for (int j = 0; j < grTimeSheet.Columns.Count - aVal; j++)
+        //{
+        //        if (Convert.ToDecimal(grTimeSheet.FooterRow.Cells[j + 2].Text) > Convert.ToDecimal(System.Web.Configuration.WebConfigurationManager.AppSettings["LeaveHour"]))
+        //        {
+        //            dailyHour = false;
+        //            break;
+        //        }
+        //    break;
+        //}
+
+        
+        dailyHour = b4Save_GetSummaryTotal(grTimeSheet, aVal);
+        if (dailyHour == false)
+        {
+            lblMsg.Text = "Summary hour must not be greater than Daily hour";
+            return false;
+        }
+
+
+
+        if (Convert.ToDecimal(lblWLHr.Text) > Convert.ToDecimal(lblAssignedHour.Text))
+        {
+            lblMsg.Text = "Total worked hour must not be greater than Monthly assigned hour";
+            return false;
+        }
+
+
+        return true;
+    }
+
+    protected void btnCal_Click(object sender, EventArgs e)
+    {
+        if (ValidateAndSave() == true)
+        {
+            SaveData("N","D");
+            hfIsUpdate.Value = "Y";
+            hfLvIdUpdate.Value = "Y";
+            this.btnCal.Text = "Update";
+            //BindGrid();
+        }
+        //Cal();
+    }
+    protected void imgbtnSaveMoveText_Click(object sender, ImageClickEventArgs e)
+    {
+        int inColIndx;
+        int inRowIndx;
+
+        switch (hfGrVal.Value)
+        {
+            case "TimeSheet":
+                {
+                    inColIndx = Convert.ToInt32(hfColIndex.Value);
+                    inRowIndx = Convert.ToInt32(hfRowIndex.Value);
+                    LinkButton lb = (LinkButton)grTimeSheet.Rows[inRowIndx].Cells[inColIndx].FindControl("lb" + Convert.ToString(inColIndx - 1));
+                    lb.ToolTip = txtMoveText.Text;
+                    txtMoveText.Text = "";
+                    break;
+                }
+
+            case "Leave":
+                {
+                    inColIndx = Convert.ToInt32(hfColIndex.Value);
+                    inRowIndx = Convert.ToInt32(hfRowIndex.Value);
+                    LinkButton lb = (LinkButton)grLeave.Rows[inRowIndx].Cells[inColIndx].FindControl("lb" + Convert.ToString(inColIndx - 1));
+                    lb.ToolTip = txtMoveText.Text;
+                    txtMoveText.Text = "";
+                    break;
+                }
+        }
+
+        //txtMoveText.Text = "";
+    }
+
+
+    protected void grTimeSheet_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        //Cal();
+        hfGrVal.Value = "TimeSheet";
+        switch (e.CommandName)
+        {
+            case "Click":
+                {                    
+                  // int = Convert.ToInt32(e.CommandArgument.ToString());
+                    GridViewRow clickedRow = ((LinkButton)e.CommandSource).NamingContainer as GridViewRow;
+                    hfRowIndex.Value = clickedRow.DataItemIndex.ToString();
+                    hfColIndex.Value = e.CommandArgument.ToString();
+
+                    int inColIndx = Convert.ToInt32(hfColIndex.Value);
+                    int inRowIndx = Convert.ToInt32(hfRowIndex.Value);
+                    LinkButton lb = (LinkButton)grTimeSheet.Rows[inRowIndx].Cells[inColIndx].FindControl("lb" + Convert.ToString(inColIndx - 1));
+                    txtMoveText.Text = lb.ToolTip.Trim();
+                    ModalpopupextenderMoveText.Show();
+                    break;
+                }
+            default:
+                break;
+        }
+    }
+
+    protected void grTimeSheet_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            TextBox txtBox1 = null;
+            TextBox txtBox2 = null;
+            TextBox txtBox3 = null;
+            TextBox txtBox4 = null;
+            TextBox txtBox5 = null;
+            TextBox txtBox6 = null;
+            TextBox txtBox7 = null;
+            TextBox txtBox8 = null;
+            TextBox txtBox9 = null;
+            TextBox txtBox10 = null;
+            TextBox txtBox11 = null;
+            TextBox txtBox12 = null;
+            TextBox txtBox13 = null;
+            TextBox txtBox14 = null;
+            TextBox txtBox15 = null;
+            TextBox txtBox16 = null;
+            TextBox txtBox17 = null;
+            TextBox txtBox18 = null;
+            TextBox txtBox19 = null;
+
+            try
+            {
+
+                txtBox1 = (TextBox)e.Row.FindControl("txt1");
+                txtBox2 = (TextBox)e.Row.FindControl("txt2");
+                txtBox3 = (TextBox)e.Row.FindControl("txt3");
+                txtBox4 = (TextBox)e.Row.FindControl("txt4");
+                txtBox5 = (TextBox)e.Row.FindControl("txt5");
+
+
+                if (txtBox1 == null)
+                    throw new Exception("Text Box Not Found");
+
+                txtBox1.Attributes.Add("onblur", "AddTotal();");
+                txtBox2.Attributes.Add("onblur", "AddTotal();");
+                txtBox3.Attributes.Add("onblur", "AddTotal();");
+                txtBox4.Attributes.Add("onblur", "AddTotal();");
+                txtBox5.Attributes.Add("onblur", "AddTotal();");
+
+            }
+            catch (Exception ex)
+            {
+                //lblError.Text = lblError.Text + " " + ex.Message;
+                //lblError.Visible = true;
+            }
+            finally
+            {
+                if (txtBox1 != null) txtBox1 = null;
+            }
+        }
+    }
+    protected void grTimeSheet_RowDataBound1(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+
+            TextBox txt1 = (TextBox)e.Row.FindControl("txt1");
+            TextBox txt2 = (TextBox)e.Row.FindControl("txt2");
+            TextBox txt3 = (TextBox)e.Row.FindControl("txt3");
+            TextBox txt4 = (TextBox)e.Row.FindControl("txt4");
+            TextBox txt5 = (TextBox)e.Row.FindControl("txt5");
+            TextBox txt6 = (TextBox)e.Row.FindControl("txt6");
+
+            TextBox txt7 = (TextBox)e.Row.FindControl("txt7");
+            TextBox txt8 = (TextBox)e.Row.FindControl("txt8");
+            TextBox txt9 = (TextBox)e.Row.FindControl("txt9");
+            TextBox txt10 = (TextBox)e.Row.FindControl("txt10");
+            TextBox txt11 = (TextBox)e.Row.FindControl("txt11");
+            TextBox txt12 = (TextBox)e.Row.FindControl("txt12");
+
+            TextBox txt13 = (TextBox)e.Row.FindControl("txt13");
+            TextBox txt14 = (TextBox)e.Row.FindControl("txt14");
+            TextBox txt15 = (TextBox)e.Row.FindControl("txt15");
+            TextBox txt16 = (TextBox)e.Row.FindControl("txt16");
+            TextBox txt17 = (TextBox)e.Row.FindControl("txt17");
+            TextBox txt18 = (TextBox)e.Row.FindControl("txt18");
+
+            TextBox txt19 = (TextBox)e.Row.FindControl("txt19");
+            TextBox txt20 = (TextBox)e.Row.FindControl("txt20");
+            TextBox txt21 = (TextBox)e.Row.FindControl("txt21");
+            TextBox txt22 = (TextBox)e.Row.FindControl("txt22");
+            TextBox txt23 = (TextBox)e.Row.FindControl("txt23");
+            TextBox txt24 = (TextBox)e.Row.FindControl("txt24");
+
+            TextBox txt25 = (TextBox)e.Row.FindControl("txt25");
+            TextBox txt26 = (TextBox)e.Row.FindControl("txt26");
+            TextBox txt27 = (TextBox)e.Row.FindControl("txt27");
+            TextBox txt28 = (TextBox)e.Row.FindControl("txt28");
+            TextBox txt29 = (TextBox)e.Row.FindControl("txt29");
+            TextBox txt30 = (TextBox)e.Row.FindControl("txt30");
+            TextBox txt31 = (TextBox)e.Row.FindControl("txt31");
+
+
+
+            TextBox totalTextBox = (TextBox)e.Row.FindControl("txtTotal");
+
+            if ((txt1 != null) && (txt2 != null) && (txt3 != null) && (txt4 != null) && (txt5 != null) && (txt6 != null) && (txt7 != null) && (txt8 != null) && (txt9 != null) && (txt10 != null) && (txt11 != null) && (txt12 != null) && (txt13 != null) && (txt14 != null) && (txt15 != null) && (txt16 != null) && (txt17 != null) && (txt18 != null) && (txt19 != null) && (txt20 != null) && (txt21 != null) && (txt22 != null) && (txt23 != null) && (txt24 != null) && (txt25 != null) && (txt26 != null) && (txt27 != null) && (txt28 != null) && (txt29 != null) && (txt30 != null) && (txt31 != null) &&  (totalTextBox != null))
+            {
+                string eventHandler = string.Format(
+                 "gridTextBoxOnChange('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}','{7}', '{8}', '{9}', '{10}', '{11}', '{12}','{13}', '{14}', '{15}', '{16}', '{17}', '{18}','{19}', '{20}', '{21}', '{22}', '{23}', '{24}','{25}', '{26}', '{27}', '{28}', '{29}', '{30}', '{31}');",
+                 txt1.ClientID, txt2.ClientID, txt3.ClientID, txt4.ClientID, txt5.ClientID, txt6.ClientID, txt7.ClientID, txt8.ClientID, txt9.ClientID, txt10.ClientID, txt11.ClientID, txt12.ClientID, txt13.ClientID, txt14.ClientID, txt15.ClientID, txt16.ClientID, txt17.ClientID, txt18.ClientID, txt19.ClientID, txt20.ClientID, txt21.ClientID, txt22.ClientID, txt23.ClientID, txt24.ClientID, txt25.ClientID, txt26.ClientID, txt27.ClientID, txt28.ClientID, txt29.ClientID, txt30.ClientID, txt31.ClientID, totalTextBox.ClientID);
+
+                txt1.Attributes.Add("onchange", eventHandler);
+                txt2.Attributes.Add("onchange", eventHandler);
+                txt3.Attributes.Add("onchange", eventHandler);
+                txt4.Attributes.Add("onchange", eventHandler);
+                txt5.Attributes.Add("onchange", eventHandler);
+                txt6.Attributes.Add("onchange", eventHandler);
+                txt7.Attributes.Add("onchange", eventHandler);
+                txt8.Attributes.Add("onchange", eventHandler);
+                txt9.Attributes.Add("onchange", eventHandler);
+                txt10.Attributes.Add("onchange", eventHandler);
+                txt11.Attributes.Add("onchange", eventHandler);
+                txt12.Attributes.Add("onchange", eventHandler);
+                txt13.Attributes.Add("onchange", eventHandler);
+                txt14.Attributes.Add("onchange", eventHandler);
+                txt15.Attributes.Add("onchange", eventHandler);
+                txt16.Attributes.Add("onchange", eventHandler);
+                txt17.Attributes.Add("onchange", eventHandler);
+                txt18.Attributes.Add("onchange", eventHandler);
+                txt19.Attributes.Add("onchange", eventHandler);
+                txt20.Attributes.Add("onchange", eventHandler);
+                txt21.Attributes.Add("onchange", eventHandler);
+                txt22.Attributes.Add("onchange", eventHandler);
+                txt23.Attributes.Add("onchange", eventHandler);
+                txt24.Attributes.Add("onchange", eventHandler);
+                txt25.Attributes.Add("onchange", eventHandler);
+                txt26.Attributes.Add("onchange", eventHandler);
+                txt27.Attributes.Add("onchange", eventHandler);
+                txt28.Attributes.Add("onchange", eventHandler);
+                txt29.Attributes.Add("onchange", eventHandler);
+                txt30.Attributes.Add("onchange", eventHandler);
+                txt31.Attributes.Add("onchange", eventHandler);
+            }
+        }
+    }
+
+
+    protected void grLeave_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        hfGrVal.Value = "Leave";
+        switch (e.CommandName)
+        {
+            case "Click":
+                {
+                    GridViewRow clickedRow = ((LinkButton)e.CommandSource).NamingContainer as GridViewRow;
+                    hfRowIndex.Value = clickedRow.DataItemIndex.ToString();
+                    hfColIndex.Value = e.CommandArgument.ToString();
+
+                    int inColIndx = Convert.ToInt32(hfColIndex.Value);
+                    int inRowIndx = Convert.ToInt32(hfRowIndex.Value);
+                    LinkButton lb = (LinkButton)grLeave.Rows[inRowIndx].Cells[inColIndx].FindControl("lb" + Convert.ToString(inColIndx - 1));
+                    txtMoveText.Text = lb.ToolTip.Trim();
+                    ModalpopupextenderMoveText.Show();
+                    break;
+                }
+            default:
+                break;
+        }
+    }
+
+
+    protected void btnLoadLeave_Click(object sender, EventArgs e)
+    {
+        //GenerateDate();
+        for (int i = 0; i < arl.Count; i++)
+        {
+            this.grLeave.Columns[0].HeaderText = "Type  of  Leave";
+            this.grLeave.Columns[i + 3].HeaderText = arl[i].ToString();
+        }
+
+        int aVal1 = 0;
+        if (arl.Count == 30)
+        {
+            aVal1 = 5;
+        }
+        else if (arl.Count == 29)
+        {
+            aVal1 = 6;
+        }
+        else if (arl.Count == 28)
+        {
+            aVal1 = 7;
+        }
+        else
+            aVal1 = 4;
+
+
+
+        BindLeave(true);// For Leave Grid
+        DailyHourDistribution(); // For Leave Grid
+
+        Cal(grLeave); // For Leave Grid
+        GetSummaryTotal(grLeave, aVal1); // For Leave Grid
+        GetGrandTtal(grLeave); // For Leave Grid
+
+        GetMonthlyHour(); // For Leave Grid
+
+
+        GetFullSummary();// For Both Grid
+
+        //for (int i = 0; i < arl.Count; i++)
+        //{
+        //    this.grLeave.Columns[0].HeaderText = "Type  of  Leave";
+        //    this.grLeave.Columns[i + 2].HeaderText = arl[i].ToString();
+        //}
+
+        //LoadLeaveRecord();
+
+
+
+
+        if (grLeave.Rows.Count > 0)
+        {
+            btnLoadLeave.Enabled = false;
+            lblLeaveFoundMSG.Text = "Record loaded from leave information.";
+        }
+        else
+        {
+            lblLeaveFoundMSG.Text = "No existing record found from leave information.";
+        }
+    }
+    protected void grLeave_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+
+            TextBox txt1 = (TextBox)e.Row.FindControl("txt1");
+            TextBox txt2 = (TextBox)e.Row.FindControl("txt2");
+            TextBox txt3 = (TextBox)e.Row.FindControl("txt3");
+            TextBox txt4 = (TextBox)e.Row.FindControl("txt4");
+            TextBox txt5 = (TextBox)e.Row.FindControl("txt5");
+            TextBox txt6 = (TextBox)e.Row.FindControl("txt6");
+
+            TextBox txt7 = (TextBox)e.Row.FindControl("txt7");
+            TextBox txt8 = (TextBox)e.Row.FindControl("txt8");
+            TextBox txt9 = (TextBox)e.Row.FindControl("txt9");
+            TextBox txt10 = (TextBox)e.Row.FindControl("txt10");
+            TextBox txt11 = (TextBox)e.Row.FindControl("txt11");
+            TextBox txt12 = (TextBox)e.Row.FindControl("txt12");
+
+            TextBox txt13 = (TextBox)e.Row.FindControl("txt13");
+            TextBox txt14 = (TextBox)e.Row.FindControl("txt14");
+            TextBox txt15 = (TextBox)e.Row.FindControl("txt15");
+            TextBox txt16 = (TextBox)e.Row.FindControl("txt16");
+            TextBox txt17 = (TextBox)e.Row.FindControl("txt17");
+            TextBox txt18 = (TextBox)e.Row.FindControl("txt18");
+
+            TextBox txt19 = (TextBox)e.Row.FindControl("txt19");
+            TextBox txt20 = (TextBox)e.Row.FindControl("txt20");
+            TextBox txt21 = (TextBox)e.Row.FindControl("txt21");
+            TextBox txt22 = (TextBox)e.Row.FindControl("txt22");
+            TextBox txt23 = (TextBox)e.Row.FindControl("txt23");
+            TextBox txt24 = (TextBox)e.Row.FindControl("txt24");
+
+            TextBox txt25 = (TextBox)e.Row.FindControl("txt25");
+            TextBox txt26 = (TextBox)e.Row.FindControl("txt26");
+            TextBox txt27 = (TextBox)e.Row.FindControl("txt27");
+            TextBox txt28 = (TextBox)e.Row.FindControl("txt28");
+            TextBox txt29 = (TextBox)e.Row.FindControl("txt29");
+            TextBox txt30 = (TextBox)e.Row.FindControl("txt30");
+            TextBox txt31 = (TextBox)e.Row.FindControl("txt31");
+
+
+
+            TextBox totalTextBox = (TextBox)e.Row.FindControl("txtTotal");
+
+            if ((txt1 != null) && (txt2 != null) && (txt3 != null) && (txt4 != null) && (txt5 != null) && (txt6 != null) && (txt7 != null) && (txt8 != null) && (txt9 != null) && (txt10 != null) && (txt11 != null) && (txt12 != null) && (txt13 != null) && (txt14 != null) && (txt15 != null) && (txt16 != null) && (txt17 != null) && (txt18 != null) && (txt19 != null) && (txt20 != null) && (txt21 != null) && (txt22 != null) && (txt23 != null) && (txt24 != null) && (txt25 != null) && (txt26 != null) && (txt27 != null) && (txt28 != null) && (txt29 != null) && (txt30 != null) && (txt31 != null) && (totalTextBox != null))
+            {
+                string eventHandler = string.Format(
+                 "gridTextBoxOnChange('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}','{7}', '{8}', '{9}', '{10}', '{11}', '{12}','{13}', '{14}', '{15}', '{16}', '{17}', '{18}','{19}', '{20}', '{21}', '{22}', '{23}', '{24}','{25}', '{26}', '{27}', '{28}', '{29}', '{30}', '{31}');",
+                 txt1.ClientID, txt2.ClientID, txt3.ClientID, txt4.ClientID, txt5.ClientID, txt6.ClientID, txt7.ClientID, txt8.ClientID, txt9.ClientID, txt10.ClientID, txt11.ClientID, txt12.ClientID, txt13.ClientID, txt14.ClientID, txt15.ClientID, txt16.ClientID, txt17.ClientID, txt18.ClientID, txt19.ClientID, txt20.ClientID, txt21.ClientID, txt22.ClientID, txt23.ClientID, txt24.ClientID, txt25.ClientID, txt26.ClientID, txt27.ClientID, txt28.ClientID, txt29.ClientID, txt30.ClientID, txt31.ClientID, totalTextBox.ClientID);
+
+                txt1.Attributes.Add("onchange", eventHandler);
+                txt2.Attributes.Add("onchange", eventHandler);
+                txt3.Attributes.Add("onchange", eventHandler);
+                txt4.Attributes.Add("onchange", eventHandler);
+                txt5.Attributes.Add("onchange", eventHandler);
+                txt6.Attributes.Add("onchange", eventHandler);
+                txt7.Attributes.Add("onchange", eventHandler);
+                txt8.Attributes.Add("onchange", eventHandler);
+                txt9.Attributes.Add("onchange", eventHandler);
+                txt10.Attributes.Add("onchange", eventHandler);
+                txt11.Attributes.Add("onchange", eventHandler);
+                txt12.Attributes.Add("onchange", eventHandler);
+                txt13.Attributes.Add("onchange", eventHandler);
+                txt14.Attributes.Add("onchange", eventHandler);
+                txt15.Attributes.Add("onchange", eventHandler);
+                txt16.Attributes.Add("onchange", eventHandler);
+                txt17.Attributes.Add("onchange", eventHandler);
+                txt18.Attributes.Add("onchange", eventHandler);
+                txt19.Attributes.Add("onchange", eventHandler);
+                txt20.Attributes.Add("onchange", eventHandler);
+                txt21.Attributes.Add("onchange", eventHandler);
+                txt22.Attributes.Add("onchange", eventHandler);
+                txt23.Attributes.Add("onchange", eventHandler);
+                txt24.Attributes.Add("onchange", eventHandler);
+                txt25.Attributes.Add("onchange", eventHandler);
+                txt26.Attributes.Add("onchange", eventHandler);
+                txt27.Attributes.Add("onchange", eventHandler);
+                txt28.Attributes.Add("onchange", eventHandler);
+                txt29.Attributes.Add("onchange", eventHandler);
+                txt30.Attributes.Add("onchange", eventHandler);
+                txt31.Attributes.Add("onchange", eventHandler);
+            }
+        }
+    }
+
+
+
+
+
+
+    protected void GetGrandTtal(GridView grv)
+    {
+        int i = 0;
+        decimal gTotal = 0;
+
+        if (grv.Rows.Count > 0)
+        {
+            foreach (GridViewRow gRow in grv.Rows)
+            {
+                TextBox txtGrandTotal = (TextBox)gRow.Cells[34].FindControl("txtTotal");
+                //if (txtGrandTotal.Text == "")
+                //    gTotal = 0;
+                //else
+                //    gTotal = Convert.ToDecimal(txtGrandTotal.Text);
+                //decimal dGrandTotal = 0.0M;
+                //dGrandTotal = Math.Truncate(dGrandTotal * 100) / 100;
+
+
+                gTotal = gTotal + Common.RoundDecimal(txtGrandTotal.Text, 2);
+                grv.Rows[i].Cells[34].HorizontalAlign = HorizontalAlign.Right;
+                i++;
+            }
+            if (gTotal == 0)
+                grv.FooterRow.Cells[34].Text = "";
+            else
+                grv.FooterRow.Cells[34].Text = gTotal.ToString();
+            grv.FooterRow.Cells[34].HorizontalAlign = HorizontalAlign.Right;
+        }
+    }
+
+
+
+
+    protected void GetSummaryTotal(GridView grv, int colCnt)
+    {
+        int i = 0;
+        decimal dclSumValue = 0;
+        if (grv.Rows.Count > 0)
+        {
+            grv.FooterRow.Cells[0].Text = "Total ";
+            //grv.FooterRow.Cells[0].Font.Bold;
+
+            for (int j = 0; j < grv.Columns.Count - colCnt; j++)
+            {
+                dclSumValue = 0;
+                i = 0;
+                foreach (GridViewRow gRow in grv.Rows)
+                {
+                    TextBox txt = (TextBox)gRow.Cells[j+3].FindControl("txt" + Convert.ToString(j + 1));
+
+
+                    dclSumValue = dclSumValue + Common.RoundDecimal(txt.Text, 2);
+                    grv.Rows[i].Cells[j+3].HorizontalAlign = HorizontalAlign.Right;
+                    i++;
+                }
+                if (dclSumValue == 0)
+                    grv.FooterRow.Cells[j + 3].Text = "0";
+                else
+                    grv.FooterRow.Cells[j + 3].Text = dclSumValue.ToString("F1");
+                    
+                grv.FooterRow.Cells[j+3].HorizontalAlign = HorizontalAlign.Right;
+            }
+        }
+    }
+
+
+
+    protected bool b4Save_GetSummaryTotal(GridView grv, int colCnt)
+    {
+        bool dailyHour = true;
+        int i = 0;
+        decimal dclSumValue = 0;
+        if (grv.Rows.Count > 0)
+        {
+            grv.FooterRow.Cells[0].Text = "Total ";
+            //grv.FooterRow.Cells[0].Font.Bold;
+
+            for (int j = 0; j < grv.Columns.Count - colCnt; j++)
+            {
+                dclSumValue = 0;
+                i = 0;
+                foreach (GridViewRow gRow in grv.Rows)
+                {
+                    TextBox txt = (TextBox)gRow.Cells[j + 3].FindControl("txt" + Convert.ToString(j + 1));
+
+
+                    dclSumValue = dclSumValue + Common.RoundDecimal(txt.Text, 2);
+                    grv.Rows[i].Cells[j + 3].HorizontalAlign = HorizontalAlign.Right;
+                    i++;
+                }
+                if (dclSumValue == 0)
+                    grv.FooterRow.Cells[j + 3].Text = "0";
+                else
+                    grv.FooterRow.Cells[j + 3].Text = dclSumValue.ToString("F1");
+
+                grv.FooterRow.Cells[j + 3].HorizontalAlign = HorizontalAlign.Right;
+            }
+
+
+            for (int j = 0; j < grTimeSheet.Columns.Count - colCnt; j++)
+            {
+                if (Convert.ToDecimal(grTimeSheet.FooterRow.Cells[j + 3].Text) > Convert.ToDecimal(System.Web.Configuration.WebConfigurationManager.AppSettings["LeaveHour"]))
+                {
+                    dailyHour = false;
+                    break;
+                }
+                else
+                    dailyHour = true;
+                //break;
+            }   
+        }
+        return dailyHour;
+    }
+
+
+
+    protected void GetFullSummary()
+    {
+        lblAssignedHour.Text = lblMonthlyHour.Text;
+        if (grTimeSheet.Rows.Count > 0)
+        {
+            lblWorkedHour.Text = grTimeSheet.FooterRow.Cells[34].Text;
+        }
+        else
+            lblWorkedHour.Text = "0";
+
+        if (grLeave.Rows.Count > 0)
+        {
+
+            lblLeaveHour.Text = grLeave.FooterRow.Cells[34].Text;
+        }
+        else
+            lblLeaveHour.Text = "0";
+
+        decimal assignedHr = lblAssignedHour.Text == "" ? Convert.ToDecimal(0) : Convert.ToDecimal(lblAssignedHour.Text);
+        decimal workedHr = lblWorkedHour.Text == "" ? Convert.ToDecimal(0) : Convert.ToDecimal(lblWorkedHour.Text);
+        decimal leaveHr = lblLeaveHour.Text == "" ? Convert.ToDecimal(0) : Convert.ToDecimal(lblLeaveHour.Text);
+        decimal wlHr = workedHr + leaveHr;
+        lblWLHr.Text = wlHr.ToString();
+        lblDiffHr.Text = Convert.ToString(assignedHr - wlHr);
+    }
+
+
+
+
+
+    protected void POST_Click(object sender, EventArgs e)
+    {
+        
+    }
+    protected void btnFinalPost_Click(object sender, EventArgs e)
+    {
+        //BindGrid();
+        if (btnCal.Text != "Save")
+        {
+            if (ValidateAndSave() == true)
+            {
+                string sts = Session["Status"].ToString();
+                if (sts != "P")
+                {
+                    hfIsUpdate.Value = "Y";
+                    hfLvIdUpdate.Value = "Y";
+                    SaveData("N", "P");
+                    this.btnCal.Enabled = false;
+
+                    MailManagerSmtpClient objMail = new MailManagerSmtpClient();
+                    lblMsg.Text = objMail.TSRequestForApproval(txtEmpID.Text.Trim(),
+                Session["EMPID"].ToString(), Session["USERNAME"].ToString(),
+                Session["DESIGNATION"].ToString(), Session["LOCATION"].ToString(),
+                Session["USERID"].ToString().Trim().ToUpper() == "ADMIN" ? "Y" : "N", hfSupervisor.Value.ToString(),
+                hfSupervisorEmail.Value.ToString(), ddlMonth.SelectedItem.Text, ddlYear.SelectedValue.Trim());
+                }
+                else
+                    lblMsg.Text = "You have already posted your Time Sheet";
+            }
+        }
+        else
+            lblMsg.Text = "Please prepare and save your time sheet";
+
+        
+    }
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsEmpList" targetNamespace="http://tempuri.org/dsEmpList.xsd" xmlns:mstns="http://tempuri.org/dsEmpList.xsd" xmlns="http://tempuri.org/dsEmpList.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsEmpList" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtEmpList">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EMPID" type="xs:string" minOccurs="0" />
+              <xs:element name="FULLNAME" type="xs:string" minOccurs="0" />
+              <xs:element name="REPORTINGTO" type="xs:string" minOccurs="0" />
+              <xs:element name="OfficeEmail" type="xs:string" minOccurs="0" />
+              <xs:element name="IsCountryDirector" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

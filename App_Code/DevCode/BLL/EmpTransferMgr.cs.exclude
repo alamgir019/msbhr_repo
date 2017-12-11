@@ -1,0 +1,118 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+/// <summary>
+/// Summary description for EmpTransferMgr
+/// </summary>
+public class EmpTransferMgr
+{
+	public EmpTransferMgr()
+	{
+		//
+		// TODO: Add constructor logic here
+		//
+	}
+
+    public void InsertEmpTransfer(clsEmpTransfer clEmp)
+    {//Transfer information of Employee      
+ 
+        DBConnector objDC = new DBConnector();
+        SqlCommand[] cmd = new SqlCommand[100];
+        int i=0;
+        cmd[0] = new SqlCommand("proc_Insert_EmpTransfer");
+        cmd[0].CommandType = CommandType.StoredProcedure;
+
+        SqlParameter p_TransId = cmd[0].Parameters.Add("TransId", SqlDbType.BigInt);
+        p_TransId.Direction = ParameterDirection.Input;
+        p_TransId.Value = clEmp.TransId;
+        
+        SqlParameter p_EmpId = cmd[0].Parameters.Add("EmpId", SqlDbType.Char);
+        p_EmpId.Direction = ParameterDirection.Input;
+        p_EmpId.Value = clEmp.EmpId;
+
+        SqlParameter p_EffectiveDate = cmd[0].Parameters.Add("EffectiveDate", SqlDbType.VarChar);
+        p_EffectiveDate.Direction = ParameterDirection.Input;
+        p_EffectiveDate.Value = Common.ReturnDate(clEmp.EffectiveDate);
+
+        SqlParameter p_OEmpTypeStatus = cmd[0].Parameters.Add("OEmpTypeStatus", SqlDbType.Char);
+        p_OEmpTypeStatus.Direction = ParameterDirection.Input;
+        p_OEmpTypeStatus.Value = clEmp.OEmpTypeStatus;
+
+        SqlParameter p_OEmpSubTypeStatus = cmd[0].Parameters.Add("OEmpSubTypeStatus", SqlDbType.Char);
+        p_OEmpSubTypeStatus.Direction = ParameterDirection.Input;
+        p_OEmpSubTypeStatus.Value = clEmp.OEmpSubTypeStatus;
+
+        SqlParameter p_NEmpTypeStatus = cmd[0].Parameters.Add("NEmpTypeStatus", SqlDbType.Char);
+        p_NEmpTypeStatus.Direction = ParameterDirection.Input;
+        p_NEmpTypeStatus.Value = clEmp.NEmpTypeStatus;
+
+        SqlParameter p_NEmpSubTypeStatus = cmd[0].Parameters.Add("NEmpSubTypeStatus", SqlDbType.Char);
+        p_NEmpSubTypeStatus.Direction = ParameterDirection.Input;
+        p_NEmpSubTypeStatus.Value = clEmp.NEmpSubTypeStatus;
+
+        SqlParameter p_InsertedBy = cmd[0].Parameters.Add("InsertedBy", SqlDbType.VarChar);
+        p_InsertedBy.Direction = ParameterDirection.Input;
+        p_InsertedBy.Value = clEmp.InsertedBy;
+
+        SqlParameter p_InsertedDate = cmd[0].Parameters.Add("InsertedDate", SqlDbType.DateTime);
+        p_InsertedDate.Direction = ParameterDirection.Input;
+        p_InsertedDate.Value = clEmp.InsertedDate;
+
+        SqlParameter p_Remarks = cmd[0].Parameters.Add("Remarks", SqlDbType.VarChar);
+        p_Remarks.Direction = ParameterDirection.Input;
+        p_Remarks.Value = clEmp.Remarks;
+
+        cmd[1] = new SqlCommand("proc_Update_Emp_Type_Status");
+        cmd[1].CommandType = CommandType.StoredProcedure;
+
+        p_EmpId = cmd[1].Parameters.Add("EmpId", SqlDbType.Char);
+        p_EmpId.Direction = ParameterDirection.Input;
+        p_EmpId.Value = clEmp.EmpId;
+
+        p_OEmpTypeStatus = cmd[1].Parameters.Add("EmpTypeStatus", SqlDbType.Char);
+        p_OEmpTypeStatus.Direction = ParameterDirection.Input;
+        p_OEmpTypeStatus.Value = clEmp.NEmpTypeStatus;
+
+        p_NEmpSubTypeStatus = cmd[1].Parameters.Add("EmpSubTypeStatus", SqlDbType.Char);
+        p_NEmpSubTypeStatus.Direction = ParameterDirection.Input;
+        p_NEmpSubTypeStatus.Value = clEmp.NEmpSubTypeStatus;
+
+        //Leave profile update       
+
+        SqlCommand[] cmd1 = new SqlCommand[1];
+        
+        EmpInfoManager objEmpInfoMgr = new EmpInfoManager();
+        EmpLeaveProfileManager objLevProMgr = new EmpLeaveProfileManager();
+        cmd1 = objLevProMgr.InsertIntoLevProfile(clEmp.EmpId, objEmpInfoMgr.SelectLeavePakHRTAB(clEmp.NEmpTypeStatus).ToString(), Common.ReturnDate(clEmp.EffectiveDate), clEmp.InsertedBy,"","");
+        i=2;
+         foreach (SqlCommand cmdTemp in cmd1)
+        {
+            if (cmdTemp != null)
+            {
+                cmd[i] = cmdTemp;
+            }
+            i++;
+        }
+        //Leave profile update
+        try
+        {
+            objDC.MakeTransaction(cmd);
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            cmd = null;
+        }      
+    }
+}

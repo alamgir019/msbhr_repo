@@ -1,0 +1,73 @@
+<%@ WebHandler Language="C#" Class="AttedanceAdjust" %>
+using System;
+using System.Web;
+using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+
+public class AttedanceAdjust : IHttpHandler
+{
+    
+    public void ProcessRequest (HttpContext context) {
+        MasterTablesManager objMasMgr = new MasterTablesManager();
+        string StateID = context.Request.QueryString["StateID"];       
+        DataTable dtResult=new DataTable();
+        //Contact Database to get th elist of cities based on StateID
+        switch (StateID)
+        {
+            case "1":
+                dtResult = objMasMgr.SelectDivision(0);
+                break;
+            case "2":
+                dtResult = objMasMgr.SelectSBU(0);
+                break;
+            case "3":
+                dtResult = objMasMgr.SelectDepartment(0);
+                break;
+        } 
+       // DataTable dtResult = getdatatable(Sql);
+
+        int iCount=0;
+        StringBuilder strResult = new StringBuilder();
+        strResult.Append("[");
+        foreach (DataRow row in dtResult.Rows)
+        {
+            strResult.Append("{");
+            strResult.Append("\"TEXT\":\"" + row[1].ToString() + "\",");
+            strResult.Append("\"ID\":\"" + row[0].ToString() + "\"");
+            if (iCount == dtResult.Rows.Count - 1)
+            {
+
+                strResult.Append("}");
+            }
+            else
+            {
+                strResult.Append("},");
+            }
+
+            iCount++;
+            
+        }
+        strResult.Append("]");
+
+        context.Response.ContentType = "application/json";
+
+        context.Response.ContentEncoding = Encoding.UTF8;
+
+        context.Response.Write(strResult.ToString());
+
+        context.Response.End();
+
+    }
+
+    public bool IsReusable {
+
+        get {
+
+            return false;
+
+        }
+
+    }
+   
+}

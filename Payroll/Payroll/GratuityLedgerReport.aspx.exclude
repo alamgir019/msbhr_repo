@@ -1,0 +1,279 @@
+<%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true"
+    CodeFile="GratuityLedgerReport.aspx.cs" Inherits="Payroll_Payroll_GratuityLedgerReport"
+    Title="Gratuity Ledger Report" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+    <script language="javascript" type="text/javascript" src="../../JScripts/Confirmation.js"></script>
+
+    <script language="javascript" type="text/javascript" src="../../JScripts/datetimepicker.js"></script>
+
+    <script language="javascript" type="text/javascript">
+         function ToUpper(ctrl)
+         {   
+            var t = ctrl.value;
+            ctrl.value = t.toUpperCase(); 
+         }
+         
+        function printDiv(divName) 
+        {
+             var printContents = document.getElementById(divName).innerHTML;
+             var originalContents = document.body.innerHTML;
+
+             document.body.innerHTML = printContents;
+
+             window.print();
+
+             document.body.innerHTML = originalContents;
+        }
+    </script>
+
+    <div class="formStyle" style="width: 95%;">
+        <div id="formhead4">
+            Gratuity Ledger Report</div>
+        <div class="MsgBox">
+            <asp:Label ID="lblMsg" runat="server" Font-Bold="True" ForeColor="Fuchsia"></asp:Label>
+        </div>
+        <div class="Div950">
+            <div style="background-color: #EFF3FB;">
+                <fieldset>
+                    <table>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td style="text-align: right;">
+                                <asp:RequiredFieldValidator ID="rfEmpID" runat="server" ControlToValidate="txtEmpID"
+                                    ErrorMessage="*"></asp:RequiredFieldValidator></td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="textlevel">
+                                Payroll Month :</td>
+                            <td>
+                                <asp:DropDownList ID="ddlMonth" runat="server" Width="80px" CssClass="textlevelleft">
+                                </asp:DropDownList></td>
+                            <td class="textlevel">
+                                Payroll Year :
+                            </td>
+                            <td>
+                                <asp:DropDownList ID="ddlYear" runat="server" Width="80px" CssClass="textlevelleft">
+                                </asp:DropDownList></td>
+                            <td class="textlevel">
+                                Fiscal Year :
+                            </td>
+                            <td>
+                                <asp:DropDownList ID="ddlFiscalYear" runat="server" Width="130px" CssClass="textlevelleft">
+                                </asp:DropDownList></td>
+                            <td class="textlevel">
+                                Emp Id :</td>
+                            <td>
+                                <asp:TextBox ID="txtEmpID" runat="server" Width="80px" onkeyup="ToUpper(this)"></asp:TextBox></td>
+                            <td>
+                                <asp:ImageButton ID="imgBtnSearch" runat="server" Height="19px" ImageUrl="~/Images/Search_Icon.jpg"
+                                    Width="21px" CausesValidation="False" OnClick="imgBtnSearch_Click" /></td>
+                        </tr>
+                        <tr>
+                            <td class="textlevel">
+                            </td>
+                            <td colspan="3">
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+            <div style="margin-top: 10px;">
+                <fieldset>
+                    <div style="background-color: Gray; text-align: center;">
+                        <asp:Button ID="btnPrint" runat="server" Text="Print Preview" OnClientClick="printDiv('PrintMe')"
+                            OnClick="btnPrint_Click" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <asp:Button ID="btnExport" runat="server" Text="Export to Excel" CausesValidation="false"
+                            OnClick="btnExport_Click" />
+                        <asp:Button ID="btnReport" runat="server" Text="Show Crystal Report" OnClick="btnReport_Click"
+                            CausesValidation="False" Visible="False" />
+                        <asp:GridView ID="grExport" runat="server" AutoGenerateColumns="true" ShowHeader="true"
+                            Visible="false">
+                        </asp:GridView>
+                    </div>
+                    <div id="PrintMe" style="width: 100%; margin-top: 5px;">
+                        <span style="font-size: 16px; font-weight: bold;">Monthly Gratuity Ledger</span>
+                        <br />
+                        <span style="font-size: 13px; font-weight: bold;">Period: </span>
+                        <asp:Label ID="lblPeriod" runat="server" Text=""></asp:Label>
+                        <br />
+                        <span style="font-size: 12px; font-weight: bold;">Date of Print: </span>
+                        <asp:Label ID="lblPrintDate" runat="server" Text=""></asp:Label>
+                        <br />
+                        <br />
+                        <table style="width: 100%; border-collapse: collapse; border: solid 1px Black;">
+                            <tr>
+                                <td style="text-align: center; border: solid 1px Black; width: 5%;" rowspan="2">
+                                    Emp ID</td>
+                                <td style="text-align: center; border: solid 1px Black; width: 14%;" rowspan="2">
+                                    Name of Employee</td>
+                                <td style="text-align: center; border: solid 1px Black; width: 20%;" colspan="3">
+                                    Opening Balance</td>
+                                <td style="text-align: center; border: solid 1px Black; width: 20%;" colspan="3">
+                                    Current Months Credit</td>
+                                <td style="text-align: center; border: solid 1px Black; width: 11%;" colspan="2">
+                                    Current Payment</td>
+                                <td style="text-align: center; border: solid 1px Black; width: 20%;" colspan="3">
+                                    Cumulative Balance</td>
+                                <td style="text-align: center; border: solid 1px Black; width: 5%;" rowspan="2">
+                                    Total Payment</td>
+                                <td style="text-align: center; border: solid 1px Black; width: 5%;" rowspan="2">
+                                    Net Balance</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; border: solid 1px Black; height: 17px;">
+                                    Gratuity</td>
+                                <td style="text-align: center; border: solid 1px Black; height: 17px;">
+                                    Interest</td>
+                                <td style="text-align: center; border: solid 1px Black; height: 17px;">
+                                    Total</td>
+                                <td style="text-align: center; border: solid 1px Black; height: 17px;">
+                                    Gratuity</td>
+                                <td style="text-align: center; border: solid 1px Black; height: 17px;">
+                                    Interest</td>
+                                <td style="text-align: center; border: solid 1px Black; height: 17px;">
+                                    Total</td>
+                                <td style="text-align: center; border: solid 1px Black; height: 17px;">
+                                    Date</td>
+                                <td style="text-align: center; border: solid 1px Black; height: 17px;">
+                                    Amount</td>
+                                <td style="text-align: center; border: solid 1px Black; height: 17px;">
+                                    Gratuity</td>
+                                <td style="text-align: center; border: solid 1px Black; height: 17px;">
+                                    Interest</td>
+                                <td style="text-align: center; border: solid 1px Black; height: 17px;">
+                                    Total</td>
+                            </tr>
+                            <asp:Repeater ID="rptPFLedger" runat="server">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: left;">
+                                            <%#Convert.ToString(Eval("EMPID"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: left;">
+                                            <%#Convert.ToString(Eval("FULLNAME"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("OPGR"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("OPGRINTREST"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("OPTOTAL"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("CMGR"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("CMGRINTREST"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("CMTOTAL"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: left;">
+                                            <%# string.IsNullOrEmpty(Convert.ToString(Eval("CPDATE")))==false?Common.DisplayDate(Convert.ToString(Eval("CPDATE"))):""%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("CPAMOUNT"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("CUGR"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("CUGRINTREST"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("CUTOTAL"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("TOTALPAY"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; border-bottom: solid 1px Black; text-align: right;">
+                                            <%#Convert.ToString(Eval("NETBALANCE"))%>
+                                        </td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                            <asp:Repeater ID="rptPFLedgerSummary" runat="server">
+                                <ItemTemplate>
+                                    <tr style="border: solid 1px black;">
+                                        <td style="border-right: solid 1px Black; text-align: left; border: solid 1px black;">
+                                        </td>
+                                        <td style="border-right: solid 1px Black; text-align: left; border: solid 1px black;">
+                                            Summary Total:</td>
+                                        <td style="text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("OPGR"))%>
+                                        </td>
+                                        <td style="text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("OPGRINTREST"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("OPTOTAL"))%>
+                                        </td>
+                                        <td style="text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("CMGR"))%>
+                                        </td>
+                                        <td style="text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("CMGRINTREST"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("CMTOTAL"))%>
+                                        </td>
+                                        <td style="text-align: left; border: solid 1px black;">
+                                        </td>
+                                        <td style="border-right: solid 1px Black; text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("CPAMOUNT"))%>
+                                        </td>
+                                        <td style="text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("CUGR"))%>
+                                        </td>
+                                        <td style="text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("CUGRINTREST"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("CUTOTAL"))%>
+                                        </td>
+                                        <td style="border-right: solid 1px Black; text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("TOTALPAY"))%>
+                                        </td>
+                                        <td style="text-align: right; border: solid 1px black;">
+                                            <%#Convert.ToString(Eval("NETBALANCE"))%>
+                                        </td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</asp:Content>

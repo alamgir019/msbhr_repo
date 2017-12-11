@@ -1,0 +1,120 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" 
+CodeFile="WeeklyLeaveAccural.aspx.cs" Inherits="Leave_WeeklyLeaveAccural" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+
+  <div class="EmpLeaveAdJform">
+    <div id='formhead4'> 
+        <div style="width:90%;float:left;">Weekly Leave Entitlement Entry</div>       
+        <div style=" margin:2px; float:left;"><a href="../Default.aspx"><img src="../Images/close_icon.gif" /></a></div>      
+    </div>
+    <div class="MsgBox">
+      <!--Div for msg-->
+      <asp:Label ID="lblMsg" runat="server" CssClass="lblMsg"></asp:Label>
+    </div>
+    <div class="Div950">
+      <!--Div for group-->
+      <fieldset>
+        <legend>Leave Entitlement Entry</legend>
+
+        <table>
+            <tr>
+                <td class="textlevel"> Leave Type</td>
+                <td class="textlevel"><asp:DropDownList id="ddlLType" runat="server" Width="150px"> </asp:DropDownList></td>
+                <td> <asp:Button ID="btnShow" runat="server" Text="Show" onclick="btnShow_Click"/></td>
+                <td></td>
+                <td</td>
+                <td>
+                   </td>
+                <td>
+                    </td>
+                <td>&nbsp;</td>
+                 <td>&nbsp;</td>
+             </tr> 
+            <tr>
+                <td class="textlevel" style="border-top:solid 3px #ff9933;">
+                    Week</td>
+                <td class="textlevel" style="border-top:solid 3px #ff9933;">
+                    <asp:DropDownList ID="ddlWeek" runat="server" Width="150px">
+                        <asp:ListItem Value="7">Week1</asp:ListItem>
+                        <asp:ListItem Value="14">Week2</asp:ListItem>
+                        <asp:ListItem Value="21">Week3</asp:ListItem>
+                        <asp:ListItem Value="28">Week4</asp:ListItem>
+                    </asp:DropDownList></td>
+                <td class="textlevel" style="border-top:solid 3px #ff9933;">
+                    Month</td>
+                <td style="border-top:solid 3px #ff9933;">
+                    <asp:DropDownList ID="ddlMonth" runat="server" Width="150px">
+                    </asp:DropDownList></td>
+                <td class="textlevel" style="border-top:solid 3px #ff9933;">
+                    Year</td>
+                <td style="border-top:solid 3px #ff9933;">
+                    <asp:DropDownList ID="ddlYear" runat="server" Width="80px">
+                    </asp:DropDownList></td>
+                <td class="textlevel" style="border-top:solid 3px #ff9933;">
+                    This Month Entry</td>
+                <td style="border-top:solid 3px #ff9933;">
+                    <asp:TextBox ID="txtLEntitled" runat="server" CssClass="TextBoxAmt60" Height="16px"></asp:TextBox>
+                </td>
+                <td style="border-top:solid 3px #ff9933;"><asp:Button id="btnSet" runat="server" Text="Set"></asp:Button>
+                </td>
+            </tr>          
+          </table> 
+          
+          <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender5" runat="server" Enabled="True"
+              FilterType="Custom,Numbers" TargetControlID="txtLEntitled" ValidChars="1234567890.-">
+          </cc1:FilteredTextBoxExtender>
+  
+          <fieldset><legend>Employee List</legend><div id="iFrame">
+                <asp:GridView id="grLeaveBalance" runat="server" Width="620px" Font-Size="9px" PageSize="7" EmptyDataText="No Record Found" 
+                DataKeyNames="" AutoGenerateColumns="False">
+                  <Columns>
+                  <asp:BoundField HeaderText="SL No">
+                    <ItemStyle Width="10px" CssClass="ItemStylecssCenter"></ItemStyle>
+                  </asp:BoundField>
+                  <asp:BoundField DataField="EmpId" HeaderText="Emp Code">
+                    <ItemStyle Width="50px" CssClass="ItemStylecss"></ItemStyle>
+                  </asp:BoundField>
+                  <asp:BoundField DataField="FullName" HeaderText="Full Name">
+                    <ItemStyle Width="150px" CssClass="ItemStylecss"></ItemStyle>
+                  </asp:BoundField>  
+                  <asp:BoundField DataField="JoiningDate" HeaderText="Joining Date">
+                    <ItemStyle Width="100px" CssClass="ItemStylecssCenter"></ItemStyle>
+                  </asp:BoundField>          
+                  <asp:BoundField DataField="LEntitled" HeaderText="Opening Balance">
+                    <ItemStyle Width="50px" CssClass="ItemStylecssRight"></ItemStyle>
+                  </asp:BoundField> 
+                  <asp:BoundField HeaderText="Accured Balance">
+                    <ItemStyle Width="50px" CssClass="ItemStylecssRight"></ItemStyle>
+                  </asp:BoundField>     
+                  <asp:BoundField HeaderText="Closing Balance">
+                    <ItemStyle Width="50px" CssClass="ItemStylecssRight"></ItemStyle>
+                  </asp:BoundField>      
+                  <asp:BoundField HeaderText="Month">
+                    <ItemStyle Width="80px" CssClass="ItemStylecssCenter"></ItemStyle>
+                  </asp:BoundField> 
+                  <asp:BoundField HeaderText="Year">
+                    <ItemStyle Width="80px" CssClass="ItemStylecssCenter"></ItemStyle>
+                  </asp:BoundField>                   
+                  <asp:BoundField DataField="UpdatedBy" HeaderText="Adjusted By">
+                    <ItemStyle Width="50px" CssClass="ItemStylecss"></ItemStyle>
+                  </asp:BoundField>
+                  <asp:BoundField DataField="UpdatedDate" HeaderText="Adjusted Date">
+                    <ItemStyle Width="100px" CssClass="ItemStylecss"></ItemStyle>
+                  </asp:BoundField>
+                  </Columns>
+                  <HeaderStyle BackColor="#B3CDE4" HorizontalAlign="Center" Font-Size="10px" Font-Bold="True"></HeaderStyle>
+                  <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
+                </asp:GridView> </div></fieldset> 
+
+      </fieldset>
+    </div>
+    <div class="DivCommand1" style="padding-right:15px; float:right; padding-top:3px; width: 79px;">
+      <asp:Button ID="btnUpdate" runat="server" Text="Update" Width="70px" 
+            UseSubmitBehavior="False" onclick="btnUpdate_Click"/>
+    </div>
+  </div>
+</asp:Content>
+

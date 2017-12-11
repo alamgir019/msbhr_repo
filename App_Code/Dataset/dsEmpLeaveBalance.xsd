@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsEmpLeaveBalance" targetNamespace="http://tempuri.org/dsEmpLeaveBalance.xsd" xmlns:mstns="http://tempuri.org/dsEmpLeaveBalance.xsd" xmlns="http://tempuri.org/dsEmpLeaveBalance.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsEmpLeaveBalance" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtEmpLeaveBalance">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmpId" type="xs:string" minOccurs="0" />
+              <xs:element name="FullName" type="xs:string" minOccurs="0" />
+              <xs:element name="DeptName" type="xs:string" minOccurs="0" />
+              <xs:element name="LTypeID" type="xs:int" minOccurs="0" />
+              <xs:element name="LTypeTitle" type="xs:string" minOccurs="0" />
+              <xs:element name="LAbbrName" type="xs:string" minOccurs="0" />
+              <xs:element name="LCarryOverd" type="xs:int" minOccurs="0" />
+              <xs:element name="LEntitled" msdata:Caption="LCarryOverd" type="xs:int" minOccurs="0" />
+              <xs:element name="LeaveEnjoyed" msdata:Caption="LCarryOverd" type="xs:int" minOccurs="0" />
+              <xs:element name="LeaveElapsed" msdata:Caption="LCarryOverd" type="xs:int" minOccurs="0" />
+              <xs:element name="lvOpening" msdata:Caption="LCarryOverd" type="xs:int" minOccurs="0" />
+              <xs:element name="lvPrevYearCarry" msdata:Caption="LCarryOverd" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

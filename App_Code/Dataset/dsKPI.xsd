@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsKPI" targetNamespace="http://tempuri.org/dsKPI.xsd" xmlns:mstns="http://tempuri.org/dsKPI.xsd" xmlns="http://tempuri.org/dsKPI.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsKPI" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsKPI" msprop:Generator_UserDSName="dsKPI">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tblKPIReview" msprop:Generator_TableClassName="tblKPIReviewDataTable" msprop:Generator_TableVarName="tabletblKPIReview" msprop:Generator_RowChangedName="tblKPIReviewRowChanged" msprop:Generator_TablePropName="tblKPIReview" msprop:Generator_RowDeletingName="tblKPIReviewRowDeleting" msprop:Generator_RowChangingName="tblKPIReviewRowChanging" msprop:Generator_RowEvHandlerName="tblKPIReviewRowChangeEventHandler" msprop:Generator_RowDeletedName="tblKPIReviewRowDeleted" msprop:Generator_RowClassName="tblKPIReviewRow" msprop:Generator_UserTableName="tblKPIReview" msprop:Generator_RowEvArgName="tblKPIReviewRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EKPIID" msprop:Generator_ColumnVarNameInTable="columnEKPIID" msprop:Generator_ColumnPropNameInRow="EKPIID" msprop:Generator_ColumnPropNameInTable="EKPIIDColumn" msprop:Generator_UserColumnName="EKPIID" type="xs:string" minOccurs="0" />
+              <xs:element name="KpiId" msprop:Generator_ColumnVarNameInTable="columnKpiId" msprop:Generator_ColumnPropNameInRow="KpiId" msprop:Generator_ColumnPropNameInTable="KpiIdColumn" msprop:Generator_UserColumnName="KpiId" type="xs:string" minOccurs="0" />
+              <xs:element name="KpiName" msprop:Generator_ColumnVarNameInTable="columnKpiName" msprop:Generator_ColumnPropNameInRow="KpiName" msprop:Generator_ColumnPropNameInTable="KpiNameColumn" msprop:Generator_UserColumnName="KpiName" type="xs:string" minOccurs="0" />
+              <xs:element name="Measur" msprop:Generator_ColumnVarNameInTable="columnMeasur" msprop:Generator_ColumnPropNameInRow="Measur" msprop:Generator_ColumnPropNameInTable="MeasurColumn" msprop:Generator_UserColumnName="Measur" type="xs:string" minOccurs="0" />
+              <xs:element name="Target" msprop:Generator_ColumnVarNameInTable="columnTarget" msprop:Generator_ColumnPropNameInRow="Target" msprop:Generator_ColumnPropNameInTable="TargetColumn" msprop:Generator_UserColumnName="Target" type="xs:string" minOccurs="0" />
+              <xs:element name="GroupId" msprop:Generator_ColumnVarNameInTable="columnGroupId" msprop:Generator_ColumnPropNameInRow="GroupId" msprop:Generator_ColumnPropNameInTable="GroupIdColumn" msprop:Generator_UserColumnName="GroupId" type="xs:string" minOccurs="0" />
+              <xs:element name="QuarterId" msprop:Generator_ColumnVarNameInTable="columnQuarterId" msprop:Generator_ColumnPropNameInRow="QuarterId" msprop:Generator_ColumnPropNameInTable="QuarterIdColumn" msprop:Generator_UserColumnName="QuarterId" type="xs:string" minOccurs="0" />
+              <xs:element name="VYear" msprop:Generator_ColumnVarNameInTable="columnVYear" msprop:Generator_ColumnPropNameInRow="VYear" msprop:Generator_ColumnPropNameInTable="VYearColumn" msprop:Generator_UserColumnName="VYear" type="xs:string" minOccurs="0" />
+              <xs:element name="IndicatirTypeName" msprop:Generator_ColumnVarNameInTable="columnIndicatirTypeName" msprop:Generator_ColumnPropNameInRow="IndicatirTypeName" msprop:Generator_ColumnPropNameInTable="IndicatirTypeNameColumn" msprop:Generator_UserColumnName="IndicatirTypeName" type="xs:string" minOccurs="0" />
+              <xs:element name="Achive" msprop:Generator_ColumnVarNameInTable="columnAchive" msprop:Generator_ColumnPropNameInRow="Achive" msprop:Generator_ColumnPropNameInTable="AchiveColumn" msprop:Generator_UserColumnName="Achive" type="xs:string" minOccurs="0" />
+              <xs:element name="AchivePercent" msprop:Generator_ColumnVarNameInTable="columnAchivePercent" msprop:Generator_ColumnPropNameInRow="AchivePercent" msprop:Generator_ColumnPropNameInTable="AchivePercentColumn" msprop:Generator_UserColumnName="AchivePercent" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Score" msprop:Generator_ColumnVarNameInTable="columnScore" msprop:Generator_ColumnPropNameInRow="Score" msprop:Generator_ColumnPropNameInTable="ScoreColumn" msprop:Generator_UserColumnName="Score" type="xs:decimal" minOccurs="0" />
+              <xs:element name="EmpId" msprop:Generator_ColumnVarNameInTable="columnEmpId" msprop:Generator_ColumnPropNameInRow="EmpId" msprop:Generator_ColumnPropNameInTable="EmpIdColumn" msprop:Generator_UserColumnName="EmpId" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

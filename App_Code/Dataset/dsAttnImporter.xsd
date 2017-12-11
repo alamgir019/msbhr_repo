@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsAttnImporter" targetNamespace="http://tempuri.org/dsAttnImporter.xsd" xmlns:mstns="http://tempuri.org/dsAttnImporter.xsd" xmlns="http://tempuri.org/dsAttnImporter.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="RahimAfroozTMSConnectionString" IsAppSettingsProperty="True" Modifier="Assembly" Name="RahimAfroozTMSConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.RahimAfroozTMSConnectionString.ConnectionString" Provider="System.Data.SqlClient">
+          </Connection>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsAttnImporter" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsAttnImporter" msprop:Generator_DataSetName="dsAttnImporter">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Attandance" msprop:Generator_UserTableName="Attandance" msprop:Generator_RowDeletedName="AttandanceRowDeleted" msprop:Generator_RowChangedName="AttandanceRowChanged" msprop:Generator_RowClassName="AttandanceRow" msprop:Generator_RowChangingName="AttandanceRowChanging" msprop:Generator_RowEvArgName="AttandanceRowChangeEvent" msprop:Generator_RowEvHandlerName="AttandanceRowChangeEventHandler" msprop:Generator_TableClassName="AttandanceDataTable" msprop:Generator_TableVarName="tableAttandance" msprop:Generator_RowDeletingName="AttandanceRowDeleting" msprop:Generator_TablePropName="Attandance">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmpId" msprop:Generator_UserColumnName="EmpId" msprop:Generator_ColumnVarNameInTable="columnEmpId" msprop:Generator_ColumnPropNameInRow="EmpId" msprop:Generator_ColumnPropNameInTable="EmpIdColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="AttndDate" msprop:Generator_UserColumnName="AttndDate" msprop:Generator_ColumnVarNameInTable="columnAttndDate" msprop:Generator_ColumnPropNameInRow="AttndDate" msprop:Generator_ColumnPropNameInTable="AttndDateColumn" type="xs:dateTime" />
+              <xs:element name="SignInTime" msprop:Generator_UserColumnName="SignInTime" msprop:Generator_ColumnVarNameInTable="columnSignInTime" msprop:Generator_ColumnPropNameInRow="SignInTime" msprop:Generator_ColumnPropNameInTable="SignInTimeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="SignOutTime" msprop:Generator_UserColumnName="SignOutTime" msprop:Generator_ColumnVarNameInTable="columnSignOutTime" msprop:Generator_ColumnPropNameInRow="SignOutTime" msprop:Generator_ColumnPropNameInTable="SignOutTimeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="SingOutTimeF" msprop:Generator_UserColumnName="SingOutTimeF" msprop:Generator_ColumnVarNameInTable="columnSingOutTimeF" msprop:Generator_ColumnPropNameInRow="SingOutTimeF" msprop:Generator_ColumnPropNameInTable="SingOutTimeFColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Status" msprop:Generator_UserColumnName="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnPropNameInTable="StatusColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LateTimeAmt" msprop:Generator_UserColumnName="LateTimeAmt" msprop:Generator_ColumnVarNameInTable="columnLateTimeAmt" msprop:Generator_ColumnPropNameInRow="LateTimeAmt" msprop:Generator_ColumnPropNameInTable="LateTimeAmtColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="AttnPolicyId" msprop:Generator_UserColumnName="AttnPolicyId" msprop:Generator_ColumnVarNameInTable="columnAttnPolicyId" msprop:Generator_ColumnPropNameInRow="AttnPolicyId" msprop:Generator_ColumnPropNameInTable="AttnPolicyIdColumn" type="xs:string" />
+              <xs:element name="WeekEndID" msprop:Generator_UserColumnName="WeekEndID" msprop:Generator_ColumnVarNameInTable="columnWeekEndID" msprop:Generator_ColumnPropNameInRow="WeekEndID" msprop:Generator_ColumnPropNameInTable="WeekEndIDColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="LeaveFlag" msprop:Generator_UserColumnName="LeaveFlag" msprop:Generator_ColumnVarNameInTable="columnLeaveFlag" msprop:Generator_ColumnPropNameInRow="LeaveFlag" msprop:Generator_ColumnPropNameInTable="LeaveFlagColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="5" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InLocation" msprop:Generator_UserColumnName="InLocation" msprop:Generator_ColumnVarNameInTable="columnInLocation" msprop:Generator_ColumnPropNameInRow="InLocation" msprop:Generator_ColumnPropNameInTable="InLocationColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="OutLocation" msprop:Generator_UserColumnName="OutLocation" msprop:Generator_ColumnVarNameInTable="columnOutLocation" msprop:Generator_ColumnPropNameInRow="OutLocation" msprop:Generator_ColumnPropNameInTable="OutLocationColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InsertedBy" msprop:Generator_UserColumnName="InsertedBy" msprop:Generator_ColumnVarNameInTable="columnInsertedBy" msprop:Generator_ColumnPropNameInRow="InsertedBy" msprop:Generator_ColumnPropNameInTable="InsertedByColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InsertedDate" msprop:Generator_UserColumnName="InsertedDate" msprop:Generator_ColumnVarNameInTable="columnInsertedDate" msprop:Generator_ColumnPropNameInRow="InsertedDate" msprop:Generator_ColumnPropNameInTable="InsertedDateColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="UpdatedBy" msprop:Generator_UserColumnName="UpdatedBy" msprop:Generator_ColumnVarNameInTable="columnUpdatedBy" msprop:Generator_ColumnPropNameInRow="UpdatedBy" msprop:Generator_ColumnPropNameInTable="UpdatedByColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UpdatedDate" msprop:Generator_UserColumnName="UpdatedDate" msprop:Generator_ColumnVarNameInTable="columnUpdatedDate" msprop:Generator_ColumnPropNameInRow="UpdatedDate" msprop:Generator_ColumnPropNameInTable="UpdatedDateColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="LastUpdatedFrom" msprop:Generator_UserColumnName="LastUpdatedFrom" msprop:Generator_ColumnVarNameInTable="columnLastUpdatedFrom" msprop:Generator_ColumnPropNameInRow="LastUpdatedFrom" msprop:Generator_ColumnPropNameInTable="LastUpdatedFromColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LaunchMinutes" msprop:Generator_UserColumnName="LaunchMinutes" msprop:Generator_ColumnVarNameInTable="columnLaunchMinutes" msprop:Generator_ColumnPropNameInRow="LaunchMinutes" msprop:Generator_ColumnPropNameInTable="LaunchMinutesColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="IsAttnExist" msprop:Generator_UserColumnName="IsAttnExist" msprop:Generator_ColumnVarNameInTable="columnIsAttnExist" msprop:Generator_ColumnPropNameInRow="IsAttnExist" msprop:Generator_ColumnPropNameInTable="IsAttnExistColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Attandance" />
+      <xs:field xpath="mstns:EmpId" />
+      <xs:field xpath="mstns:AttndDate" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

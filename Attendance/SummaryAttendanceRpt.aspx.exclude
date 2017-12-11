@@ -1,0 +1,405 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="SummaryAttendanceRpt.aspx.cs"
+    Inherits="Attendance_SummaryAttendanceRpt" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Summary of Attendance</title>
+    <style type="text/css">
+    .textlevelhead {
+	float:left;
+	width:150px;
+	color : #09086E;
+	font-size : 11px;
+	font-family :tahoma;
+	font-variant:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:bold;
+	
+}
+
+ .textlevel {
+	float:left;
+	width:150px;
+	color : #09086E;
+	font-size : 11px;
+	font-family :tahoma;
+	font-variant:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+}
+
+.textlevelshort {
+	float:left;
+	width:60px;
+	color : #09086E;
+	font-size : 11px;
+	font-weight:bold;
+	font-family :tahoma;
+	font-variant:normal;
+	font-style:normal;
+	font-variant:normal;
+	
+}
+.textlevelshortbody {
+	float:left;
+	width:60px;
+	color : #FF9933;
+	text-align:center;
+	font-size : 11px;
+	font-family :tahoma;
+	font-variant:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:bold;
+	
+}
+
+
+</style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div style="margin-left: 20px; margin-right: 20px;">
+            <table style="width: 99%;">
+                <tr>
+                    <td style="width: 35%">
+                        <div style="width: 98%; float: left;">
+                            <div style="font-family: Arial; font-size: 20px;">
+                                Marie Stopes Bangladesh
+                            </div>
+                            <div style="font-family: Arial; font-size: 16px;">
+                                Summary Attendance Report
+                            </div>
+                            <div style="width: 98%; float: left; margin-bottom: 5px;">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <span style="font-family: Tahoma; font-size: 14px;">From :</span>
+                                        </td>
+                                        <td>
+                                            <asp:Label ID="lblFrom" runat="server" Text="" Font-Names="Tahoma" Font-Size="14px"></asp:Label>
+                                        </td>
+                                        <td>
+                                            <span style="font-family: Tahoma; font-size: 14px;">To :</span>
+                                        </td>
+                                        <td>
+                                            <asp:Label ID="lblTo" runat="server" Text="" Font-Names="Tahoma" Font-Size="14px"></asp:Label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 62%;">
+                        <div style="width: 99%; text-align: right;">
+                            <table style="border: solid 1px gray; border-collapse: collapse; text-align: left;">
+                                <tr style="background-color: #FF9933;">
+                                    <td style="border-right: solid 1px gray;">
+                                    </td>
+                                    <td style="border-right: solid 1px gray; width: 150px; font-size: 12px;">
+                                        Legend</td>
+                                    <td style="border-right: solid 1px gray;">
+                                    </td>
+                                    <td style="border-right: solid 1px gray; width: 150px; font-size: 12px;">
+                                        Legend</td>
+                                    <td style="border-right: solid 1px gray;">
+                                    </td>
+                                    <td style="border-right: solid 1px gray; width: 150px; font-size: 12px;">
+                                        Legend</td>
+                                    <td style="border-right: solid 1px gray;">
+                                    </td>
+                                    <td style="border-right: solid 1px gray; width: 150px; font-size: 12px;">
+                                        Legend</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; color: #FF9933;
+                                        font-size: 11px;">
+                                        P</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; font-size: 12px;">
+                                        Present</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; color: #FF9933;
+                                        font-size: 11px;">
+                                        LV</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; font-size: 12px;">
+                                        On leave</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; color: #FF9933;
+                                        font-size: 11px;">
+                                        TV</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; font-size: 12px;">
+                                        On travel</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; color: #FF9933;
+                                        font-size: 11px;">
+                                        H</td>
+                                    <td style="border-bottom: solid 1px gray; font-size: 12px;">
+                                        Holiday</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; color: #FF9933;
+                                        font-size: 11px;">
+                                        HP</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; font-size: 12px;">
+                                        Holiday but present</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; color: #FF9933;
+                                        font-size: 11px;">
+                                        W</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; font-size: 12px;">
+                                        Weekened</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; color: #FF9933;
+                                        font-size: 11px;">
+                                        WP</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; font-size: 12px;">
+                                        Weekend but present</td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; color: #FF9933;
+                                        font-size: 11px;">
+                                    </td>
+                                    <td style="border-right: solid 1px gray; border-bottom: solid 1px gray; font-size: 12px;">
+                                        No records</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div style="width: 99%">
+                <hr style="border: solid 1px #FF9933; width: 99%; margin-left: 0px; margin-right: 10px;" />
+                <asp:GridView ID="grSummaryAttnd" runat="server" Font-Size="14px" Width="99%" AutoGenerateColumns="False"
+                    DataKeyNames="" EmptyDataText="No Record Found">
+                    <HeaderStyle BackColor="#3366CC" Font-Bold="True" HorizontalAlign="Center" ForeColor="whitesmoke"
+                        Font-Names="Tahoma" Font-Size="10px" />
+                    <SelectedRowStyle BackColor="#D1DDF1" CssClass="ListHeader" Font-Bold="True" ForeColor="#333333" />
+                    <AlternatingRowStyle BackColor="#EFF3FB" Font-Size="11px" />
+                    <RowStyle Font-Size="11px" />
+                    <Columns>
+                        <asp:BoundField HeaderText="SL No.">
+                            <ItemStyle CssClass="ItemStylecss" Width="3%" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="EmpId" HeaderText="Emp.No">
+                            <ItemStyle CssClass="ItemStylecss" Width="5%" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="Name" HeaderText="Employee Name">
+                            <ItemStyle CssClass="ItemStylecss" Width="10%" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="DivisionName" HeaderText="Office Name">
+                            <ItemStyle CssClass="ItemStylecss" Width="10%" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="Designation" HeaderText="Designation">
+                            <ItemStyle CssClass="ItemStylecss" Width="10%" />
+                        </asp:BoundField>
+                        <asp:TemplateField HeaderText="1">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St1")) %>' ID="lbl1" runat="server" ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In1")),Convert.ToString(Eval("Out1"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St2")) %>' ID="lbl2" runat="server" ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In2")),Convert.ToString(Eval("Out2"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="3">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St3")) %>' ID="lbl3" runat="server" ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In3")),Convert.ToString(Eval("Out3"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="4">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St4")) %>' ID="lbl4" runat="server" ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In4")),Convert.ToString(Eval("Out4"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="5">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St5")) %>' ID="lbl5" runat="server" ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In5")),Convert.ToString(Eval("Out5"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="6">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St6")) %>' ID="lbl6" runat="server" ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In6")),Convert.ToString(Eval("Out6"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="7">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St7")) %>' ID="lbl7" runat="server" ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In7")),Convert.ToString(Eval("Out7"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="8">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St8")) %>' ID="lbl8" runat="server" ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In8")),Convert.ToString(Eval("Out8"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="9">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St9")) %>' ID="lbl9" runat="server" ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In9")),Convert.ToString(Eval("Out9"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="10">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St10")) %>' ID="lbl10" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In10")),Convert.ToString(Eval("Out10"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="11">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St11")) %>' ID="lbl11" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In11")),Convert.ToString(Eval("Out11"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="12">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St12")) %>' ID="lbl12" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In12")),Convert.ToString(Eval("Out12"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="13">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St13")) %>' ID="lbl13" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In13")),Convert.ToString(Eval("Out13"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="10">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St14")) %>' ID="lbl14" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In14")),Convert.ToString(Eval("Out14"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="15">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St15")) %>' ID="lbl15" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In15")),Convert.ToString(Eval("Out15"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="16">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St16")) %>' ID="lbl16" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In16")),Convert.ToString(Eval("Out16"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="17">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St17")) %>' ID="lbl17" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In17")),Convert.ToString(Eval("Out17"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="18">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St18")) %>' ID="lbl18" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In18")),Convert.ToString(Eval("Out18"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="19">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St19")) %>' ID="lbl19" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In19")),Convert.ToString(Eval("Out19"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="20">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St20")) %>' ID="lbl20" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In20")),Convert.ToString(Eval("Out20"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="21">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St21")) %>' ID="lbl21" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In21")),Convert.ToString(Eval("Out21"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="22">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St22")) %>' ID="lbl22" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In22")),Convert.ToString(Eval("Out22"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="23">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St23")) %>' ID="lbl23" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In23")),Convert.ToString(Eval("Out23"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="24">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St24")) %>' ID="lbl24" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In24")),Convert.ToString(Eval("Out24"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="25">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St25")) %>' ID="lbl25" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In25")),Convert.ToString(Eval("Out25"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="26">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St26")) %>' ID="lbl26" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In26")),Convert.ToString(Eval("Out26"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="27">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St27")) %>' ID="lbl27" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In27")),Convert.ToString(Eval("Out27"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="28">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St28")) %>' ID="lbl28" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In28")),Convert.ToString(Eval("Out28"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="29">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St29")) %>' ID="lbl29" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In29")),Convert.ToString(Eval("Out29"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="30">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St30")) %>' ID="lbl30" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In30")),Convert.ToString(Eval("Out30"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="31">
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <asp:Label Text='<%# Convert.ToString(Eval("St31")) %>' ID="lbl31" runat="server"
+                                    ToolTip='<%# DisplayToolTipSignInOut(Convert.ToString(Eval("In31")),Convert.ToString(Eval("Out31"))) %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

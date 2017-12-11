@@ -1,0 +1,216 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class EIS_EmpPayrollInfo : System.Web.UI.Page
+{
+    DataTable dtEmpInfo = new DataTable();
+    DataTable dtSalPackMst = new DataTable();
+    DataTable dtSalPackDetls = new DataTable();
+    EmpInfoManager objEmpInfoMgr = new EmpInfoManager();
+    MasterTablesManager objMasMgr = new MasterTablesManager();
+    Payroll_MasterMgr objSalaryManager = new Payroll_MasterMgr();
+    PlanAccLineManager objAccMgr = new PlanAccLineManager();
+    Payroll_PaySlipOptionMgr objPayOptMgr = new Payroll_PaySlipOptionMgr();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            this.EntryMode(false);
+            Common.FillDropDownList(objSalaryManager.SelectSalaryPackage(0),ddlSalPak,"SPTITLE","SALPAKID",true,"Nil");
+            Common.FillDropDownList_Nil(objMasMgr.SelectGradeddl(0), ddlGrade);
+            Common.FillDropDownList(objSalaryManager.SelectBonusPackage(0), ddlBonusPack, "BPTITLE", "BPID", true, "Nil");
+            Common.FillDropDownList(objEmpInfoMgr.SelectBankList(), ddlBankName, "BankName", "BankCode", true, "Nil");
+            Common.FillDropDownList(objAccMgr.SelectAccLineData("0","Y"), ddlAccLine, "ACCLINE", "ACCLINEID", true, "Nil");
+            Common.FillDropDownList(objPayOptMgr.GetMonthlyPayrollCycleData(), ddlMPC, "MPCTITLE", "MPCID", true, "Nil");
+
+            //Common.FillDropDownList(objEmpInfoMgr.SelectBranchList("0"), ddlBranchCode, "BankList", "BankCode", true);
+            //Common.FillDropDownList_Nil(objEmpInfoMgr.SelectBranchList(""), ddlBranchCode);
+        }
+    }
+
+    protected void EntryMode(bool IsUpdate)
+    {
+        if (IsUpdate == true)
+        {
+            btnSave.Text = "Update";
+            hfIsUpadate.Value = "Y";
+        }
+        else
+        {
+            btnSave.Text = "Save";
+            hfIsUpadate.Value = "N";
+            //ddlPercentSalHead.Enabled = false;
+            Common.EmptyTextBoxValues(this);
+        }
+    }
+
+    protected void cmdFind_Click(object sender, EventArgs e)
+    {
+        if (txtEmpID.Text.Trim() != "")
+        {
+            //if (Session["SBUId"].ToString() != "")
+            //{
+            //    dtEmpInfo = objEmpInfoMgr.SelectEmpInfoHRSbuWise(txtEmpID.Text.Trim(), Session["SBUId"].ToString());
+            //}
+            //else
+            dtEmpInfo = objEmpInfoMgr.SelectEmpInfoHR(txtEmpID.Text.Trim());
+
+            //dtEmpInfo = objEmpInfoMgr.SelectEmpPayrollInfo(txtEmpID.Text.Trim());
+            if (dtEmpInfo.Rows.Count == 0)
+            {
+                lblMsg.Text = "Invalid Employee Id .";
+            }
+            else
+            {
+                lblMsg.Text = "";
+                foreach (DataRow tt in dtEmpInfo.Rows)
+                {
+                    txtEmpFullName.Text = tt["FullName"].ToString();
+                    if (tt["SALARYPAKID"].ToString().Trim() != "99999")
+                        ddlSalPak.SelectedValue = string.IsNullOrEmpty(tt["SALARYPAKID"].ToString()) == false ? tt["SALARYPAKID"].ToString() : "-1";
+                    else
+                        ddlSalPak.SelectedValue = "-1";
+
+                    if (tt["GradeId"].ToString().Trim() != "99999")
+                        ddlGrade.SelectedValue = string.IsNullOrEmpty(tt["GradeId"].ToString()) == false ? tt["GradeId"].ToString() : "-1";
+                    else
+                        ddlGrade.SelectedValue = "-1";
+
+                    txtGrdEffDate.Text = string.IsNullOrEmpty(tt["GradeEffDate"].ToString()) == true ? "" : Common.DisplayDate(tt["GradeEffDate"].ToString());
+
+                    txtGMSEffDate.Text = string.IsNullOrEmpty(tt["SalPakEffDate"].ToString()) == true ? "" : Common.DisplayDate(tt["SalPakEffDate"].ToString());
+                    txtGMSClsDate.Text = string.IsNullOrEmpty(tt["SalPakClsDate"].ToString()) == true ? "" : Common.DisplayDate(tt["SalPakClsDate"].ToString());
+
+                    if (tt["BONUSPAKID"].ToString().Trim() != "99999")
+                        ddlBonusPack.SelectedValue = string.IsNullOrEmpty(tt["BONUSPAKID"].ToString()) == false ? tt["BONUSPAKID"].ToString() : "-1";
+                    else
+                        ddlBonusPack.SelectedValue = "-1";
+
+                    txtBankAccNo.Text = tt["BankAccNo"].ToString().Trim();
+
+                    if (tt["BankCode"].ToString().Trim() != "99999")
+                        ddlBankName.SelectedValue = string.IsNullOrEmpty(tt["BankCode"].ToString().Trim()) == false ? tt["BankCode"].ToString().Trim()  : "-1";
+                    else
+                        ddlBankName.SelectedValue = "-1";
+
+                    Common.FillDropDownList(objEmpInfoMgr.SelectBranchList(ddlBankName.SelectedValue.ToString().Trim()), ddlBranchCode, "BranchName", "RoutingNo", true, "Nil");
+
+                    if (tt["BranchCode"].ToString().Trim() != "999999")
+                        ddlBranchCode.SelectedValue = string.IsNullOrEmpty(tt["BranchCode"].ToString().Trim()) == false ? tt["BranchCode"].ToString().Trim() : "-1";
+                    else
+                        ddlBranchCode.SelectedValue = "-1";
+                    try
+                    {
+                        if (tt["PlanAccLIne"].ToString().Trim() != "99999")
+                            ddlAccLine.SelectedValue = string.IsNullOrEmpty(tt["PlanAccLIne"].ToString().Trim()) == false ? tt["PlanAccLIne"].ToString().Trim() : "-1";
+                        else
+                            ddlAccLine.SelectedValue = "-1";
+                    }
+                    catch
+                    {
+                        ddlAccLine.SelectedValue = "-1";
+                    }
+
+                    if (string.IsNullOrEmpty(tt["MPCID"].ToString().Trim()) == false)
+                        ddlMPC.SelectedValue = tt["MPCID"].ToString().Trim();
+                    else
+                        ddlMPC.SelectedValue = "-1";
+
+                    break;
+                }
+            }
+        }
+    }
+
+    protected bool ValidateAndSave()
+    {
+        try
+        {
+            if (hfIsUpadate.Value == "Y")
+            {
+
+            }
+            if (txtEmpFullName.Text == "")
+            {
+                lblMsg.Text = "You have to press find button with this EmpID";
+                cmdFind.Focus();
+                return false;
+            }
+            
+            return true;
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = "";
+            throw (ex);
+        }
+    }
+
+    private void SaveData()
+    {
+        try
+        {
+            string strGradeEffDate = "";
+            string strGMSEffDate = "";
+            string strGMSClsDate = "";
+
+            if (string.IsNullOrEmpty(txtGrdEffDate.Text.Trim()) == false)
+                strGradeEffDate = Common.ReturnDate(txtGrdEffDate.Text.Trim());
+
+            if (string.IsNullOrEmpty(txtGMSEffDate.Text.Trim()) == false)
+                strGMSEffDate = Common.ReturnDate(txtGMSEffDate.Text.Trim());
+
+            if (string.IsNullOrEmpty(txtGMSClsDate.Text.Trim()) == false)
+                strGMSClsDate = Common.ReturnDate(txtGMSClsDate.Text.Trim());
+
+            dtSalPackMst = objSalaryManager.SelectSalaryPackage(Convert.ToInt32(ddlSalPak.SelectedValue.ToString()));
+            dtSalPackDetls = objSalaryManager.SelectSalaryPakDetls(Convert.ToInt32(ddlSalPak.SelectedValue.ToString()));
+
+            objEmpInfoMgr.InsertEmpPayrollInfo(txtEmpID.Text.Trim(),
+                (ddlSalPak.SelectedValue.ToString() != "-1" ? ddlSalPak.SelectedValue.ToString() : ""),
+                (ddlGrade.SelectedValue.ToString() != "-1" ? ddlGrade.SelectedValue.ToString() : ""),
+                strGradeEffDate,
+                 strGMSEffDate,
+                 strGMSClsDate,
+                (ddlBonusPack.SelectedValue.ToString() != "-1" ? ddlBonusPack.SelectedValue.ToString() : ""),
+                 txtBankAccNo.Text.Trim(),
+                (ddlBankName.SelectedValue.ToString().Trim() != "-1" ? ddlBankName.SelectedValue.ToString().Trim() : ""),
+                (ddlBranchCode.SelectedValue.ToString().Trim() != "-1" ? ddlBranchCode.SelectedValue.ToString().Trim() : ""),
+                 Session["USERID"].ToString(), Common.SetDateTime(DateTime.Now.ToString()),
+                 dtSalPackMst, dtSalPackDetls, (ddlAccLine.SelectedValue.ToString().Trim() != "-1" ? ddlAccLine.SelectedValue.ToString().Trim() : ""),
+                 ddlMPC.SelectedValue.Trim());
+            lblMsg.Text = "Record Saved Successfully";
+            this.EntryMode(false);
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = "";
+            throw (ex);
+        }
+    }
+
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        if (ValidateAndSave() == true)
+        {
+            this.SaveData();
+        }
+    }
+    protected void ddlBankName_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Common.FillDropDownList(objEmpInfoMgr.SelectBranchList(ddlBankName.SelectedValue.ToString()), ddlBranchCode, "BranchName", "Routingno", true, "Nil");
+    }
+    protected void btnClear_Click(object sender, EventArgs e)
+    {
+        Common.EmptyTextBoxValues(this);
+        this.EntryMode(false);
+    }
+}

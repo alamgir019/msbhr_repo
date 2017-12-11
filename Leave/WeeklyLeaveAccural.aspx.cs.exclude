@@ -1,0 +1,132 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+public partial class Leave_WeeklyLeaveAccural : System.Web.UI.Page
+{
+    DBConnector objDB = new DBConnector();
+    LeaveManager objLvMgr = new LeaveManager();
+    LeaveApplicationManager objLvAppMgr = new LeaveApplicationManager();
+    EmpInfoManager objEmpInfoMgr = new EmpInfoManager();
+    MasterTablesManager objMasMgr = new MasterTablesManager();
+    DataTable dtLType = new DataTable();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            Common.FillMonthList(ddlMonth);
+            Common.FillYearList(5, ddlYear);
+
+            ddlMonth.SelectedValue = DateTime.Now.Month.ToString();
+            ddlMonth.SelectedValue = Convert.ToString(Convert.ToInt32(ddlMonth.SelectedValue) - 1);
+            ddlYear.SelectedValue = DateTime.Now.Year.ToString();
+            Common.FillDropDownList(objLvMgr.SelectLeaveType(0), ddlLType, "LTypeTitle", "LTypeId", true);
+            this.EntryMode();
+        }
+    }
+
+    protected void EntryMode()
+    {
+        txtLEntitled.Text = "0";
+        ddlLType.SelectedIndex = 0;
+    }
+
+    protected void btnShow_Click(object sender, EventArgs e)
+    {
+        this.FillEmpLeaveProfile();
+    }
+
+    private void FillEmpLeaveProfile()
+    {
+        dtLType = objLvMgr.SelectLeaveType(0);
+        string strExpr = "LAbbrName='EL'";
+        DataRow[] foundRows;
+        foundRows = dtLType.Select(strExpr);
+
+        foreach (DataRow dRow in foundRows)
+        {
+            if (dRow["LTypeId"].ToString() == ddlLType.SelectedValue.ToString())
+            {
+                grLeaveBalance.DataSource = objLvMgr.SelectEmpLeaveProfileForLeaveAccrue("", ddlLType.SelectedValue.ToString().Trim(), Common.SetDate(DateTime.Now.ToString()));
+                grLeaveBalance.DataBind();
+            }
+            else
+            {
+                grLeaveBalance.DataSource = objLvAppMgr.SelectEmpLeaveProfile2("", ddlLType.SelectedValue.ToString().Trim());
+                grLeaveBalance.DataBind();
+            }
+        }
+        dtLType.Rows.Clear();
+        dtLType.Dispose();
+        this.FormatLeaveStatusGridNumber();
+    }
+
+    protected void FormatLeaveStatusGridNumber()
+    {
+        int i = 1;
+        foreach (GridViewRow gRow in grLeaveBalance.Rows)
+        {
+            gRow.Cells[0].Text = i.ToString();
+
+            if (Common.CheckNullString(gRow.Cells[3].Text) != "")
+                gRow.Cells[3].Text = Common.DisplayDate(gRow.Cells[3].Text);
+
+            if (string.IsNullOrEmpty(gRow.Cells[5].Text.Trim()) == true)
+                gRow.Cells[5].Text = "0";
+            if (Common.CheckNullString(gRow.Cells[10].Text) != "")
+                gRow.Cells[10].Text = Common.DisplayDate(gRow.Cells[10].Text);
+            i++;
+        }
+    }
+    protected void btnUpdate_Click(object sender, EventArgs e)
+    {
+        if (ValidateAndSave() == true)
+        {
+            this.SaveData();
+        }
+    }
+
+    private bool ValidateAndSave()
+    {
+        try
+        {
+            if (objLvMgr.CheckForMultipleEntry(ddlLType.SelectedValue.ToString(), ddlWeek.SelectedValue.ToString(), ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.ToString()) == true)
+            {
+                lblMsg.Text = "Leave already accrued for '" + ddlLType.SelectedItem.Text.Trim() + "' of the " + ddlWeek.SelectedItem.Text.Trim() + " of " + ddlMonth.SelectedItem.Text.Trim() + ", " + ddlYear.SelectedItem.Text.Trim();
+                return false;
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = "";
+            throw (ex);
+        }
+    }
+
+    private void SaveData()
+    {
+        string strLogID = "";
+
+        strLogID = Common.getMaxId("EmpWeeklyLeaveAccrueLog", "LogId");
+
+        objLvMgr.InsertEmpWeeklyLeaveAccrueLog(strLogID, grLeaveBalance, ddlLType.SelectedValue.ToString(),ddlWeek.SelectedValue.ToString(),
+            ddlMonth.SelectedValue.ToString(),ddlYear.SelectedValue.ToString(), Session["USERID"].ToString(),
+            Common.SetDateTime(DateTime.Now.ToString()));
+
+        lblMsg.Text = "Monthly Leave Entitlement Updated Successfully";
+        this.EntryMode();
+    }
+    protected void ddlLType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+}

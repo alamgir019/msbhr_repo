@@ -1,0 +1,179 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" CodeFile="TrainingMatrix.aspx.cs" Inherits="Training_TrainingMatrix" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<asp:Content ID="MainContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js">
+    </script>
+    <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js">
+        //Date Time Picker script
+    </script>
+
+    <div class="empTrainForm">
+        <div id="formhead1">
+            <div style="width: 96%; float: left;">
+                Training Matrix </div>
+            <div style="margin: 2px; float: left; padding-right: 3px;">
+                <a href="../Default.aspx">
+                    <img src="../Images/close_icon.gif" /></a></div>
+        </div>
+        <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Width="100%"
+                    Height="420px">
+   <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1" Width="860px"
+                        Height="400px">                                                                                                                                                                                                                            
+    <HeaderTemplate>
+            Training Matrix Setup
+    </HeaderTemplate>
+    <ContentTemplate>
+        <!--Div for group-->
+        <div class="MsgBox">
+            <!--Div for msg-->
+            <asp:Label ID="lblMsg" runat="server"></asp:Label>
+        </div>
+        <div class="officeSetupInner">
+            <fieldset>
+                <!--Div for Controls-->
+                <asp:HiddenField ID="hfId" runat="server" />
+               <asp:HiddenField ID="hfIsUpdate" runat="server" />
+                <table>
+                    <tr>
+                        <td><asp:Label ID="Label2" runat="server" CssClass="textlevel" Text="Year :"></asp:Label></td> 
+                         <td><asp:DropDownList ID="ddlYear" runat="server" CssClass="textlevelleft" Width="200px"
+                                ToolTip="Select Training Nmae">
+                                </asp:DropDownList>
+                        </td> 
+                        <td><asp:Label ID="Label4" runat="server" CssClass="textlevel" Text="Tr Matrix Name :"></asp:Label></td>  
+                        <td><asp:TextBox ID="txtTrMatrixName" runat="server" Width="200px" MaxLength="60"></asp:TextBox>
+                        </td><td>
+                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="*" ControlToValidate="txtTrMatrixName"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                         <td><asp:Label ID="Label1" runat="server" CssClass="textlevel" Text="Training Name :"></asp:Label></td>                                 
+                         <td>
+                            <asp:DropDownList ID="ddlTrainingName" runat="server" CssClass="textlevelleft" Width="200px" OnSelectedIndexChanged="ddlTrainingName_SelectedIndexChanged" AutoPostBack="true"
+                                ToolTip="Select Training Nmaem">
+                            </asp:DropDownList>
+                            <asp:CompareValidator runat="server" ControlToValidate="ddlTrainingName" ValueToCompare="-1"  Operator="NotEqual" ErrorMessage="*"></asp:CompareValidator>
+                         </td>
+                         <td><asp:Label ID="Label3" runat="server" CssClass="textlevel" Text="Tentative Date :"></asp:Label></td> 
+                         <td><asp:TextBox ID="txtTentativeDays" runat="server" Width="200px" ReadOnly="true" ></asp:TextBox></td>
+                          <td>
+                            <asp:CheckBox ID="chkInActive" runat="server" CssClass="textlevelleft" Text="Make Inactive"/>
+                        </td>  
+                    </tr>                              
+                </table>
+            </fieldset>
+            <br />
+             <fieldset>
+                <table>
+                    <tr>
+                        
+                        <td>
+                            <asp:Label ID="Label9" runat="server" CssClass="textlevel" Text="Designation :"></asp:Label>
+                        </td>
+                        <td>
+                           <asp:DropDownList ID="ddlDesignation" runat="server" CssClass="textlevelleft" Width="200px"
+                                ToolTip="">
+                            </asp:DropDownList>
+                        </td>
+                        <td class="textlevel">Funded By :</td>
+                         <td>
+                             <asp:DropDownList ID="ddlFundedby" runat="server" CssClass="textlevelleft" 
+                                 ToolTip="Select Funded By" Width="200px">
+                             </asp:DropDownList>
+                        </td>
+                        <td>
+                            <asp:Label ID="Label5" runat="server" CssClass="textlevel" 
+                                Text="No Of person :"></asp:Label>
+                        </td>
+                         <td><asp:TextBox ID="txtNoOfPerson" runat="server" Width="150px"  onkeydown = "return (!(event.keyCode>=65) && event.keyCode!=32);"  MaxLength="5" ></asp:TextBox></td>  
+                         <td>
+                            <asp:Button ID="btnAdd" runat="server" Text="Add" Width="60px" CausesValidation="False" OnClick="btnAdd_Click"/>
+                       </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="GridFormat1">
+            <!--Grid view Code starts-->
+            <asp:GridView ID="grList" runat="server" DataKeyNames="DesigId,DesigName,NoOfPerson" AutoGenerateColumns="False"
+                EmptyDataText="No Record Found" Font-Size="9px" Width="99%" 
+                onrowcommand="grList_RowCommand" OnRowDeleting="grList_RowDeleting">
+                <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
+                <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
+                </SelectedRowStyle>
+                <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
+                <Columns>
+                    <asp:ButtonField CommandName="DoubleClick" HeaderText="Edit" Text="Edit">
+                        <ItemStyle CssClass="ItemStylecss" Width="10%" />
+                    </asp:ButtonField>
+                     <asp:ButtonField CommandName="Delete" HeaderText="Delete" Text="Delete">
+                        <ItemStyle CssClass="ItemStylecss" Width="10%" />
+                    </asp:ButtonField>
+                     <asp:BoundField DataField="DesigName" HeaderText="Designation">
+                        <ItemStyle CssClass="ItemStylecss" Width="30%"></ItemStyle>
+                    </asp:BoundField>
+                    <asp:BoundField DataField="NoOfPerson" HeaderText="No Of Person">
+                        <ItemStyle CssClass="ItemStylecss" Width="50%"></ItemStyle>
+                    </asp:BoundField>
+                </Columns>
+            </asp:GridView>
+            <!--Grid view Code Ends-->
+        </div>
+        <div class="DivCommand1">
+            <div class="DivCommandL">
+                <asp:Button ID="btnClear" runat="server" Text="Refresh" Width="70px" OnClick="btnClear_Click"
+                    CausesValidation="False" />
+            </div>
+            <div class="DivCommandR">
+                <asp:Button ID="btnSave" runat="server" Text="Save" Width="70px" OnClick="btnSave_Click" />
+                <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();"
+                    OnClick="btnDelete_Click" />
+            </div>
+        </div>
+   </ContentTemplate>
+   </cc1:TabPanel>
+ <cc1:TabPanel ID="TabPanel2" runat="server" HeaderText="TabPanel1" Width="860px"
+                        Height="400px">                                                                                                                                                                                                                            
+    <HeaderTemplate>
+     Training Matrix List
+    </HeaderTemplate>
+    <ContentTemplate>
+    <div class="GridFormat3">
+            <!--Grid view Code starts-->
+            <asp:GridView ID="grTrainingMatrix" runat="server" DataKeyNames="MatrixId,MatrixName,TrainId,TrainName,TentativeDay,Year,IsActive" AutoGenerateColumns="False"
+                EmptyDataText="No Record Found" Font-Size="9px" Width="99%" 
+                onrowcommand="grTrainingMatrix_RowCommand">
+                <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
+                <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
+                </SelectedRowStyle>
+                <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
+                <Columns>
+                    <asp:ButtonField CommandName="DoubleClick" HeaderText="Edit" Text="Edit">
+                        <ItemStyle CssClass="ItemStylecss" Width="10%" />
+                    </asp:ButtonField>
+                     <asp:BoundField DataField="MatrixName" HeaderText="Matrix Name">
+                        <ItemStyle CssClass="ItemStylecss" Width="80%"></ItemStyle>
+                    </asp:BoundField>
+                    <asp:BoundField DataField="TrainName" HeaderText="Train Name">
+                        <ItemStyle CssClass="ItemStylecss" Width="80%"></ItemStyle>
+                    </asp:BoundField>
+                    <asp:BoundField DataField="TentativeDay" HeaderText="Tentative Date">
+                        <ItemStyle CssClass="ItemStylecss" Width="80%"></ItemStyle>
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Year" HeaderText="Year">
+                        <ItemStyle CssClass="ItemStylecss" Width="80%"></ItemStyle>
+                    </asp:BoundField>
+
+                    <asp:BoundField DataField="IsActive" HeaderText="Is Active">
+                        <ItemStyle CssClass="ItemStylecss" Width="80%"></ItemStyle>
+                    </asp:BoundField>
+                </Columns>
+            </asp:GridView>
+     </ContentTemplate>
+   </cc1:TabPanel>
+  </cc1:TabContainer>  
+    </div>
+</asp:Content>
+

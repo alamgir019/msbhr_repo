@@ -1,0 +1,75 @@
+<%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true"
+    CodeFile="EmpPayrollInfo.aspx.cs" Inherits="EIS_EmpPayrollInfo" Title="Employee Payroll Information" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+    <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js"></script>
+
+    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js"></script>
+
+    <script language="javascript" type="text/javascript">
+    function ToUpper(ctrl)
+    {   
+    var t = ctrl.value;
+    ctrl.value = t.toUpperCase(); 
+    }
+    </script>
+
+    <div class="formStyle">
+        <div id="formhead2">
+            Employee Payroll Information</div>
+        <div class="MsgBox">
+            <asp:Label ID="lblMsg" runat="server" Width="500px" Font-Bold="True" ForeColor="Fuchsia"></asp:Label>
+        </div>
+        <div class="Div950">
+            <fieldset>
+                <table>
+                    <tr>
+                        <td class="textlevel">
+                            Employee ID :</td>
+                        <td>
+                            <asp:TextBox ID="txtEmpID" runat="server" onkeyup="ToUpper(this)" Width="80px"></asp:TextBox>
+                            <asp:Button ID="cmdFind" runat="server" OnClick="cmdFind_Click" Text="Find" Width="54px"
+                                CausesValidation="False" />
+                            <asp:RequiredFieldValidator ID="rfVJoinDate" runat="server" ControlToValidate="txtEmpID"
+                                ErrorMessage="*"></asp:RequiredFieldValidator>
+                            <%--<cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" FilterType ="Numbers,UppercaseLetters" runat="server" InvalidChars  ="'" TargetControlID="txtEmpID">
+                        </cc1:FilteredTextBoxExtender>--%>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                            Employee&nbsp; Name</td>
+                        <td>
+                            <asp:TextBox ID="txtEmpFullName" runat="server" Width="411px" ReadOnly="True"></asp:TextBox></td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset>
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                    <contenttemplate>
+<TABLE><TBODY><TR><TD class="textlevel">Salary Package :</TD><TD><asp:DropDownList id="ddlSalPak" runat="server" Width="300px">
+                    </asp:DropDownList> </TD><TD></TD><TD class="textlevel">Bonus Package :</TD><TD><asp:DropDownList id="ddlBonusPack" runat="server" Width="300px">
+                    </asp:DropDownList> </TD><TD></TD></TR><TR><TD class="textlevel">Payroll Cycle</TD><TD><asp:DropDownList id="ddlMPC" runat="server" Width="300px" __designer:wfdid="w1"></asp:DropDownList></TD><TD></TD><TD class="textlevel">DOS :</TD><TD><asp:DropDownList id="ddlDOS" runat="server" Width="100px" __designer:wfdid="w2"><asp:ListItem>DOS1</asp:ListItem>
+<asp:ListItem>DOS2</asp:ListItem>
+</asp:DropDownList></TD><TD></TD></TR><TR><TD class="textlevel">Grade</TD><TD><asp:DropDownList id="ddlGrade" runat="server" Width="151px"></asp:DropDownList></TD><TD></TD><TD class="textlevel">Grade Eff. Date :</TD><TD><asp:TextBox id="txtGrdEffDate" runat="server" Width="89px"></asp:TextBox>&nbsp;
+<A href="javascript:NewCal('<%= txtGrdEffDate.ClientID %>','ddmmyyyy')"><IMG style="BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px" height=16 alt="Pick a date" src="../images/cal.gif" width=16 /></A>&nbsp;<asp:RegularExpressionValidator id="RegularExpressionValidator6" runat="server" Width="60px" ErrorMessage="Invalid Date" ControlToValidate="txtGrdEffDate" CssClass="validator" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$"></asp:RegularExpressionValidator></TD><TD></TD></TR><TR><TD class="textlevel">GMS Eff. Date :</TD><TD><asp:TextBox id="txtGMSEffDate" runat="server" Width="89px"></asp:TextBox> <A href="javascript:NewCal('<%= txtGMSEffDate.ClientID %>','ddmmyyyy')"><IMG style="BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px" height=16 alt="Pick a date" src="../images/cal.gif" width=16 /></A> <asp:RegularExpressionValidator id="RegularExpressionValidator5" runat="server" Width="60px" ErrorMessage="Invalid Date" ControlToValidate="txtGMSEffDate" CssClass="validator" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$"></asp:RegularExpressionValidator></TD><TD></TD><TD class="textlevel">Bank&nbsp; Acc No</TD><TD><asp:TextBox id="txtBankAccNo" runat="server" Width="150px"></asp:TextBox></TD><TD></TD></TR><TR><TD class="textlevel">GMS Closing Date :</TD><TD><asp:TextBox id="txtGMSClsDate" runat="server" Width="89px"></asp:TextBox> <A href="javascript:NewCal('<%= txtGMSClsDate.ClientID %>','ddmmyyyy')"><IMG style="BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px" height=16 alt="Pick a date" src="../images/cal.gif" width=16 /></A> <asp:RegularExpressionValidator id="RegularExpressionValidator7" runat="server" Width="60px" ErrorMessage="Invalid Date" ControlToValidate="txtGMSClsDate" CssClass="validator" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$"></asp:RegularExpressionValidator></TD><TD></TD><TD class="textlevel">Bank Name :</TD><TD><asp:DropDownList id="ddlBankName" runat="server" Width="300px" AutoPostBack="True" OnSelectedIndexChanged="ddlBankName_SelectedIndexChanged">
+                    </asp:DropDownList></TD><TD></TD></TR><TR><TD class="textlevel">Plan Acc. Line</TD><TD><asp:DropDownList id="ddlAccLine" runat="server" Width="300px" __designer:wfdid="w11"></asp:DropDownList></TD><TD></TD><TD class="textlevel">Branch Name :</TD><TD><asp:DropDownList id="ddlBranchCode" runat="server" Width="300px">
+                    </asp:DropDownList></TD><TD></TD></TR></TBODY></TABLE>
+</contenttemplate>
+                </asp:UpdatePanel>
+            </fieldset>
+        </div>
+        <asp:HiddenField ID="hfIsUpadate" runat="server" />
+        <asp:HiddenField ID="hfID" runat="server" />
+        <div class="DivCommand1" style="width: 99%;">
+            <div class="DivCommandL" style="padding-left: 12px;">
+                <asp:Button ID="btnClear" runat="server" Text="Refresh" Width="70px" UseSubmitBehavior="False"
+                    CausesValidation="False" OnClick="btnClear_Click" />
+            </div>
+            <div class="DivCommandR">
+                <asp:Button ID="btnSave" runat="server" Text="Save" Width="70px" OnClick="btnSave_Click" />
+            </div>
+        </div>
+    </div>
+</asp:Content>

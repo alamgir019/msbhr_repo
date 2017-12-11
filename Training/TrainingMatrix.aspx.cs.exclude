@@ -1,0 +1,346 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+
+public partial class Training_TrainingMatrix : System.Web.UI.Page
+{
+    TrainingManager objTrMgr = new TrainingManager();
+    MasterTablesManager objTblmast = new MasterTablesManager();
+    EmpInfoManager objEmp = new EmpInfoManager();
+    SOFManager objSOFMgr = new SOFManager();
+
+    DataTable personTable = new DataTable();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            hfIsUpdate.Value = "N";
+            // dtList.Rows.Clear();
+            //dtList.Dispose();
+            grList.DataSource = null;
+            grList.DataBind();
+            Common.EmptyTextBoxValues(this);
+            lblMsg.Text = "";
+            this.EntryMode(false);
+            this.OpenRecord();
+            this.CreateTable();
+
+            Common.FillDropDownList(objTrMgr.SelectTrainingList("0"), ddlTrainingName,true);
+            Common.FillYearList(4,ddlYear);
+            //Common.FillDropDownList_Nil(objTblmast.SelectDesignation(0), ddlDesignation);
+            //Common.FillDropDownList(objTblmast.SelectDesignation(0), ddlDesignation, "DesigName", "DesigId", false);
+        }
+    }
+
+    protected void EntryMode(bool IsUpdate)
+    {
+        if (IsUpdate == true)
+        {
+            btnSave.Text = "Update";
+            hfIsUpdate.Value = "Y";
+        }
+        else
+        {
+            btnSave.Text = "Save";
+            hfIsUpdate.Value = "N";
+        }
+    }
+    private void CreateTable()
+    {
+        personTable = new DataTable();
+        personTable.Columns.AddRange(new DataColumn[3] 
+                            { 
+                              new DataColumn("DesigId", typeof(string)),
+                              new DataColumn("DesigName", typeof(string)),
+                              new DataColumn("NoOfPerson", typeof(string))
+                                                           
+                            });
+        ViewState["dt"] = personTable;
+    }
+    private void OpenRecord()
+    {
+        this.CreateTable();
+        grList.DataSource = null;
+        grList.DataBind();
+        grTrainingMatrix.DataSource = objTrMgr.SelectTrainingMatrixList("0");
+        grTrainingMatrix.DataBind();
+    }
+    private void SaveData(string cmdType)
+    {
+        dsTraining objDS = new dsTraining();
+        if (cmdType == "I")
+        {
+            hfId.Value = Common.getMaxId("TrTrainingMatrix", "MatrixId");
+        }
+
+        List<DataTable> tblList = new List<DataTable>();
+
+        DataTable dtMst = objDS.Tables["TrTrainingMatrix"];
+        DataRow nRow = dtMst.NewRow();
+
+        nRow["MatrixId"] = Common.RoundDecimal(hfId.Value, 0);
+        nRow["MatrixName"] = txtTrMatrixName.Text.Trim();
+        nRow["TrainId"] = Common.RoundDecimal(ddlTrainingName.SelectedValue.ToString().Trim(), 0); ;
+        nRow["Year"] = ddlYear.SelectedValue.ToString().Trim();
+       
+
+        if (cmdType == "I")
+        {
+            nRow["InsertedBy"] = Session["USERID"].ToString().Trim();
+            nRow["InsertedDate"] = DateTime.Now;
+
+        }
+        else if (cmdType == "U")
+        {
+            nRow["UpdatedBy"] = Session["USERID"].ToString().Trim();
+            nRow["UpdatedDate"] = DateTime.Now;
+
+        }
+        nRow["IsDeleted"] = cmdType == "D" ? "Y" : "N";
+        nRow["IsActive"] = chkInActive.Checked == true ? "N" : "Y";
+
+        dtMst.Rows.Add(nRow);
+        dtMst.AcceptChanges();
+
+        tblList.Add(dtMst);
+
+        //detail table
+        DataTable dtDtl = objDS.Tables["TrTrainingMatrixDtls"];
+
+        DataTable dtDtlInput = ViewState["dt"] as DataTable;
+        int DtlId = Int32.Parse(Common.getMaxId("TrTrainingMatrixDtls", "MatrixDtlsId"));
+       
+        foreach (DataRow row in dtDtlInput.Rows)
+        {
+            DataRow nRowdtl = dtDtl.NewRow();
+
+            nRowdtl["MatrixDtlsId"] = DtlId;
+            nRowdtl["MatrixId"] = Common.RoundDecimal(hfId.Value, 0);
+            nRowdtl["DesigId"] = row["DesigId"].ToString().Trim();
+            nRowdtl["NoOfPerson"] = row["NoOfPerson"].ToString().Trim();
+            
+            nRowdtl["InsertedBy"] = Session["USERID"].ToString().Trim();
+            nRowdtl["InsertedDate"] = DateTime.Now;
+
+            DtlId++;
+            dtDtl.Rows.Add(nRowdtl);
+        }
+
+        dtDtl.AcceptChanges();
+        tblList.Add(dtDtl);
+
+        try
+        {
+            objTrMgr.SaveMultiTableData(tblList, cmdType == "D" ? "U" : cmdType);
+            lblMsg.Text = Common.GetMessage(cmdType);
+            Common.EmptyTextBoxValues(this);
+            this.EntryMode(false);
+            this.OpenRecord();
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = ex.ToString();
+        }
+    }
+    private bool ValidateAndSave(string Flag)
+    {
+        try
+        {
+            lblMsg.Text = "";
+            switch (Flag)
+            {
+                case "Save":
+                    if (ddlTrainingName.SelectedIndex <= 0)
+                    {
+                        lblMsg.Text = "Please select Training Name.";
+                        return false;
+                    }
+                    else if (grList.Rows.Count == 0)
+                    {
+                        lblMsg.Text = "Please add Designation.";
+                        return false;
+                    }
+                    break;
+                case "Add":
+                    if (txtNoOfPerson.Text.Trim() == "")
+                    {
+                        lblMsg.Text = "Please enter No of Person.";
+                        return false;
+                    }
+                    break;
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        if (ValidateAndSave("Save") == false)
+        {
+            return;
+        }
+
+        if (hfIsUpdate.Value == "N")
+        {
+            this.SaveData("I");
+        }
+        else
+        {
+            this.SaveData("U");
+        }
+    }
+    protected void btnClear_Click(object sender, EventArgs e)
+    {
+        Common.EmptyTextBoxValues(this);
+        this.EntryMode(false);
+        this.OpenRecord();
+        lblMsg.Text = "";
+    }
+
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(hfId.Value) == false)
+        {
+            this.SaveData("D");
+        }
+        else
+        {
+            lblMsg.Text = "Select a item first from the list then try to delete.";
+        }
+
+        this.EntryMode(false);
+    }
+    protected void grTrainingMatrix_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        GridView _gridView = (GridView)sender;
+        // Get the selected index and the command name
+        int _selectedIndex = int.Parse(e.CommandArgument.ToString());
+        string _commandName = e.CommandName;
+        _gridView.SelectedIndex = _selectedIndex;
+
+        switch (_commandName)
+        {
+            case ("DoubleClick"):
+                {
+                    Common.EmptyTextBoxValues(this);
+                    hfId.Value = grTrainingMatrix.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim();
+                    txtTrMatrixName.Text = grTrainingMatrix.DataKeys[_gridView.SelectedIndex].Values[1].ToString().Trim();
+                    ddlTrainingName.SelectedValue = grTrainingMatrix.DataKeys[_gridView.SelectedIndex].Values[2].ToString().Trim();
+                    txtTentativeDays.Text = grTrainingMatrix.DataKeys[_gridView.SelectedIndex].Values[4].ToString().Trim();
+                    ddlYear.SelectedValue = grTrainingMatrix.DataKeys[_gridView.SelectedIndex].Values[5].ToString().Trim();
+                    
+                    if (grTrainingMatrix.DataKeys[_gridView.SelectedIndex].Values[6].ToString().Trim() == "Y")
+                        chkInActive.Checked = false;
+                    else
+                        chkInActive.Checked = true;
+
+                    grList.DataSource = null;
+                    grList.DataBind();
+                    this.CreateTable();
+                    personTable = objTrMgr.SelectTrainingMatrixDtlList(grTrainingMatrix.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim());
+                    grList.DataSource = personTable;
+                    grList.DataBind();
+                    ViewState["dt"] = personTable;
+                    this.EntryMode(true);
+                    lblMsg.Text = "";
+
+                    if (Common.CheckNullString(ddlTrainingName.SelectedValue.ToString().Trim()) != "")
+                    {
+                        DataTable dt = objTrMgr.SelectTrainingDtlWithDesig(ddlTrainingName.SelectedValue.ToString().Trim());
+                        if (dt.Rows.Count > 0)
+                            txtTentativeDays.Text = dt.Rows[0]["TentativeDay"].ToString().Trim();
+                        Common.FillDropDownList(dt, ddlDesignation, "DesigName", "DesigId", true);
+
+                    }
+
+                    break;
+                }
+        }
+    }
+    protected void grList_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        GridView _gridView = (GridView)sender;
+        // Get the selected index and the command name
+        int _selectedIndex = int.Parse(e.CommandArgument.ToString());
+        string _commandName = e.CommandName;
+        _gridView.SelectedIndex = _selectedIndex;
+        switch (_commandName)
+        {
+            case ("DoubleClick"):
+                {
+                    personTable = ViewState["dt"] as DataTable;
+                    ddlDesignation.SelectedValue = grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim();
+
+                    DataRow[] drr = personTable.Select("DesigId='" + grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim() + "'");
+                    for (int i = 0; i < drr.Length; i++)
+                    {
+                        drr[i].Delete();
+                    }
+                    personTable.AcceptChanges();
+                    ViewState["dt"] = personTable;
+                }
+                break;
+
+            case ("Delete"):
+                {
+                    personTable = ViewState["dt"] as DataTable;
+                    DataRow[] drr = personTable.Select("DesigId='" + grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim() + "'");
+                    for (int i = 0; i < drr.Length; i++)
+                    {
+                        drr[i].Delete();
+                    }
+                    personTable.AcceptChanges();
+
+                    grList.DataSource = null;
+                    grList.DataBind();
+
+                    grList.DataSource = personTable;
+                    grList.DataBind();
+
+                }
+                break;
+        }
+    }
+    protected void grList_RowDeleting(object sender, System.Web.UI.WebControls.GridViewDeleteEventArgs e)
+    {
+
+    }
+    protected void btnAdd_Click(object sender, EventArgs e)
+    {
+        if (ValidateAndSave("Add") == false)
+            return;
+       
+        DataTable dt = ViewState["dt"] as DataTable;
+        DataRow[] drr = dt.Select("DesigId='" + ddlDesignation.SelectedValue.ToString().Trim() + "'");
+        for (int i = 0; i < drr.Length; i++)
+        {
+            drr[i].Delete();
+        }
+        dt.AcceptChanges();
+        dt.Rows.Add(ddlDesignation.SelectedValue.ToString().Trim(), ddlDesignation.SelectedItem.ToString().Trim(), txtNoOfPerson.Text.Trim());
+        grList.DataSource = dt;
+        grList.DataBind();
+    }
+    protected void ddlTrainingName_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        txtTentativeDays.Text = "";
+        if (ddlTrainingName.SelectedIndex <= 0)
+            return;
+        if (Common.CheckNullString(ddlTrainingName.SelectedValue.ToString().Trim()) != "")
+        {
+            DataTable dt = objTrMgr.SelectTrainingDtlWithDesig(ddlTrainingName.SelectedValue.ToString().Trim());
+            if (dt.Rows.Count > 0)
+                txtTentativeDays.Text = dt.Rows[0]["TentativeDay"].ToString().Trim();
+            Common.FillDropDownList(dt, ddlDesignation, "DesigName", "DesigId", true);
+
+        }
+    }
+}

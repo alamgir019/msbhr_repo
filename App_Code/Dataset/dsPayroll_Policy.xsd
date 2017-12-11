@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsPayroll_Policy" targetNamespace="http://tempuri.org/dsPayroll_Policy.xsd" xmlns:mstns="http://tempuri.org/dsPayroll_Policy.xsd" xmlns="http://tempuri.org/dsPayroll_Policy.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsPayroll_Policy" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtPayrolBenefitlPolicy">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PID" type="xs:string" minOccurs="0" />
+              <xs:element name="SHEADID" type="xs:string" minOccurs="0" />
+              <xs:element name="EMPTYPEID" type="xs:string" minOccurs="0" />
+              <xs:element name="ISPERCENT" type="xs:string" minOccurs="0" />
+              <xs:element name="VALUE" type="xs:string" minOccurs="0" />
+              <xs:element name="PERCENTOF" type="xs:string" minOccurs="0" />
+              <xs:element name="HEADNAME" type="xs:string" minOccurs="0" />
+              <xs:element name="TYPENAME" type="xs:string" minOccurs="0" />
+              <xs:element name="PERCENTHEADNAME" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

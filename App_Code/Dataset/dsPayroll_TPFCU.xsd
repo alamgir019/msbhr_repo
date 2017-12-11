@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsPayroll_TPFCU" targetNamespace="http://tempuri.org/dsPayroll_TPFCU.xsd" xmlns:mstns="http://tempuri.org/dsPayroll_TPFCU.xsd" xmlns="http://tempuri.org/dsPayroll_TPFCU.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsPayroll_TPFCU" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtTotalPF">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EMPID" type="xs:string" minOccurs="0" />
+              <xs:element name="NAME" type="xs:string" minOccurs="0" />
+              <xs:element name="JOININGDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="CONFIRMATIONDATE" msdata:Caption="CONFIRMATIONMDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="OPENINGPF" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OPENINGINTEREST" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CURRENTPF" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CURRENTPFINTEREST" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FEB" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MAR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="APR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JUN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JUL" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AUG" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SEP" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OCT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NOV" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DEC" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MONTHOFINTEREST" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PFLOAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PFLOANDEDUCTION" msdata:Caption="PFLOANDED" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PFINTERESTDEDUCTION" msdata:Caption="PFINTDED" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CASHPAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PFMONTH" type="xs:string" minOccurs="0" />
+              <xs:element name="PFYEAR" type="xs:string" minOccurs="0" />
+              <xs:element name="MONTHLYREPAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LASTOPENINGLOAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PFMONTHLYINTEREST" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PAYMENTDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PAYMENTAMOUNT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LASTMONTHREPAY" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtTotalCU">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EMPID" type="xs:string" minOccurs="0" />
+              <xs:element name="NAME" type="xs:string" minOccurs="0" />
+              <xs:element name="LOC" type="xs:string" minOccurs="0" />
+              <xs:element name="OPENINGSHARE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OPENINGSHAREVALUE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OPENINGDIVIDEND" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CURRENTSHARE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CURRENTSHAREVALUE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="YEARLYDIVIDEND" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CURRENTDIVIDEND" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FEB" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MAR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="APR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JUN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JUL" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AUG" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SEP" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OCT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NOV" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DEC" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MONTHOFDIVIDEND" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CULOAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CULOANDEDUCTION" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CUINTERESTDEDUCTION" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CASHPAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="WITHDRAW" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CUMONTH" type="xs:string" minOccurs="0" />
+              <xs:element name="CUYEAR" type="xs:string" minOccurs="0" />
+              <xs:element name="MONTHLYREPAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MEMBERSHIP" type="xs:string" minOccurs="0" />
+              <xs:element name="SHAREWITHDRAW" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LASTOPENINGLOAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CUMONTHLYINTEREST" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LASTMONTHREPAY" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

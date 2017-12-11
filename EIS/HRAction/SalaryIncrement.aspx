@@ -1,0 +1,262 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" CodeFile="SalaryIncrement.aspx.cs" Inherits="EIS_HRAction_SalaryIncrement" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+    <script language="javascript" type="text/javascript" src="../../JScripts/datetimepicker.js">
+        //Date Time Picker script
+    </script>
+
+    <script language="javascript" type="text/javascript" src="../../JScripts/Confirmation.js">
+    </script>
+
+    <script language="javascript" type="text/javascript">
+        function ToUpper(ctrl) {
+            var t = ctrl.value;
+            ctrl.value = t.toUpperCase();
+        }
+    </script>
+
+    <div class="empTrainForm">
+        <div id="formhead1">
+            <div style="width: 97%; float: left;">
+                Salary Increment</div>
+            <div style="margin: 2px; float: left; padding-right: 3px;">
+                <a href="../../Default.aspx">
+                    <img src="../../Images/close_icon.gif" /></a></div>
+    </div>
+        <div class="MsgBox">
+            <asp:Label ID="lblMsg" runat="server" CssClass="msglabel"></asp:Label>
+        </div>
+        <div id="PayrollConfigInner">
+            <div style="background-color: #EFF3FB; margin-bottom: 10px">
+                <fieldset>
+                    <table>
+                        <tr>
+                            <td class="textlevel">
+                                Emp Code :</td>
+                            <td>
+                                <asp:TextBox ID="txtEmpID" runat="server" MaxLength="20" onkeyup="ToUpper(this)"
+                                    Width="80px" ToolTip="Enter the Emp. Code and click on Find Button. Details of the find employee will be shown in employee general information screen if information exists. In order to enter employee."></asp:TextBox>
+                            </td>
+                            <td>
+                                <asp:ImageButton ID="imgBtnSearch" runat="server" Height="19px" ImageUrl="~/Images/Search_Icon.jpg"
+                                    OnClick="imgBtnSearch_Click" ToolTip="Enter the Emp. Code and click on Find Button. Details of the find employee will be shown in employee general information screen if information exists. In order to enter employee." /></td>
+                            <td>
+                                <asp:RequiredFieldValidator ID="ReqFieldVal" runat="server" ErrorMessage="*" ControlToValidate="txtEmpID"></asp:RequiredFieldValidator></td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td class="textlevel">
+                                Name :</td>
+                            <td>
+                                <asp:Label ID="lblName" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td class="textlevel">
+                                Employee Type:</td>
+                            <td>
+                                <asp:Label ID="lblEmpType" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td class="textlevel">
+                                Organization :</td>
+                            <td>
+                                <asp:Label ID="lblOffice_Loc" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td class="textlevel">
+                                Designation :</td>
+                            <td>
+                                <asp:Label ID="lblDeg_Project" runat="server"></asp:Label></td>
+                        </tr>   
+                          <tr>
+                            <td class="textlevel" style="height: 16px">
+                                Department :</td>
+                            <td style="height: 16px">
+                                <asp:Label ID="lblDept" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td class="textlevel" style="height: 16px">
+                                Sub Department :</td>
+                            <td style="height: 16px">
+                                <asp:Label ID="lblSubDept" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="textlevel" style="height: 16px">
+                                Subcode :</td>
+                            <td style="height: 16px">
+                                <asp:Label ID="lblSuncode" runat="server"></asp:Label>
+                            </td>
+                        </tr>                    
+                        <tr>
+                            <td class="textlevel">
+                                Gross Salary :</td>
+                            <td>
+                                <asp:Label ID="lblGrossSal" runat="server"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td class="textlevel">
+                                Salary Package :</td>
+                            <td>
+                                <asp:Label ID="lblSalPac" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+            <fieldset style="margin-bottom: 10px;">
+                <legend>Salary Icrement Details</legend>
+                <table>
+                    <tr>
+                        <td class="textlevel">
+                            Name of Action :</td>
+                        <td>
+                            <asp:DropDownList ID="ddlAction" runat="server" Width="300px" 
+                                ToolTip="Select the name of action for confirmation from the list." 
+                                onselectedindexchanged="ddlAction_SelectedIndexChanged" 
+                                AutoPostBack="True">
+                            </asp:DropDownList></td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                            COLA:</td>
+                        <td class="textlevelleft">
+                            <asp:TextBox ID="txtCOLA" runat="server" CssClass="TextBoxAmt60" Width="80px" 
+                                ></asp:TextBox>
+                <cc1:FilteredTextBoxExtender ID="txtCOLA_FilteredTextBoxExtender" runat="server" FilterType="Custom,Numbers"
+                    TargetControlID="txtCOLA" ValidChars="0123456789.">
+                </cc1:FilteredTextBoxExtender>
+                            (In %)</td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                            Group Performance:</td>
+                        <td class="textlevelleft">
+                            <asp:TextBox ID="txtGpPer" runat="server" CssClass="TextBoxAmt60" Width="80px" 
+                                ></asp:TextBox>
+                            (In %)<cc1:FilteredTextBoxExtender ID="txtGpPer_FilteredTextBoxExtender" runat="server" FilterType="Custom,Numbers"
+                    TargetControlID="txtGpPer" ValidChars="0123456789.">
+                </cc1:FilteredTextBoxExtender>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                            Inv. Performance:</td>
+                        <td class="textlevelleft">
+                            <asp:TextBox ID="txtInvPer" runat="server" CssClass="TextBoxAmt60" Width="80px"></asp:TextBox>
+                            (In %)<cc1:FilteredTextBoxExtender ID="txtInvPer_FilteredTextBoxExtender" runat="server" FilterType="Custom,Numbers"
+                    TargetControlID="txtInvPer" ValidChars="0123456789.">
+                </cc1:FilteredTextBoxExtender>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                            Increment:</td>
+                        <td>
+                            <asp:TextBox ID="txtIncrement" runat="server" CssClass="TextBoxAmt60" 
+                                Width="80px"></asp:TextBox>
+                            <asp:CheckBox ID="chkIsPercent" runat="server" Width="101px" 
+                                Text="In Percent" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                            New Gross Salary:</td>
+                        <td>
+                            <asp:TextBox ID="txtNewGrossSalary" runat="server" CssClass="TextBoxAmt60" 
+                                Width="80px" AutoPostBack="True" 
+                                ReadOnly="True"></asp:TextBox>
+                <cc1:FilteredTextBoxExtender ID="txtNewGrossSalary_FilteredTextBoxExtender" runat="server" FilterType="Custom,Numbers"
+                    TargetControlID="txtNewGrossSalary" ValidChars="0123456789.">
+                </cc1:FilteredTextBoxExtender>
+                                    <asp:Button ID="cmdCalGross" runat="server" OnClick="cmdCalGross_Click" Text="Calculate Gross"
+                                        Width="105px" CausesValidation="False" /></td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                            Effective Date :</td>
+                        <td>
+                            <asp:TextBox ID="txtEffDate" runat="server" Width="80px" ToolTip="Input the Effective date."></asp:TextBox>
+                            <a href="javascript:NewCal('<%= txtEffDate.ClientID %>','ddmmyyyy')">
+                                <img style="border: 0px;" height="16" alt="Pick a date" src="../../images/cal.gif" width="16" /></a>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator5" runat="server" ControlToValidate="txtEffDate"
+                                CssClass="validator" ErrorMessage="Invalid Date" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$"></asp:RegularExpressionValidator></td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                            Remarks :</td>
+                        <td class="textlevelleft">
+                            <asp:TextBox ID="txtRemarks" runat="server" TextMode="MultiLine" Width="415px"></asp:TextBox></td>
+                    </tr>
+                </table>
+                <asp:HiddenField ID="hfIsUpdate" runat="server" />
+                <asp:HiddenField ID="hfID" runat="server" />
+                <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" runat="server" FilterType="Custom,Numbers"
+                    TargetControlID="txtIncrement" ValidChars="0123456789.">
+                </cc1:FilteredTextBoxExtender>
+            </fieldset>
+            <fieldset>
+                <legend>Salary Increment List</legend>
+                <div style="overflow: scroll; width: 98%; height: 250px">
+                    <asp:GridView ID="grConfirmation" runat="server" Width="100%" Font-Size="9px" EmptyDataText="No Record Found"
+                        AutoGenerateColumns="False" DataKeyNames="LogId,ActionId" OnRowCommand="grConfirmation_RowCommand"
+                        ToolTip="8.&#9;You will find the entire existing advice list of the employee. Click on any confirmation Edit link from the list.">
+                        <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
+                        <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
+                        </SelectedRowStyle>
+                        <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
+                        <Columns>
+                            <%--<asp:ButtonField CommandName="DoubleClick" HeaderText="Edit" Text="Edit">
+                                <ItemStyle Width="5%" CssClass="ItemStylecss" />
+                            </asp:ButtonField>--%>
+                            <asp:BoundField DataField="ActionName" HeaderText="Action Name">
+                                <ItemStyle CssClass="ItemStylecss" Width="20%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="ActionDate" HeaderText="Action Date">
+                                <ItemStyle CssClass="ItemStylecss" Width="20%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="COLA" HeaderText="COLA">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>
+                              <asp:BoundField DataField="GroupPer" HeaderText="Group Per.">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>
+                              <asp:BoundField DataField="InvPer" HeaderText="Inv. Per.">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="NewGrossSalary" HeaderText="New Gross Salary">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="15%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="IncAmount" HeaderText="Increment Amount">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="15%"></ItemStyle>
+                            </asp:BoundField>
+                             <asp:BoundField DataField="IncPercent" HeaderText="Increment Percent">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="15%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="Remarks" HeaderText="Remarks">
+                                <ItemStyle CssClass="ItemStylecss" Width="40%"></ItemStyle>
+                            </asp:BoundField>
+                        </Columns>
+                    </asp:GridView>
+                </div>
+            </fieldset>
+        </div>
+        <div class="DivCommand1" style="width: 92%;">
+            <div class="DivCommandL">
+                <asp:Button ID="btnRefresh" runat="server" CausesValidation="False" Text="Refresh"
+                    Width="70px" OnClick="btnRefresh_Click" ToolTip="Click on Save Button to store the employee data." />
+            </div>
+            <div class="DivCommandR">
+                <asp:Button ID="btnSave" runat="server" Text="Save" OnClientClick="javascript:return HistorySaveConfirmation();"
+                    Width="70px" OnClick="btnSave_Click" ToolTip="Click on Save Button to store the employee data." />
+                <%--<asp:ButtonField CommandName="DoubleClick" HeaderText="Edit" Text="Edit">
+                                <ItemStyle Width="5%" CssClass="ItemStylecss" />
+                            </asp:ButtonField>--%>
+            </div>
+        </div>
+    </div>
+</asp:Content>
+

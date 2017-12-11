@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsAttndSum" targetNamespace="http://tempuri.org/dsAttndSum.xsd" xmlns:mstns="http://tempuri.org/dsAttndSum.xsd" xmlns="http://tempuri.org/dsAttndSum.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsAttndSum" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtAttndSum">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmpID" type="xs:string" minOccurs="0" />
+              <xs:element name="EmpName" type="xs:string" minOccurs="0" />
+              <xs:element name="Designation" type="xs:string" minOccurs="0" />
+              <xs:element name="Department" type="xs:string" minOccurs="0" />
+              <xs:element name="Weekend" type="xs:string" minOccurs="0" />
+              <xs:element name="NoofDayAttended" type="xs:int" minOccurs="0" />
+              <xs:element name="AttndOnWeekend" type="xs:int" minOccurs="0" />
+              <xs:element name="AppliedforLeave" type="xs:int" minOccurs="0" />
+              <xs:element name="NoofDayAbsent" msdata:Caption="System.Int32" type="xs:int" minOccurs="0" />
+              <xs:element name="CPL" type="xs:int" minOccurs="0" />
+              <xs:element name="NoofWeekend" type="xs:int" minOccurs="0" />
+              <xs:element name="Holiday" type="xs:int" minOccurs="0" />
+              <xs:element name="LWP" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

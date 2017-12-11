@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.IO;
+
+
+public partial class Payroll_Payroll_ProvidentFundPFUpload : System.Web.UI.Page
+{
+    Payroll_MasterMgr objPayrollMgr = new Payroll_MasterMgr();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        { 
+              Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0,"P"), ddlFiscalYear, "FISCALYRTITLE", "FISCALYRID", false);
+     
+        }
+    }
+    protected void btnGenerate_Click(object sender, EventArgs e)
+    {
+
+        DataTable dtPFBF = objPayrollMgr.GetProvidentFundBF(ddlFiscalYear.SelectedValue.ToString());
+        grPFBF.DataSource = dtPFBF;
+        grPFBF.DataBind();
+    }
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        this.SaveData();
+    }
+    protected void SaveData()
+    {
+        try
+        {
+            string dtMaxID = objPayrollMgr.GetMaxPFBFID();
+            objPayrollMgr.InsertPFBFData(grPFBF,dtMaxID, Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()));
+            lblMsg.Text = "Salary Save Successfully";
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = ex.Message.ToString();
+        }
+    }
+}

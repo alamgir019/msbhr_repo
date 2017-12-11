@@ -1,0 +1,64 @@
+using System;
+using System.Data;
+using System.Collections;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.Services;
+using System.Web.Services.Protocols;
+using AjaxControlToolkit;
+using System.Collections.Specialized;
+using System.Data.SqlClient;
+
+
+/// <summary>
+/// Summary description for WebService
+/// </summary>
+[WebService(Namespace = "http://tempuri.org/")]
+[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+[System.Web.Script.Services.ScriptService]
+public class WebService : System.Web.Services.WebService {
+
+    public WebService () {
+
+        //Uncomment the following line if using designed components 
+        //InitializeComponent(); 
+    }
+
+    [WebMethod]
+    public string HelloWorld() {
+        return "Hello World";
+    }
+    [WebMethod]
+    public CascadingDropDownNameValue[] GetDivision(string knownCategoryValues, string category)
+    {
+        string[] _categoryValues = knownCategoryValues.Split(':', ';');
+        string DivisionID = _categoryValues[1];
+        MasterTablesManager MasMgr = new MasterTablesManager();
+        DataTable dt = MasMgr.SelectBranchWiseDivision(DivisionID);
+        List<CascadingDropDownNameValue> cascadingValues = new List<CascadingDropDownNameValue>();
+        foreach (DataRow dr in dt.Rows)
+        {
+            cascadingValues.Add(new CascadingDropDownNameValue(
+              dr["DivisionName"].ToString().Trim(), dr["DivisionID"].ToString()));
+        }
+        return cascadingValues.ToArray();
+    }
+
+    [WebMethod]
+    public CascadingDropDownNameValue[] GetWeekend(string knownCategoryValues, string category)
+    {
+        string[] _categoryValues = knownCategoryValues.Split(':', ';');
+        int AttndPlcId = Convert.ToInt32(_categoryValues[1]);
+        MasterTablesManager MasMgr = new MasterTablesManager();
+        DataTable dtW = MasMgr.SelectAttndPolicyWiseWeekend(AttndPlcId);
+        List<CascadingDropDownNameValue> cascadingValues = new List<CascadingDropDownNameValue>();
+        foreach (DataRow dr in dtW.Rows)
+        {
+            cascadingValues.Add(new CascadingDropDownNameValue(
+              dr["WePackName"].ToString().Trim(), dr["WeekendID"].ToString()));
+        }
+        return cascadingValues.ToArray();
+    }
+
+}
+

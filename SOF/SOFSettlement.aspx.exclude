@@ -1,0 +1,124 @@
+<%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true"
+    CodeFile="SOFSettlement.aspx.cs" Inherits="SOF_SOFSettlement" Title="SOF Settlement" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script language="javascript" type="text/javascript" src="../../JScripts/datetimepicker.js">
+        //Date Time Picker script
+    </script>
+    <script language="javascript" type="text/javascript" src="../../JScripts/Confirmation.js">
+    </script>
+    <script language="javascript" type="text/javascript">
+        function ToUpper(ctrl) {
+            var t = ctrl.value;
+            ctrl.value = t.toUpperCase();
+        }
+    </script>
+    <div class="empTrainForm" style="width: 80%">
+        <div id="formhead1">
+            <div style="width: 97%; float: left;">
+                Salary Charging for Permanent Employee</div>
+            <div style="margin: 2px; float: left; padding-right: 3px;">
+                <a href="../File/home.aspx">
+                    <img src="../Images/close_icon.gif" /></a></div>
+        </div>
+        <div class="MsgBox">
+            <asp:Label ID="lblMsg" runat="server" CssClass="msglabel"></asp:Label>
+        </div>
+        <div id="PayrollConfigInner">
+            <fieldset style="margin-bottom: 10px;">
+                <table>
+                    <tr>
+                        <td class="textlevel">
+                            Fiscal Year :</td>
+                        <td class="textlevel">
+                            <asp:DropDownList ID="ddlFiscalYear" runat="server" Width="130px" CssClass="textlevelleft">
+                            </asp:DropDownList>
+                        </td>
+                        <td class="textlevel">
+                            Year :
+                        </td>
+                        <td>
+                            <asp:DropDownList ID="ddlYear" runat="server" AutoPostBack="false" CssClass="textlevelleft"
+                                Width="100px">
+                            </asp:DropDownList>
+                        </td>
+                        <td class="textlevel">
+                            Month :
+                        </td>
+                        <td>
+                            <asp:DropDownList ID="ddlMonth" runat="server" AutoPostBack="false" CssClass="textlevelleft"
+                                Width="100px">
+                            </asp:DropDownList>
+                        </td>
+                        <td>
+                            <asp:Button ID="btnView" runat="server" Text="Show" Width="70px" OnClick="btnView_Click"
+                                ToolTip="Click this button to store the information after providing all necessary fields." />
+                        </td>
+                    </tr>
+                </table>
+                <asp:HiddenField ID="hfIsUpdate" runat="server" />
+                <asp:HiddenField ID="hfID" runat="server" />
+            </fieldset>
+            <fieldset style="margin-bottom: 10px;">               
+                <legend>List</legend>
+                <div style="overflow: scroll; width: 100%; height: 250px">
+                    <asp:GridView ID="grList" runat="server" Width="100%" Font-Size="9px" EmptyDataText="No Record Found"
+                        AutoGenerateColumns="False" DataKeyNames="SalarySourceId,Salary,Bonus,PF,IT,PFLoan,FringePF,Medical,Gratuity">
+                        <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
+                        <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
+                        </SelectedRowStyle>
+                        <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
+                        <Columns>
+                            <asp:BoundField DataField="EmpId" HeaderText="EmpId">
+                                <ItemStyle CssClass="ItemStylecss" Width="8%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="FullName" HeaderText="Emp. Name">
+                                <ItemStyle CssClass="ItemStylecss" Width="12%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="SalSourceCode" HeaderText="Salary Source Code">
+                                <ItemStyle CssClass="ItemStylecss" Width="15%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="ProjectCode" HeaderText="Project Code">
+                                <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
+                            </asp:BoundField>                           
+                            <asp:BoundField DataField="Percentage" HeaderText="Percentage">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="8%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="VMonth" HeaderText="Month">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="6%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="VYear" HeaderText="VYear">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="5%"></ItemStyle>
+                            </asp:BoundField>
+                        </Columns>
+                    </asp:GridView>
+                </div>
+                <div class="DivCommand1">
+                    <div class="DivCommandL">
+                        <asp:Button ID="btnClear" runat="server" Text="Refresh" Width="70px" OnClick="btnRefresh_Click"
+                            CausesValidation="false" />
+                    </div>
+                    <div class="DivCommandR">
+                        <asp:Button ID="btnSave" runat="server" Text="Save" Width="70px" OnClick="btnSave_Click" />
+                        <%--<asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();"
+                            OnClick="btnDelete_Click" />--%>
+                    </div>
+                </div>
+            </fieldset>
+            <%-- <table>
+                <tr>
+                    <td class="textlevel">
+                        Total Charging :
+                    </td>
+                    <td>
+                        <asp:TextBox ID="txtTotalCharge" runat="server" MaxLength="20" Width="80px" 
+                            Enabled="False" CssClass="TextBoxAmt60"></asp:TextBox>
+                    </td>
+                </tr>
+            </table>--%>
+        </div>
+    </div>
+    <br />
+    <br />
+</asp:Content>

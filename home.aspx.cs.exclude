@@ -1,0 +1,272 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class home : System.Web.UI.Page
+{
+    MasterTablesManager objMst = new MasterTablesManager();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            //if (Session["TEAMID"].ToString() == "2" || Session["USERID"].ToString() == "admin")
+            //{
+            this.GetConfirmationEmp();
+            this.GetContractExpireDate();
+            this.GetEmpBirthday();
+            this.GetLicenseExpireDate();
+            this.GetRetirementDate();
+            this.GetAddResponsibility();
+            this.GetRetrenchmentDate();
+            this.GetContractExtensionDate();
+            this.GetFestivalDate();
+            //}
+            //else
+            //{
+            //    pnlDashBoard.Visible = false;
+            //}
+        }
+    }
+
+    private void GetConfirmationEmp()
+    {
+        grConfirmation.DataSource = objMst.GetConfirmationEmp();
+        grConfirmation.DataBind();
+
+        foreach (GridViewRow gRow in grConfirmation.Rows)
+        {
+            gRow.Cells[4].Text = Common.DisplayDate(gRow.Cells[4].Text);
+            if (Convert.ToDecimal(gRow.Cells[5].Text) == 0)
+            {
+                gRow.Cells[5].Text = "Today";
+                gRow.Cells[5].BackColor = System.Drawing.Color.LightGreen;
+            }
+        }
+        lblConfirmation.Text = grConfirmation.Rows.Count.ToString();
+
+        if (grConfirmation.Rows.Count > 0)
+        {
+            pnlConfirmation.Visible = true;
+        }
+        else
+        {
+            pnlConfirmation.Visible = false;
+        }
+    }
+
+    private void GetEmpBirthday()
+    {
+        grBirthday.DataSource = objMst.GetEmpBirthday();
+        grBirthday.DataBind();
+
+        foreach (GridViewRow gRow in grBirthday.Rows)
+        {
+            gRow.Cells[4].Text = Common.DisplayDate(gRow.Cells[4].Text);
+            if (Convert.ToDecimal(gRow.Cells[5].Text) == 0)
+            {
+                gRow.Cells[5].Text = "Today";
+                gRow.Cells[5].BackColor = System.Drawing.Color.LightGreen;
+            }
+        }
+        lblBirthday.Text = grBirthday.Rows.Count.ToString();
+
+        if (grBirthday.Rows.Count > 0)
+        {
+            pnlBirthDay.Visible = true;
+        }
+        else
+        {
+            pnlBirthDay.Visible = false;
+        }
+    }
+
+    private void GetLicenseExpireDate()
+    {
+        grLicense.DataSource = objMst.GetLicenseExpireDate();
+        grLicense.DataBind();
+
+        foreach (GridViewRow gRow in grLicense.Rows)
+        {
+            gRow.Cells[4].Text = Common.DisplayDate(gRow.Cells[4].Text);
+            if (Convert.ToDecimal(gRow.Cells[5].Text) == 0)
+            {
+                gRow.Cells[5].Text = "Today";
+                gRow.Cells[5].BackColor = System.Drawing.Color.LightGreen;
+            }
+        }
+        lblLicense.Text = grLicense.Rows.Count.ToString();
+
+        if (grLicense.Rows.Count > 0)
+        {
+            pnlLicense.Visible = true;
+        }
+        else
+        {
+            pnlLicense.Visible = false;
+        }
+    }
+
+    private void GetContractExpireDate()
+    {
+        grContractExpdate.DataSource = objMst.GetContractExpireDate();
+        grContractExpdate.DataBind();
+
+        foreach (GridViewRow gRow in grContractExpdate.Rows)
+        {
+            gRow.Cells[4].Text = Common.DisplayDate(gRow.Cells[4].Text);
+            if (Convert.ToDecimal(gRow.Cells[5].Text) == 0)
+            {
+                gRow.Cells[5].Text = "Today";
+                gRow.Cells[5].BackColor = System.Drawing.Color.LightGreen;
+            }
+        }
+        lblContractExpDate.Text = grContractExpdate.Rows.Count.ToString();
+
+        if (grContractExpdate.Rows.Count > 0)
+        {
+            pnlContractExpDate.Visible = true;
+        }
+        else
+        {
+            pnlContractExpDate.Visible = false;
+        }
+    }
+
+    private void GetRetirementDate()
+    {
+        grRetirementDate.DataSource = objMst.GetRetirementDate();
+        grRetirementDate.DataBind();
+
+        foreach (GridViewRow gRow in grRetirementDate.Rows)
+        {
+            gRow.Cells[4].Text = Common.DisplayDate(gRow.Cells[4].Text);
+            if (Convert.ToDecimal(gRow.Cells[5].Text) == 0)
+            {
+                gRow.Cells[5].Text = "Today";
+                gRow.Cells[5].BackColor = System.Drawing.Color.LightGreen;
+            }
+        }
+        lblRetirementDate.Text = grRetirementDate.Rows.Count.ToString();
+
+        if (grRetirementDate.Rows.Count > 0)
+        {
+            pnlRetirement.Visible = true;
+        }
+        else
+        {
+            pnlRetirement.Visible = false;
+        }
+    }
+
+    private void GetAddResponsibility()
+    {
+        grAddResponsibility.DataSource = objMst.GetAddResponsibility();
+        grAddResponsibility.DataBind();
+
+        foreach (GridViewRow gRow in grAddResponsibility.Rows)
+        {
+            gRow.Cells[4].Text = Common.DisplayDate(gRow.Cells[4].Text);
+            if (Convert.ToDecimal(gRow.Cells[5].Text) == 0)
+            {
+                gRow.Cells[5].Text = "Today";
+                gRow.Cells[5].BackColor = System.Drawing.Color.LightGreen;
+            }
+        }
+        lblAddResponsibility.Text = grAddResponsibility.Rows.Count.ToString();
+
+        if (grAddResponsibility.Rows.Count > 0)
+        {
+            pnlAddResponsibility.Visible = true;
+        }
+        else
+        {
+            pnlAddResponsibility.Visible = false;
+        }
+    }
+
+    private void GetRetrenchmentDate()
+    {
+        grRetrenchmentDate.DataSource = objMst.GetRetirementDate();
+        grRetrenchmentDate.DataBind();
+
+        foreach (GridViewRow gRow in grRetrenchmentDate.Rows)
+        {
+            gRow.Cells[4].Text = Common.DisplayDate(gRow.Cells[4].Text);
+            if (Convert.ToDecimal(gRow.Cells[5].Text) == 0)
+            {
+                gRow.Cells[5].Text = "Today";
+                gRow.Cells[5].BackColor = System.Drawing.Color.LightGreen;
+            }
+        }
+        lblRetrenchmentDate.Text = grRetrenchmentDate.Rows.Count.ToString();
+
+        if (grRetrenchmentDate.Rows.Count > 0)
+        {
+            pnlRetrenchmentDate.Visible = true;
+        }
+        else
+        {
+            pnlRetrenchmentDate.Visible = false;
+        }
+    }
+
+    private void GetContractExtensionDate()
+    {
+        grContractExtension.DataSource = objMst.GetContractExpireDate();
+        grContractExtension.DataBind();
+
+        foreach (GridViewRow gRow in grContractExtension.Rows)
+        {
+            gRow.Cells[4].Text = Common.DisplayDate(gRow.Cells[4].Text);
+            if (Convert.ToDecimal(gRow.Cells[5].Text) == 0)
+            {
+                gRow.Cells[5].Text = "Today";
+                gRow.Cells[5].BackColor = System.Drawing.Color.LightGreen;
+            }
+        }
+        lblContractExtension.Text = grContractExtension.Rows.Count.ToString();
+
+        if (grContractExtension.Rows.Count > 0)
+        {
+            pnlContractExtension.Visible = true;
+        }
+        else
+        {
+            pnlContractExtension.Visible = false;
+        }
+    }
+
+    private void GetFestivalDate()
+    {
+        grFestivalDate.DataSource = objMst.GetFestivalDate();
+        grFestivalDate.DataBind();
+
+        foreach (GridViewRow gRow in grFestivalDate.Rows)
+        {
+            gRow.Cells[2].Text = Common.DisplayDate(gRow.Cells[2].Text);
+            if (Convert.ToDecimal(gRow.Cells[3].Text) == 0)
+            {
+                gRow.Cells[5].Text = "Today";
+                gRow.Cells[5].BackColor = System.Drawing.Color.LightGreen;
+            }
+        }
+        lblFestivalDate.Text = grFestivalDate.Rows.Count.ToString();
+
+        if (grFestivalDate.Rows.Count > 0)
+        {
+            pnlFestivalDate.Visible = true;
+        }
+        else
+        {
+            pnlFestivalDate.Visible = false;
+        }
+    }
+}

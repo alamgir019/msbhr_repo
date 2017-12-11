@@ -1,0 +1,421 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.IO;
+
+public partial class EmpHospitalization : System.Web.UI.Page
+{
+    DBConnector objDB = new DBConnector();
+    MasterTablesManager objMasMgr = new MasterTablesManager();
+    //dsEmpTraining objDsT = new dsEmpTraining();
+    EmpInfoManager objEmpInfoMgr = new EmpInfoManager();
+
+    EmpHospitalizationManager objHospMgr = new EmpHospitalizationManager();
+    DataTable dtEmpInfo = new DataTable();
+    DataTable dtEmpFamilyInfo = new DataTable();
+    DataTable dtHospital = new DataTable();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            hfIsUpdate.Value = "N";
+            dtEmpFamilyInfo.Rows.Clear();
+            dtEmpFamilyInfo.Dispose();
+            grEmpFamilyInfo.DataSource = null;
+            grEmpFamilyInfo.DataBind();
+            Common.EmptyTextBoxValues(this);
+            lblMsg.Text = "";
+            this.EntryMode(false);
+            // this.OpenHospitalizationRecord();
+
+            //int intFmID = grEmpFamilyInfo.Rows.Count + 1;
+            //hfFmId.Value = intFmID.ToString() ;
+
+        }
+    }
+    protected void EntryMode(bool IsUpdate)
+    {
+        if (IsUpdate == true)
+        {
+            btnSave.Text = "Update";
+            btnSave.Enabled = true;
+            hfIsUpdate.Value = "Y";
+        }
+        else
+        {
+            btnSave.Text = "Save";
+            btnSave.Enabled = false;
+            txtDiseas.Text = "";
+            txtAdmittedDate.Text = "";
+            txtReleaseDate.Text = "";
+            txtHospital.Text = "";
+            txtClaimAmt.Text = "0.00";
+            txtReimburseAmt.Text = "0.00";
+            txtClaimDate.Text = "";
+            txtReimburseDate.Text = "";
+            hfIsUpdate.Value = "N";
+
+            grEmpFamilyInfo.SelectedIndex = -1;  
+        }
+    }
+    private void OpenRecord()
+    {
+        dtHospital = objMasMgr.SelectEmpHospitalization("0", txtEmpID.Text.Trim()   );
+        grEmpHospitalization.DataSource = dtHospital;
+        grEmpHospitalization.DataBind();
+        this.FormatGridView();
+    }
+
+    private void FormatGridView()
+    {
+        int k = 0;
+        foreach (GridViewRow gRow in grEmpHospitalization.Rows)
+        {
+            if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[3].Text)) == false)
+                gRow.Cells[3].Text = Common.DisplayDate(gRow.Cells[3].Text);
+            if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[4].Text)) == false)
+                gRow.Cells[4].Text = Common.DisplayDate(gRow.Cells[4].Text);
+            if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[8].Text)) == false)
+                gRow.Cells[8].Text = Common.DisplayDate(gRow.Cells[8].Text);
+            if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[9].Text)) == false)
+                gRow.Cells[9].Text = Common.DisplayDate(gRow.Cells[9].Text);
+
+            // Displaying The name
+            for (int i = 0; i < grEmpFamilyInfo.Rows.Count; i++)
+            {
+                if (grEmpHospitalization.DataKeys[k].Values[2].ToString().Trim() == grEmpFamilyInfo.DataKeys[i].Values[1].ToString().Trim())
+                {
+                    gRow.Cells[1].Text = grEmpFamilyInfo.Rows[i].Cells[1].Text.Trim();
+                    break;
+                }
+
+                else if (grEmpHospitalization.DataKeys[k].Values[1].ToString().Trim() == grEmpFamilyInfo.DataKeys[i].Values[0].ToString().Trim())
+                {
+                    if (string.IsNullOrEmpty(grEmpHospitalization.DataKeys[k].Values[2].ToString().Trim()) == true)
+                    {
+                        gRow.Cells[1].Text = grEmpFamilyInfo.Rows[i].Cells[1].Text.Trim();
+                        break;
+                    }
+                }
+                //if (grEmpHospitalization.DataKeys[k].Values[1].ToString().Trim() == grEmpFamilyInfo.DataKeys[i].Values[0].ToString().Trim())
+                //{
+                //    gRow.Cells[1].Text = grEmpFamilyInfo.Rows[i].Cells[1].Text.Trim();
+                //}
+                //else if (grEmpHospitalization.DataKeys[k].Values[2].ToString().Trim() == grEmpFamilyInfo.DataKeys[i].Values[1].ToString().Trim())
+                //{
+                //    gRow.Cells[1].Text = grEmpFamilyInfo.Rows[i].Cells[1].Text.Trim();
+                //}
+            }
+            k++;
+        }
+    }
+
+    private void OpenEmpFamilyRecords()
+    {
+        dtEmpFamilyInfo = objHospMgr.SelectEmpAndFamily(txtEmpID.Text.Trim());
+        grEmpFamilyInfo.DataSource = dtEmpFamilyInfo;
+        grEmpFamilyInfo.DataBind();
+        foreach (GridViewRow gRow in grEmpFamilyInfo.Rows)
+        {
+            if (Common.CheckNullString(gRow.Cells[3].Text) != "")
+            {
+                gRow.Cells[3].Text = this.CalculateAge(Common.DisplayDate(gRow.Cells[3].Text.Trim()));
+            }
+        }
+    }
+
+    public string CalculateAge(string birthDate)
+    {
+        int years;
+
+        // compute & return the difference of two dates,
+        // returning years, months & days
+        // d1 should be the larger (newest) of the two dates
+
+        string dt1 = Common.SetDateTime(DateTime.Now.ToString());
+        string dt2 = Common.ReturnDate(birthDate);
+        DateTime d1 = Convert.ToDateTime(dt1);
+        DateTime d2 = Convert.ToDateTime(dt2);
+
+        int months = 0;
+        int days = 0;
+        if (d1 < d2)
+        {
+            DateTime d3 = d2;
+            d2 = d1;
+            d1 = d3;
+        }
+
+        // compute difference in total months
+        months = 12 * (d1.Year - d2.Year) + (d1.Month - d2.Month);
+
+        // based upon the 'days', adjust months & compute actual days difference
+        if (d1.Day < d2.Day)
+        {
+            months--;
+            days = GetDaysInMonth(d2.Year, d2.Month) - d2.Day + d1.Day;
+        }
+        else
+        {
+            days = d1.Day - d2.Day;
+        }
+
+        // compute years & actual months
+        years = months / 12;
+        months -= years * 12;
+        string CompleteAge = "";
+
+        CompleteAge = years + " Years " + months + " Months " + days + " Days";
+
+        return CompleteAge;
+    }
+
+    private static int GetDaysInMonth(int year, int month)
+    {
+        // this is also available from Calendar class, but just as easy to do ourselves
+
+        if (month < 1 || month > 12)
+        {
+            throw new ArgumentException("month value must be from 1-12");
+        }
+
+        // 1 2 3 4 5 6 7 8 9 10 11 12
+        int[] days = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+        if (((year / 400 * 400) == year) ||
+        (((year / 4 * 4) == year) && (year % 100 != 0)))
+        {
+            days[2] = 29;
+        }
+
+        return days[month];
+    }
+
+    private void OpenHospitalizationRecord()
+    {
+        //dtEmpFamilyInfo = objEmpFaml.SelectEmpFamily(txtEmpID.Text);
+        //grEmpFamilyInfo.DataSource = dtEmpFamilyInfo;
+        //grEmpFamilyInfo.DataBind();
+        //foreach (GridViewRow gRow in grEmpFamilyInfo.Rows)
+        //{
+        //    gRow.Cells[5].Text = Common.DisplayDate(gRow.Cells[5].Text);
+        //    if (Common.CheckNullString(gRow.Cells[9].Text)!="")
+        //        gRow.Cells[9].Text = Common.DisplayDate(gRow.Cells[9].Text);
+        //    if (Common.CheckNullString(gRow.Cells[10].Text) != "")
+        //        gRow.Cells[10].Text = Common.DisplayDate(gRow.Cells[10].Text);
+        //}
+    }
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(hfID.Value) == false)
+        {
+            this.SaveData("Y");
+        }
+        else
+        {
+            lblMsg.Text = "Select a hospitalization information first from the list then try to delete.";
+        }
+        this.EntryMode(false);
+    }
+
+
+    protected void btnRefresh_Click(object sender, EventArgs e)
+    {
+        //Common.EmptyTextBoxValues(this);
+        this.EntryMode(false);
+        this.OpenRecord();
+        //grEmpFamilyInfo.DataSource = null;
+        //grEmpFamilyInfo.DataBind();
+
+        //grEmpHospitalization.DataSource = null;
+        //grEmpHospitalization.DataBind();
+    }
+    protected void imgBtnSearch_Click(object sender, ImageClickEventArgs e)
+    {
+        //if (txtEmpID.Text.Trim() == "")
+        //    return;
+        //else
+
+
+            dtEmpInfo = objMasMgr.SelectEmployee(txtEmpID.Text.Trim());
+
+            if (dtEmpInfo.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtEmpInfo.Rows)
+                {
+                    lblName.Text = row["FullName"].ToString().Trim() + ", " + row["JobTitle"].ToString().Trim()
+                                 + ", " + row["DivisionName"].ToString().Trim();
+                    lblEmpType.Text = row["TypeName"].ToString().Trim();
+                    hfSupervisor.Value = row["ReportingTo"].ToString().Trim();
+                    DataTable dtSuper = new DataTable();
+                    if (hfSupervisor.Value != "")
+                    {
+                        dtSuper = objEmpInfoMgr.SelectEmpInfoOfficeWiseForLeaveSPV(hfSupervisor.Value.ToString(), "-1");
+                        if (dtSuper.Rows.Count > 0)
+                        {
+                            lblSupervisor.Text = dtSuper.Rows[0]["FullName"].ToString().Trim() + ", " + dtSuper.Rows[0]["DivisionName"].ToString().Trim()
+                                 + ", " + dtSuper.Rows[0]["JobTitle"].ToString().Trim();
+                        }
+                    }
+                }
+            }
+            else
+                return;
+
+        this.OpenEmpFamilyRecords();
+        if (grEmpFamilyInfo.Rows.Count == 0)
+        {
+            lblMsg.Text = "This Employee Id is not vaild.";
+            return;
+        }
+        else
+        {
+            lblMsg.Text = "";
+
+            //txtEmpFullName.Text = grEmpFamilyInfo.Rows[0].Cells[1].Text.Trim();
+
+            this.OpenRecord();
+        }
+    }
+
+    protected void grEmpFamilyInfo_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        GridView _gridView = (GridView)sender;
+        // Get the selected index and the command name
+        int _selectedIndex = int.Parse(e.CommandArgument.ToString());
+        string _commandName = e.CommandName;
+        _gridView.SelectedIndex = _selectedIndex;
+        switch (_commandName)
+        {
+            case ("DoubleClick"):
+                hfFmID.Value = grEmpFamilyInfo.DataKeys[_gridView.SelectedIndex].Values[1].ToString().Trim();
+                //this.EntryMode(true);
+                btnSave.Enabled = true;
+                break;
+        }
+    }
+
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        if (ValidateAndSave() == true)
+        {
+            this.SaveData("N");
+        }
+    }
+    protected bool ValidateAndSave()
+    {
+        try
+        {
+            return true;
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = "";
+            throw (ex);
+        }
+    }
+    private void SaveData(string IsDelete)
+    {
+        long lngID = 0;
+        try
+        {
+            string strFmId = "";
+            string strAdmittedDate = "";
+            string strReleaseDate = "";
+            string strClaimDate = "";
+            string strReimburseDate = "";
+
+            if ((hfFmID.Value.ToString() != "" ) || (hfFmID.Value.ToString() != "0" ))
+                strFmId = hfFmID.Value.ToString();
+            else
+                strFmId = "";
+
+            if (string.IsNullOrEmpty(txtAdmittedDate.Text.Trim()) == false)
+                strAdmittedDate = Common.ReturnDate(txtAdmittedDate.Text.Trim());
+
+            if (string.IsNullOrEmpty(txtReleaseDate.Text.Trim()) == false)
+                strReleaseDate = Common.ReturnDate(txtReleaseDate.Text.Trim());
+
+            if (string.IsNullOrEmpty(txtClaimDate.Text.Trim()) == false)
+                strClaimDate = Common.ReturnDate(txtClaimDate.Text.Trim());
+
+            if (string.IsNullOrEmpty(txtReimburseDate.Text.Trim()) == false)
+                strReimburseDate = Common.ReturnDate(txtReimburseDate.Text.Trim());
+
+            if (hfIsUpdate.Value == "N")
+                lngID = objDB.GerMaxIDNumber("EmpHospitalization", "HSRecId");
+            else
+                lngID = Convert.ToInt32(hfID.Value);
+
+            EmpHospital objEmpHospital = new EmpHospital(lngID.ToString(), txtEmpID.Text.Trim(), strFmId,
+                txtDiseas.Text.Trim(), strAdmittedDate, strReleaseDate, txtHospital.Text.Trim(), txtClaimAmt.Text.Trim(),
+                txtReimburseAmt.Text.Trim(), strClaimDate, strReimburseDate, Session["USERID"].ToString(),
+                Common.SetDateTime(DateTime.Now.ToString()));
+
+            objMasMgr.InsertEmpHospitalization(objEmpHospital, hfIsUpdate.Value, IsDelete);
+
+            if (hfIsUpdate.Value == "N")
+                lblMsg.Text = "Record Saved Successfully";
+            else
+                lblMsg.Text = "Record Updated Successfully";
+
+            //Common.EmptyTextBoxValues(this);
+            this.EntryMode(false);
+            this.OpenRecord();
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = "";
+            throw (ex);
+        }
+    }
+
+    protected void grEmpHospitalization_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        GridView _gridView = (GridView)sender;
+        int _selectedIndex = int.Parse(e.CommandArgument.ToString());
+        string _commandName = e.CommandName;
+        _gridView.SelectedIndex = _selectedIndex;
+        switch (_commandName)
+        {
+            case ("DoubleClick"):
+
+                txtEmpID.Text = Common.CheckNullString(grEmpHospitalization.DataKeys[_gridView.SelectedIndex].Values[1].ToString().Trim());
+                txtDiseas.Text = Common.CheckNullString(grEmpHospitalization.SelectedRow.Cells[2].Text.Trim());
+                txtAdmittedDate.Text = Common.CheckNullString(grEmpHospitalization.SelectedRow.Cells[3].Text.Trim());
+                txtReleaseDate.Text = Common.CheckNullString(grEmpHospitalization.SelectedRow.Cells[4].Text.Trim());
+                txtHospital.Text = Common.CheckNullString(grEmpHospitalization.SelectedRow.Cells[5].Text.Trim());
+                txtClaimAmt.Text = Common.CheckNullString(grEmpHospitalization.SelectedRow.Cells[6].Text.Trim());
+                txtReimburseAmt.Text = Common.CheckNullString(grEmpHospitalization.SelectedRow.Cells[7].Text.Trim());
+                txtClaimDate.Text = Common.CheckNullString(grEmpHospitalization.SelectedRow.Cells[8].Text.Trim());
+                txtReimburseDate.Text = Common.CheckNullString(grEmpHospitalization.SelectedRow.Cells[9].Text.Trim());
+                hfID.Value = grEmpHospitalization.DataKeys[_gridView.SelectedIndex].Values[0].ToString();
+                hfFmID.Value = grEmpHospitalization.DataKeys[_gridView.SelectedIndex].Values[2].ToString();
+                for (int i = 0; i < grEmpHospitalization.Rows.Count; i++)
+                {
+                    if (grEmpFamilyInfo.DataKeys[i].Values[1].ToString().Trim() == hfFmID.Value.ToString())
+                    {
+                        grEmpFamilyInfo.SelectedIndex = i;                        
+                        break; 
+                    }
+                    else if ((hfFmID.Value.ToString() == "") || (hfFmID.Value.ToString() == "0"))
+                    {
+                        grEmpFamilyInfo.SelectedIndex = i;
+                        break;
+                    }
+                }
+                this.EntryMode(true);
+                break;
+        }
+    }    
+}
+
+

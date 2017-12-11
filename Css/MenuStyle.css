@@ -1,0 +1,439 @@
+﻿/* Menu Style */
+
+/* Navigation */
+
+.navi {
+	width:150px;
+	float:left;
+	margin-right:10px;
+}
+#navi1 {
+	width:98%;
+	float:left;
+	padding-left:20px;
+	background-color:#fff;
+}
+#navi1 a:link {
+	/*background:url(../Images/orengeBG.jpg) repeat-x; */
+	background-color:#FF9933;
+	font-family: Tahoma;
+	width:120px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;/* filter: 
+	 progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=lightblue,endColorStr=lightblue); */
+}
+#navi1 a:visited {
+	font-family: Tahoma;
+	width:120px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	background-color:#FF9933;
+	background-repeat: no-repeat;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;
+}
+#navi1 a:hover {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#fff;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+#navi1 a:active {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#fff;
+	padding:2px;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+
+
+/* Navigation 2*/
+
+#navi2 {
+	width:98%;
+	float:left;
+	background-color:#FFF;
+}
+#navi2 a:link {
+	/*background:url(../Images/lightYellowBG.jpg) repeat-x;*/
+	background-color:#FFD930;
+	font-family: Tahoma;
+	width:140px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;/* filter: 
+	 progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=lightblue,endColorStr=lightblue); */
+}
+#navi2 a:visited {
+	font-family: Tahoma;
+	width:140px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	background-color:#FFD930;
+	background-repeat: no-repeat;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;
+}
+#navi2 a:hover {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#fff;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+#navi2 a:active {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#fff;
+	padding:2px;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+
+
+/* Navigation 3*/
+
+#navi3 {
+	width:98%;
+	float:left;
+	background-color:#FFF;
+}
+#navi3 a:link {
+	/*background:url(../Images/darkGreenBG.jpg) repeat-x;*/
+	background-color:#339966;
+	font-family: Tahoma;
+	width:140px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;/* filter: 
+	 progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=lightblue,endColorStr=lightblue); */
+}
+#navi3 a:visited {
+	font-family: Tahoma;
+	width:140px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	background-color:#339966;
+	background-repeat: no-repeat;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;
+}
+#navi3 a:hover {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#fff;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+#navi3 a:active {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#fff;
+	padding:2px;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+
+/* Navigation 4*/
+
+#navi4 {
+	width:98%;
+	float:left;
+	background-color:#FFF;
+}
+#navi4 a:link {
+	/*background:url(../Images/lightGreenBG.jpg) repeat-x;*/
+	background-color:#669933;
+	font-family: Tahoma;
+	width:140px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;/* filter: 
+	 progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=lightblue,endColorStr=lightblue); */
+}
+#navi4 a:visited {
+	font-family: Tahoma;
+	width:140px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	background-color:#669933;
+	background-repeat: no-repeat;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;
+}
+#navi4 a:hover {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#fff;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+#navi4 a:active {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#cc0000;
+	padding:2px;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+
+/* Navigation 5*/
+
+#navi5 {
+	width:98%;
+	float:left;
+	
+	background-color:#FFF;
+}
+#navi5 a:link {
+	/*background:url(../Images/duskyBlueBG.jpg) repeat-x;*/
+	background-color:#9CCCCC;
+	font-family: Tahoma;
+	width:140px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;/* filter: 
+	 progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=lightblue,endColorStr=lightblue); */
+}
+#navi5 a:visited {
+	font-family: Tahoma;
+	width:140px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	background-color:#9CCCCC;
+	background-repeat: no-repeat;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;
+}
+#navi5 a:hover {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#fff;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+#navi5 a:active {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#cc0000;
+	padding:2px;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+
+/* Navigation 6*/
+
+#navi6 {
+	width:98%;
+	float:left;
+	
+	background-color:#FFF;
+}
+#navi6 a:link {
+	/*background:url(../Images/duskyGreyBG.jpg) repeat-x;*/
+	background-color:#66CC33;
+	font-family: Tahoma;
+	width:140px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;/* filter: 
+	 progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=lightblue,endColorStr=lightblue); */
+}
+#navi6 a:visited {
+	font-family: Tahoma;
+	width:140px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	background-color:#CCFFCC;
+	background-repeat: no-repeat;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;
+}
+#navi6 a:hover {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#fff;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+#navi6 a:active {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#cc0000;
+	padding:2px;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+
+/* NAVI 7 */
+
+#navi7 {
+	width:100%;
+	float:left;
+	padding-left:0px;
+	background-color:#FFF;
+}
+#navi7 a:link {
+	/*background:url(../Images/orengeBG.jpg) repeat-x; */
+	background-color:#FF9933;
+	font-family: Tahoma;
+	width:130px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;/* filter: 
+	 progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=lightblue,endColorStr=lightblue); */
+}
+#navi7 a:visited {
+	font-family: Tahoma;
+	width:130px;
+	display: block;
+	padding:2px;
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	text-align:left;
+	background-color:#FF9933;
+	background-repeat: no-repeat;
+	color:#000000;
+	border-color: #FFF;
+	border-bottom:1px solid #FFF;
+	border-left:1px solid #FFF;
+	border-right:1px solid #FFF;
+}
+#navi7 a:hover {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#fff;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}
+#navi7 a:active {
+	text-decoration:none;
+	font-size:13px;
+	font-weight:normal;
+	color:#fff;
+	padding:2px;/* filter: 
+	progid:DXImageTransform.Microsoft.Gradient 
+               (gradientType=0,startColorStr=#ffffff,endColorStr=lightblue); */
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsFinalPayment" targetNamespace="http://tempuri.org/dsFinalPayment.xsd" xmlns:mstns="http://tempuri.org/dsFinalPayment.xsd" xmlns="http://tempuri.org/dsFinalPayment.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="MSB_HRConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="MSB_HRConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.MSB_HRConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsFinalPayment" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsFinalPayment" msprop:Generator_DataSetName="dsFinalPayment">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="FinalPayment" msprop:Generator_TableClassName="FinalPaymentDataTable" msprop:Generator_TableVarName="tableFinalPayment" msprop:Generator_TablePropName="FinalPayment" msprop:Generator_RowDeletingName="FinalPaymentRowDeleting" msprop:Generator_UserTableName="FinalPayment" msprop:Generator_RowChangingName="FinalPaymentRowChanging" msprop:Generator_RowEvHandlerName="FinalPaymentRowChangeEventHandler" msprop:Generator_RowDeletedName="FinalPaymentRowDeleted" msprop:Generator_RowEvArgName="FinalPaymentRowChangeEvent" msprop:Generator_RowChangedName="FinalPaymentRowChanged" msprop:Generator_RowClassName="FinalPaymentRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FinalPayId" msprop:Generator_ColumnVarNameInTable="columnFinalPayId" msprop:Generator_ColumnPropNameInRow="FinalPayId" msprop:Generator_ColumnPropNameInTable="FinalPayIdColumn" msprop:Generator_UserColumnName="FinalPayId" type="xs:decimal" />
+              <xs:element name="EmpID" msprop:Generator_ColumnVarNameInTable="columnEmpID" msprop:Generator_ColumnPropNameInRow="EmpID" msprop:Generator_ColumnPropNameInTable="EmpIDColumn" msprop:Generator_UserColumnName="EmpID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TotServiceYr" msprop:Generator_ColumnVarNameInTable="columnTotServiceYr" msprop:Generator_ColumnPropNameInRow="TotServiceYr" msprop:Generator_ColumnPropNameInTable="TotServiceYrColumn" msprop:Generator_UserColumnName="TotServiceYr" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalPay" msprop:Generator_ColumnVarNameInTable="columnTotalPay" msprop:Generator_ColumnPropNameInRow="TotalPay" msprop:Generator_ColumnPropNameInTable="TotalPayColumn" msprop:Generator_UserColumnName="TotalPay" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LeaveEncash" msprop:Generator_ColumnVarNameInTable="columnLeaveEncash" msprop:Generator_ColumnPropNameInRow="LeaveEncash" msprop:Generator_ColumnPropNameInTable="LeaveEncashColumn" msprop:Generator_UserColumnName="LeaveEncash" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PF" msprop:Generator_ColumnVarNameInTable="columnPF" msprop:Generator_ColumnPropNameInRow="PF" msprop:Generator_ColumnPropNameInTable="PFColumn" msprop:Generator_UserColumnName="PF" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Gratuity" msprop:Generator_ColumnVarNameInTable="columnGratuity" msprop:Generator_ColumnPropNameInRow="Gratuity" msprop:Generator_ColumnPropNameInTable="GratuityColumn" msprop:Generator_UserColumnName="Gratuity" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TripAdvPay" msprop:Generator_ColumnVarNameInTable="columnTripAdvPay" msprop:Generator_ColumnPropNameInRow="TripAdvPay" msprop:Generator_ColumnPropNameInTable="TripAdvPayColumn" msprop:Generator_UserColumnName="TripAdvPay" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AlreadyPay" msprop:Generator_ColumnVarNameInTable="columnAlreadyPay" msprop:Generator_ColumnPropNameInRow="AlreadyPay" msprop:Generator_ColumnPropNameInTable="AlreadyPayColumn" msprop:Generator_UserColumnName="AlreadyPay" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OtherPay" msprop:Generator_ColumnVarNameInTable="columnOtherPay" msprop:Generator_ColumnPropNameInRow="OtherPay" msprop:Generator_ColumnPropNameInTable="OtherPayColumn" msprop:Generator_UserColumnName="OtherPay" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PFLoan" msprop:Generator_ColumnVarNameInTable="columnPFLoan" msprop:Generator_ColumnPropNameInRow="PFLoan" msprop:Generator_ColumnPropNameInTable="PFLoanColumn" msprop:Generator_UserColumnName="PFLoan" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Other" msprop:Generator_ColumnVarNameInTable="columnOther" msprop:Generator_ColumnPropNameInRow="Other" msprop:Generator_ColumnPropNameInTable="OtherColumn" msprop:Generator_UserColumnName="Other" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NetPay" msprop:Generator_ColumnVarNameInTable="columnNetPay" msprop:Generator_ColumnPropNameInRow="NetPay" msprop:Generator_ColumnPropNameInTable="NetPayColumn" msprop:Generator_UserColumnName="NetPay" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ProcessDate" msprop:Generator_ColumnVarNameInTable="columnProcessDate" msprop:Generator_ColumnPropNameInRow="ProcessDate" msprop:Generator_ColumnPropNameInTable="ProcessDateColumn" msprop:Generator_UserColumnName="ProcessDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" msprop:Generator_UserColumnName="Remarks" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="INSERTEDBY" msprop:Generator_ColumnVarNameInTable="columnINSERTEDBY" msprop:Generator_ColumnPropNameInRow="INSERTEDBY" msprop:Generator_ColumnPropNameInTable="INSERTEDBYColumn" msprop:Generator_UserColumnName="INSERTEDBY" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="INSERTEDDATE" msprop:Generator_ColumnVarNameInTable="columnINSERTEDDATE" msprop:Generator_ColumnPropNameInRow="INSERTEDDATE" msprop:Generator_ColumnPropNameInTable="INSERTEDDATEColumn" msprop:Generator_UserColumnName="INSERTEDDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="UPDATEDBY" msprop:Generator_ColumnVarNameInTable="columnUPDATEDBY" msprop:Generator_ColumnPropNameInRow="UPDATEDBY" msprop:Generator_ColumnPropNameInTable="UPDATEDBYColumn" msprop:Generator_UserColumnName="UPDATEDBY" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UPDATEDDATE" msprop:Generator_ColumnVarNameInTable="columnUPDATEDDATE" msprop:Generator_ColumnPropNameInRow="UPDATEDDATE" msprop:Generator_ColumnPropNameInTable="UPDATEDDATEColumn" msprop:Generator_UserColumnName="UPDATEDDATE" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:FinalPayment" />
+      <xs:field xpath="mstns:FinalPayId" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

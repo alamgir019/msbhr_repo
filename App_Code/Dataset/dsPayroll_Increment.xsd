@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsPayroll_Increment" targetNamespace="http://tempuri.org/dsPayroll_Increment.xsd" xmlns:mstns="http://tempuri.org/dsPayroll_Increment.xsd" xmlns="http://tempuri.org/dsPayroll_Increment.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsPayroll_Increment" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsPayroll_Increment" msprop:Generator_UserDSName="dsPayroll_Increment">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtIncrement" msprop:Generator_TableClassName="dtIncrementDataTable" msprop:Generator_TableVarName="tabledtIncrement" msprop:Generator_TablePropName="dtIncrement" msprop:Generator_RowDeletingName="dtIncrementRowDeleting" msprop:Generator_UserTableName="dtIncrement" msprop:Generator_RowChangingName="dtIncrementRowChanging" msprop:Generator_RowEvHandlerName="dtIncrementRowChangeEventHandler" msprop:Generator_RowDeletedName="dtIncrementRowDeleted" msprop:Generator_RowEvArgName="dtIncrementRowChangeEvent" msprop:Generator_RowChangedName="dtIncrementRowChanged" msprop:Generator_RowClassName="dtIncrementRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmpId" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnEmpId" msprop:Generator_ColumnPropNameInRow="EmpId" msprop:Generator_ColumnPropNameInTable="EmpIdColumn" msprop:Generator_UserColumnName="EmpId" type="xs:string" minOccurs="0" />
+              <xs:element name="FullName" msprop:Generator_ColumnVarNameInTable="columnFullName" msprop:Generator_ColumnPropNameInRow="FullName" msprop:Generator_ColumnPropNameInTable="FullNameColumn" msprop:Generator_UserColumnName="FullName" type="xs:string" minOccurs="0" />
+              <xs:element name="DesigName" msprop:Generator_ColumnVarNameInTable="columnDesigName" msprop:Generator_ColumnPropNameInRow="DesigName" msprop:Generator_ColumnPropNameInTable="DesigNameColumn" msprop:Generator_UserColumnName="DesigName" type="xs:string" minOccurs="0" />
+              <xs:element name="ClinicName" msprop:Generator_ColumnVarNameInTable="columnClinicName" msprop:Generator_ColumnPropNameInRow="ClinicName" msprop:Generator_ColumnPropNameInTable="ClinicNameColumn" msprop:Generator_UserColumnName="ClinicName" type="xs:string" minOccurs="0" />
+              <xs:element name="EmpTypeId" msprop:Generator_ColumnVarNameInTable="columnEmpTypeId" msprop:Generator_ColumnPropNameInRow="EmpTypeId" msprop:Generator_ColumnPropNameInTable="EmpTypeIdColumn" msprop:Generator_UserColumnName="EmpTypeId" type="xs:short" minOccurs="0" />
+              <xs:element name="BasicSalary" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnBasicSalary" msprop:Generator_ColumnPropNameInRow="BasicSalary" msprop:Generator_ColumnPropNameInTable="BasicSalaryColumn" msprop:Generator_UserColumnName="BasicSalary" type="xs:decimal" minOccurs="0" />
+              <xs:element name="GrossSalary" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnGrossSalary" msprop:Generator_ColumnPropNameInRow="GrossSalary" msprop:Generator_ColumnPropNameInTable="GrossSalaryColumn" msprop:Generator_UserColumnName="GrossSalary" type="xs:decimal" minOccurs="0" />
+              <xs:element name="COLA" msprop:Generator_ColumnVarNameInTable="columnCOLA" msprop:Generator_ColumnPropNameInRow="COLA" msprop:Generator_ColumnPropNameInTable="COLAColumn" msprop:Generator_UserColumnName="COLA" type="xs:decimal" minOccurs="0" />
+              <xs:element name="GrpPer" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnGrpPer" msprop:Generator_ColumnPropNameInRow="GrpPer" msprop:Generator_ColumnPropNameInTable="GrpPerColumn" msprop:Generator_UserColumnName="GrpPer" type="xs:decimal" minOccurs="0" />
+              <xs:element name="InvPer" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnInvPer" msprop:Generator_ColumnPropNameInRow="InvPer" msprop:Generator_ColumnPropNameInTable="InvPerColumn" msprop:Generator_UserColumnName="InvPer" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NewBasicSalary" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnNewBasicSalary" msprop:Generator_ColumnPropNameInRow="NewBasicSalary" msprop:Generator_ColumnPropNameInTable="NewBasicSalaryColumn" msprop:Generator_UserColumnName="NewBasicSalary" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NewGrossSalary" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnNewGrossSalary" msprop:Generator_ColumnPropNameInRow="NewGrossSalary" msprop:Generator_ColumnPropNameInTable="NewGrossSalaryColumn" msprop:Generator_UserColumnName="NewGrossSalary" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Housing" msdata:Caption="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnHousing" msprop:Generator_ColumnPropNameInRow="Housing" msprop:Generator_ColumnPropNameInTable="HousingColumn" msprop:Generator_UserColumnName="Housing" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Medical" msprop:Generator_ColumnVarNameInTable="columnMedical" msprop:Generator_ColumnPropNameInRow="Medical" msprop:Generator_ColumnPropNameInTable="MedicalColumn" msprop:Generator_UserColumnName="Medical" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PF" msprop:Generator_ColumnVarNameInTable="columnPF" msprop:Generator_ColumnPropNameInRow="PF" msprop:Generator_ColumnPropNameInTable="PFColumn" msprop:Generator_UserColumnName="PF" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

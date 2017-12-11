@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsEmpConfig" targetNamespace="http://tempuri.org/dsEmpConfig.xsd" xmlns:mstns="http://tempuri.org/dsEmpConfig.xsd" xmlns="http://tempuri.org/dsEmpConfig.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="MSB_HRConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="MSB_HRConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.MSB_HRConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsEmpConfig" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsEmpConfig" msprop:Generator_UserDSName="dsEmpConfig">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DeptWsSubDept" msprop:Generator_TableClassName="DeptWsSubDeptDataTable" msprop:Generator_TableVarName="tableDeptWsSubDept" msprop:Generator_TablePropName="DeptWsSubDept" msprop:Generator_RowDeletingName="DeptWsSubDeptRowDeleting" msprop:Generator_RowChangingName="DeptWsSubDeptRowChanging" msprop:Generator_RowEvHandlerName="DeptWsSubDeptRowChangeEventHandler" msprop:Generator_RowDeletedName="DeptWsSubDeptRowDeleted" msprop:Generator_UserTableName="DeptWsSubDept" msprop:Generator_RowChangedName="DeptWsSubDeptRowChanged" msprop:Generator_RowEvArgName="DeptWsSubDeptRowChangeEvent" msprop:Generator_RowClassName="DeptWsSubDeptRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TransId" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnTransId" msprop:Generator_ColumnPropNameInRow="TransId" msprop:Generator_ColumnPropNameInTable="TransIdColumn" msprop:Generator_UserColumnName="TransId" type="xs:decimal" />
+              <xs:element name="DeptId" msprop:Generator_ColumnVarNameInTable="columnDeptId" msprop:Generator_ColumnPropNameInRow="DeptId" msprop:Generator_ColumnPropNameInTable="DeptIdColumn" msprop:Generator_UserColumnName="DeptId" type="xs:decimal" />
+              <xs:element name="SubDeptId" msprop:Generator_ColumnVarNameInTable="columnSubDeptId" msprop:Generator_ColumnPropNameInRow="SubDeptId" msprop:Generator_ColumnPropNameInTable="SubDeptIdColumn" msprop:Generator_UserColumnName="SubDeptId" type="xs:decimal" />
+              <xs:element name="InsertedBy" msprop:Generator_ColumnVarNameInTable="columnInsertedBy" msprop:Generator_ColumnPropNameInRow="InsertedBy" msprop:Generator_ColumnPropNameInTable="InsertedByColumn" msprop:Generator_UserColumnName="InsertedBy" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InsertedDate" msprop:Generator_ColumnVarNameInTable="columnInsertedDate" msprop:Generator_ColumnPropNameInRow="InsertedDate" msprop:Generator_ColumnPropNameInTable="InsertedDateColumn" msprop:Generator_UserColumnName="InsertedDate" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SubDepartmentList" msprop:Generator_TableClassName="SubDepartmentListDataTable" msprop:Generator_TableVarName="tableSubDepartmentList" msprop:Generator_RowChangedName="SubDepartmentListRowChanged" msprop:Generator_TablePropName="SubDepartmentList" msprop:Generator_RowDeletingName="SubDepartmentListRowDeleting" msprop:Generator_RowChangingName="SubDepartmentListRowChanging" msprop:Generator_RowEvHandlerName="SubDepartmentListRowChangeEventHandler" msprop:Generator_RowDeletedName="SubDepartmentListRowDeleted" msprop:Generator_RowClassName="SubDepartmentListRow" msprop:Generator_UserTableName="SubDepartmentList" msprop:Generator_RowEvArgName="SubDepartmentListRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SubDeptId" msprop:Generator_ColumnVarNameInTable="columnSubDeptId" msprop:Generator_ColumnPropNameInRow="SubDeptId" msprop:Generator_ColumnPropNameInTable="SubDeptIdColumn" msprop:Generator_UserColumnName="SubDeptId" type="xs:decimal" />
+              <xs:element name="SubDeptName" msprop:Generator_ColumnVarNameInTable="columnSubDeptName" msprop:Generator_ColumnPropNameInRow="SubDeptName" msprop:Generator_ColumnPropNameInTable="SubDeptNameColumn" msprop:Generator_UserColumnName="SubDeptName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="128" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DeptId" msprop:Generator_ColumnVarNameInTable="columnDeptId" msprop:Generator_ColumnPropNameInRow="DeptId" msprop:Generator_ColumnPropNameInTable="DeptIdColumn" msprop:Generator_UserColumnName="DeptId" type="xs:decimal" />
+              <xs:element name="IsActive" msprop:Generator_ColumnVarNameInTable="columnIsActive" msprop:Generator_ColumnPropNameInRow="IsActive" msprop:Generator_ColumnPropNameInTable="IsActiveColumn" msprop:Generator_UserColumnName="IsActive" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="IsDeleted" msprop:Generator_ColumnVarNameInTable="columnIsDeleted" msprop:Generator_ColumnPropNameInRow="IsDeleted" msprop:Generator_ColumnPropNameInTable="IsDeletedColumn" msprop:Generator_UserColumnName="IsDeleted" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InsertedBy" msprop:Generator_ColumnVarNameInTable="columnInsertedBy" msprop:Generator_ColumnPropNameInRow="InsertedBy" msprop:Generator_ColumnPropNameInTable="InsertedByColumn" msprop:Generator_UserColumnName="InsertedBy" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InsertedDate" msprop:Generator_ColumnVarNameInTable="columnInsertedDate" msprop:Generator_ColumnPropNameInRow="InsertedDate" msprop:Generator_ColumnPropNameInTable="InsertedDateColumn" msprop:Generator_UserColumnName="InsertedDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="UpdatedBy" msprop:Generator_ColumnVarNameInTable="columnUpdatedBy" msprop:Generator_ColumnPropNameInRow="UpdatedBy" msprop:Generator_ColumnPropNameInTable="UpdatedByColumn" msprop:Generator_UserColumnName="UpdatedBy" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UpdatedDate" msprop:Generator_ColumnVarNameInTable="columnUpdatedDate" msprop:Generator_ColumnPropNameInRow="UpdatedDate" msprop:Generator_ColumnPropNameInTable="UpdatedDateColumn" msprop:Generator_UserColumnName="UpdatedDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="LastUpdatedFrom" msprop:Generator_ColumnVarNameInTable="columnLastUpdatedFrom" msprop:Generator_ColumnPropNameInRow="LastUpdatedFrom" msprop:Generator_ColumnPropNameInTable="LastUpdatedFromColumn" msprop:Generator_UserColumnName="LastUpdatedFrom" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DeptWsSubDept" />
+      <xs:field xpath="mstns:TransId" />
+    </xs:unique>
+    <xs:unique name="SubDepartmentList_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:SubDepartmentList" />
+      <xs:field xpath="mstns:SubDeptId" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

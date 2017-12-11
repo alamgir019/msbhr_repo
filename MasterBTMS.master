@@ -1,0 +1,150 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterBTMS.master.cs" Inherits="MasterBTMS" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>HR & Payroll System</title>
+    <link href="Css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="Css/MenuStyle.css" rel="stylesheet" type="text/css" />
+    <%@ register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
+</head>
+<body>
+
+    <div id="wrapper">
+       <form id="form1" runat="server"> 
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+        <div id="headerMaster">
+            <div class="topBar">
+                <div style="width: 78%; text-align: right; float: left;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="text-align: right;">
+                                <span style="padding-left: 15px;">
+                                    <asp:Label ID="Label1" runat="server" Text="User :" ForeColor="#FFFFFF" Font-Bold="true"></asp:Label>
+                                    <asp:Label ID="lblUser" runat="server" ForeColor="#FFFFFF"></asp:Label>
+                                </span><span style="padding-left: 15px;">
+                                    <asp:Label ID="lblOfficeCaption" runat="server" Text="Office :" ForeColor="#FFFFFF"
+                                        Font-Bold="true"></asp:Label>
+                                    <asp:Label ID="lblOffice" runat="server" ForeColor="#FFFFFF"></asp:Label>
+                                </span><span style="padding-left: 15px;">
+                                    <asp:Label ID="lblProgCaption" runat="server" Text="Program :" ForeColor="#FFFFFF"
+                                        Font-Bold="true"></asp:Label>
+                                    <asp:Label ID="lblProgram" runat="server" ForeColor="#FFFFFF"></asp:Label>
+                                </span><span style="padding-left: 15px;">
+                                    <asp:Label ID="lblTeamCaption" runat="server" Text="Team :" ForeColor="#FFFFFF" Font-Bold="true"></asp:Label>
+                                    <asp:Label ID="lblTeam" runat="server" ForeColor="#FFFFFF"></asp:Label>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="width: 18%; text-align: right; float: right; padding-right: 15px;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="text-align: right;">
+                                <asp:LinkButton ID="lnkLogout" runat="server" CssClass="logOut" OnClick="lnkLogout_Click"
+                                    CausesValidation="false">Logout</asp:LinkButton>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div id="bannerMaster">
+                <div id="ideMaster">
+                    <asp:Image ID="Image1" ImageUrl="~/Images/MSB-Logo.jpg" Width="168px" Height="60px"
+                        runat="server" />
+                </div>
+                <div id="company">
+                    <div id="companyName" style="margin-top: 30px;">
+                        HR & Payroll System
+                    </div>
+                    <div id="companyImg">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mainMenu">
+            <div class="navi">
+                <div id="navi1">
+                    <asp:Menu ID="Menu1" runat="server" StaticDisplayLevels="1" StaticSubMenuIndent="0px"
+                        DisappearAfter="10" Orientation="Horizontal" OnMenuItemClick="Menu1_MenuItemClick"
+                        SkipLinkText="" MaximumDynamicDisplayLevels="7">
+                    </asp:Menu>
+                </div>
+            </div>
+            <div class="navi">
+                <div id="navi2">
+                    <asp:Menu ID="Menu2" runat="server" StaticDisplayLevels="1" StaticSubMenuIndent="0px"
+                        DisappearAfter="10" Orientation="Horizontal" SkipLinkText="" OnMenuItemClick="Menu2_MenuItemClick"
+                        MaximumDynamicDisplayLevels="7">
+                    </asp:Menu>
+                </div>
+            </div>
+            <div class="navi">
+                <div id="navi3">
+                    <asp:Menu ID="Menu3" runat="server" StaticDisplayLevels="1" StaticSubMenuIndent="0px"
+                        DisappearAfter="10" Orientation="Horizontal" SkipLinkText="" OnMenuItemClick="Menu3_MenuItemClick"
+                        MaximumDynamicDisplayLevels="7">
+                    </asp:Menu>
+                </div>
+            </div>
+            <div class="navi">
+                <div id="navi4">
+                    <asp:Menu ID="Menu4" runat="server" StaticDisplayLevels="1" StaticSubMenuIndent="0px"
+                        DisappearAfter="10" Orientation="Horizontal" SkipLinkText="" OnMenuItemClick="Menu4_MenuItemClick"
+                        MaximumDynamicDisplayLevels="7">
+                    </asp:Menu>
+                </div>
+            </div>
+            <div class="navi">
+                <div id="navi5">
+                    <asp:Menu ID="Menu5" runat="server" StaticDisplayLevels="1" StaticSubMenuIndent="0px"
+                        DisappearAfter="10" Orientation="Horizontal" SkipLinkText="" OnMenuItemClick="Menu5_MenuItemClick"
+                        MaximumDynamicDisplayLevels="7">
+                    </asp:Menu>
+                </div>
+            </div>
+            <div class="navi">
+                <div id="navi6">
+                    <asp:Menu ID="Menu6" runat="server" StaticDisplayLevels="1" StaticSubMenuIndent="0px"
+                        DisappearAfter="10" Orientation="Horizontal" SkipLinkText="" OnMenuItemClick="Menu6_MenuItemClick"
+                        MaximumDynamicDisplayLevels="7">
+                    </asp:Menu>
+                </div>
+            </div>
+            <div class="navi">
+                <div id="navi7">
+                    <asp:Menu ID="Menu7" runat="server" StaticDisplayLevels="1" StaticSubMenuIndent="0px"
+                        DisappearAfter="10" Orientation="Horizontal" SkipLinkText="" OnMenuItemClick="Menu7_MenuItemClick"
+                        MaximumDynamicDisplayLevels="7">
+                    </asp:Menu>
+                </div>
+            </div>
+             <div class="navi">
+                <div id="navi8">
+                    <asp:Menu ID="Menu8" runat="server" StaticDisplayLevels="1" StaticSubMenuIndent="0px"
+                        DisappearAfter="10" Orientation="Horizontal" SkipLinkText="" OnMenuItemClick="Menu8_MenuItemClick"
+                        MaximumDynamicDisplayLevels="7" BackColor="Azure">
+                    </asp:Menu>
+                </div>
+            </div>
+
+        </div>
+         
+        <div id="mainContent">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+        </div> 
+          
+       </form> </div>
+       
+    
+   <div id="footer">
+        <div style="float:left;"></div><%--<img src="../Images/Save-Children.jpg" alt="" />--%>
+        <div style="float:right; padding-top:8px; padding-right:15px;">Copyright &copy <a href="http://www.baseltd.com/">BASE Limited</a></div>
+    </div>
+</body>
+</html>

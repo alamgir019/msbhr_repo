@@ -1,0 +1,1110 @@
+<%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true"
+    CodeFile="TimeSheet.aspx.cs" Inherits="Attendance_TimeSheet" Title="Time Sheet" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+    <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js">
+    //Date Time Picker script
+    </script>
+
+    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js">
+    //Delete Confirmation Message
+    </script>
+
+    <script type="text/javascript" language="javascript">
+    function ToUpper(ctrl)
+    {   
+    var t = ctrl.value;
+    ctrl.value = t.toUpperCase(); 
+    }
+    </script>
+
+    <script type="text/javascript">
+<!--
+function gridTextBoxOnChange(txt1ID, txt2ID, txt3ID, txt4ID, txt5ID, txt6ID, txt7ID, txt8ID, txt9ID, txt10ID, txt11ID, txt12ID, 
+txt13ID, txt14ID, txt15ID, txt16ID, txt17ID, txt18ID, 
+txt19ID, txt20ID, txt21ID, txt22ID, txt23ID, txt24ID,
+txt25ID, txt26ID, txt27ID, txt28ID, txt29ID, txt30ID, txt31ID, totalTextBoxId)
+{
+ var txt1Ref = document.getElementById(txt1ID);
+ var txt2Ref = document.getElementById(txt2ID);
+ var txt3Ref = document.getElementById(txt3ID);
+ var txt4Ref = document.getElementById(txt4ID);
+ var txt5Ref = document.getElementById(txt5ID);
+ var txt6Ref = document.getElementById(txt6ID);
+ 
+ var txt7Ref = document.getElementById(txt7ID);
+ var txt8Ref = document.getElementById(txt8ID);
+ var txt9Ref = document.getElementById(txt9ID);
+ var txt10Ref = document.getElementById(txt10ID);
+ var txt11Ref = document.getElementById(txt11ID);
+ var txt12Ref = document.getElementById(txt12ID);
+ 
+ var txt13Ref = document.getElementById(txt13ID);
+ var txt14Ref = document.getElementById(txt14ID);
+ var txt15Ref = document.getElementById(txt15ID);
+ var txt16Ref = document.getElementById(txt16ID);
+ var txt17Ref = document.getElementById(txt17ID);
+ var txt18Ref = document.getElementById(txt18ID);
+ 
+ var txt19Ref = document.getElementById(txt19ID);
+ var txt20Ref = document.getElementById(txt20ID);
+ var txt21Ref = document.getElementById(txt21ID);
+ var txt22Ref = document.getElementById(txt22ID);
+ var txt23Ref = document.getElementById(txt23ID);
+ var txt24Ref = document.getElementById(txt24ID);
+ 
+ var txt25Ref = document.getElementById(txt25ID);
+ var txt26Ref = document.getElementById(txt26ID);
+ var txt27Ref = document.getElementById(txt27ID);
+ var txt28Ref = document.getElementById(txt28ID);
+ var txt29Ref = document.getElementById(txt29ID);
+ var txt30Ref = document.getElementById(txt30ID);
+ var txt31Ref = document.getElementById(txt31ID);
+ 
+ var totalTextBoxRef = document.getElementById(totalTextBoxId);
+
+ var txt1Val = parseFloat(txt1Ref.value);
+ if ( isNaN(txt1Val) == true )
+  txt1Val = 0;
+
+ var txt2Val = parseFloat(txt2Ref.value);
+ if ( isNaN(txt2Val) == true )
+  txt2Val = 0;
+  
+  var txt3Val = parseFloat(txt3Ref.value);
+ if ( isNaN(txt3Val) == true )
+  txt3Val = 0;
+
+ var txt4Val = parseFloat(txt4Ref.value);
+ if ( isNaN(txt4Val) == true )
+  txt4Val = 0;
+  
+  var txt5Val = parseFloat(txt5Ref.value);
+ if ( isNaN(txt5Val) == true )
+  txt5Val = 0;
+
+ var txt6Val = parseFloat(txt6Ref.value);
+ if ( isNaN(txt6Val) == true )
+  txt6Val = 0;
+  
+  
+  
+  var txt7Val = parseFloat(txt7Ref.value);
+ if ( isNaN(txt7Val) == true )
+  txt7Val = 0;
+
+ var txt8Val = parseFloat(txt8Ref.value);
+ if ( isNaN(txt8Val) == true )
+  txt8Val = 0;
+  
+  var txt9Val = parseFloat(txt9Ref.value);
+ if ( isNaN(txt9Val) == true )
+  txt9Val = 0;
+
+ var txt10Val = parseFloat(txt10Ref.value);
+ if ( isNaN(txt10Val) == true )
+  txt10Val = 0;
+  
+  var txt11Val = parseFloat(txt11Ref.value);
+ if ( isNaN(txt11Val) == true )
+  txt11Val = 0;
+
+ var txt12Val = parseFloat(txt12Ref.value);
+ if ( isNaN(txt12Val) == true )
+  txt12Val = 0;
+  
+  
+  
+  var txt13Val = parseFloat(txt13Ref.value);
+ if ( isNaN(txt13Val) == true )
+  txt13Val = 0;
+
+ var txt14Val = parseFloat(txt14Ref.value);
+ if ( isNaN(txt14Val) == true )
+  txt14Val = 0;
+  
+  var txt15Val = parseFloat(txt15Ref.value);
+ if ( isNaN(txt15Val) == true )
+  txt15Val = 0;
+
+ var txt16Val = parseFloat(txt16Ref.value);
+ if ( isNaN(txt16Val) == true )
+  txt16Val = 0;
+  
+  var txt17Val = parseFloat(txt17Ref.value);
+ if ( isNaN(txt17Val) == true )
+  txt17Val = 0;
+
+ var txt18Val = parseFloat(txt18Ref.value);
+ if ( isNaN(txt18Val) == true )
+  txt18Val = 0;
+  
+  var txt19Val = parseFloat(txt19Ref.value);
+ if ( isNaN(txt19Val) == true )
+  txt19Val = 0;
+
+ var txt20Val = parseFloat(txt20Ref.value);
+ if ( isNaN(txt20Val) == true )
+  txt20Val = 0;
+  
+  var txt21Val = parseFloat(txt21Ref.value);
+ if ( isNaN(txt21Val) == true )
+  txt21Val = 0;
+
+ var txt22Val = parseFloat(txt22Ref.value);
+ if ( isNaN(txt22Val) == true )
+  txt22Val = 0;
+  
+  var txt23Val = parseFloat(txt23Ref.value);
+ if ( isNaN(txt23Val) == true )
+  txt23Val = 0;
+
+ var txt24Val = parseFloat(txt24Ref.value);
+ if ( isNaN(txt24Val) == true )
+  txt24Val = 0;
+  
+  
+  var txt25Val = parseFloat(txt25Ref.value);
+ if ( isNaN(txt25Val) == true )
+  txt25Val = 0;
+  
+  var txt26Val = parseFloat(txt26Ref.value);
+ if ( isNaN(txt26Val) == true )
+  txt26Val = 0;
+
+ var txt27Val = parseFloat(txt27Ref.value);
+ if ( isNaN(txt27Val) == true )
+  txt27Val = 0;
+  
+  var txt28Val = parseFloat(txt28Ref.value);
+ if ( isNaN(txt28Val) == true )
+  txt28Val = 0;
+
+ var txt29Val = parseFloat(txt29Ref.value);
+ if ( isNaN(txt29Val) == true )
+  txt29Val = 0;
+  
+  var txt30Val = parseFloat(txt30Ref.value);
+ if ( isNaN(txt30Val) == true )
+  txt30Val = 0;
+
+ var txt31Val = parseFloat(txt31Ref.value);
+ if ( isNaN(txt31Val) == true )
+  txt31Val = 0;
+
+ totalTextBoxRef.value = txt1Val + txt2Val + txt3Val + txt4Val + txt5Val + txt6Val + txt7Val + txt8Val + txt9Val + txt10Val + txt11Val + txt12Val + txt13Val + txt14Val + txt15Val + txt16Val + txt17Val + txt18Val + txt19Val + txt20Val + txt21Val + txt22Val + txt23Val + txt24Val + txt25Val + txt26Val + txt27Val + txt28Val + txt29Val + txt30Val + txt31Val;
+}
+function IMG1_onclick() {
+
+}
+
+// -->
+    </script>
+
+    <div class="formStyle" style="width: 2250px;">
+        <div id="formhead1">
+            Time Sheet</div>
+        <div class="MsgBox">
+            
+        </div>
+        <div class="iesEmp">
+            <fieldset>
+                <table>
+                    <tr>
+                        <td class="textlevel">
+                            Emp Code :</td>
+                        <td>
+                            <asp:TextBox ID="txtEmpID" runat="server" MaxLength="20" onkeyup="ToUpper(this)"
+                                Width="80px" ToolTip="Type an Emp code and press Enter or click on Find Image. "></asp:TextBox>
+                        <td>
+                            <asp:ImageButton ID="imgBtnSearch" runat="server" Height="19px" ImageUrl="~/Images/Search_Icon.jpg"
+                                OnClick="imgBtnSearch_Click" CausesValidation="False" ToolTip="Find Image" /></td>
+                        <td>
+                            <asp:RequiredFieldValidator ID="ReqFieldVal" runat="server" ErrorMessage="*" ControlToValidate="txtEmpID"></asp:RequiredFieldValidator></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td class="textlevel">
+                            Applicant:</td>
+                        <td colspan="3">
+                            <asp:Label ID="lblEmpName" runat="server" CssClass="textlevelleft"></asp:Label>,
+                            <asp:Label ID="lblDesig" runat="server" CssClass="textlevelleft" Width="155px"></asp:Label></td>
+                        <td class="textlevel">
+                            Joining Date :</td>
+                        <td>
+                            <asp:Label ID="lblJoiningDate" runat="server" CssClass="textlevelleft" Width="155px"></asp:Label></td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                        </td>
+                        <td colspan="3">
+                            <asp:Label ID="lblDept" runat="server" CssClass="textlevelleft"></asp:Label>,
+                            <asp:Label ID="lblLoc" runat="server" CssClass="textlevelleft"></asp:Label>
+                            <asp:Label ID="lblOffice" runat="server" CssClass="textlevelleft" Visible="False"></asp:Label></td>
+                        <td class="textlevel">
+                            Employment Type:</td>
+                        <td>
+                            <asp:Label ID="lblEmpType" runat="server" CssClass="textlevelleft" Width="155px"></asp:Label></td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel" valign="top" style="height: 18px">
+                            Supervisor :</td>
+                        <td colspan="3" valign="top" style="height: 18px">
+                            <asp:Label ID="lblSupervisor" runat="server" CssClass="textlevelleft" Width="461px"></asp:Label></td>
+                        <td style="height: 18px">
+                        </td>
+                        <td style="height: 18px">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel" valign="top">
+                            Date of Application:</td>
+                        <td colspan="3" valign="top">
+                            <asp:TextBox ID="txtAppDate" runat="server" Height="16px" Width="100px"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="*"
+                                ControlToValidate="txtAppDate" Font-Bold="True" Font-Size="Large"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator5" runat="server" ControlToValidate="txtAppDate"
+                                CssClass="validator" ErrorMessage="Invalid Date" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$"
+                                Width="60px"></asp:RegularExpressionValidator></td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
+                <asp:HiddenField ID="hfSupervisor" runat="server" />
+                <asp:HiddenField ID="hfSupervisorEmail" runat="server" />
+                <asp:HiddenField ID="hfIsUpdate" runat="server" />
+                <asp:HiddenField ID="hfLvIdUpdate" runat="server" />
+                <asp:HiddenField ID="hfID" runat="server" />
+                <asp:HiddenField ID="hfGrVal" runat="server" />
+            </fieldset>
+            <fieldset>
+                <table>
+                    <tr>
+                        <td class="textlevel">
+                            </td>
+                        <td>
+                            <asp:TextBox ID="txtStartDt" ReadOnly="true" runat="server" Visible="False"></asp:TextBox></td>
+                        <td class="textlevel">
+                            </td>
+                        <td>
+                            <asp:TextBox ID="txtEndDate" ReadOnly="true" runat="server" Visible="False"></asp:TextBox></td>
+                        <td>
+                            <asp:TextBox ID="txtArlCount" runat="server" ReadOnly="true" Visible="False"></asp:TextBox></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td class="textlevel">
+                            Pay Period From :</td>
+                        <td style="width: 243px">
+                            <asp:TextBox ID="txtDtFrom" Width="85px" runat="server"></asp:TextBox>
+                            <a href="javascript:NewCal('<%= txtDtFrom.ClientID %>','ddmmyyyy')">
+                                <img runat="server" style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px"
+                                    height="16" alt="Pick a date" src="../images/cal.gif" width="16" id="IMG1" language="javascript" onclick="return IMG1_onclick()" /></a>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtDtFrom"
+                                CssClass="validator" ErrorMessage="Invalid Date" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$"></asp:RegularExpressionValidator></td>
+                        <td class="textlevel">
+                            Pay Period To :</td>
+                        <td style="width: 243px">
+                            <asp:TextBox ID="txtDtTo" Width="85px" runat="server"></asp:TextBox>
+                            <a href="javascript:NewCal('<%= txtDtTo.ClientID %>','ddmmyyyy')">
+                                <img runat="server" style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px"
+                                    height="16" alt="Pick a date" src="../images/cal.gif" width="16" id="IMG2"/></a>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtDtTo"
+                                CssClass="validator" ErrorMessage="Invalid Date" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$"></asp:RegularExpressionValidator></td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                            Pay Month :</td>
+                        <td>
+                            <asp:DropDownList ID="ddlMonth" CssClass="ItemStylecssCenter" runat="server" Width="100px"
+                                ToolTip="Automatically current month will be selected.">
+                            </asp:DropDownList>
+                        </td>
+                        <td class="textlevel">
+                            Pay Year :</td>
+                        <td>
+                            <asp:DropDownList ID="ddlYear" CssClass="ItemStylecssCenter" runat="server" Width="80px"
+                                ToolTip="Automatically current year will be selected.">
+                            </asp:DropDownList>
+                        </td>
+                        <td class="textlevelshort">
+                            Fiscal Year
+                        </td>
+                        <td>
+                            <asp:DropDownList ID="ddlFiscalYear" runat="server" Width="285px">
+                            </asp:DropDownList>
+                        </td>
+                        <td>
+                            <asp:ImageButton ID="imgBtnPayPeriod" runat="server" Height="19px" ImageUrl="~/Images/Search_Icon.jpg"
+                                CausesValidation="False" ToolTip="Find Image" OnClick="imgBtnPayPeriod_Click" /></td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                            Monthly Hour :</td>
+                        <td>
+                            <asp:Label ID="lblMonthlyHour" runat="server"></asp:Label></td>
+                        <td class="textlevel">
+                            Day Hour :</td>
+                        <td>
+                            <asp:Label ID="lblDayhour" runat="server"></asp:Label></td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset>
+            <asp:Label ID="lblMsg" runat="server" CssClass="msglabel"></asp:Label>
+                <table align="center" width="30%">
+                    <tr>
+                        <td>
+                            Working Day |
+                            <asp:Panel ID="pnlNormal" runat="server" BackColor="#C2D69B" Width="80px" Height="15px">
+                            </asp:Panel>
+                        </td>
+                        <td>
+                            Weekend |
+                            <asp:Panel ID="pnlWeekEnd" runat="server" BackColor="#B8CCE4" Width="60px" Height="15px">
+                            </asp:Panel>
+                        </td>
+                        <td>
+                            Holiday |
+                            <asp:Panel ID="pnlHoliDay" runat="server" BackColor="#F2DBDB" Width="60px" Height="15px">
+                            </asp:Panel>
+                        </td>
+                        <td>
+                            Leave |
+                            <asp:Panel ID="pnlLeave" runat="server" BackColor="#C0C0C0" Width="60px" Height="15px">
+                            </asp:Panel>
+                        </td>
+                    </tr>
+                </table>
+                <br />
+                <asp:GridView ID="grTimeSheet" runat="server" DataKeyNames="GADCODE,FiscalYrId,EMPID,JUL"
+                    AutoGenerateColumns="False" EmptyDataText="No Record Found" Font-Size="9px" ShowFooter="true"
+                    OnRowCommand="grTimeSheet_RowCommand" OnRowDataBound="grTimeSheet_RowDataBound1">
+                    <HeaderStyle BackColor="#C2D69B" Font-Bold="True"></HeaderStyle>
+                    <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
+                    </SelectedRowStyle>
+                    <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
+                    <Columns>
+                        <asp:BoundField DataField="GADTITLE" HeaderText="GAD Title">
+                            <ItemStyle CssClass="ItemStylecss" Width="250px"></ItemStyle>
+                        </asp:BoundField>
+                        <asp:BoundField HeaderText="%">
+                            <ItemStyle CssClass="ItemStylecss" Width="250px"></ItemStyle>
+                        </asp:BoundField>
+                        
+                        <asp:TemplateField HeaderText="Acc Line">
+                            <ItemTemplate>
+                                <asp:TextBox ID="txtAccLine" Width="45px" runat="server"></asp:TextBox>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt1" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb1" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("2") %>'>
+                                    <asp:Image ID="imglb1" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                            <FooterTemplate>
+                                <asp:Label ID="lbltxt1Total" runat="server" />
+                            </FooterTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt2" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb2" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("3") %>'>
+                                    <asp:Image ID="imglb2" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt3" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb3" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("4") %>'>
+                                    <asp:Image ID="imglb3" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt4" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb4" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("5") %>'>
+                                    <asp:Image ID="imglb4" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt5" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb5" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("6") %>'>
+                                    <asp:Image ID="imglb5" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt6" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb6" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("7") %>'>
+                                    <asp:Image ID="imglb6" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt7" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb7" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("8") %>'>
+                                    <asp:Image ID="imglb7" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt8" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb8" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("9") %>'>
+                                    <asp:Image ID="imglb8" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt9" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb9" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("10") %>'>
+                                    <asp:Image ID="imglb9" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt10" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb10" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("11") %>'>
+                                    <asp:Image ID="imglb10" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt11" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb11" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("12") %>'>
+                                    <asp:Image ID="imglb11" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt12" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb12" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("13") %>'>
+                                    <asp:Image ID="imglb12" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt13" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb13" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("14") %>'>
+                                    <asp:Image ID="imglb13" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt14" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb14" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("15") %>'>
+                                    <asp:Image ID="imglb14" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt15" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb15" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("16") %>'>
+                                    <asp:Image ID="imglb15" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt16" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb16" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("17") %>'>
+                                    <asp:Image ID="imglb16" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt17" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb17" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("18") %>'>
+                                    <asp:Image ID="imglb17" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt18" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb18" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("19") %>'>
+                                    <asp:Image ID="imglb18" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt19" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb19" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("20") %>'>
+                                    <asp:Image ID="imglb19" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt20" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb20" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("21") %>'>
+                                    <asp:Image ID="imglb20" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt21" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb21" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("22") %>'>
+                                    <asp:Image ID="imglb21" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt22" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb22" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("23") %>'>
+                                    <asp:Image ID="imglb22" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt23" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb23" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("24") %>'>
+                                    <asp:Image ID="imglb23" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt24" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb24" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("25") %>'>
+                                    <asp:Image ID="imglb24" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt25" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb25" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("26") %>'>
+                                    <asp:Image ID="imglb25" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt26" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb26" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("27") %>'>
+                                    <asp:Image ID="imglb26" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt27" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb27" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("28") %>'>
+                                    <asp:Image ID="imglb27" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt28" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb28" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("29") %>'>
+                                    <asp:Image ID="imglb28" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt29" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb29" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("30") %>'>
+                                    <asp:Image ID="imglb29" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt30" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb30" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("31") %>'>
+                                    <asp:Image ID="imglb30" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt31" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb31" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("32") %>'>
+                                    <asp:Image ID="imglb31" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Total Work Hour">
+                            <ItemTemplate>
+                                <asp:TextBox ID="txtTotal" Width="45px" runat="server"></asp:TextBox>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="% of Work">
+                            <ItemTemplate>
+                                <asp:TextBox ID="txtRatio" Width="45px" runat="server"></asp:TextBox>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+                <br />
+                <br />
+                <br />
+                <br />
+                <table align="center" width="20%">
+                    <tr>
+                        <td>
+                            Number of Hours of Paid Time Leave</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>
+                            <asp:Label ID="lblLeaveFoundMSG" runat="server" ForeColor="Red"></asp:Label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Button ID="btnLoadLeave" runat="server" Text="Load Leave" OnClick="btnLoadLeave_Click" /></td>
+                    </tr>
+                </table>
+                <br />
+                <asp:GridView ID="grLeave" runat="server" DataKeyNames="Ltype" ShowFooter="true"
+                    AutoGenerateColumns="False" EmptyDataText="No Record Found" ShowHeader="True"
+                    Font-Size="9px" OnRowCommand="grLeave_RowCommand" OnRowDataBound="grLeave_RowDataBound">
+                    <HeaderStyle BackColor="#C2D69B" Font-Bold="True"></HeaderStyle>
+                    <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
+                    </SelectedRowStyle>
+                    <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
+                    <Columns>
+                        <asp:BoundField DataField="LTypeTitle">
+                            <ItemStyle CssClass="ItemStylecss" Width="250px"></ItemStyle>
+                        </asp:BoundField>
+                        <asp:BoundField HeaderText="Count">
+                            <ItemStyle CssClass="ItemStylecss" Width="250px"></ItemStyle>
+                        </asp:BoundField>
+                        <asp:TemplateField HeaderText="Acc Line">
+                            <ItemTemplate>
+                                <asp:TextBox ID="txtAccLine2" Width="45px" runat="server"></asp:TextBox>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt1" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb1" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("2") %>'>
+                                    <asp:Image ID="imglb1" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                            <FooterTemplate>
+                                <asp:Label ID="lbltxt1Total" runat="server" />
+                            </FooterTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt2" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb2" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("3") %>'>
+                                    <asp:Image ID="imglb2" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt3" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb3" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("4") %>'>
+                                    <asp:Image ID="imglb3" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt4" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb4" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("5") %>'>
+                                    <asp:Image ID="imglb4" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt5" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb5" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("6") %>'>
+                                    <asp:Image ID="imglb5" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt6" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb6" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("7") %>'>
+                                    <asp:Image ID="imglb6" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt7" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb7" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("8") %>'>
+                                    <asp:Image ID="imglb7" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt8" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb8" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("9") %>'>
+                                    <asp:Image ID="imglb8" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt9" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb9" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("10") %>'>
+                                    <asp:Image ID="imglb9" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt10" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb10" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("11") %>'>
+                                    <asp:Image ID="imglb10" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt11" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb11" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("12") %>'>
+                                    <asp:Image ID="imglb11" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt12" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb12" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("13") %>'>
+                                    <asp:Image ID="imglb12" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt13" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb13" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("14") %>'>
+                                    <asp:Image ID="imglb13" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt14" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb14" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("15") %>'>
+                                    <asp:Image ID="imglb14" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt15" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb15" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("16") %>'>
+                                    <asp:Image ID="imglb15" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt16" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb16" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("17") %>'>
+                                    <asp:Image ID="imglb16" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt17" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb17" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("18") %>'>
+                                    <asp:Image ID="imglb17" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt18" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb18" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("19") %>'>
+                                    <asp:Image ID="imglb18" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt19" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb19" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("20") %>'>
+                                    <asp:Image ID="imglb19" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt20" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb20" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("21") %>'>
+                                    <asp:Image ID="imglb20" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt21" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb21" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("22") %>'>
+                                    <asp:Image ID="imglb21" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt22" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb22" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("23") %>'>
+                                    <asp:Image ID="imglb22" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt23" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb23" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("24") %>'>
+                                    <asp:Image ID="imglb23" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt24" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb24" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("25") %>'>
+                                    <asp:Image ID="imglb24" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt25" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb25" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("26") %>'>
+                                    <asp:Image ID="imglb25" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt26" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb26" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("27") %>'>
+                                    <asp:Image ID="imglb26" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt27" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb27" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("28") %>'>
+                                    <asp:Image ID="imglb27" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt28" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb28" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("29") %>'>
+                                    <asp:Image ID="imglb28" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt29" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb29" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("30") %>'>
+                                    <asp:Image ID="imglb29" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt30" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb30" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("31") %>'>
+                                    <asp:Image ID="imglb30" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txt31" Width="35px" runat="server"></asp:TextBox>
+                                <asp:LinkButton ID="lb31" runat="server" CommandName="Click" CommandArgument='<%# Convert.ToString("32") %>'>
+                                    <asp:Image ID="imglb31" runat="server" ImageUrl="~/Images/calendar_task.png" ImageAlign="Right" />
+                                </asp:LinkButton>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:TextBox ID="txtTotal" Width="45px" runat="server"></asp:TextBox>
+                            </ItemTemplate>
+                            <ItemStyle Width="100px" />
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+                <br />
+                <asp:Button ID="btnCal" runat="server" Text="Save" OnClick="btnCal_Click" />
+            </fieldset>
+            <fieldset>
+                <legend>Time Sheet Summary</legend>
+                <table>
+                    <tr>
+                        <td>
+                            Assigned Hour (A) :</td>
+                        <td>
+                            <asp:Label ID="lblAssignedHour" runat="server"></asp:Label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Worked Hour (B) :</td>
+                        <td>
+                            <asp:Label ID="lblWorkedHour" runat="server"></asp:Label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Leave Hour (C) :</td>
+                        <td>
+                            <asp:Label ID="lblLeaveHour" runat="server"></asp:Label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            (B + C) Hour :</td>
+                        <td>
+                            <asp:Label ID="lblWLHr" runat="server"></asp:Label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            A - (B + C) Hour :</td>
+                        <td>
+                            <asp:Label ID="lblDiffHr" runat="server"></asp:Label></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <asp:Panel Style="display: none" ID="PanelMeveText" runat="server" Width="500px"
+            CssClass="modalPopup" Height="160px">
+            <div style="font-weight: bold; font-size: 13px; background-image: url(../../Images/orengeBG.jpg);
+                width: 500px; color: white; background-repeat: repeat-x; height: 20px; text-align: left">
+                Input Task History
+            </div>
+            <asp:HiddenField ID="hfColIndex" runat="server"></asp:HiddenField>
+            <asp:HiddenField ID="hfRowIndex" runat="server"></asp:HiddenField>
+            &nbsp;&nbsp;
+            <asp:TextBox ID="txtMoveText" runat="server" Width="490px" Rows="4" TextMode="MultiLine"></asp:TextBox>
+            <%--<div style="text-align: Left">
+                <asp:CheckBox ID="chkP2P" Text="PTP" runat="server" ToolTip="Posted To Payslip" Checked="False">
+                </asp:CheckBox>
+            </div>--%>
+            <div class="DivCommand1">
+                <div class="DivCommandL">
+                    <asp:ImageButton ID="imgbtnSaveMoveText" runat="server" Width="30px" Height="30px"
+                        ImageUrl="~/Images/Ok.jpeg" OnClick="imgbtnSaveMoveText_Click"></asp:ImageButton>&nbsp;
+                </div>
+                <div class="DivCommandR">
+                    <div style="margin-top: 5px; vertical-align: top; height: 20px; text-align: right">
+                        <asp:ImageButton ID="imgbtnCloseMoveText" runat="server" Width="25px" Height="25px"
+                            ImageAlign="AbsMiddle" ImageUrl="~/Images/Close.png"></asp:ImageButton>
+                    </div>
+                </div>
+            </div>
+        </asp:Panel>
+        <asp:Button ID="btnShowMoveTextModal" runat="server" Text="." CausesValidation="False"
+            Enabled="false" Visible="true"></asp:Button>
+        <cc1:ModalPopupExtender ID="ModalpopupextenderMoveText" runat="server" BackgroundCssClass="modalBackground"
+            CancelControlID="imgbtnCloseMoveText" DropShadow="True" DynamicServicePath=""
+            Enabled="True" PopupControlID="PanelMeveText" TargetControlID="btnShowMoveTextModal">
+        </cc1:ModalPopupExtender>
+        &nbsp;<br />
+        <asp:TextBox ID="txtGreater" runat="server" Visible="false" ReadOnly="true"></asp:TextBox>
+    </div>
+</asp:Content>

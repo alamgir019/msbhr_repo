@@ -1,0 +1,134 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class SOF_SOFSettlement : System.Web.UI.Page
+{      
+    EmpInfoManager objEmpMgr = new EmpInfoManager();
+    SOFManager objSOFMgr = new SOFManager();
+    Payroll_MasterMgr objPayrollMgr = new Payroll_MasterMgr();
+    
+    DataTable dtEmpInfo = new DataTable();
+    DataTable dtSalaryCharge = new DataTable();
+    DataTable dtSalarySourceHeadWs = new DataTable();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            this.EntryMode(false);
+            Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0, "F"), ddlFiscalYear, "FISCALYRTITLE", "FISCALYRID", false);
+            Common.FillMonthList(ddlMonth);
+            Common.FillYearList(5, ddlYear);
+            ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
+            ddlYear.SelectedValue= System.DateTime.Now.ToString("yyyy");
+        }
+    }
+
+    protected void EntryMode(bool IsUpdate)
+    {
+        if (IsUpdate == true)
+        {
+            btnSave.Text = "Update";
+            hfIsUpdate.Value = "Y";
+        }
+        else
+        {
+            this.ClearSubControls();
+            btnSave.Text = "Save";
+            hfIsUpdate.Value = "N";
+        }
+    }
+
+    private void ClearControls()
+    {
+        grList.DataSource = null;
+        grList.DataBind();
+    }
+
+    private void ClearSubControls()
+    {
+      
+    }
+
+    protected void btnView_Click(object sender, EventArgs e)
+    {
+        string strYear = ddlYear.SelectedItem.Value.ToString().Trim();
+        string strMonth = ddlMonth.SelectedItem.Value.ToString().Trim();
+
+        dtSalaryCharge = objSOFMgr.SelectSOFSettlement(strYear, strMonth);
+        grList.DataSource = dtSalaryCharge;
+        grList.DataBind();
+
+        
+    }
+
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        if (ValidateAndSave() == true)
+            this.SaveData();
+    }
+
+    protected bool ValidateAndSave()
+    {
+        try
+        {
+            //if (ddlYear.SelectedIndex == 0)
+            //{
+            //    lblMsg.Text = "Please Select The Year.";
+            //    ddlYear.Focus();
+            //    return false;
+            //}
+            //if (ddlMonth.SelectedIndex == 0)
+            //{
+            //    lblMsg.Text = "Please Select The Month.";
+            //    ddlMonth.Focus();
+            //    return false;
+            //}
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = "";
+            throw (ex);
+        }
+    }
+
+    protected void btnRefresh_Click(object sender, EventArgs e)
+    {
+        this.EntryMode(false);
+        this.ClearControls();
+        this.ClearSubControls();
+        lblMsg.Text = "";
+    }
+    
+    private void SaveData()
+    {
+        try
+        {
+            string strYear = ddlYear.SelectedItem.Value.ToString().Trim();
+            string strMonth = ddlMonth.SelectedItem.Value.ToString().Trim();
+
+            dtSalarySourceHeadWs = objSOFMgr.SelectSalarySourceSHeadWs(strYear, strMonth,"");
+            objSOFMgr.InsertEmpSalarySource(grList, dtSalarySourceHeadWs, Convert.ToInt32(ddlFiscalYear.SelectedValue.ToString()), 
+                Convert.ToInt32(strMonth), Convert.ToInt32(strYear), Session["USERID"].ToString(), Common.SetDateTime(DateTime.Now.ToString()));
+
+            lblMsg.Text = "SOF has been Settled Successfully for " + ddlMonth.SelectedItem.ToString() + ", " + ddlYear.SelectedItem.ToString();
+
+            this.EntryMode(false);
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = "";
+             throw (ex);
+        }
+    }
+}
