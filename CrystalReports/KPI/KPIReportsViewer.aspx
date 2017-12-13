@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="KPIReportsViewer.aspx.cs" 
+﻿<script src="/crystalreportviewers13/js/crviewer/crv.js"></script>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="KPIReportsViewer.aspx.cs" 
     Inherits="CrystalReports_KPI_KPIReportsViewer" Title="KPI Report Page" %>
 
 <%@ Register Assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
