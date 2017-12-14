@@ -1436,7 +1436,7 @@ public class ReportManager
    "ELSE ' '+datename(m,tsc.StrDate)+'-'+cast(day(tsc.EndDate) as char(2))+' '+datename(m,tsc.EndDate) END +' '+cast(YEAR(tsc.EndDate) as char(4)) as ConductedFrom" +
     " ,pl.ProjectName,Upper(emp.FullName) as FullName,empsign1.FullName as SignName1,desigsign1.DesigName as DesigName1,empsign2.FullName as SignName2,desigsign2.DesigName as DesigName2,empsign3.FullName as SignName3,desigsign3.DesigName as DesigName3,empsign4.FullName as SignName4,desigsign4.DesigName as DesigName4 from TrTrainingList trl" +
   " inner join TrSchedule tsc on trl.TrainId=tsc.TrainId" +
-  " inner join TrTrainResult trs on trs.TrainId=trl.TrainId" +
+  " inner join TrTrainResult trs on trs.ScheduleID=tsc.ScheduleID" +
   " inner join TrTrainResultDtls trd on trs.ResultId=trd.ResultId" +
   " inner join EmpInfo emp on trd.TraineeID=emp.EmpId" +
   " left join EmpInfo empsign1 on trs.SignID1=empsign1.EmpId" +
