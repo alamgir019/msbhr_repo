@@ -86,7 +86,7 @@
                 <legend>List</legend>
                 <div style="overflow: scroll; width: 100%; height: 250px">
                     <asp:GridView ID="grList" runat="server" Width="100%" Font-Size="9px" EmptyDataText="No Record Found"
-                        AutoGenerateColumns="False" DataKeyNames="SalarySourceId">
+                        AutoGenerateColumns="False" DataKeyNames="SalarySourceId,Salary,Bonus,PF,IT,PFLoan,FringePF,Medical,Gratuity">
                         <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
                         <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
                         </SelectedRowStyle>
@@ -119,8 +119,7 @@
                             CausesValidation="false" />
                     </div>
                     <div class="DivCommandR">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Save SOF Settlement" Width="140px" />
-                        &nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <asp:Button ID="btnGenerate" runat="server" Text="Generate Time Sheet" OnClick="btnGenerate_Click" />
                     </div>
                 </div>

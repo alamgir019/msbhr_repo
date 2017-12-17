@@ -871,7 +871,7 @@ public class SOFManager
     public void InsertEmpSalarySource(GridView gvData, Int32 FiscalYrId, Int32 vmonth, Int32 vyear, string strEmpId, 
         string strInsBy, string strInsDate, string strPreMonth,string strEmpTypeId)
     {
-        SqlCommand[] command = new SqlCommand[2 + gvData.Rows.Count + (gvData.Rows.Count * 15)];
+        SqlCommand[] command = new SqlCommand[2 + gvData.Rows.Count + (gvData.Rows.Count * 25)];
         int i = 0;
         //int iRowIndex = 0;
 
@@ -922,15 +922,19 @@ public class SOFManager
         strEmpId =  gvData.Rows[0].Cells[0].Text.ToString().Trim();
 
         foreach (GridViewRow gRow in gvData.Rows)
-        {
+        {           
             if (gRow.Cells[0].Text.Trim() != strEmpId)
             {
                 intTransId++;
                 strEmpId = gRow.Cells[0].Text.Trim();
             }
-            command[i] = this.InsertEmpSalarySource1(intTransId.ToString(), gRow.Cells[0].Text.Trim(), gvData.DataKeys[gRow.DataItemIndex].Values[0].ToString(), "", "",
-                    "", "", "", "", "", "", "", "", gRow.Cells[4].Text.Trim(), vmonth, vyear, strEmpTypeId, strInsBy, strInsDate);
-            i++;
+            command[i] = this.InsertEmpSalarySource1(intTransId.ToString(), gRow.Cells[0].Text.Trim(), gvData.DataKeys[gRow.DataItemIndex].Values[0].ToString(), gRow.Cells[2].Text.Trim(), gRow.Cells[3].Text.Trim(),
+                    gvData.DataKeys[gRow.DataItemIndex].Values[1].ToString(), gvData.DataKeys[gRow.DataItemIndex].Values[2].ToString(),
+                    gvData.DataKeys[gRow.DataItemIndex].Values[3].ToString(), gvData.DataKeys[gRow.DataItemIndex].Values[4].ToString(),
+                    gvData.DataKeys[gRow.DataItemIndex].Values[5].ToString(), gvData.DataKeys[gRow.DataItemIndex].Values[6].ToString(),
+                    gvData.DataKeys[gRow.DataItemIndex].Values[7].ToString(), gvData.DataKeys[gRow.DataItemIndex].Values[8].ToString(),
+                    gRow.Cells[4].Text.Trim(), vmonth, vyear, strEmpTypeId, strInsBy, strInsDate);
+            i++;           
         }
 
         Payroll_PayslipApprovalManager objPayApproveMgr = new Payroll_PayslipApprovalManager();

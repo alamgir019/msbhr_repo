@@ -122,7 +122,7 @@ public class Payroll_PreparationManager
                                                       gr.DataKeys[gRow.DataItemIndex].Values[10].ToString(),
                                                       gr.DataKeys[gRow.DataItemIndex].Values[11].ToString(),
                                                       gr.DataKeys[gRow.DataItemIndex].Values[12].ToString(),
-                                                      strInsBy, strInsDate, strPrepDate,
+                                                      strInsBy, strInsDate, strPrepDate,                                                      
                                                       gr.DataKeys[gRow.DataItemIndex].Values[17].ToString(),// BankCode
                                                       gr.DataKeys[gRow.DataItemIndex].Values[18].ToString(),// BranchCode
                                                       gr.DataKeys[gRow.DataItemIndex].Values[19].ToString(),// Bank Acc No
@@ -130,8 +130,7 @@ public class Payroll_PreparationManager
                                                       gr.DataKeys[gRow.DataItemIndex].Values[21].ToString(),// DesgId
                                                       gr.DataKeys[gRow.DataItemIndex].Values[22].ToString(),
                                                       gr.DataKeys[gRow.DataItemIndex].Values[23].ToString(),// Plan Accline
-                                                      gr.DataKeys[gRow.DataItemIndex].Values[24].ToString(),// ClinicId  
-                                                       gr.DataKeys[gRow.DataItemIndex].Values[25].ToString(),// DivisionId     
+                                                      gr.DataKeys[gRow.DataItemIndex].Values[24].ToString(),// ClinicId                                                      
                                                       strMonth, strYear, strFiscalYear,// Month, year, fiscal year
                                                       strEmpGrpID, strTaxPercent, strPFFiscalYrId, strTaxFiscalYrId);
             i++;
@@ -164,12 +163,12 @@ public class Payroll_PreparationManager
         objDC.MakeTransaction(command);
     }
 
-    protected SqlCommand InsertPaySlipMasterData(string strPSBId, string strPayID, string strEmpId, string strPayDurStart, string strPayDurEnd,
-        string strNetPay, string strPaySlipStatus, string strSalPackId, string strSalaryType, string strIsWithBonus, string strPayType,
-        string strTWorkDayHour, string strGrossAmt, string strIsIrregular, string strIsCurrConv, string strCurrId, string strCurrConvAmt,
+    protected SqlCommand InsertPaySlipMasterData(string strPSBId,string strPayID,string strEmpId,string strPayDurStart,string strPayDurEnd, 
+        string strNetPay,string strPaySlipStatus,string strSalPackId,string strSalaryType,string strIsWithBonus,string strPayType,
+        string strTWorkDayHour,string strGrossAmt,string strIsIrregular,string strIsCurrConv,string strCurrId, string strCurrConvAmt,
         string strInsBy, string strInsDate, string strPrepDate, string strBankCode, string strBranchCode, string strAccNo,
-        string strDeptId, string strDesgId, string strEmpTypeId, string strAccline, string strDivId, string strClinicId, string strMonth,
-        string strYear, string strFiscalYear, string strEmpGrpID, string strTaxPercent, string strPFFiscalYrId, string strTaxFiscalYrId)
+        string strDeptId, string strDesgId, string strEmpTypeId,string strAccline, string strClinicId,string strMonth,
+        string strYear, string strFiscalYear, string strEmpGrpID, string strTaxPercent, string strPFFiscalYrId,string strTaxFiscalYrId)
     {
         SqlCommand cmd = new SqlCommand("proc_Payroll_Insert_PaySlipMst");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -185,12 +184,12 @@ public class Payroll_PreparationManager
         SqlParameter p_EMPID = cmd.Parameters.Add("EMPID", SqlDbType.Char);
         p_EMPID.Direction = ParameterDirection.Input;
         p_EMPID.Value = strEmpId;
-
+        
         SqlParameter p_PAYDURSTART = cmd.Parameters.Add("PAYDURSTART", SqlDbType.DateTime);
         p_PAYDURSTART.Direction = ParameterDirection.Input;
         p_PAYDURSTART.Value = strPayDurStart;
 
-        SqlParameter p_PAYDUREND = cmd.Parameters.Add("PAYDUREND", SqlDbType.DateTime);
+        SqlParameter p_PAYDUREND= cmd.Parameters.Add("PAYDUREND", SqlDbType.DateTime);
         p_PAYDUREND.Direction = ParameterDirection.Input;
         p_PAYDUREND.Value = strPayDurEnd;
 
@@ -276,9 +275,9 @@ public class Payroll_PreparationManager
         if (strDeptId != "")
             p_DEPTID.Value = strDeptId;
 
-        SqlParameter p_DESGID = cmd.Parameters.Add("DesigId", DBNull.Value);
+        SqlParameter p_DESGID = cmd.Parameters.Add("DesigId", DBNull.Value );
         p_DESGID.Direction = ParameterDirection.Input;
-        p_DESGID.IsNullable = true;
+        p_DESGID.IsNullable =true ;
         if (strDesgId != "")
             p_DESGID.Value = strDesgId;
 
@@ -309,10 +308,6 @@ public class Payroll_PreparationManager
         SqlParameter p_TaxPercent = cmd.Parameters.Add("TaxPercent", SqlDbType.BigInt);
         p_TaxPercent.Direction = ParameterDirection.Input;
         p_TaxPercent.Value = strTaxPercent;
-
-        SqlParameter p_DivId = cmd.Parameters.Add("DivisionId", SqlDbType.BigInt);
-        p_DivId.Direction = ParameterDirection.Input;
-        p_DivId.Value = strDivId;
 
         SqlParameter p_ClinicId = cmd.Parameters.Add("ClinicId", SqlDbType.BigInt);
         p_ClinicId.Direction = ParameterDirection.Input;
