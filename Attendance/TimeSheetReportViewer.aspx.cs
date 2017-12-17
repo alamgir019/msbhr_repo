@@ -12,6 +12,8 @@ public partial class TimeSheetReportViewer : System.Web.UI.Page
     ReportManager rptManager = new ReportManager();
     dsTimeSheet ds = new dsTimeSheet();
 
+    private string LogoPath = System.Web.Configuration.WebConfigurationManager.AppSettings["LogoPath"];
+
     protected void Page_Load(object sender, EventArgs e)
     {
         string strParams = Request.QueryString["params"];
@@ -23,9 +25,9 @@ public partial class TimeSheetReportViewer : System.Web.UI.Page
     {
         ReportDoc = new ReportDocument();
         if (blnIsRound == false)
-            ReportPath = Server.MapPath("../CrystalReports/rptTimeSheet.rpt");
+            ReportPath = Server.MapPath("../CrystalReports/Attendance/rptTimeSheet.rpt");
         else
-            ReportPath = Server.MapPath("../CrystalReports/rptTimeSheetRound.rpt");
+            ReportPath = Server.MapPath("../CrystalReports/Attendance/rptTimeSheetRound.rpt");
         ReportDoc.Load(ReportPath);
 
         DataTable dtTimeSheetEmpInfo = rptManager.Get_TimeSheetEmpInfo(strEmpId, strMonth, strYear);
@@ -202,6 +204,8 @@ public partial class TimeSheetReportViewer : System.Web.UI.Page
         this.GetHoliday(dtTimeSheetWH, ds.dtTimeSheetWH);
 
         ReportDoc.SetDataSource(ds);
+        
+        //ReportDoc.SetParameterValue("ComLogo", LogoPath);
         CRVA.ReportSource = ReportDoc;
     }
 
