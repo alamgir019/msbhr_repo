@@ -167,16 +167,7 @@
                                                             </td>
                                                             <td>
                                                                 <asp:DropDownList ID="ddlIsClosed" runat="server" Width="127px" Font-Size="9pt">
-                                                                    <asp:ListItem Value="-1">All</asp:ListItem>
-                                                                    <asp:ListItem Selected="True" Value="Regular">Regular</asp:ListItem>
-                                                                    <asp:ListItem Value="Contractual">Contractual</asp:ListItem>
-                                                                    <asp:ListItem Value="Probation">Probation</asp:ListItem>
-                                                                    <asp:ListItem Value="Released">Released</asp:ListItem>
-                                                                    <asp:ListItem Value="Removed">Removed</asp:ListItem>
-                                                                    <asp:ListItem Value="Resigned">Resigned</asp:ListItem>
-                                                                    <asp:ListItem Value="Retired">Retired</asp:ListItem>
-                                                                    <asp:ListItem Value="Suspended">Suspended</asp:ListItem>
-                                                                    <asp:ListItem Value="Unauthorized Absent">Unauthorized Absent</asp:ListItem>
+                                                                    <asp:ListItem Selected="True" Value="-1">All</asp:ListItem>                                                                                                                                        
                                                                 </asp:DropDownList>
                                                             </td>
                                                         </tr>

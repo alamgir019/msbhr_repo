@@ -10,7 +10,7 @@ public partial class frmTrainingReportViewer : System.Web.UI.Page
     private ReportDocument ReportDoc;
     private string ReportPath = "";
     private string LogoPath = System.Web.Configuration.WebConfigurationManager.AppSettings["LogoPath"];
-
+    //test change
     ReportManager rptManager = new ReportManager();
 
     DataTable MyDataTable = new DataTable();

@@ -1,6 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true"
-    CodeFile="ConfirmAppraisal.aspx.cs" Inherits="Appraisal_ConfirmAppraisal"
-    Title="Confirmation Appraisal" %>
+<%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" CodeFile="~/Appraisal/ConfirmAppraisal.aspx.cs" Inherits="Appraisal_ConfirmAppraisal" Title="Confirmation Appraisal" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <%@ register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>

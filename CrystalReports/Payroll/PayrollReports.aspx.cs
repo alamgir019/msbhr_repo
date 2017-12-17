@@ -681,7 +681,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "T"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
+                    dtSalDivision = objPayMgr.SelectClinic();
                     grSalDivision.DataSource = dtSalDivision;
                     grSalDivision.DataBind();
                     this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
@@ -694,7 +694,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "T"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
+                    dtSalDivision = objPayMgr.SelectClinic();
                     grSalDivision.DataSource = dtSalDivision;
                     grSalDivision.DataBind();
                     this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
