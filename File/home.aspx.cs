@@ -254,7 +254,7 @@ public partial class home : System.Web.UI.Page
             if (gRow.Cells[5].Text == "-1")
                 gRow.Cells[5].Text = "";
         }
-        lblContractExtension.Text = grProfCertDate.Rows.Count.ToString();
+        lblProfCertDate.Text = grProfCertDate.Rows.Count.ToString();
 
         if (grProfCertDate.Rows.Count > 0)
             pnlProfCertDate.Visible = true;
@@ -281,7 +281,7 @@ public partial class home : System.Web.UI.Page
             if (gRow.Cells[5].Text == "-1")
                 gRow.Cells[5].Text = "";
         }
-        lblContractExtension.Text = grDrivingLicense.Rows.Count.ToString();
+        lblrDrivingLicense.Text = grDrivingLicense.Rows.Count.ToString();
 
         if (grDrivingLicense.Rows.Count > 0)
             pnlProfCertDate.Visible = true;
