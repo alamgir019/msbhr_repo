@@ -56,7 +56,7 @@ public partial class CrystalReports_Attendance_AttndReports : System.Web.UI.Page
             if (tvReports.SelectedValue == "DA" || tvReports.SelectedValue == "AE" || tvReports.SelectedValue == "LR" ||
                 tvReports.SelectedValue == "AR" || tvReports.SelectedValue == "IR" || tvReports.SelectedValue == "ED" ||
                 tvReports.SelectedValue == "DailyA" || tvReports.SelectedValue == "MonthlyA" || tvReports.SelectedValue == "InvOT" ||
-                tvReports.SelectedValue == "EWOS" || tvReports.SelectedValue == "EmpLVBalance")
+                tvReports.SelectedValue == "EWOS" || tvReports.SelectedValue == "EmpLVBalance" || tvReports.SelectedValue == "TSL")
             {
                 PBranch.Visible = true;
                 PDiv.Visible = true;
@@ -190,6 +190,11 @@ public partial class CrystalReports_Attendance_AttndReports : System.Web.UI.Page
                     PanelVisibilityMst("1", "1", "1", "1","1", "0", "1", "1" );
                     break;
                 }
+            case "TSL":
+                {
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    break;
+                }
         }
         this.PanelVisibilityDet();
     }
@@ -232,6 +237,15 @@ public partial class CrystalReports_Attendance_AttndReports : System.Web.UI.Page
                     Session["IsClosed"] = ddlIsClosed.SelectedValue.ToString();
                     break;
                 }
+            case "TSL":
+                {
+                    Session["EmpId"] = "E000333";
+                    Session["VMonth"] = "11";
+                    Session["VYear"] = "2017";
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;
+                    break;
+                }               
+
         }
         //Session["MONTH"] = ddlMonth.SelectedValue.ToString();    
 

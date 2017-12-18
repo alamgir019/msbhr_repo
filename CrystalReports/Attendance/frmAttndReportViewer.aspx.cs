@@ -11,6 +11,7 @@ public partial class frmAttndReportViewer : System.Web.UI.Page
     private string ReportPath = "";
     ReportManager rptManager = new ReportManager();
     DataTable MyDataTable = new DataTable();
+    dsTimeSheet ds = new dsTimeSheet();
 
     private string LogoPath = System.Web.Configuration.WebConfigurationManager.AppSettings["LogoPath"];
 
@@ -42,6 +43,147 @@ public partial class frmAttndReportViewer : System.Web.UI.Page
 
        switch (Session["REPORTID"].ToString())
         {
+            case "TSL":
+                bool blnIsRound = false;
+                string strEmpIdNew = "E000333";
+                string strMonth = "11";
+                string strYear = "2017";
+                if (blnIsRound == false)
+                    ReportPath = Server.MapPath("~/CrystalReports/Attendance/rptTimeSheet.rpt");
+                else
+                    ReportPath = Server.MapPath("~/CrystalReports/Attendance/rptTimeSheetRound.rpt");
+                ReportDoc.Load(ReportPath);
+
+                DataTable dtTimeSheetEmpInfo = rptManager.Get_TimeSheetEmpInfo(strEmpIdNew, strMonth, strYear);
+
+                DataTable dtTimeSheet = rptManager.Get_TimeSheetReport(strEmpIdNew, strMonth, strYear, blnIsRound);
+
+                ReportManager objRM1 = new ReportManager();
+                DataTable dtTimeSheetHoliday = objRM1.Get_TimeSheetReportForAbsent(strEmpIdNew, strMonth, strYear, "H");
+
+                ReportManager objRM2 = new ReportManager();
+                DataTable dtTimeSheetSick = objRM2.Get_TimeSheetReportForAbsent(strEmpIdNew, strMonth, strYear, "SL");
+
+                ReportManager objRM3 = new ReportManager();
+                DataTable dtTimeSheetUnPaid = objRM3.Get_TimeSheetReportForAbsent(strEmpIdNew, strMonth, strYear, "LW");
+
+                ReportManager objRM4 = new ReportManager();
+                DataTable dtTimeSheetVacation = objRM4.Get_TimeSheetReportForAbsent(strEmpIdNew, strMonth, strYear, "V");
+
+                ReportManager objRM5 = new ReportManager();
+                DataTable dtTimeSheetWH = objRM5.Get_TimeSheetReportForAbsent(strEmpIdNew, strMonth, strYear, "WH");
+
+                if (dtTimeSheetEmpInfo.Rows.Count > 0)
+                {
+                    foreach (DataRow dRow in dtTimeSheetEmpInfo.Rows)
+                    {
+                        DataRow nRow = ds.dtTimeSheet.NewRow();
+
+                        nRow["TIME_CODE"] = dRow["TIME_CODE"];
+                        nRow["SOF_CODE"] = dRow["SOF_CODE"];
+                        nRow["PROJECT_CODE"] = dRow["PROJECT_CODE"];
+                        nRow["EmpId"] = dRow["EmpId"];
+                        nRow["VYear"] = dRow["VYear"];
+                        nRow["VMonth"] = dRow["VMonth"];
+                        nRow["FullName"] = dRow["FullName"];
+                        nRow["DesigName"] = dRow["DesigName"];
+                        nRow["PostingPlaceName"] = dRow["PostingPlaceName"];
+
+                        DataRow[] foundRows = dtTimeSheet.Select("EmpId='" + dRow["EmpId"].ToString().Trim() + "' AND SalarySourceId=" + dRow["SalarySourceId"].ToString().Trim());
+                        if (foundRows.Length > 0)
+                        {
+                            nRow["1"] = GetZeroIfNull(foundRows[0]["1"].ToString());
+                            nRow["2"] = GetZeroIfNull(foundRows[0]["2"].ToString());
+                            nRow["3"] = GetZeroIfNull(foundRows[0]["3"].ToString());
+                            nRow["4"] = GetZeroIfNull(foundRows[0]["4"].ToString());
+                            nRow["5"] = GetZeroIfNull(foundRows[0]["5"].ToString());
+                            nRow["6"] = GetZeroIfNull(foundRows[0]["6"].ToString());
+                            nRow["7"] = GetZeroIfNull(foundRows[0]["7"].ToString());
+                            nRow["8"] = GetZeroIfNull(foundRows[0]["8"].ToString());
+                            nRow["9"] = GetZeroIfNull(foundRows[0]["9"].ToString());
+                            nRow["10"] = GetZeroIfNull(foundRows[0]["10"].ToString());
+                            nRow["11"] = GetZeroIfNull(foundRows[0]["11"].ToString());
+                            nRow["12"] = GetZeroIfNull(foundRows[0]["12"].ToString());
+                            nRow["13"] = GetZeroIfNull(foundRows[0]["13"].ToString());
+                            nRow["14"] = GetZeroIfNull(foundRows[0]["14"].ToString());
+                            nRow["15"] = GetZeroIfNull(foundRows[0]["15"].ToString());
+                            nRow["16"] = GetZeroIfNull(foundRows[0]["16"].ToString());
+                            nRow["17"] = GetZeroIfNull(foundRows[0]["17"].ToString());
+                            nRow["18"] = GetZeroIfNull(foundRows[0]["18"].ToString());
+                            nRow["19"] = GetZeroIfNull(foundRows[0]["19"].ToString());
+                            nRow["20"] = GetZeroIfNull(foundRows[0]["20"].ToString());
+                            nRow["21"] = GetZeroIfNull(foundRows[0]["21"].ToString());
+                            nRow["22"] = GetZeroIfNull(foundRows[0]["22"].ToString());
+                            nRow["23"] = GetZeroIfNull(foundRows[0]["23"].ToString());
+                            nRow["24"] = GetZeroIfNull(foundRows[0]["24"].ToString());
+                            nRow["25"] = GetZeroIfNull(foundRows[0]["25"].ToString());
+                            nRow["26"] = GetZeroIfNull(foundRows[0]["26"].ToString());
+                            nRow["27"] = GetZeroIfNull(foundRows[0]["27"].ToString());
+                            nRow["28"] = GetZeroIfNull(foundRows[0]["28"].ToString());
+                            nRow["29"] = GetZeroIfNull(foundRows[0]["29"].ToString());
+                            nRow["30"] = GetZeroIfNull(foundRows[0]["30"].ToString());
+                            nRow["31"] = GetZeroIfNull(foundRows[0]["31"].ToString());
+                            ds.dtTimeSheet.Rows.Add(nRow);
+                        }
+                        else
+                        {
+                            nRow["1"] = "0";
+                            nRow["2"] = "0";
+                            nRow["3"] = "0";
+                            nRow["4"] = "0";
+                            nRow["5"] = "0";
+                            nRow["6"] = "0";
+                            nRow["7"] = "0";
+                            nRow["8"] = "0";
+                            nRow["9"] = "0";
+                            nRow["10"] = "0";
+                            nRow["11"] = "0";
+                            nRow["12"] = "0";
+                            nRow["13"] = "0";
+                            nRow["14"] = "0";
+                            nRow["15"] = "0";
+                            nRow["16"] = "0";
+                            nRow["17"] = "0";
+                            nRow["18"] = "0";
+                            nRow["19"] = "0";
+                            nRow["20"] = "0";
+                            nRow["21"] = "0";
+                            nRow["22"] = "0";
+                            nRow["23"] = "0";
+                            nRow["24"] = "0";
+                            nRow["25"] = "0";
+                            nRow["26"] = "0";
+                            nRow["27"] = "0";
+                            nRow["28"] = "0";
+                            nRow["29"] = "0";
+                            nRow["30"] = "0";
+                            nRow["31"] = "0";
+                            ds.dtTimeSheet.Rows.Add(nRow);
+                        }
+                    }
+                }
+
+                ds.dtTimeSheet.AcceptChanges();
+
+                //Holiday
+                this.GetHoliday(dtTimeSheetHoliday, ds.dtTimeSheetHoliday);
+
+                //Sick
+                this.GetHoliday(dtTimeSheetSick, ds.dtTimeSheetSick);
+
+                //Un Paid
+                this.GetHoliday(dtTimeSheetUnPaid, ds.dtTimeSheetUnPaid);
+
+                //Vacation
+                this.GetHoliday(dtTimeSheetVacation, ds.dtTimeSheetVacation);
+
+                //Work Home
+                this.GetHoliday(dtTimeSheetWH, ds.dtTimeSheetWH);
+
+                ReportDoc.SetDataSource(ds);
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                CRV.ReportSource = ReportDoc;
+                break;
             case "DA":
                 //Report no 1 : Attendance Report
                 ReportPath = Server.MapPath("~/CrystalReports/Attendance/rptAttandance.rpt");
@@ -460,429 +602,7 @@ public partial class frmAttndReportViewer : System.Web.UI.Page
                 break;
         }
     }
-
-    public void PassParameter(string div, string sbu, string dep)
-    {
-        //Generate ParameterFields 
-        ParameterFields pFields = new ParameterFields();
-        //Generate ParameterField
-        ParameterField pfDiv = new ParameterField();
-        ParameterField pfSbu = new ParameterField();
-        ParameterField pfDep = new ParameterField();
-        //Generate ParameterDiscreteValue
-        ParameterDiscreteValue dvDiv = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvSbu = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvDep = new ParameterDiscreteValue();
-
-        //Adding ParameterDiscreteValue to ParameterField
-        pfDiv.Name = "pDIV";
-        dvDiv.Value = div;
-        pfDiv.CurrentValues.Add(dvDiv);
-
-        pfSbu.Name = "pSBU";
-        dvSbu.Value = sbu;
-        pfSbu.CurrentValues.Add(dvSbu);
-
-        pfDep.Name = "pDEP";
-        dvDep.Value = dep;
-        pfDep.CurrentValues.Add(dvDep);
-
-        //Adding Parameters to ParameterFields 
-        pFields.Add(pfDiv);
-        pFields.Add(pfSbu);
-        pFields.Add(pfDep);
-        //Passing ParameterFields to CrystalReportViewer
-        CRV.ParameterFieldInfo = pFields;        
-    }
-
-    public void PassParameter3(string div, string sbu, string dep, string FromDate, string ToDate, string ReportName)
-    {
-        //Generate ParameterFields 
-        ParameterFields pFields = new ParameterFields();
-        //Generate ParameterField
-        ParameterField pfDiv = new ParameterField();
-        ParameterField pfSbu = new ParameterField();
-        ParameterField pfDep = new ParameterField();
-        ParameterField pfFromDate = new ParameterField();
-        ParameterField pfToDate = new ParameterField();
-        ParameterField pfHeader = new ParameterField();
-
-
-        //Generate ParameterDiscreteValue
-        ParameterDiscreteValue dvDiv = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvSbu = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvDep = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvFromDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvToDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvHeader = new ParameterDiscreteValue();
-
-        //Adding ParameterDiscreteValue to ParameterField
-        pfDiv.Name = "pDIV";
-        dvDiv.Value = div;
-        pfDiv.CurrentValues.Add(dvDiv);
-
-        pfSbu.Name = "pSBU";
-        dvSbu.Value = sbu;
-        pfSbu.CurrentValues.Add(dvSbu);
-
-        pfDep.Name = "pDEP";
-        dvDep.Value = dep;
-        pfDep.CurrentValues.Add(dvDep);
-
-        pfFromDate.Name = "FromDate";
-        dvFromDate.Value = FromDate;
-        pfFromDate.CurrentValues.Add(dvFromDate);
-
-        pfToDate.Name = "ToDate";
-        dvToDate.Value = ToDate;
-        pfToDate.CurrentValues.Add(dvToDate);
-
-        pfHeader.Name = "pHeader";
-        dvHeader.Value = ReportName;
-        pfHeader.CurrentValues.Add(dvHeader);
-
-        //Adding Parameters to ParameterFields 
-        pFields.Add(pfDiv);
-        pFields.Add(pfSbu);
-        pFields.Add(pfDep);
-        pFields.Add(pfFromDate);
-        pFields.Add(pfToDate);
-        pFields.Add(pfHeader);
-        //Passing ParameterFields to CrystalReportViewer
-        CRV.ParameterFieldInfo = pFields;
-
-    }
-    public void PassParameter3Ts(string div, string sbu, string dep, string FromDate, string ToDate, string ReportName,string empType,string empstatus)
-    {
-        //Generate ParameterFields 
-        ParameterFields pFields = new ParameterFields();
-        //Generate ParameterField
-        ParameterField pfDiv = new ParameterField();
-        ParameterField pfSbu = new ParameterField();
-        ParameterField pfDep = new ParameterField();
-        ParameterField pfFromDate = new ParameterField();
-        ParameterField pfToDate = new ParameterField();
-        ParameterField pfHeader = new ParameterField();
-        ParameterField pfEtype = new ParameterField();
-        ParameterField pfEStatus = new ParameterField();
-
-        if (empType == "")
-            empType = "All";
-        if (empstatus == "")
-            empstatus = "All";
-
-        //Generate ParameterDiscreteValue
-        ParameterDiscreteValue dvDiv = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvSbu = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvDep = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvFromDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvToDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvHeader = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvEtype = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvEStatus = new ParameterDiscreteValue();
-
-        //Adding ParameterDiscreteValue to ParameterField
-        pfDiv.Name = "pDIV";
-        dvDiv.Value = div;
-        pfDiv.CurrentValues.Add(dvDiv);
-
-        pfSbu.Name = "pSBU";
-        dvSbu.Value = sbu;
-        pfSbu.CurrentValues.Add(dvSbu);
-
-        pfDep.Name = "pDEP";
-        dvDep.Value = dep;
-        pfDep.CurrentValues.Add(dvDep);
-
-        pfFromDate.Name = "FromDate";
-        dvFromDate.Value = FromDate;
-        pfFromDate.CurrentValues.Add(dvFromDate);
-
-        pfToDate.Name = "ToDate";
-        dvToDate.Value = ToDate;
-        pfToDate.CurrentValues.Add(dvToDate);
-
-        pfHeader.Name = "pHeader";
-        dvHeader.Value = ReportName;
-        pfHeader.CurrentValues.Add(dvHeader);
-
-        pfEtype.Name = "pEType";
-        dvEtype.Value = empType;
-        pfEtype.CurrentValues.Add(dvEtype);
-
-        pfEStatus.Name = "pEStatus";
-        dvEStatus.Value = empstatus;
-        pfEStatus.CurrentValues.Add(dvEStatus);
-
-        //Adding Parameters to ParameterFields 
-        pFields.Add(pfDiv);
-        pFields.Add(pfSbu);
-        pFields.Add(pfDep);
-        pFields.Add(pfFromDate);
-        pFields.Add(pfToDate);
-        pFields.Add(pfHeader);
-        pFields.Add(pfEtype);
-        pFields.Add(pfEStatus);
-
-        //Passing ParameterFields to CrystalReportViewer
-        CRV.ParameterFieldInfo = pFields;
-
-    }
-    public void PassParameter3TsWD(string div, string sbu, string dep,  string ReportName, string empType, string empstatus)
-    {
-        //Generate ParameterFields 
-        ParameterFields pFields = new ParameterFields();
-        //Generate ParameterField
-        ParameterField pfDiv = new ParameterField();
-        ParameterField pfSbu = new ParameterField();
-        ParameterField pfDep = new ParameterField();
-        
-        ParameterField pfHeader = new ParameterField();
-        ParameterField pfEtype = new ParameterField();
-        ParameterField pfEStatus = new ParameterField();
-
-        if (empType == "")
-            empType = "All";
-        if (empstatus == "")
-            empstatus = "All";
-
-        //Generate ParameterDiscreteValue
-        ParameterDiscreteValue dvDiv = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvSbu = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvDep = new ParameterDiscreteValue();
-       
-        ParameterDiscreteValue dvHeader = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvEtype = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvEStatus = new ParameterDiscreteValue();
-
-        //Adding ParameterDiscreteValue to ParameterField
-        pfDiv.Name = "pDIV";
-        dvDiv.Value = div;
-        pfDiv.CurrentValues.Add(dvDiv);
-
-        pfSbu.Name = "pSBU";
-        dvSbu.Value = sbu;
-        pfSbu.CurrentValues.Add(dvSbu);
-
-        pfDep.Name = "pDEP";
-        dvDep.Value = dep;
-        pfDep.CurrentValues.Add(dvDep);
-
-      
-
-        pfHeader.Name = "pHeader";
-        dvHeader.Value = ReportName;
-        pfHeader.CurrentValues.Add(dvHeader);
-
-        pfEtype.Name = "pEType";
-        dvEtype.Value = empType;
-        pfEtype.CurrentValues.Add(dvEtype);
-
-        pfEStatus.Name = "pEStatus";
-        dvEStatus.Value = empstatus;
-        pfEStatus.CurrentValues.Add(dvEStatus);
-
-        //Adding Parameters to ParameterFields 
-        pFields.Add(pfDiv);
-        pFields.Add(pfSbu);
-        pFields.Add(pfDep);
-       
-        pFields.Add(pfHeader);
-        pFields.Add(pfEtype);
-        pFields.Add(pfEStatus);
-
-        //Passing ParameterFields to CrystalReportViewer
-        CRV.ParameterFieldInfo = pFields;
-
-    }
-    public void PassParameter4(string div, string sbu, string dep, string FromDate, string ToDate, string ReportName,string psrcsbu)
-    {
-       
-        ParameterFields pFields = new ParameterFields();   
-        ParameterField pfDiv = new ParameterField();
-        ParameterField pfSbu = new ParameterField();
-        ParameterField pfDep = new ParameterField();
-        ParameterField pfFromDate = new ParameterField();
-        ParameterField pfToDate = new ParameterField();
-        ParameterField pfHeader = new ParameterField();
-        ParameterField pfpsrcsbu = new ParameterField();
-
-        //Generate ParameterDiscreteValue
-        ParameterDiscreteValue dvDiv = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvSbu = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvDep = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvFromDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvToDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvHeader = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvpsrcsbu = new ParameterDiscreteValue();
-
-        //Adding ParameterDiscreteValue to ParameterField
-        pfDiv.Name = "pDIV";
-        dvDiv.Value = div;
-        pfDiv.CurrentValues.Add(dvDiv);
-
-        pfSbu.Name = "pSBU";
-        dvSbu.Value = sbu;
-        pfSbu.CurrentValues.Add(dvSbu);
-
-        pfDep.Name = "pDEP";
-        dvDep.Value = dep;
-        pfDep.CurrentValues.Add(dvDep);
-
-        pfFromDate.Name = "FromDate";
-        dvFromDate.Value = FromDate;
-        pfFromDate.CurrentValues.Add(dvFromDate);
-
-        pfToDate.Name = "ToDate";
-        dvToDate.Value = ToDate;
-        pfToDate.CurrentValues.Add(dvToDate);
-
-        pfHeader.Name = "pHeader";
-        dvHeader.Value = ReportName;
-        pfHeader.CurrentValues.Add(dvHeader);
-
-        pfpsrcsbu.Name = "psrcsbu";
-        dvpsrcsbu.Value = psrcsbu;
-        pfpsrcsbu.CurrentValues.Add(dvpsrcsbu);
-
-        //Adding Parameters to ParameterFields 
-        pFields.Add(pfDiv);
-        pFields.Add(pfSbu);
-        pFields.Add(pfDep);
-        pFields.Add(pfFromDate);
-        pFields.Add(pfToDate);
-        pFields.Add(pfHeader);
-        pFields.Add(pfpsrcsbu);
-        //Passing ParameterFields to CrystalReportViewer
-        CRV.ParameterFieldInfo = pFields;
-
-    }
-
-    public void PassParameterNew(string dep, string FromDate, string ToDate, string ReportName, string empType, string empstatus)
-    {
-
-        ParameterFields pFields = new ParameterFields();
-
-        ParameterField pfDep = new ParameterField();
-        ParameterField pfFromDate = new ParameterField();
-        ParameterField pfToDate = new ParameterField();
-        ParameterField pfHeader = new ParameterField();
-
-        ParameterField pfEtype = new ParameterField();
-        ParameterField pfEStatus = new ParameterField();
-
-        if (empType == "")
-            empType = "All";
-        if (empstatus == "")
-            empstatus = "All";
-
-        //Generate ParameterDiscreteValue
-
-        ParameterDiscreteValue dvDep = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvFromDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvToDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvHeader = new ParameterDiscreteValue();
-
-        ParameterDiscreteValue dvEtype = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvEStatus = new ParameterDiscreteValue();
-
-        //Adding ParameterDiscreteValue to ParameterField
-
-        pfDep.Name = "pDEP";
-        dvDep.Value = dep;
-        pfDep.CurrentValues.Add(dvDep);
-
-        pfFromDate.Name = "FromDate";
-        dvFromDate.Value = FromDate;
-        pfFromDate.CurrentValues.Add(dvFromDate);
-
-        pfToDate.Name = "ToDate";
-        dvToDate.Value = ToDate;
-        pfToDate.CurrentValues.Add(dvToDate);
-
-        pfHeader.Name = "pHeader";
-        dvHeader.Value = ReportName;
-        pfHeader.CurrentValues.Add(dvHeader);
-
-        pfEtype.Name = "pEType";
-        dvEtype.Value = empType;
-        pfEtype.CurrentValues.Add(dvEtype);
-
-        pfEStatus.Name = "pEStatus";
-        dvEStatus.Value = empstatus;
-        pfEStatus.CurrentValues.Add(dvEStatus);
-
-        //Adding Parameters to ParameterFields 
-
-        pFields.Add(pfDep);
-        pFields.Add(pfFromDate);
-        pFields.Add(pfToDate);
-        pFields.Add(pfHeader);
-
-        pFields.Add(pfEtype);
-        pFields.Add(pfEStatus);
-        //Passing ParameterFields to CrystalReportViewer
-        CRV.ParameterFieldInfo = pFields;
-
-    }
-
-    //public void PassParameterPLAN(string Div, string SBU, string FromDate, string ToDate, string ReportName)
-    //{
-
-    //    ParameterFields pFields = new ParameterFields();
-    //    ParameterField pfDiv = new ParameterField();
-    //    ParameterField pfSBU = new ParameterField();
-    //    ParameterField pfFromDate = new ParameterField();
-    //    ParameterField pfToDate = new ParameterField();
-    //    ParameterField pfHeader = new ParameterField();
-    //    //ParameterField pfEtype = new ParameterField();
-
-    //    //Generate ParameterDiscreteValue
-    //    ParameterDiscreteValue dvDiv = new ParameterDiscreteValue();
-    //    ParameterDiscreteValue dvSBU = new ParameterDiscreteValue();
-    //    ParameterDiscreteValue dvFromDate = new ParameterDiscreteValue();
-    //    ParameterDiscreteValue dvToDate = new ParameterDiscreteValue();
-    //    ParameterDiscreteValue dvHeader = new ParameterDiscreteValue();
-    //    //ParameterDiscreteValue dvEtype = new ParameterDiscreteValue();
-
-    //  //Adding ParameterDiscreteValue to ParameterField
-
-    //    pfDiv.Name = "pDiv";
-    //    dvDiv.Value = Div;
-    //    pfDiv.CurrentValues.Add(dvDiv);
-
-    //    pfSBU.Name = "pSBU";
-    //    dvSBU.Value = SBU;
-    //    pfSBU.CurrentValues.Add(dvSBU);
-      
-    //    pfFromDate.Name = "FromDate";
-    //    dvFromDate.Value = FromDate;
-    //    pfFromDate.CurrentValues.Add(dvFromDate);
-
-    //    pfToDate.Name = "ToDate";
-    //    dvToDate.Value = ToDate;
-    //    pfToDate.CurrentValues.Add(dvToDate);
-
-    //    pfHeader.Name = "pHeader";
-    //    dvHeader.Value = ReportName;
-    //    pfHeader.CurrentValues.Add(dvHeader);
-
-    //    //pfEtype.Name = "pEType";
-    //    //dvEtype.Value = empType;
-    //    //pfEtype.CurrentValues.Add(dvEtype);
-      
-    //    //Adding Parameters to ParameterFields         
-    //    pFields.Add(pfDiv);
-    //    pFields.Add(pfSBU);
-    //    pFields.Add(pfFromDate);
-    //    pFields.Add(pfToDate);
-    //    pFields.Add(pfHeader);
-    //    //pFields.Add(pfEtype);
-
-    //    //Passing ParameterFields to CrystalReportViewer
-    //    CRV.ParameterFieldInfo = pFields;
-
-    //}
+    
 
     public void PassParameterPLAN(string Div, string SBU, string dep, string FromDate, string ToDate, string ReportName)
     {
@@ -948,119 +668,7 @@ public partial class frmAttndReportViewer : System.Web.UI.Page
 
     }
 
-    public void PassParameter6(string div, string sbu, string dep, string FromDate, string ToDate, string ReportName, string psrcsbu,string empType,string empstatus)
-    {
-
-        ParameterFields pFields = new ParameterFields();
-        ParameterField pfDiv = new ParameterField();
-        ParameterField pfSbu = new ParameterField();
-        ParameterField pfDep = new ParameterField();
-        ParameterField pfFromDate = new ParameterField();
-        ParameterField pfToDate = new ParameterField();
-        ParameterField pfHeader = new ParameterField();
-        ParameterField pfpsrcsbu = new ParameterField();
-        ParameterField pfEtype = new ParameterField();
-        ParameterField pfEStatus = new ParameterField();
-
-        if (empType == "")
-            empType = "All";
-        if (empstatus == "")
-              empstatus = "All";
-        
-        //Generate ParameterDiscreteValue
-        ParameterDiscreteValue dvDiv = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvSbu = new ParameterDiscreteValue();
-
-        ParameterDiscreteValue dvDep = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvFromDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvToDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvHeader = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvpsrcsbu = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvEtype = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvEStatus = new ParameterDiscreteValue();
-       
-        //Adding ParameterDiscreteValue to ParameterField
-        pfDiv.Name = "pDIV";
-        dvDiv.Value = div;
-        pfDiv.CurrentValues.Add(dvDiv);
-
-        pfSbu.Name = "pSBU";
-        dvSbu.Value = sbu;
-        pfSbu.CurrentValues.Add(dvSbu);
-
-        pfDep.Name = "pDEP";
-        dvDep.Value = dep;
-        pfDep.CurrentValues.Add(dvDep);
-
-        pfFromDate.Name = "FromDate";
-        dvFromDate.Value = FromDate;
-        pfFromDate.CurrentValues.Add(dvFromDate);
-
-        pfToDate.Name = "ToDate";
-        dvToDate.Value = ToDate;
-        pfToDate.CurrentValues.Add(dvToDate);
-
-        pfHeader.Name = "pHeader";
-        dvHeader.Value = ReportName;
-        pfHeader.CurrentValues.Add(dvHeader);
-
-        pfpsrcsbu.Name = "psrcsbu";
-        dvpsrcsbu.Value = psrcsbu;
-        pfpsrcsbu.CurrentValues.Add(dvpsrcsbu);
-
-        pfEtype.Name = "pEType";
-        dvEtype.Value = empType;
-        pfEtype.CurrentValues.Add(dvEtype);
-
-        pfEStatus.Name = "pEStatus";
-        dvEStatus.Value = empstatus;
-        pfEStatus.CurrentValues.Add(dvEStatus);
-
-        //Adding Parameters to ParameterFields 
-        pFields.Add(pfDiv);
-        pFields.Add(pfSbu);
-        pFields.Add(pfDep);
-        pFields.Add(pfFromDate);
-        pFields.Add(pfToDate);
-        pFields.Add(pfHeader);
-        pFields.Add(pfpsrcsbu);
-        pFields.Add(pfEtype);
-        pFields.Add(pfEStatus);
-        //Passing ParameterFields to CrystalReportViewer
-        CRV.ParameterFieldInfo = pFields;
-
-    }
-
-    private void PassDateParameter(string sDate, string eDate)
-    {
-        //Generate ParameterFields 
-        ParameterFields pFields = new ParameterFields();
-        //Generate ParameterField
-        ParameterField pfSDATE = new ParameterField();
-        ParameterField pfEDATE = new ParameterField();
-
-        //Generate ParameterDiscreteValue
-        ParameterDiscreteValue dvSDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvEDate = new ParameterDiscreteValue();
-
-
-        //Adding ParameterDiscreteValue to ParameterField
-        pfSDATE.Name = "pSDATE";
-        dvSDate.Value = Convert.ToDateTime(sDate);
-        pfSDATE.CurrentValues.Add(dvSDate);
-
-        pfEDATE.Name = "pEDATE";
-        dvEDate.Value = Convert.ToDateTime(eDate);
-        pfEDATE.CurrentValues.Add(dvEDate);
-
-        //Adding Parameters to ParameterFields 
-        pFields.Add(pfSDATE);
-        pFields.Add(pfEDATE);
-
-        //Passing ParameterFields to CrystalReportViewer
-        CRV.ParameterFieldInfo = pFields;
-    }
-
+   
     public void PassParameterAttndEmpWisePLAN(string div, string SBU, string dep, string FromDate, string ToDate, string ReportName, string strPresent, string strAbsent, string strLeave, string strDelay, string strWeekend, string strHoliday)
     {
         //Generate ParameterFields 
@@ -1159,212 +767,8 @@ public partial class frmAttndReportViewer : System.Web.UI.Page
         //Passing ParameterFields to CrystalReportViewer
         CRV.ParameterFieldInfo = pFields;
 
-    }
-
-    public void PassParameterAttndEmpWise(string div, string sbu, string dep, string FromDate, string ToDate, string ReportName, string strPresent, string strAbsent, string strLeave, string strDelay, string strWeekend, string strHoliday, string empType, string empstatus)
-    {
-        //Generate ParameterFields 
-        ParameterFields pFields = new ParameterFields();
-        //Generate ParameterField
-        ParameterField pfDiv = new ParameterField();
-        ParameterField pfHeader = new ParameterField();
-        ParameterField pfSbu = new ParameterField();
-        ParameterField pfDep = new ParameterField();
-        ParameterField pfFromDate = new ParameterField();
-        ParameterField pfToDate = new ParameterField();
-        ParameterField pfEtype = new ParameterField();
-        ParameterField pfEStatus = new ParameterField();
-
-        ParameterField pfP = new ParameterField();
-        ParameterField pfA = new ParameterField();
-        ParameterField pfL = new ParameterField();
-        ParameterField pfD = new ParameterField();
-        ParameterField pfW = new ParameterField();
-        ParameterField pfH = new ParameterField();
-
-
-        //Generate ParameterDiscreteValue
-        ParameterDiscreteValue dvDiv = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvSbu = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvDep = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvFromDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvToDate = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvHeader = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvEtype = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvEStatus = new ParameterDiscreteValue();
-
-        ParameterDiscreteValue dvP = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvA = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvL = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvD = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvW = new ParameterDiscreteValue();
-        ParameterDiscreteValue dvH = new ParameterDiscreteValue();
-        if (empType == "")
-            empType = "All";
-        if (empstatus == "")
-            empstatus = "All";
-        //Adding ParameterDiscreteValue to ParameterField
-        pfDiv.Name = "pDIV";
-        dvDiv.Value = div;
-        pfDiv.CurrentValues.Add(dvDiv);
-
-        pfSbu.Name = "pSBU";
-        dvSbu.Value = sbu;
-        pfSbu.CurrentValues.Add(dvSbu);
-
-        pfDep.Name = "pDEP";
-        dvDep.Value = dep;
-        pfDep.CurrentValues.Add(dvDep);
-
-        pfFromDate.Name = "FromDate";
-        dvFromDate.Value = FromDate;
-        pfFromDate.CurrentValues.Add(dvFromDate);
-
-        pfToDate.Name = "ToDate";
-        dvToDate.Value = ToDate;
-        pfToDate.CurrentValues.Add(dvToDate);
-
-        pfHeader.Name = "pHeader";
-        dvHeader.Value = ReportName;
-        pfHeader.CurrentValues.Add(dvHeader);
-
-        pfP.Name = "pP";
-        dvP.Value = strPresent;
-        pfP.CurrentValues.Add(dvP);
-        pfA.Name = "pA";
-        dvA.Value = strAbsent;
-        pfA.CurrentValues.Add(dvA);
-        pfL.Name = "pL";
-        dvL.Value = strLeave;
-        pfL.CurrentValues.Add(dvL);
-        pfD.Name = "pD";
-        dvD.Value = strDelay;
-        pfD.CurrentValues.Add(dvD);
-        pfW.Name = "pW";
-        dvW.Value = strWeekend;
-        pfW.CurrentValues.Add(dvW);
-
-        pfH.Name = "pH";
-        dvH.Value = strHoliday;
-        pfH.CurrentValues.Add(dvH);
-
-        pfEtype.Name = "pEType";
-        dvEtype.Value = empType;
-        pfEtype.CurrentValues.Add(dvEtype);
-
-        pfEStatus.Name = "pEStatus";
-        dvEStatus.Value = empstatus;
-        pfEStatus.CurrentValues.Add(dvEStatus);
-
-        //Adding Parameters to ParameterFields 
-        pFields.Add(pfDiv);
-        pFields.Add(pfSbu);
-        pFields.Add(pfDep);
-        pFields.Add(pfFromDate);
-        pFields.Add(pfToDate);
-        pFields.Add(pfHeader);
-        pFields.Add(pfP);
-        pFields.Add(pfA);
-        pFields.Add(pfL);
-        pFields.Add(pfD);
-        pFields.Add(pfW);
-        pFields.Add(pfH);
-        pFields.Add(pfEtype);
-        pFields.Add(pfEStatus);
-
-        //Passing ParameterFields to CrystalReportViewer
-        CRV.ParameterFieldInfo = pFields;
-
-    }
-
-    //private void Fill_MST_Data(DataTable myDTMst)
-    //{
-    //    foreach (DataRow row in myDTMst.Rows)
-    //    {
-    //        DataRow mRow = dsMA.dtMST.NewRow();
-    //        mRow["EmpId"] = row[0].ToString().Trim();
-    //        mRow["Name"] = row[1];
-    //        mRow["Designation"] = row[2];            
-    //        dsMA.dtMST.Rows.Add(mRow);
-    //        dsMA.dtMST.AcceptChanges();
-    //    }
-    //}
-
-    //private void Fill_DET_Data(DataTable myDET, DataTable myMst)
-    //{
-    //    DataRow[] foundRows;
-    //    DataRow[] foundAttnRow;
-    //    string strExpr = "";
-    //    string strOrder = "";
-    //    DateTime dtAttnDate;
-    //    string strAttnDate = "";      
-    //    int i = 1;
-    //    foreach (DataRow mRow in myMst.Rows)
-    //    {
-    //        strExpr = "empid='" + mRow["empid"].ToString().Trim() + "'";
-    //        strOrder = "MDate ";
-    //        foundRows = myDET.Select(strExpr, strOrder);
-    //        dtAttnDate = Convert.ToDateTime(Session["FromDate"].ToString());
-    //        dRowIn = dsMA.dtDET.NewRow();
-    //        dRowOut = dsMA.dtDET.NewRow();
-    //        if (foundRows.Length > 0)
-    //        {
-    //            i = 1;
-    //            for (i = 1; i <= 31; i++)
-    //            {
-    //                dRowIn["empid"] = mRow["empid"].ToString().Trim();
-    //                dRowOut["empid"] = mRow["empid"].ToString().Trim();
-    //                strAttnDate = dtAttnDate.Year + "/" + dtAttnDate.Month + "/" + i.ToString();
-    //                strExpr = "empid='" + mRow["empid"].ToString().Trim() + "' AND MDate='" + strAttnDate + "'";
-    //                foundAttnRow = myDET.Select(strExpr);
-    //                if (foundAttnRow.Length > 0)
-    //                {
-    //                    if (string.IsNullOrEmpty(foundAttnRow[0]["SignIn"].ToString()) == true)
-    //                    {
-    //                        if (string.IsNullOrEmpty(foundAttnRow[0]["SignOut"].ToString()) == true)
-    //                        {
-    //                            dRowIn[i] = foundAttnRow[0]["Status"];
-    //                            dRowOut[i] = "";
-    //                        }
-    //                        else
-    //                        {
-    //                            dRowIn[i] = "";
-    //                            dRowOut[i] = Common.DisplayTime24h(foundAttnRow[0]["SignOut"].ToString());
-    //                        }
-    //                    }
-    //                    else
-    //                    {
-    //                        dRowIn[i] = Common.DisplayTime24h(foundAttnRow[0]["SignIn"].ToString());
-    //                        if (string.IsNullOrEmpty(foundAttnRow[0]["SignOut"].ToString()) == true)
-    //                            dRowOut[i] = "";
-    //                        else
-    //                            dRowOut[i] = Common.DisplayTime24h(foundAttnRow[0]["SignOut"].ToString());
-    //                    }
-
-    //                }
-    //                else
-    //                {
-    //                    dRowIn[i] = "";
-    //                    dRowOut[i] = "";
-    //                }
-    //            }
-    //        }
-    //        else
-    //        {
-    //            int j = 1;
-    //            dRowIn["empid"] = mRow["empid"].ToString().Trim();
-    //            dRowOut["empid"] = mRow["empid"].ToString().Trim();
-    //            for (j = 1; j <= 31; j++)
-    //            {
-    //                dRowIn[j] = "";
-    //                dRowOut[j] = "";
-    //            }
-    //        }
-    //        dsMA.dtDET.Rows.Add(dRowIn);
-    //        dsMA.dtDET.Rows.Add(dRowOut);
-    //        dsMA.dtDET.AcceptChanges();
-    //    }
-    //}
+    }   
+   
     protected void btnPrint_Click(object sender, EventArgs e)
     {
 
@@ -1580,5 +984,194 @@ public partial class frmAttndReportViewer : System.Web.UI.Page
             return 0;
     }
 
-    
+
+    protected void GenerateReport(string strEmpId, string strMonth, string strYear, bool blnIsRound)
+    {
+        ReportDoc = new ReportDocument();
+        if (blnIsRound == false)
+            ReportPath = Server.MapPath("~/CrystalReports/Attendance/rptTimeSheet.rpt");
+        else
+            ReportPath = Server.MapPath("~/CrystalReports/Attendance/rptTimeSheetRound.rpt");
+        ReportDoc.Load(ReportPath);
+
+        DataTable dtTimeSheetEmpInfo = rptManager.Get_TimeSheetEmpInfo(strEmpId, strMonth, strYear);
+
+        DataTable dtTimeSheet = rptManager.Get_TimeSheetReport(strEmpId, strMonth, strYear, blnIsRound);
+
+        ReportManager objRM1 = new ReportManager();
+        DataTable dtTimeSheetHoliday = objRM1.Get_TimeSheetReportForAbsent(strEmpId, strMonth, strYear, "H");
+
+        ReportManager objRM2 = new ReportManager();
+        DataTable dtTimeSheetSick = objRM2.Get_TimeSheetReportForAbsent(strEmpId, strMonth, strYear, "SL");
+
+        ReportManager objRM3 = new ReportManager();
+        DataTable dtTimeSheetUnPaid = objRM3.Get_TimeSheetReportForAbsent(strEmpId, strMonth, strYear, "LW");
+
+        ReportManager objRM4 = new ReportManager();
+        DataTable dtTimeSheetVacation = objRM4.Get_TimeSheetReportForAbsent(strEmpId, strMonth, strYear, "V");
+
+        ReportManager objRM5 = new ReportManager();
+        DataTable dtTimeSheetWH = objRM5.Get_TimeSheetReportForAbsent(strEmpId, strMonth, strYear, "WH");
+
+        if (dtTimeSheetEmpInfo.Rows.Count > 0)
+        {
+            foreach (DataRow dRow in dtTimeSheetEmpInfo.Rows)
+            {
+                DataRow nRow = ds.dtTimeSheet.NewRow();
+
+                nRow["TIME_CODE"] = dRow["TIME_CODE"];
+                nRow["SOF_CODE"] = dRow["SOF_CODE"];
+                nRow["PROJECT_CODE"] = dRow["PROJECT_CODE"];
+                nRow["EmpId"] = dRow["EmpId"];
+                nRow["VYear"] = dRow["VYear"];
+                nRow["VMonth"] = dRow["VMonth"];
+                nRow["FullName"] = dRow["FullName"];
+                nRow["DesigName"] = dRow["DesigName"];
+                nRow["PostingPlaceName"] = dRow["PostingPlaceName"];
+
+                DataRow[] foundRows = dtTimeSheet.Select("EmpId='" + dRow["EmpId"].ToString().Trim() + "' AND SalarySourceId=" + dRow["SalarySourceId"].ToString().Trim());
+                if (foundRows.Length > 0)
+                {
+                    nRow["1"] = GetZeroIfNull(foundRows[0]["1"].ToString());
+                    nRow["2"] = GetZeroIfNull(foundRows[0]["2"].ToString());
+                    nRow["3"] = GetZeroIfNull(foundRows[0]["3"].ToString());
+                    nRow["4"] = GetZeroIfNull(foundRows[0]["4"].ToString());
+                    nRow["5"] = GetZeroIfNull(foundRows[0]["5"].ToString());
+                    nRow["6"] = GetZeroIfNull(foundRows[0]["6"].ToString());
+                    nRow["7"] = GetZeroIfNull(foundRows[0]["7"].ToString());
+                    nRow["8"] = GetZeroIfNull(foundRows[0]["8"].ToString());
+                    nRow["9"] = GetZeroIfNull(foundRows[0]["9"].ToString());
+                    nRow["10"] = GetZeroIfNull(foundRows[0]["10"].ToString());
+                    nRow["11"] = GetZeroIfNull(foundRows[0]["11"].ToString());
+                    nRow["12"] = GetZeroIfNull(foundRows[0]["12"].ToString());
+                    nRow["13"] = GetZeroIfNull(foundRows[0]["13"].ToString());
+                    nRow["14"] = GetZeroIfNull(foundRows[0]["14"].ToString());
+                    nRow["15"] = GetZeroIfNull(foundRows[0]["15"].ToString());
+                    nRow["16"] = GetZeroIfNull(foundRows[0]["16"].ToString());
+                    nRow["17"] = GetZeroIfNull(foundRows[0]["17"].ToString());
+                    nRow["18"] = GetZeroIfNull(foundRows[0]["18"].ToString());
+                    nRow["19"] = GetZeroIfNull(foundRows[0]["19"].ToString());
+                    nRow["20"] = GetZeroIfNull(foundRows[0]["20"].ToString());
+                    nRow["21"] = GetZeroIfNull(foundRows[0]["21"].ToString());
+                    nRow["22"] = GetZeroIfNull(foundRows[0]["22"].ToString());
+                    nRow["23"] = GetZeroIfNull(foundRows[0]["23"].ToString());
+                    nRow["24"] = GetZeroIfNull(foundRows[0]["24"].ToString());
+                    nRow["25"] = GetZeroIfNull(foundRows[0]["25"].ToString());
+                    nRow["26"] = GetZeroIfNull(foundRows[0]["26"].ToString());
+                    nRow["27"] = GetZeroIfNull(foundRows[0]["27"].ToString());
+                    nRow["28"] = GetZeroIfNull(foundRows[0]["28"].ToString());
+                    nRow["29"] = GetZeroIfNull(foundRows[0]["29"].ToString());
+                    nRow["30"] = GetZeroIfNull(foundRows[0]["30"].ToString());
+                    nRow["31"] = GetZeroIfNull(foundRows[0]["31"].ToString());
+                    ds.dtTimeSheet.Rows.Add(nRow);
+                }
+                else
+                {
+                    nRow["1"] = "0";
+                    nRow["2"] = "0";
+                    nRow["3"] = "0";
+                    nRow["4"] = "0";
+                    nRow["5"] = "0";
+                    nRow["6"] = "0";
+                    nRow["7"] = "0";
+                    nRow["8"] = "0";
+                    nRow["9"] = "0";
+                    nRow["10"] = "0";
+                    nRow["11"] = "0";
+                    nRow["12"] = "0";
+                    nRow["13"] = "0";
+                    nRow["14"] = "0";
+                    nRow["15"] = "0";
+                    nRow["16"] = "0";
+                    nRow["17"] = "0";
+                    nRow["18"] = "0";
+                    nRow["19"] = "0";
+                    nRow["20"] = "0";
+                    nRow["21"] = "0";
+                    nRow["22"] = "0";
+                    nRow["23"] = "0";
+                    nRow["24"] = "0";
+                    nRow["25"] = "0";
+                    nRow["26"] = "0";
+                    nRow["27"] = "0";
+                    nRow["28"] = "0";
+                    nRow["29"] = "0";
+                    nRow["30"] = "0";
+                    nRow["31"] = "0";
+                    ds.dtTimeSheet.Rows.Add(nRow);
+                }
+            }
+        }
+       
+        ds.dtTimeSheet.AcceptChanges();
+
+        //Holiday
+        this.GetHoliday(dtTimeSheetHoliday, ds.dtTimeSheetHoliday);
+
+        //Sick
+        this.GetHoliday(dtTimeSheetSick, ds.dtTimeSheetSick);
+
+        //Un Paid
+        this.GetHoliday(dtTimeSheetUnPaid, ds.dtTimeSheetUnPaid);
+
+        //Vacation
+        this.GetHoliday(dtTimeSheetVacation, ds.dtTimeSheetVacation);
+
+        //Work Home
+        this.GetHoliday(dtTimeSheetWH, ds.dtTimeSheetWH);
+
+        ReportDoc.SetDataSource(ds);
+        CRV.ReportSource = ReportDoc;
+    }
+
+    private void GetHoliday(DataTable dtRecord, DataTable dtDS)
+    {
+        foreach (DataRow dRow in dtRecord.Rows)
+        {
+            DataRow nRow = dtDS.NewRow();
+            nRow["EmpId"] = dRow["EmpId"];
+            nRow["1"] = GetZeroIfNull(dRow["1"].ToString());
+            nRow["2"] = GetZeroIfNull(dRow["2"].ToString());
+            nRow["3"] = GetZeroIfNull(dRow["3"].ToString());
+            nRow["4"] = GetZeroIfNull(dRow["4"].ToString());
+            nRow["5"] = GetZeroIfNull(dRow["5"].ToString());
+            nRow["6"] = GetZeroIfNull(dRow["6"].ToString());
+            nRow["7"] = GetZeroIfNull(dRow["7"].ToString());
+            nRow["8"] = GetZeroIfNull(dRow["8"].ToString());
+            nRow["9"] = GetZeroIfNull(dRow["9"].ToString());
+            nRow["10"] = GetZeroIfNull(dRow["10"].ToString());
+            nRow["11"] = GetZeroIfNull(dRow["11"].ToString());
+            nRow["12"] = GetZeroIfNull(dRow["12"].ToString());
+            nRow["13"] = GetZeroIfNull(dRow["13"].ToString());
+            nRow["14"] = GetZeroIfNull(dRow["14"].ToString());
+            nRow["15"] = GetZeroIfNull(dRow["15"].ToString());
+            nRow["16"] = GetZeroIfNull(dRow["16"].ToString());
+            nRow["17"] = GetZeroIfNull(dRow["17"].ToString());
+            nRow["18"] = GetZeroIfNull(dRow["18"].ToString());
+            nRow["19"] = GetZeroIfNull(dRow["19"].ToString());
+            nRow["20"] = GetZeroIfNull(dRow["20"].ToString());
+            nRow["21"] = GetZeroIfNull(dRow["21"].ToString());
+            nRow["22"] = GetZeroIfNull(dRow["22"].ToString());
+            nRow["23"] = GetZeroIfNull(dRow["23"].ToString());
+            nRow["24"] = GetZeroIfNull(dRow["24"].ToString());
+            nRow["25"] = GetZeroIfNull(dRow["25"].ToString());
+            nRow["26"] = GetZeroIfNull(dRow["26"].ToString());
+            nRow["27"] = GetZeroIfNull(dRow["27"].ToString());
+            nRow["28"] = GetZeroIfNull(dRow["28"].ToString());
+            nRow["29"] = GetZeroIfNull(dRow["29"].ToString());
+            nRow["30"] = GetZeroIfNull(dRow["30"].ToString());
+            nRow["31"] = GetZeroIfNull(dRow["31"].ToString());
+            dtDS.Rows.Add(nRow);
+        }
+        dtDS.AcceptChanges();
+    }
+
+    private decimal GetZeroIfNull(string strData)
+    {
+        if (string.IsNullOrEmpty(strData) == true)
+            return 0;
+        else
+            return Convert.ToDecimal(strData);
+    }
+
 }

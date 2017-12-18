@@ -28,9 +28,10 @@
                                     <asp:TreeNode Text="Late Report" Value="LR"></asp:TreeNode>
                                     <asp:TreeNode Text="Absent Report" Value="AR"></asp:TreeNode>
                                     <asp:TreeNode Text="Incomplete Report" Value="IR"></asp:TreeNode>
-                                    <asp:TreeNode Text="Early Departure Report" Value="ED"></asp:TreeNode>
-                                
+                                    <asp:TreeNode Text="Early Departure Report" Value="ED"></asp:TreeNode>                                
                             </asp:TreeNode>
+                            <asp:TreeNode Text="Time Sheet Report" Value="TSL">    
+                                </asp:TreeNode> 
                         </Nodes>
                         <ParentNodeStyle Font-Bold="False" />
                         <HoverNodeStyle Font-Underline="True" ForeColor="#5555DD" />

@@ -23,9 +23,9 @@ public partial class TimeSheetReportViewer : System.Web.UI.Page
     {
         ReportDoc = new ReportDocument();
         if (blnIsRound == false)
-            ReportPath = Server.MapPath("../CrystalReports/rptTimeSheet.rpt");
+            ReportPath = Server.MapPath("../CrystalReports/Attendance/rptTimeSheet.rpt");
         else
-            ReportPath = Server.MapPath("../CrystalReports/rptTimeSheetRound.rpt");
+            ReportPath = Server.MapPath("../CrystalReports/Attendance/rptTimeSheetRound.rpt");
         ReportDoc.Load(ReportPath);
 
         DataTable dtTimeSheetEmpInfo = rptManager.Get_TimeSheetEmpInfo(strEmpId, strMonth, strYear);
@@ -254,6 +254,7 @@ public partial class TimeSheetReportViewer : System.Web.UI.Page
         else        
             return Convert.ToDecimal(strData);        
     }
+
 
     protected void CRVA_BeforeRender(object source, CrystalDecisions.Web.HtmlReportRender.BeforeRenderEvent e)
     {

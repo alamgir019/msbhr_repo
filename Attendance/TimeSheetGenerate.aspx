@@ -86,7 +86,7 @@
                 <legend>List</legend>
                 <div style="overflow: scroll; width: 100%; height: 250px">
                     <asp:GridView ID="grList" runat="server" Width="100%" Font-Size="9px" EmptyDataText="No Record Found"
-                        AutoGenerateColumns="False" DataKeyNames="SalarySourceId,Salary,Bonus,PF,IT,PFLoan,FringePF,Medical,Gratuity">
+                        AutoGenerateColumns="False" DataKeyNames="SalarySourceId">
                         <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
                         <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
                         </SelectedRowStyle>
@@ -98,7 +98,7 @@
                             <asp:BoundField DataField="FullName" HeaderText="Emp. Name">
                                 <ItemStyle CssClass="ItemStylecss" Width="12%"></ItemStyle>
                             </asp:BoundField>                          
-                            <asp:BoundField DataField="ProjectCode" HeaderText="Project Code">
+                            <asp:BoundField DataField="ProjectName" HeaderText="Project Code">
                                 <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
                             </asp:BoundField>
                             <asp:BoundField DataField="Percentage" HeaderText="Percentage">
