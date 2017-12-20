@@ -137,13 +137,12 @@
             <div class="DivCommand1" style="width: 98%;">
                 <div class="DivCommandL">
                     <asp:Button ID="btnRefresh" runat="server" CausesValidation="False" Text="Refresh"
-                        Width="70px" OnClick="btnRefresh_Click"
+                        Width="70px" 
                         ToolTip="Click this button to clear all fields." />
                 </div>
                 <div class="DivCommandR">
 
                     <asp:Button ID="btnSave" runat="server" Text="Save" Width="70px"
-                        OnClick="btnSave_Click"
                         ToolTip="Click this button to store the information after providing all necessary fields." />
                 </div>
 
