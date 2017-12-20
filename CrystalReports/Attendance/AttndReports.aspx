@@ -266,6 +266,7 @@
                                                             <td style="width: 99px">
                                                             </td>
                                                         </tr>
+
                                                     </tbody>
                                                 </table>
                                                 <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" runat="server" TargetControlID="txtFromDate"
@@ -274,6 +275,46 @@
                                                 <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" runat="server" TargetControlID="txtToDate"
                                                     ValidChars="/" FilterType="Custom,Numbers" Enabled="true">
                                                 </cc1:FilteredTextBoxExtender>
+                                            </asp:Panel>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <asp:Panel ID="PMonthFrom" runat="server" BorderStyle="Solid" BorderColor="DarkGray"
+                                                BorderWidth="1px" Width="420px" Visible="False">
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <asp:Label ID="Label3" runat="server" Text="Month :" Width="100px" CssClass="textlevel"></asp:Label>
+                                                            </td>
+                                                            <td>
+                                                                <asp:DropDownList ID="ddlMonth" runat="server" Width="127px" CssClass="textlevelleft">
+                                                                </asp:DropDownList>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </asp:Panel>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <asp:Panel ID="PYear" runat="server" BorderStyle="Solid" BorderColor="DarkGray" BorderWidth="1px"
+                                                Width="420px" Visible="False">
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <asp:Label ID="Label10" runat="server" Text="Year :" Width="100px" CssClass="textlevel"></asp:Label>
+                                                            </td>
+                                                            <td>
+                                                                <asp:DropDownList ID="ddlYear" runat="server" Width="127px" CssClass="textlevelleft">
+                                                                </asp:DropDownList>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </asp:Panel>
                                         </td>
                                     </tr>

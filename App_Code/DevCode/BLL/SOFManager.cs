@@ -928,12 +928,9 @@ public class SOFManager
                 intTransId++;
                 strEmpId = gRow.Cells[0].Text.Trim();
             }
-            command[i] = this.InsertEmpSalarySource1(intTransId.ToString(), gRow.Cells[0].Text.Trim(), gvData.DataKeys[gRow.DataItemIndex].Values[0].ToString(), gRow.Cells[2].Text.Trim(), gRow.Cells[3].Text.Trim(),
-                    gvData.DataKeys[gRow.DataItemIndex].Values[1].ToString(), gvData.DataKeys[gRow.DataItemIndex].Values[2].ToString(),
-                    gvData.DataKeys[gRow.DataItemIndex].Values[3].ToString(), gvData.DataKeys[gRow.DataItemIndex].Values[4].ToString(),
-                    gvData.DataKeys[gRow.DataItemIndex].Values[5].ToString(), gvData.DataKeys[gRow.DataItemIndex].Values[6].ToString(),
-                    gvData.DataKeys[gRow.DataItemIndex].Values[7].ToString(), gvData.DataKeys[gRow.DataItemIndex].Values[8].ToString(),
-                    gRow.Cells[4].Text.Trim(), vmonth, vyear, strEmpTypeId, strInsBy, strInsDate);
+            command[i] = this.InsertEmpSalarySource1(intTransId.ToString(), gRow.Cells[0].Text.Trim(), gvData.DataKeys[gRow.DataItemIndex].Values[0].ToString(),
+                gRow.Cells[2].Text.Trim(), "", "", "", "", "", "", "", "", "",
+                gRow.Cells[3].Text.Trim(), vmonth, vyear, strEmpTypeId, strInsBy, strInsDate);
             i++;           
         }
 

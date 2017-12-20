@@ -152,8 +152,7 @@
                         <td class="textlevel">
                             Leave Encashment Amount:</td>
                         <td>
-                            <asp:TextBox ID="txtLeaveEncash" runat="server" MaxLength="20" Width="80px" CssClass="TextBoxAmt60" 
-                                Enabled="False"></asp:TextBox></td>
+                            <asp:TextBox ID="txtLeaveEncash" runat="server" MaxLength="20" Width="80px" CssClass="TextBoxAmt60"></asp:TextBox></td>
                         <td class="textlevel">
                             &nbsp;</td>
                         <td>
@@ -163,8 +162,7 @@
                         <td class="textlevel">
                             Provident Fund :</td>
                         <td>
-                            <asp:TextBox ID="txtPF" runat="server" MaxLength="20" Width="80px" CssClass="TextBoxAmt60" 
-                                Enabled="False"></asp:TextBox></td>
+                            <asp:TextBox ID="txtPF" runat="server" MaxLength="20" Width="80px" CssClass="TextBoxAmt60"></asp:TextBox></td>
                         <td class="textlevel">
                             &nbsp;</td>
                         <td>
@@ -174,8 +172,7 @@
                         <td class="textlevel">
                             Gratuity :</td>
                         <td>
-                            <asp:TextBox ID="txtGratuity" runat="server" MaxLength="20" Width="80px" CssClass="TextBoxAmt60" 
-                                Enabled="False"></asp:TextBox></td>
+                            <asp:TextBox ID="txtGratuity" runat="server" MaxLength="20" Width="80px" CssClass="TextBoxAmt60"></asp:TextBox></td>
                         <td class="textlevel">
                             &nbsp;</td>
                         <td>
@@ -186,8 +183,21 @@
                         <td class="textlevel">
                             Salary of Last Month :</td>
                         <td>
-                            <asp:TextBox ID="txtLastMonthSalary" runat="server" MaxLength="20" Width="80px" CssClass="TextBoxAmt60" 
-                                Enabled="False">0</asp:TextBox></td>
+                            <asp:TextBox ID="txtLastMonthSalary" runat="server" MaxLength="20" Width="80px" CssClass="TextBoxAmt60">0</asp:TextBox></td>
+                        <td class="textlevel">
+                            &nbsp;</td>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td class="textlevel">
+                            Salary of
+                                <asp:Label ID="lblSalaryMonth" runat="server"></asp:Label>
+                            : </td>
+                        <td class="textlevelleft">
+                            <asp:TextBox ID="txtSalaryMonth" runat="server" MaxLength="20" Width="80px" CssClass="TextBoxAmt60">0</asp:TextBox>&nbsp;of
+                                <asp:Label ID="lblSalaryDays" runat="server"></asp:Label>
+                            &nbsp;Days</td>
                         <td class="textlevel">
                             &nbsp;</td>
                         <td>

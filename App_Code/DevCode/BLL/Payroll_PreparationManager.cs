@@ -130,6 +130,7 @@ public class Payroll_PreparationManager
                                                       gr.DataKeys[gRow.DataItemIndex].Values[21].ToString(),// DesgId
                                                       gr.DataKeys[gRow.DataItemIndex].Values[22].ToString(),
                                                       gr.DataKeys[gRow.DataItemIndex].Values[23].ToString(),// Plan Accline
+                                                      gr.DataKeys[gRow.DataItemIndex].Values[25].ToString(),// ClinicId  
                                                       gr.DataKeys[gRow.DataItemIndex].Values[24].ToString(),// ClinicId                                                      
                                                       strMonth, strYear, strFiscalYear,// Month, year, fiscal year
                                                       strEmpGrpID, strTaxPercent, strPFFiscalYrId, strTaxFiscalYrId);
@@ -167,7 +168,7 @@ public class Payroll_PreparationManager
         string strNetPay,string strPaySlipStatus,string strSalPackId,string strSalaryType,string strIsWithBonus,string strPayType,
         string strTWorkDayHour,string strGrossAmt,string strIsIrregular,string strIsCurrConv,string strCurrId, string strCurrConvAmt,
         string strInsBy, string strInsDate, string strPrepDate, string strBankCode, string strBranchCode, string strAccNo,
-        string strDeptId, string strDesgId, string strEmpTypeId,string strAccline, string strClinicId,string strMonth,
+        string strDeptId, string strDesgId, string strEmpTypeId,string strAccline, string strDivId,string strClinicId,string strMonth,
         string strYear, string strFiscalYear, string strEmpGrpID, string strTaxPercent, string strPFFiscalYrId,string strTaxFiscalYrId)
     {
         SqlCommand cmd = new SqlCommand("proc_Payroll_Insert_PaySlipMst");
@@ -308,6 +309,10 @@ public class Payroll_PreparationManager
         SqlParameter p_TaxPercent = cmd.Parameters.Add("TaxPercent", SqlDbType.BigInt);
         p_TaxPercent.Direction = ParameterDirection.Input;
         p_TaxPercent.Value = strTaxPercent;
+
+        SqlParameter p_DivId = cmd.Parameters.Add("DivisionId", SqlDbType.BigInt);
+        p_DivId.Direction = ParameterDirection.Input;
+        p_DivId.Value = strDivId;
 
         SqlParameter p_ClinicId = cmd.Parameters.Add("ClinicId", SqlDbType.BigInt);
         p_ClinicId.Direction = ParameterDirection.Input;

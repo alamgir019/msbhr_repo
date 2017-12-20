@@ -28,8 +28,15 @@ public partial class CrystalReports_Attendance_AttndReports : System.Web.UI.Page
             Common.FillDropDownList_All(objMasMgr.SelectClinic(), ddlSUB);
             Common.FillDropDownList_All(objMasMgr.SelectDepartment(0), ddlDept);
             Common.FillDropDownList_All(AttPMgr.GetData("0"), ddlShift);
-            
-            this.PanelVisibilityMst("0", "0", "0", "0", "0","0", "0", "0");                      
+
+            DateTime now = DateTime.Now;
+            Common.FillMonthList(ddlMonth);
+            ddlMonth.SelectedValue = Convert.ToInt32(now.Month).ToString();
+
+            Common.FillYearList(5, ddlYear);            
+            ddlYear.SelectedValue = Convert.ToInt32(now.Year).ToString();
+
+            this.PanelVisibilityMst("0", "0", "0", "0", "0","0", "0", "0", "0", "0");                      
         }
     }
    
@@ -76,7 +83,7 @@ public partial class CrystalReports_Attendance_AttndReports : System.Web.UI.Page
     }
 
     private void PanelVisibilityMst(string sSearchBy, string sBranch, string sDiv,
-        string sDept, string sDate, string sShow, string sShift, string sClosed)
+        string sDept, string sDate, string sShow, string sShift, string sClosed, string PMonth,string PYear )
     {
         ddlReportBy.SelectedIndex = 0;
         if (sSearchBy == "1")
@@ -115,60 +122,69 @@ public partial class CrystalReports_Attendance_AttndReports : System.Web.UI.Page
         if (sClosed == "1")
             PClosed.Visible = true;
         else
-            PClosed.Visible = false;        
+            PClosed.Visible = false;
+
+        if (PMonth == "1")
+            this.PMonthFrom.Visible = true;
+        else
+            this.PMonthFrom.Visible = false;
+        if (PYear == "1")
+            this.PYear.Visible = true;
+        else
+            this.PYear.Visible = false;
     }
 
     protected void tvReports_SelectedNodeChanged(object sender, EventArgs e)
     {
         PSearchBy.Enabled = true;
 
-        this.PanelVisibilityMst("0", "0", "0", "0", "0", "0", "0", "0");
+        this.PanelVisibilityMst("0", "0", "0", "0", "0", "0", "0", "0","0", "0");
         //this.FillddlEmplStatus();
         switch(tvReports.SelectedValue) 
         {            
             case "DA":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1", "0", "0");
                     break;
                 }
             case "AE":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1", "0", "0");
                     break;
                 }
             case "SumAttnd":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1", "0", "0");
                     break;
                 }
             case "LR":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1", "0", "0");
                     break;
                 }
             case "AR":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1", "0", "0");
                     break;
                 }
             case "IR":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1", "0", "0");
                     break;
                 }
             case "ED":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1", "0", "0");
                     break;
                 }
             case "DailyA":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");                    
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1", "0", "0");                    
                     break;
                 }
             case "MonthlyA":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1", "0", "0");
                     int TotalDay = 0;
                     txtFromDate.Text = "01/" + Common.DisplayMothYear(txtFromDate.Text);
                     TotalDay = GetMonthDay(Convert.ToDateTime(Common.ReturnDate(txtToDate.Text)));
@@ -177,22 +193,22 @@ public partial class CrystalReports_Attendance_AttndReports : System.Web.UI.Page
                 }
             case "InvOT":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1", "0", "0");
                     break;
                 }
             case "EWOS":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1", "0", "0");
                     break;
                 }                      
             case "EmpLVBalance":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1","1", "0", "1", "1" );
+                    PanelVisibilityMst("1", "1", "1", "1","1", "0", "1", "1", "0", "0");
                     break;
                 }
             case "TSL":
                 {
-                    PanelVisibilityMst("1", "1", "1", "1", "1", "1", "1", "1");
+                    PanelVisibilityMst("1", "1", "1", "1", "0", "1", "1", "0", "1", "1");
                     break;
                 }
         }
@@ -239,9 +255,9 @@ public partial class CrystalReports_Attendance_AttndReports : System.Web.UI.Page
                 }
             case "TSL":
                 {
-                    Session["EmpId"] = "E000333";
-                    Session["VMonth"] = "11";
-                    Session["VYear"] = "2017";
+                    Session["EmpId"] = txtEmpCode.Text.Trim();
+                    Session["Month"] = ddlMonth.SelectedValue.ToString();   
+                    Session["Year"] = ddlYear.SelectedValue.ToString();
                     Session["REPORTID"] = tvReports.SelectedNode.Value;
                     break;
                 }               

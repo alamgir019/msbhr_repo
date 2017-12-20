@@ -346,6 +346,18 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     CRV.ReportSource = ReportDoc;
                     break;
                 }
+            case "PRLW":
+                {
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptPayrollRprLocWise.rpt");
+                    ReportDoc.Load(ReportPath);
+                    MyDataTable = objPayRptMgr.Get_Rpt_PayrollReportLocWise(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString(), Session["PostDist"].ToString(), Session["EmpID"].ToString());
+                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    ReportDoc.SetDataSource(MyDataTable);
+                    ReportDoc.SetParameterValue("P_Header", "Payroll for the Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                    CRV.ReportSource = ReportDoc;
+                    break;
+                }
             case "ER":
                 {
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptEffortReport.rpt");
@@ -382,18 +394,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     CRV.ReportSource = ReportDoc;
                     break;
                 }
-            case "PRLW":
-                {
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptPayrollRprLocWise.rpt");
-                    ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_Rpt_PayrollReportLocWise(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString(), Session["PostDist"].ToString(), Session["EmpID"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Payroll for the Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
-                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
-                    CRV.ReportSource = ReportDoc;
-                    break;
-                }
+            
 
             case "NSWSD":
                 {

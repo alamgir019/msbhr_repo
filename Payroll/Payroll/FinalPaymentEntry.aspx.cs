@@ -159,17 +159,17 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         dtLv.Dispose();
 
         //Salary of Last Month
-        decimal dclLastMonthSal = 0;
-        decimal dclMonthDay = 0;
-        decimal dclRemainDays = 0;
-        string[] arInfo = new string[3];
+        //decimal dclLastMonthSal = 0;
+        //decimal dclMonthDay = 0;
+        //decimal dclRemainDays = 0;
+        //string[] arInfo = new string[3];
 
-        char[] split = { '/' };
-        arInfo = Common.str_split(lblSeprateDate.Text.Trim(),split );
-        dclMonthDay = Convert.ToDecimal(Common.GetMonthDay(Convert.ToDateTime(Common.ReturnDate(lblSeprateDate.Text))));
-        dclRemainDays = dclMonthDay - Convert.ToDecimal(arInfo[0].ToString());
-        dclLastMonthSal = Math.Round((Convert.ToDecimal(txtTotalPay.Text) / dclMonthDay) * dclRemainDays);
-        txtLastMonthSalary.Text  = dclLastMonthSal.ToString(); 
+        //char[] split = { '/' };
+        //arInfo = Common.str_split(lblSeprateDate.Text.Trim(),split );
+        //dclMonthDay = Convert.ToDecimal(Common.GetMonthDay(Convert.ToDateTime(Common.ReturnDate(lblSeprateDate.Text))));
+        //dclRemainDays = dclMonthDay - Convert.ToDecimal(arInfo[0].ToString());
+        //dclLastMonthSal = Math.Round((Convert.ToDecimal(txtTotalPay.Text) / dclMonthDay) * dclRemainDays);
+        //txtLastMonthSalary.Text  = dclLastMonthSal.ToString(); 
 
         //PF Balance      
         DataTable dtPF = objPFMgr.SelectEmpWisePFBF(txtEmpID.Text.Trim());
@@ -182,13 +182,19 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
 
         //Gratuity
         txtGratuity.Text = Convert.ToString(Math.Round(Convert.ToDecimal(txtBasicPay.Text) * Convert.ToDecimal(Common.ReturnZeroForNull(lblGratuityYr.Text))));
+
+
+        lblSalaryMonth.Text = Common.ReturnFullMonthName(DateTime.Now.Month.ToString());
+        
+        lblSalaryDays.Text =   Common.CalculateTotalDays("01/"+ DateTime.Now.Month+"/"+ DateTime.Now.Year, lblSeprateDate.Text.Trim());
+        txtSalaryMonth.Text =Convert.ToString(Math.Round(Convert.ToDecimal(txtTotalPay.Text) / 30 * Convert.ToDecimal(lblSalaryDays.Text), 0));
     }
 
     protected void btnCalculateNet_Click(object sender, EventArgs e)
     {
         decimal dclAddtion = 0, dclDeduction = 0, dclNetPay = 0;
         dclAddtion = Convert.ToDecimal(txtTotalPay.Text) + Convert.ToDecimal(Common.ReturnZeroForNull(txtLeaveEncash.Text)) + Convert.ToDecimal(Common.ReturnZeroForNull(txtPF.Text))
-            + Convert.ToDecimal(Common.ReturnZeroForNull(txtGratuity.Text));
+            + Convert.ToDecimal(Common.ReturnZeroForNull(txtGratuity.Text)) + Convert.ToDecimal(Common.ReturnZeroForNull(txtSalaryMonth.Text));
 
         dclDeduction = Convert.ToDecimal(Common.ReturnZeroForNull(txtTripAdvPay.Text)) + Convert.ToDecimal(Common.ReturnZeroForNull(txtAlreadyPay.Text)) + Convert.ToDecimal(Common.ReturnZeroForNull(txtOtherPay.Text))
            + Convert.ToDecimal(Common.ReturnZeroForNull(txtPFLoan.Text));

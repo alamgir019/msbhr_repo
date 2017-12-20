@@ -387,7 +387,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "PBWC":
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
+                    dtSalDivision = objPayMgr.SelectClinic();
                     grSalDivision.DataSource = dtSalDivision;
                     grSalDivision.DataBind();
                     DataTable dtPostDiv = objPayMgr.SelectPostDist();
@@ -413,14 +413,10 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 }
             case "PRLW":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
+                    PanelVisibilityMst("0", "0", "0", "0", "0","1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    dtSalDivision = objPayMgr.SelectClinic ();
                     grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    DataTable dtPostDiv = objPayMgr.SelectPostDist();
-                    grPostDivision.DataSource = dtPostDiv;
-                    grPostDivision.DataBind();
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                    grSalDivision.DataBind();                    
                     break;
                 }
             case "NSWSD":

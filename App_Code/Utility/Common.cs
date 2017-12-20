@@ -2247,4 +2247,95 @@ public class Common
             ddl.Items.Add(lst);
         }
     }
+
+    public static string CalculateDateDiff(string FromDate, string ToDate)
+    {
+        int years;
+
+        // compute & return the difference of two dates,
+        // returning years, months & days
+        // d1 should be the larger (newest) of the two dates
+
+
+        if (FromDate != "")
+        {
+            //string dt1 = Common.ReturnDate(ToDate);
+            //string dt2 = Common.ReturnDate(FromDate);
+            string dt1 = ToDate;
+            string dt2 = FromDate;
+            DateTime d1 = Convert.ToDateTime(dt1);
+            DateTime d2 = Convert.ToDateTime(dt2);
+
+            int months = 0;
+            int days = 0;
+            if (d1 < d2)
+            {
+                DateTime d3 = d2;
+                d2 = d1;
+                d1 = d3;
+            }
+
+            // compute difference in total months
+            months = 12 * (d1.Year - d2.Year) + (d1.Month - d2.Month);
+
+            // based upon the 'days', adjust months & compute actual days difference
+            if (d1.Day < d2.Day)
+            {
+                months--;
+                days = GetDaysInMonth(d2.Year, d2.Month) - d2.Day + d1.Day;
+                days = days + 1;
+            }
+            else
+            {
+                days = d1.Day - d2.Day;
+                days = days + 1;
+            }
+
+            // compute years & actual months
+            years = months / 12;
+            months -= years * 12;
+            string CompleteYear = "";
+            if (years > 0 && months > 0)
+                CompleteYear = years + " Years " + months + " Months " + days + " Days";
+            else if (years == 0 && months > 0)
+                CompleteYear = months + " Months " + days + " Days";
+            else if (years == 0 && months == 0)
+                CompleteYear = days + " Days";
+
+            return CompleteYear;
+        }
+        else
+            return "0";
+    }
+
+
+    public static string CalculateTotalDays(string strFromDate, string strToDate)
+    {
+        DateTime dtFrom=new DateTime ();
+        DateTime dtTo=new DateTime ();       
+        double TotDay = 0;
+        if (string.IsNullOrEmpty(strToDate) == false && string.IsNullOrEmpty(strFromDate) == false)
+        {
+            char[] splitter = { '/' };
+            string[] arinfo = Common.str_split(strFromDate, splitter);
+            if (arinfo.Length == 3)
+            {
+                dtFrom = Convert.ToDateTime(arinfo[2] + "/" + arinfo[1] + "/" + arinfo[0]);
+                arinfo = null;
+            }
+            arinfo = Common.str_split(strToDate, splitter);
+            if (arinfo.Length == 3)
+            {
+                dtTo = Convert.ToDateTime(arinfo[2] + "/" + arinfo[1] + "/" + arinfo[0]);
+                arinfo = null;
+            }
+
+            TimeSpan Dur = dtTo.Subtract(dtFrom);
+
+            TotDay = Math.Round(Convert.ToDouble(Dur.Days), 0) + 1;
+
+        }
+        return TotDay.ToString() ;
+    }
 }
+

@@ -43,35 +43,36 @@ public partial class frmAttndReportViewer : System.Web.UI.Page
 
        switch (Session["REPORTID"].ToString())
         {
+            #region TimeSheet
             case "TSL":
                 bool blnIsRound = false;
-                string strEmpIdNew = "E000333";
-                string strMonth = "11";
-                string strYear = "2017";
+                string strEmpIdTS = Session["EmpId"].ToString().Trim(); 
+                string strMonth = Session["Month"].ToString().Trim();
+                string strYear = Session["Year"].ToString().Trim();
                 if (blnIsRound == false)
                     ReportPath = Server.MapPath("~/CrystalReports/Attendance/rptTimeSheet.rpt");
                 else
                     ReportPath = Server.MapPath("~/CrystalReports/Attendance/rptTimeSheetRound.rpt");
                 ReportDoc.Load(ReportPath);
 
-                DataTable dtTimeSheetEmpInfo = rptManager.Get_TimeSheetEmpInfo(strEmpIdNew, strMonth, strYear);
+                DataTable dtTimeSheetEmpInfo = rptManager.Get_TimeSheetEmpInfo(strEmpIdTS, strMonth, strYear);
 
-                DataTable dtTimeSheet = rptManager.Get_TimeSheetReport(strEmpIdNew, strMonth, strYear, blnIsRound);
+                DataTable dtTimeSheet = rptManager.Get_TimeSheetReport(strEmpIdTS, strMonth, strYear, blnIsRound);
 
                 ReportManager objRM1 = new ReportManager();
-                DataTable dtTimeSheetHoliday = objRM1.Get_TimeSheetReportForAbsent(strEmpIdNew, strMonth, strYear, "H");
+                DataTable dtTimeSheetHoliday = objRM1.Get_TimeSheetReportForAbsent(strEmpIdTS, strMonth, strYear, "H");
 
                 ReportManager objRM2 = new ReportManager();
-                DataTable dtTimeSheetSick = objRM2.Get_TimeSheetReportForAbsent(strEmpIdNew, strMonth, strYear, "SL");
+                DataTable dtTimeSheetSick = objRM2.Get_TimeSheetReportForAbsent(strEmpIdTS, strMonth, strYear, "SL");
 
                 ReportManager objRM3 = new ReportManager();
-                DataTable dtTimeSheetUnPaid = objRM3.Get_TimeSheetReportForAbsent(strEmpIdNew, strMonth, strYear, "LW");
+                DataTable dtTimeSheetUnPaid = objRM3.Get_TimeSheetReportForAbsent(strEmpIdTS, strMonth, strYear, "LW");
 
                 ReportManager objRM4 = new ReportManager();
-                DataTable dtTimeSheetVacation = objRM4.Get_TimeSheetReportForAbsent(strEmpIdNew, strMonth, strYear, "V");
+                DataTable dtTimeSheetVacation = objRM4.Get_TimeSheetReportForAbsent(strEmpIdTS, strMonth, strYear, "V");
 
                 ReportManager objRM5 = new ReportManager();
-                DataTable dtTimeSheetWH = objRM5.Get_TimeSheetReportForAbsent(strEmpIdNew, strMonth, strYear, "WH");
+                DataTable dtTimeSheetWH = objRM5.Get_TimeSheetReportForAbsent(strEmpIdTS, strMonth, strYear, "WH");
 
                 if (dtTimeSheetEmpInfo.Rows.Count > 0)
                 {
@@ -184,6 +185,7 @@ public partial class frmAttndReportViewer : System.Web.UI.Page
                 ReportDoc.SetParameterValue("ComLogo", LogoPath);
                 CRV.ReportSource = ReportDoc;
                 break;
+            #endregion
             case "DA":
                 //Report no 1 : Attendance Report
                 ReportPath = Server.MapPath("~/CrystalReports/Attendance/rptAttandance.rpt");

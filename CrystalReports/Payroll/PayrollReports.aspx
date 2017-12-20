@@ -27,7 +27,8 @@
                                     <asp:TreeNode Text="Bank Advice " Value="BSFF"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Certificate" Value="SC"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Sheet" Value="SSS"></asp:TreeNode>
-                                    <asp:TreeNode Text="Salary Sheet Summary" Value="SSSum"></asp:TreeNode>                                   
+                                    <asp:TreeNode Text="Salary Sheet Summary" Value="SSSum"></asp:TreeNode>    
+                                    <asp:TreeNode Text="Salary Charging" Value="PRLW"></asp:TreeNode>                               
                                 </asp:TreeNode>
                                 <asp:TreeNode Text="Provident Fund" Value="PF">
                                     <asp:TreeNode Text="Monthly PF Contribution" Value="MPFC"></asp:TreeNode>
@@ -53,7 +54,7 @@
                                     <asp:TreeNode Text="Salary Summary" Value="SalSum"></asp:TreeNode>
                                     <%--<asp:TreeNode Text="Salary Sheet" Value="SSSEW"></asp:TreeNode>--%>
                                     <asp:TreeNode Text="Effort Report" Value="ER"></asp:TreeNode>
-                                    <asp:TreeNode Text="Payroll Report(Location Wise)" Value="PRLW"></asp:TreeNode>
+                                    
                                     <asp:TreeNode Text="Payroll Grant Wise" Value="SSWSD"></asp:TreeNode>
                                     <asp:TreeNode Text="Payroll Basic With Charging" Value="PBWC"></asp:TreeNode>
                                     <asp:TreeNode Text="Net Salary and Grant Wise Salary Distribution" Value="NSWSD">
