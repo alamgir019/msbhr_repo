@@ -1103,6 +1103,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("P_HouseRentEx", "300000");
                     ReportDoc.SetParameterValue("P_MedicalEx", "120000");
                     ReportDoc.SetParameterValue("P_TransportEx", "30000");
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
                     break;
                 }
