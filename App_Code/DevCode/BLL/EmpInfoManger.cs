@@ -5251,12 +5251,7 @@ public class EmpInfoManager
     }
 
     //Select type wise action
-    public DataTable SelectEmpFinalPayment(string strEmpid)
-    {
-        string strSQL = "SELECT * from FinalPayment WHERE EmpID='" + strEmpid + "'";
-
-        return objDC.CreateDT(strSQL, "EmpFinalPayment");
-    }
+    
 
 
 

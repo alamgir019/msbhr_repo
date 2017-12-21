@@ -1,5 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" CodeFile="FinalPaymentReview.aspx.cs"
-     Inherits="Payroll_Payroll_FinalPaymentReview" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" CodeFile="FinalPaymentApprove.aspx.cs"
+     Inherits="Payroll_Payroll_FinalPaymentApprove" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 
@@ -44,11 +44,11 @@
         <div class="formStyle" style="width: 95%;">
             <div id="formhead1">
                 <div style="width: 97%; float: left;">
-                    Final Payment
-                    Review</div>
+                    Final Payment Approve
+                    </div>
                 <div style="margin: 2px; float: left; padding-right: 3px;">
                     <a href="../../Default.aspx">
-                        <img src="../../Images/close_icon.gif" /></a>
+                    <img src="../../Images/close_icon.gif" /></a>
                 </div>
             </div>
             <div class="MsgBox">
@@ -93,22 +93,12 @@
                 <legend>Final Payment List</legend>
                 <div style="overflow: scroll; width: 100%; height: 150px">
                     <asp:GridView ID="grList" runat="server" Width="100%" Font-Size="9px" EmptyDataText="No Record Found"
-                        AutoGenerateColumns="False" 
+                        AutoGenerateColumns="False"
                         DataKeyNames="FinalPayId">
                         <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
-                        <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
-                        </SelectedRowStyle>
+                        <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True"></SelectedRowStyle>
                         <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
-                        <Columns>      
-                            <asp:BoundField DataField="EmpId" HeaderText="Emp Id">
-                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
-                            </asp:BoundField>       
-                              <asp:BoundField DataField="TotServiceYr" HeaderText="Service Year">
-                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
-                            </asp:BoundField>  
-                             <asp:BoundField DataField="ELBalance" HeaderText="EL Balance">
-                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
-                            </asp:BoundField>          
+                        <Columns>
                             <asp:BoundField DataField="LeaveEncash" HeaderText="Leave Encash">
                                 <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
                             </asp:BoundField>
@@ -116,13 +106,6 @@
                                 <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
                             </asp:BoundField>
                             <asp:BoundField DataField="Gratuity" HeaderText="Gratuity">
-                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
-                            </asp:BoundField>
-                           
-                             <asp:BoundField DataField="LastMonthSalary" HeaderText="Last Month Salary">
-                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
-                            </asp:BoundField>
-                             <asp:BoundField DataField="SeperateMonthSalary" HeaderText="Seperate Month Salary">
                                 <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
                             </asp:BoundField>
                             <asp:BoundField DataField="TripAdvPay" HeaderText="TripAdvPay">
@@ -143,12 +126,9 @@
                             <asp:BoundField DataField="NetPay" HeaderText="NetPay">
                                 <ItemStyle CssClass="ItemStylecssRight" Width="5%"></ItemStyle>
                             </asp:BoundField>
-                             <asp:BoundField DataField="SeparateDate" HeaderText="Separate Date">
-                                <ItemStyle CssClass="ItemStylecssCenter" Width="5%"></ItemStyle>
-                            </asp:BoundField>  
                             <asp:BoundField DataField="ProcessDate" HeaderText="Process Date">
                                 <ItemStyle CssClass="ItemStylecssCenter" Width="5%"></ItemStyle>
-                            </asp:BoundField>                          
+                            </asp:BoundField>
                         </Columns>
                     </asp:GridView>
                 </div>
@@ -162,7 +142,7 @@
                 </div>
                 <div class="DivCommandR">
 
-                    <asp:Button ID="btnSave" runat="server" Text="Click to Review Final Payment" Width="207px"
+                    <asp:Button ID="btnSave" runat="server" Text="Click to Approve Final Payment" Width="207px"
                         ToolTip="Click this button to store the information after providing all necessary fields." OnClick="btnSave_Click" />
                 </div>
 

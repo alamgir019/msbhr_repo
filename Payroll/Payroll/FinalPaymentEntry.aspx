@@ -195,7 +195,7 @@
                                 <asp:Label ID="lblSalaryMonth" runat="server"></asp:Label>
                             : </td>
                         <td class="textlevelleft">
-                            <asp:TextBox ID="txtSalaryMonth" runat="server" MaxLength="20" Width="80px" CssClass="TextBoxAmt60">0</asp:TextBox>&nbsp;of
+                            <asp:TextBox ID="txtSeperateMonthSal" runat="server" MaxLength="20" Width="80px" CssClass="TextBoxAmt60">0</asp:TextBox>&nbsp;of
                                 <asp:Label ID="lblSalaryDays" runat="server"></asp:Label>
                             &nbsp;Days</td>
                         <td class="textlevel">
@@ -328,7 +328,16 @@
                         <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
                         </SelectedRowStyle>
                         <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
-                        <Columns>                         
+                        <Columns>      
+                            <asp:BoundField DataField="EmpId" HeaderText="Emp Id">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>       
+                              <asp:BoundField DataField="TotServiceYr" HeaderText="Service Year">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>  
+                             <asp:BoundField DataField="ELBalance" HeaderText="EL Balance">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>          
                             <asp:BoundField DataField="LeaveEncash" HeaderText="Leave Encash">
                                 <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
                             </asp:BoundField>
@@ -336,6 +345,13 @@
                                 <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
                             </asp:BoundField>
                             <asp:BoundField DataField="Gratuity" HeaderText="Gratuity">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>
+                           
+                             <asp:BoundField DataField="LastMonthSalary" HeaderText="Last Month Salary">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>
+                             <asp:BoundField DataField="SeperateMonthSalary" HeaderText="Seperate Month Salary">
                                 <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
                             </asp:BoundField>
                             <asp:BoundField DataField="TripAdvPay" HeaderText="TripAdvPay">
@@ -356,6 +372,9 @@
                             <asp:BoundField DataField="NetPay" HeaderText="NetPay">
                                 <ItemStyle CssClass="ItemStylecssRight" Width="5%"></ItemStyle>
                             </asp:BoundField>
+                             <asp:BoundField DataField="SeparateDate" HeaderText="Separate Date">
+                                <ItemStyle CssClass="ItemStylecssCenter" Width="5%"></ItemStyle>
+                            </asp:BoundField>  
                             <asp:BoundField DataField="ProcessDate" HeaderText="Process Date">
                                 <ItemStyle CssClass="ItemStylecssCenter" Width="5%"></ItemStyle>
                             </asp:BoundField>                          
