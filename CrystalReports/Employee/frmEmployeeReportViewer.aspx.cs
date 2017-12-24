@@ -55,6 +55,7 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
             return Convert.ToDecimal(strData);
         }
     }
+
     private void ConfigureCrystalReports()
     {
         ReportDoc = new ReportDocument();
@@ -595,8 +596,6 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
     }
 
     //End image
-
-
     public void PassParameterHeader(string ReportName, string FiscalYr)
     {
         ParameterFields pFields = new ParameterFields();
@@ -732,8 +731,7 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
         CRVT.ParameterFieldInfo = pFields;
 
     }   
-
-
+    
     protected void CRVT_Unload(object sender, EventArgs e)
     {
         ReportDoc.Close();
@@ -742,11 +740,13 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
         GC.Collect();
         GC.WaitForPendingFinalizers();
     }
+
     protected void CRVT_BeforeRender(object source, CrystalDecisions.Web.HtmlReportRender.BeforeRenderEvent e)
     {
         Page.ClientScript.RegisterForEventValidation(CRVT.UniqueID);
         
     }
+
     protected void btnPrint_Click(object sender, EventArgs e)
     {
         string filePathReceipt = Path.GetTempFileName();
@@ -814,4 +814,5 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
 
     //printjob.Start();
     }
+
 }

@@ -571,7 +571,6 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
                 break;
         }
     }
-
     private void FillBudgetTitle()
     {
         this.ClearControl("ddlBTitleType");
