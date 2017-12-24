@@ -123,7 +123,7 @@ public partial class frmTrainingReportViewer : System.Web.UI.Page
                 {
                     ReportPath = Server.MapPath("~/CrystalReports/Training/rptTrainingRequisition.rpt");
                     ReportDoc.Load(ReportPath);
-                    MyDataTable = rptManager.GetTrainingRequisition(Session["ProjectID"].ToString(), Session["TrainingID"].ToString(), Session["FromDate"].ToString(), Session["ToDate"].ToString());
+                    MyDataTable = rptManager.GetTrainingRequisition(Session["TrainingID"].ToString(), Session["ProjectID"].ToString(), Session["FromDate"].ToString(), Session["ToDate"].ToString());
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("PageHeader", "Training Requisition Form for Project Staff");
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
