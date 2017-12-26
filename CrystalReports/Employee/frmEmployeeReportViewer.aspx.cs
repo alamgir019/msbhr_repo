@@ -754,12 +754,6 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
         try
         {
             ReportDoc.ExportToDisk(ExportFormatType.PortableDocFormat, filePathReceipt);
-
-            //using (FileStream fs = new FileStream(filePathReceipt, FileMode.Create))
-            //using (StreamWriter sw = new StreamWriter(fs, System.Text.Encoding.UTF8))
-            //{
-            //    sw.Write(ReportDoc.ToString());
-            //}
         }
         catch (Exception ex)
         {
@@ -768,26 +762,25 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
 
         //Printing receipt: start
         System.Diagnostics.Process printjob = new System.Diagnostics.Process();
-
         printjob.StartInfo.FileName = filePathReceipt;
-
-        printjob.StartInfo.Verb = "Print";
-
+        //printjob.StartInfo.Verb = string.Empty;
+        printjob.StartInfo.Verb = "PrintTo";
+        printjob.StartInfo.UseShellExecute = true;
         printjob.StartInfo.CreateNoWindow = true;
 
         printjob.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-
-        PrinterSettings setting = new PrinterSettings();
-
+        
+        PrinterSettings setting = new PrinterSettings();       
         setting.DefaultPageSettings.Landscape = true;
 
         try
         {
             printjob.Start();
+            ll.Text = "4";
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message);
+            ll.Text=ex.Message;
         }
         //Printing receipt: end
 
@@ -796,23 +789,6 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
             //Delete the file after it has been printed
             File.Delete(filePathReceipt);
         }
-
-
-    //    System.Diagnostics.Process printjob = new System.Diagnostics.Process();
-
-    //    printjob.StartInfo.FileName = @"D:\Development\VS-2010\MSBHR\CrystalReports\Employee\Employee.pdf"; //path of your file;
-
-    //printjob.StartInfo.Verb = "Print";
-
-    //printjob.StartInfo.CreateNoWindow = true;
-
-    //printjob.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-
-    //PrinterSettings setting = new PrinterSettings();
-
-    //setting.DefaultPageSettings.Landscape = true;
-
-    //printjob.Start();
     }
 
 }

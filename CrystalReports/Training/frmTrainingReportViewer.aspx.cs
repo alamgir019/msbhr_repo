@@ -79,7 +79,7 @@ public partial class frmTrainingReportViewer : System.Web.UI.Page
                 {
                     ReportPath = Server.MapPath("~/CrystalReports/Training/rptEmpEligibleTrainDetails.rpt");
                     ReportDoc.Load(ReportPath);
-                    MyDataTable = rptManager.proc_Get_EmpEligibleTrainDetails(Session["SalLocId"].ToString(), Session["EmployeeName"].ToString(), Session["TrainingID"].ToString());
+                    MyDataTable = rptManager.proc_Get_EmpEligibleTrainDetails(Session["SalLocId"].ToString(), Session["EmpId"].ToString(), Session["TrainingID"].ToString());
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("PageHeader", "Employee Training Eligible Details");
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
