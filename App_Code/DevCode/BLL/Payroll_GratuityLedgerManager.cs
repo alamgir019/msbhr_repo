@@ -546,7 +546,7 @@ public class Payroll_GratuityLedgerManager
         string strSQL = "";
         strSQL = "SELECT P.EMPID,P.EMPID,E.FULLNAME,E.JOININGDATE,E.GRATUITYFROM,E.BASICSALARY,J.DESIGNAME,E.DESIGID "
             + " FROM PAYSLIPMST P, EMPINFO E,DESIGNATION J "
-            + " WHERE P.EMPID=E.EMPID AND E.DESIGID=J.DESIGID AND E.JOININGDATE<@JOININGDATE AND E.EMPSTATUS='A' "
+            + " WHERE P.EMPID=E.EMPID AND E.DESIGID=J.DESIGID AND E.JOININGDATE<@JOININGDATE AND E.EMPSTATUS='A' AND E.EmpTypeId=1"
             + " AND P.VMONTH=@VMONTH and P.FISCALYRID=@FISCALYRID "
             + " ORDER BY P.EMPID";
         
@@ -695,8 +695,8 @@ public class Payroll_GratuityLedgerManager
             objDC.ds.Tables["GetGratuityLedgerData"].Dispose();
         }
         SqlCommand command = new SqlCommand();
-        command = new SqlCommand("SELECT GL.*,E.FULLNAME,J.JOBTITLE FROM GRATUITYLEDGER GL,PAYSLIPMST PM,EMPINFO E,JOBTITLE J "
-                                   + " WHERE GL.EMPID=PM.EMPID AND PM.HREMPID=E.EMPID AND PM.JBTLID=J.JBTLID "
+        command = new SqlCommand("SELECT GL.*,E.FULLNAME,J.DESIGNAME AS JOBTITLE FROM GRATUITYLEDGER GL,PAYSLIPMST PM,EMPINFO E,DESIGNATION J   "
+                                   + " WHERE GL.EMPID=PM.EMPID AND PM.EMPID=E.EMPID AND PM.DESIGID=J.DESIGID "
                                    + " AND PM.VMONTH=@VMONTH AND PM.FISCALYRID=@FISCALYRID "
                                    + " AND GL.VMONTH=@VMONTH AND GL.FISCALYRID=@FISCALYRID ORDER BY GL.EMPID");
         command.CommandType = CommandType.Text;
