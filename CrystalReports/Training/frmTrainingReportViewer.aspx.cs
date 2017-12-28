@@ -79,7 +79,7 @@ public partial class frmTrainingReportViewer : System.Web.UI.Page
                 {
                     ReportPath = Server.MapPath("~/CrystalReports/Training/rptEmpEligibleTrainDetails.rpt");
                     ReportDoc.Load(ReportPath);
-                    MyDataTable = rptManager.proc_Get_EmpEligibleTrainDetails(Session["SalLocId"].ToString(), Session["EmployeeName"].ToString(), Session["TrainingID"].ToString());
+                    MyDataTable = rptManager.proc_Get_EmpEligibleTrainDetails(Session["SalLocId"].ToString(), Session["EmpId"].ToString(), Session["TrainingID"].ToString());
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("PageHeader", "Employee Training Eligible Details");
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
@@ -123,7 +123,7 @@ public partial class frmTrainingReportViewer : System.Web.UI.Page
                 {
                     ReportPath = Server.MapPath("~/CrystalReports/Training/rptTrainingRequisition.rpt");
                     ReportDoc.Load(ReportPath);
-                    MyDataTable = rptManager.GetTrainingRequisition(Session["ProjectID"].ToString(), Session["TrainingID"].ToString(), Session["FromDate"].ToString(), Session["ToDate"].ToString());
+                    MyDataTable = rptManager.GetTrainingRequisition(Session["TrainingID"].ToString(), Session["ProjectID"].ToString(), Session["FromDate"].ToString(), Session["ToDate"].ToString());
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("PageHeader", "Training Requisition Form for Project Staff");
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);

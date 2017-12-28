@@ -228,6 +228,7 @@ public partial class CrystalReports_Training_TrainingReports : System.Web.UI.Pag
                     Session["REPORTID"] = tvReports.SelectedNode.Value;
                     Session["SalLocId"] = ddlSalLoc.SelectedValue.ToString().Trim();
                     Session["EmployeeName"] = ddlEmployeeName.SelectedValue.ToString().Trim();
+                    Session["EmpId"]= ddlEmployeeName.SelectedItem.ToString();
                     Session["TrainingID"] = ddlTrainingName.SelectedValue.ToString().Trim();
                     break;
                 }

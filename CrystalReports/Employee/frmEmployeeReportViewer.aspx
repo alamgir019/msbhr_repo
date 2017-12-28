@@ -19,8 +19,9 @@
                     Height="50px" ToolbarStyle-BackColor="White" 
                     ToolbarStyle-BorderColor="White" Width="350px" 
                     HasToggleGroupTreeButton="False" ToolPanelView="None" />--%>
-                <asp:Button ID="btnPrint" runat="server" onclick="btnPrint_Click" 
+                <asp:Button ID="btnPrint" runat="server" Visible="false" onclick="btnPrint_Click" 
                     Text="Print" />
+                <asp:Label ID="ll" Visible="false" runat="server" Text="0" />
                     <CR:CrystalReportViewer ID="CRVT" runat="server"  
                     EnableDatabaseLogonPrompt="False" OnBeforeRender="CRVT_BeforeRender" 
                     OnUnload="CRVT_Unload" AutoDataBind="true" PrintMode="ActiveX" 
