@@ -203,6 +203,15 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
     private void SaveData()
     {
         string strID = "";
+        string strRecDate = "";
+        string strChequeDate = "";
+
+        if (string.IsNullOrEmpty(txtRecDate.Text.Trim()) == false)
+            strRecDate = Common.ReturnDate(txtRecDate.Text.Trim());
+
+        if (string.IsNullOrEmpty(txtChequeDate.Text.Trim()) == false)
+            strChequeDate = Common.ReturnDate(txtChequeDate.Text.Trim());
+
         try
         {
             //Filling Class Properties with values
@@ -227,9 +236,9 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
             dRow["MONTHLYINTEREST"] = txtInterest.Text;
             dRow["MONTHLYREPAY"] = txtRepay.Text;
             dRow["RECEIVEAMT"] = txtRecTk.Text;
-            dRow["RECEIVEDATE"] = Common.ReturnDate(txtRecDate.Text);
+            dRow["RECEIVEDATE"] = strRecDate;
             dRow["CHEQUENUMER"] = txtChequeNumber.Text;
-            dRow["CHEQUEDATE"] = Common.ReturnDate(txtChequeDate.Text);
+            dRow["CHEQUEDATE"] = strChequeDate;
             dRow["BANKDETAIL"] = txtChequeDate.Text;
 
             if (hfIsUpdate.Value == "N")

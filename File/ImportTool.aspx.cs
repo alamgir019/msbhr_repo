@@ -1761,7 +1761,7 @@ public partial class File_ImportTool : System.Web.UI.Page
    
     protected void btnLvEntitle_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=C:\\BASESOFT\\LeaveData_200917.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=C:\\BASESOFT\\LeaveData_20171228.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -1844,7 +1844,7 @@ public partial class File_ImportTool : System.Web.UI.Page
 
         SqlParameter p_LEnjoyed = command.Parameters.Add("LEntitled", SqlDbType.Decimal);
         p_LEnjoyed.Direction = ParameterDirection.Input;
-        p_LEnjoyed.Value = sLEntitled;
+        p_LEnjoyed.Value = Math.Round(Convert.ToDecimal(sLEntitled), 1);
 
         objDC.ExecuteQuery(command);
     }

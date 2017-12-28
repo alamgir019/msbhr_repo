@@ -294,8 +294,6 @@
                                             style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px"
                                             height="16" alt="Pick a date" src="../../images/cal.gif" width="16" /></a>
 
-                                        <asp:RequiredFieldValidator ID="ReqValTitle1" runat="server" 
-                                            ControlToValidate="txtRecDate" ErrorMessage="*">*</asp:RequiredFieldValidator>
                                         &nbsp;</td>
                                 </tr>
                                 <tr>
@@ -312,8 +310,6 @@
                                         <asp:TextBox ID="txtChequeDate" runat="server" Width="80px"></asp:TextBox><a href="javascript:NewCal('<%= txtChequeDate.ClientID %>','ddmmyyyy')"><img
                                             style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px"
                                             height="16" alt="Pick a date" src="../../images/cal.gif" width="16" /></a>
-                                        <asp:RequiredFieldValidator ID="ReqValTitle2" runat="server" 
-                                            ControlToValidate="txtChequeDate" ErrorMessage="*">*</asp:RequiredFieldValidator>
                                         &nbsp;</td>
                                 </tr>
                                 <tr>
@@ -404,7 +400,7 @@
                 <div style="text-align: right;">
                     <asp:Button ID="btnSave" runat="server" Text="Save" Width="70px" UseSubmitBehavior="False"
                         OnClick="btnSave_Click" />
-                    <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();" />
+                    <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();" Visible="False" />
                 </div>
             </div>
         </div>
