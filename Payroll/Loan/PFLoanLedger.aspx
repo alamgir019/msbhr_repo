@@ -1,6 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" CodeFile="PFLoanLedger.aspx.cs" Inherits="Payroll_Loan_PFLoanLedger" Title="PF Loan Ledger" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div id="formStyle">
+<div class="formStyle" style="height: 150px; width: 50%">
     <div id="formhead1">
       <div style="width:92%;float:left;">Monthly PF Loan Ledger </div>
         <div style="margin: 2px; float: left; padding-right: 3px;">
