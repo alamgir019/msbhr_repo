@@ -1310,9 +1310,9 @@ public class Payroll_LoanAppManager
         else
             strFY = strFinYear;
 
-        string strSQL = "SELECT EMPID AS EMPID FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID1 AND EMPID IN('E003414','E000020')"
+        string strSQL = "SELECT EMPID AS EMPID FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID1 AND EMPID IN('E001348')"
                        + " UNION ALL "
-                       + " SELECT EMPID AS EMPID FROM EmpPFLoanMst WHERE LOANMONTH=@LOANMONTH AND FISCALYRID=@FISCALYRID2 AND EMPID IN('E003414','E000020')"
+                       + " SELECT EMPID AS EMPID FROM EmpPFLoanMst WHERE LOANMONTH=@LOANMONTH AND FISCALYRID=@FISCALYRID2 AND EMPID IN('E001348')"
                        + " ORDER BY EMPID";
         SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;
@@ -1706,7 +1706,21 @@ public class Payroll_LoanAppManager
         else
             return false;
     }
-   
+
+    public void DeletePFLoanData(string strTransID)
+    {
+        string strSQL = "DELETE FROM EmpPFLoanMst WHERE TransId=" + strTransID;
+        SqlCommand cmd = new SqlCommand(strSQL);
+        cmd.CommandType = CommandType.Text;
+
+        SqlParameter p_TRANSID = cmd.Parameters.Add("TRANSID", SqlDbType.BigInt);
+        p_TRANSID.Direction = ParameterDirection.Input;
+        p_TRANSID.Value = strTransID;
+
+        objDC.ExecuteQuery(cmd);
+    }
+
+
     #endregion
 
     #region Gratuity Ledger
