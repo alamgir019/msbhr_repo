@@ -26,7 +26,7 @@ public partial class Payroll_Payroll_GratuityLedgerReport : System.Web.UI.Page
             ddlYear.Items.Add("Nil");
             ddlMonth.SelectedValue = DateTime.Today.Month.ToString();
             ddlYear.SelectedValue = DateTime.Today.Year.ToString();
-            Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0), ddlFiscalYear, "FISCALYRTITLE", "FISCALYRID", false);
+            Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0,"F"), ddlFiscalYear, "FISCALYRTITLE", "FISCALYRID", false);
         }
     }
 

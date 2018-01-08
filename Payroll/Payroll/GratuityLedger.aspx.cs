@@ -25,7 +25,7 @@ public partial class Payroll_Payroll_GratuityLedger : System.Web.UI.Page
             ddlYear.Items.Add("Nil");
             ddlMonth.SelectedValue = DateTime.Today.Month.ToString();
             ddlYear.SelectedValue = DateTime.Today.Year.ToString();
-            Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0), ddlFiscalYear, "FISCALYRTITLE", "FISCALYRID", false);
+            Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0, "F"), ddlFiscalYear, "FISCALYRTITLE", "FISCALYRID", false);
         }
     }
 
@@ -64,22 +64,17 @@ public partial class Payroll_Payroll_GratuityLedger : System.Web.UI.Page
         string strBasicSal = "";
         string strLedgerID = "";
         string strPrevMonth = Common.GetPreviousMonth(strMonth);
-            //objGrMgr.GetLastGLMonth(strFiscalYear);
+        
         string strPrevYear = Common.GetPreviousYear(strMonth, strPrevMonth, strYear);
         bool IsCurrLedgerExist = false;
         long lngLedgerID = 0;
 
         DataTable dtNewLedger = new DataTable();
-
-       // DataTable dtEmpInfo = objGrMgr.GetEmployeeForGratuity(strMonth, strFiscalYear,"2011-04-02");
-        DataTable dtEmpInfo = objGrMgr.GetEmployeeForGratuity(strMonth, strFiscalYear, Common.SetDate(dtAccureDate.ToShortDateString()));
-        //DataTable dtNewEmp = objGrMgr.GetNewEmployeeForGratuity(strMonth, strFiscalYear, "2011-01-02","2011-04-01");
-        DataTable dtNewEmp = objGrMgr.GetNewEmployeeForGratuity(strMonth, strFiscalYear, Common.SetDate(dtJoinFrom.ToShortDateString()), Common.SetDate(dtJoinTo.ToShortDateString()));
-       // DataTable dtEmpWithNullGrDate = objGrMgr.GetEmployeeWithNullGratuityDateExceptNewJoiner(strMonth, strFiscalYear, "2011-04-02", "2011-01-02", "2011-04-01");
+        
+        DataTable dtEmpInfo = objGrMgr.GetEmployeeForGratuity(strMonth, strFiscalYear, Common.SetDate(dtAccureDate.ToShortDateString()));        
+        DataTable dtNewEmp = objGrMgr.GetNewEmployeeForGratuity(strMonth, strFiscalYear, Common.SetDate(dtJoinFrom.ToShortDateString()), Common.SetDate(dtJoinTo.ToShortDateString()));       
         DataTable dtEmpWithNullGrDate = objGrMgr.GetEmployeeWithNullGratuityDateExceptNewJoiner(strMonth, strFiscalYear, Common.SetDate(dtAccureDate.ToShortDateString()), Common.SetDate(dtJoinFrom.ToShortDateString()), Common.SetDate(dtJoinTo.ToShortDateString()));
         DataTable dtGrPayment = objGrMgr.GetGrPaymentList(ddlMonth.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.Trim(), "");
-
-        //DataTable dtLedger = objGrMgr.GetGratuityLedgerData(strFiscalYear, strPrevMonth, "");
 
         DataRow[] foundRowsNew;
         DataRow[] foundRowsGrNull;
@@ -154,14 +149,14 @@ public partial class Payroll_Payroll_GratuityLedger : System.Web.UI.Page
                 DataRow nRow = objDs.dtGrLedger.NewRow();
                 nRow["LEDGERID"] = lngLedgerID.ToString();
                 nRow["EMPID"] = dRow["EMPID"].ToString();
-                nRow["DESGID"] = dRow["DESGID"].ToString();
+                nRow["DESGID"] = dRow["DESIGID"].ToString();
                 nRow["VMONTH"] = strMonth;
                 nRow["VYEAR"] = strYear;
                 nRow["FISCALYRID"] = strFiscalYear;
                 nRow["GRATUITYFROM"] = strGratuityFrom;
                 nRow["GRATUITYUPTO"] = Common.DisplayDateIIS(dtGratuityUpto.ToString());
 
-                nRow["BASIC"] = dRow["BASICSAL"].ToString();
+                nRow["BASIC"] = dRow["BASICSALARY"].ToString();
                 nRow["PMONTH"] = dtLedger.Rows[0]["CMONTH"].ToString();
                 nRow["PYEAR"] = dtLedger.Rows[0]["CYEAR"].ToString();
                 nRow["PMONTHAMT"] = dtLedger.Rows[0]["CMONTHAMT"].ToString();
@@ -172,7 +167,7 @@ public partial class Payroll_Payroll_GratuityLedger : System.Web.UI.Page
                 nRow["CHARGINGAMT"] = "0";
                 // Display Text
                 nRow["FULLNAME"] = dRow["FULLNAME"].ToString();
-                nRow["JOBTITLE"] = dRow["JOBTITLE"].ToString();
+                nRow["JOBTITLE"] = dRow["DESIGNAME"].ToString();
                 nRow["JOININGDATE"] = dRow["JOININGDATE"].ToString();
 
                 nRow["ISEXIST"] = IsCurrLedgerExist == true ? "Y" : "N";
@@ -194,14 +189,14 @@ public partial class Payroll_Payroll_GratuityLedger : System.Web.UI.Page
                 DataRow nRow = objDs.dtGrLedger.NewRow();
                 nRow["LEDGERID"] = lngLedgerID.ToString();
                 nRow["EMPID"] = dRow["EMPID"].ToString();
-                nRow["DESGID"] = dRow["DESGID"].ToString();
+                nRow["DESGID"] = dRow["DESIGID"].ToString();
                 nRow["VMONTH"] = strMonth;
                 nRow["VYEAR"] = strYear;
                 nRow["FISCALYRID"] = strFiscalYear;
                 nRow["GRATUITYFROM"] = strGratuityFrom;
                 nRow["GRATUITYUPTO"] = Common.DisplayDateIIS(dtGratuityUpto.ToString());
 
-                nRow["BASIC"] = dRow["BASICSAL"].ToString();
+                nRow["BASIC"] = dRow["BASICSALARY"].ToString();
                 nRow["PMONTH"] = strPrevMonth;
                 nRow["PYEAR"] = strPrevYear;
                 nRow["PMONTHAMT"] = "0";
@@ -212,7 +207,7 @@ public partial class Payroll_Payroll_GratuityLedger : System.Web.UI.Page
                 nRow["CHARGINGAMT"] = "0";
                 // Display Text
                 nRow["FULLNAME"] = dRow["FULLNAME"].ToString();
-                nRow["JOBTITLE"] = dRow["JOBTITLE"].ToString();
+                nRow["JOBTITLE"] = dRow["DESIGNAME"].ToString();
                 nRow["JOININGDATE"] = dRow["JOININGDATE"].ToString();
 
                 nRow["ISEXIST"] = IsCurrLedgerExist == true ? "Y" : "N";

@@ -9,18 +9,25 @@
             var txtLA = document.getElementById('<%=txtLoanAmount.ClientID%>');
             var txtLR = document.getElementById('<%=txtLoanRate.ClientID%>');
             var txtIN = document.getElementById('<%=txtInterest.ClientID%>');
+            var ddlInsM = document.getElementById('<%=ddlInsMonth.ClientID%>');
 
-            var vValue = (txtLA.value * 1) * (txtLR.value * 1);
-            txtIN.value = vValue;
+            var vValue = ((txtLA.value * 1) * (txtLR.value * 1)) / (ddlInsM.value * 1);
+            txtIN.value = Math.round(vValue * 1);
         }
         function SetMonthlyRepay() {
             var ddlIM = document.getElementById('<%=ddlInsMonth.ClientID%>');
             var txtLA = document.getElementById('<%=txtLoanAmount.ClientID%>');
             var txtMR = document.getElementById('<%=txtRepay.ClientID%>');
 
+            var txtIN = document.getElementById('<%=txtInterest.ClientID%>');
+            var txtLR = document.getElementById('<%=txtLoanRate.ClientID%>');
+
             var vValue = (txtLA.value * 1) / (ddlIM.value * 1);
             vValue = Math.round(vValue * 1)
             txtMR.value = vValue;
+
+            var vInsValue = ((txtLA.value * 1) * (txtLR.value * 1)) / (ddlIM.value * 1);
+            txtIN.value = Math.round(vInsValue * 1);
         }
     </script>
     <div id="PayrollConfigForm2">
@@ -96,8 +103,12 @@
                 Height="410px">
                 <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1" Width="100%" Height="400px">
                     <HeaderTemplate>
-                        PF Loan</HeaderTemplate>
-                    <ContentTemplate>
+                        PF Loan
+</HeaderTemplate>
+                    
+
+
+<ContentTemplate>
                         <br />
                         <br />
                         <fieldset>
@@ -128,12 +139,21 @@
                                 <tr>
                                     <td>
                                         <asp:TextBox ID="txtPFCode" runat="server" Width="80px"></asp:TextBox>
+
+
+
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtTransID" runat="server" Width="80px"></asp:TextBox>
+
+
+
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtTransDate" runat="server" Width="80px"></asp:TextBox>
+
+
+
                                     </td>
                                     <td>
                                         <a href="javascript:NewCal('<%= txtTransDate.ClientID %>','ddmmyyyy')">
@@ -142,12 +162,21 @@
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtCode" runat="server" Width="80px"></asp:TextBox>
+
+
+
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtRecomdBy" runat="server" Width="80px"></asp:TextBox>
+
+
+
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtPurpose" runat="server" Width="200px"></asp:TextBox>
+
+
+
                                     </td>
                                 </tr>
                             </table>
@@ -160,15 +189,19 @@
                                         Loan Month
                                     </td>
                                     <td>
-                                        <asp:DropDownList ID="ddlMonth" runat="server" Width="105px">
-                                        </asp:DropDownList>
+                                        <asp:DropDownList ID="ddlMonth" runat="server" Width="105px"></asp:DropDownList>
+
+
+
                                     </td>
                                     <td class="textlevel">
                                         FY
                                     </td>
                                     <td>
-                                        <asp:DropDownList ID="ddlFiscalYear" runat="server" Width="105px">
-                                        </asp:DropDownList>
+                                        <asp:DropDownList ID="ddlFiscalYear" runat="server" Width="105px"></asp:DropDownList>
+
+
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -177,6 +210,9 @@
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtReqAmount" runat="server" Width="100px" onchange="SetMonthlyInterest();"></asp:TextBox>
+
+
+
                                     </td>
                                     <td class="textlevel">
                                         &nbsp;&nbsp;
@@ -191,18 +227,30 @@
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtLoanAmount" runat="server" onchange="SetMonthlyInterest();" Width="100px"></asp:TextBox>
+
+
+
                                     </td>
                                     <td class="textlevel">
                                         Approved Date
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtApproveDate" runat="server" Width="80px"></asp:TextBox><a href="javascript:NewCal('<%= txtApproveDate.ClientID %>','ddmmyyyy')"><img
+                                        <asp:TextBox ID="txtApproveDate" runat="server" Width="80px"></asp:TextBox>
+
+
+<a href="javascript:NewCal('<%= txtApproveDate.ClientID %>','ddmmyyyy')"><img
                                             style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px"
                                             height="16" alt="Pick a date" src="../../images/cal.gif" width="16" /></a><asp:RegularExpressionValidator
                                                 ID="RegularExpressionValidator4" runat="server" ControlToValidate="txtApproveDate"
                                                 CssClass="validator" ErrorMessage="Invalid" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$"></asp:RegularExpressionValidator>
+
+
+
                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="*"
                                     ControlToValidate="txtApproveDate"></asp:RequiredFieldValidator>
+
+
+
                                         
                                     </td>
                                 </tr>
@@ -211,24 +259,35 @@
                                         Installment
                                     </td>
                                     <td>
-                                        <asp:DropDownList ID="ddlInsMonth" runat="server" onchange="SetMonthlyRepay();" Width="105px">
-                                            <asp:ListItem Value="-1">Select</asp:ListItem>
-                                            <asp:ListItem Value="12">12 Months</asp:ListItem>
-                                            <asp:ListItem Value="24">24 Months</asp:ListItem>
-                                            <asp:ListItem Value="36">36 Months</asp:ListItem>
-                                        </asp:DropDownList>
+                                        <asp:DropDownList ID="ddlInsMonth" runat="server" onchange="SetMonthlyRepay();" Width="105px"><asp:ListItem Value="-1">Select</asp:ListItem>
+<asp:ListItem Value="12">12 Months</asp:ListItem>
+<asp:ListItem Value="24">24 Months</asp:ListItem>
+<asp:ListItem Value="36">36 Months</asp:ListItem>
+</asp:DropDownList>
+
+
+
                                     </td>
                                     <td class="textlevel">
                                         Installment Start Date
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtInsStartDate" runat="server" Width="80px"></asp:TextBox><a href="javascript:NewCal('<%= txtInsStartDate.ClientID %>','ddmmyyyy')"><img
+                                        <asp:TextBox ID="txtInsStartDate" runat="server" Width="80px"></asp:TextBox>
+
+
+<a href="javascript:NewCal('<%= txtInsStartDate.ClientID %>','ddmmyyyy')"><img
                                             style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px"
                                             height="16" alt="Pick a date" src="../../images/cal.gif" width="16" /></a><asp:RegularExpressionValidator
                                                 ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtInsStartDate"
                                                 CssClass="validator" ErrorMessage="Invalid" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$"></asp:RegularExpressionValidator>
+
+
+
                                         <asp:RequiredFieldValidator ID="ReqValTitle0" runat="server" 
                                             ControlToValidate="txtInsStartDate" ErrorMessage="*">*</asp:RequiredFieldValidator>
+
+
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -236,13 +295,19 @@
                                         Interest Rate
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtLoanRate" runat="server" onchange="SetMonthlyInterest();" Width="100px">0.01</asp:TextBox>
+                                        <asp:TextBox ID="txtLoanRate" runat="server" onchange="SetMonthlyInterest();" Width="100px" OnTextChanged="txtLoanRate_TextChanged">0.13</asp:TextBox>
+
+
+
                                     </td>
                                     <td class="textlevel">
                                         Monthly Interest
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtInterest" runat="server" Width="100px"></asp:TextBox>
+
+
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -251,6 +316,9 @@
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtRepay" runat="server" Width="100px"></asp:TextBox>
+
+
+
                                     </td>
                                     <td class="textlevel">
                                         &nbsp;&nbsp;
@@ -261,20 +329,30 @@
                                 </tr>
                             </table>
                             <cc1:FilteredTextBoxExtender ID="FilteredTxt1" runat="server" FilterType="Custom, Numbers"
-                                TargetControlID="txtReqAmount" ValidChars="0123456789." Enabled="True">
-                            </cc1:FilteredTextBoxExtender>
+                                TargetControlID="txtReqAmount" ValidChars="0123456789." Enabled="True"></cc1:FilteredTextBoxExtender>
+
+
+
                             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" runat="server" FilterType="Custom, Numbers"
-                                TargetControlID="txtLoanAmount" ValidChars="0123456789." Enabled="True">
-                            </cc1:FilteredTextBoxExtender>
+                                TargetControlID="txtLoanAmount" ValidChars="0123456789." Enabled="True"></cc1:FilteredTextBoxExtender>
+
+
+
                             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" runat="server" FilterType="Custom, Numbers"
-                                TargetControlID="txtLoanRate" ValidChars="0123456789." Enabled="True">
-                            </cc1:FilteredTextBoxExtender>
+                                TargetControlID="txtLoanRate" ValidChars="0123456789." Enabled="True"></cc1:FilteredTextBoxExtender>
+
+
+
                             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender3" runat="server" FilterType="Custom, Numbers"
-                                TargetControlID="txtInterest" ValidChars="0123456789." Enabled="True">
-                            </cc1:FilteredTextBoxExtender>
+                                TargetControlID="txtInterest" ValidChars="0123456789." Enabled="True"></cc1:FilteredTextBoxExtender>
+
+
+
                             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender4" runat="server" FilterType="Custom, Numbers"
-                                TargetControlID="txtRepay" ValidChars="0123456789." Enabled="True">
-                            </cc1:FilteredTextBoxExtender>
+                                TargetControlID="txtRepay" ValidChars="0123456789." Enabled="True"></cc1:FilteredTextBoxExtender>
+
+
+
                         </fieldset>
                         <fieldset>
                             <legend>Bank Detail</legend>
@@ -285,17 +363,21 @@
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtRecTk" runat="server" Width="300px"></asp:TextBox>
+
+
+
                                     </td>
                                     <td class="textlevel">
                                         Receive Date
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtRecDate" runat="server" Width="80px"></asp:TextBox><a href="javascript:NewCal('<%= txtRecDate.ClientID %>','ddmmyyyy')"><img
+                                        <asp:TextBox ID="txtRecDate" runat="server" Width="80px"></asp:TextBox>
+
+
+<a href="javascript:NewCal('<%= txtRecDate.ClientID %>','ddmmyyyy')"><img
                                             style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px"
                                             height="16" alt="Pick a date" src="../../images/cal.gif" width="16" /></a>
 
-                                        <asp:RequiredFieldValidator ID="ReqValTitle1" runat="server" 
-                                            ControlToValidate="txtRecDate" ErrorMessage="*">*</asp:RequiredFieldValidator>
                                         &nbsp;</td>
                                 </tr>
                                 <tr>
@@ -304,16 +386,20 @@
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtChequeNumber" runat="server" Width="300px"></asp:TextBox>
+
+
+
                                     </td>
                                     <td class="textlevel">
                                         &nbsp;Cheque Date
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtChequeDate" runat="server" Width="80px"></asp:TextBox><a href="javascript:NewCal('<%= txtChequeDate.ClientID %>','ddmmyyyy')"><img
+                                        <asp:TextBox ID="txtChequeDate" runat="server" Width="80px"></asp:TextBox>
+
+
+<a href="javascript:NewCal('<%= txtChequeDate.ClientID %>','ddmmyyyy')"><img
                                             style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px"
                                             height="16" alt="Pick a date" src="../../images/cal.gif" width="16" /></a>
-                                        <asp:RequiredFieldValidator ID="ReqValTitle2" runat="server" 
-                                            ControlToValidate="txtChequeDate" ErrorMessage="*">*</asp:RequiredFieldValidator>
                                         &nbsp;</td>
                                 </tr>
                                 <tr>
@@ -322,6 +408,9 @@
                                     </td>
                                     <td>
                                         <asp:TextBox ID="txtBankDetail" runat="server" Width="300px"></asp:TextBox>
+
+
+
                                     </td>
                                     <td>
                                     </td>
@@ -330,16 +419,29 @@
                                 </tr>
                             </table>
                             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender5" runat="server" FilterType="Custom, Numbers"
-                                TargetControlID="txtRecTk" ValidChars="0123456789." Enabled="True">
-                            </cc1:FilteredTextBoxExtender>
+                                TargetControlID="txtRecTk" ValidChars="0123456789." Enabled="True"></cc1:FilteredTextBoxExtender>
+
+
+
                             <asp:HiddenField ID="hfIsUpdate" runat="server" />
+
+
+
                         </fieldset>
-                    </ContentTemplate>
-                </cc1:TabPanel>
+                    
+</ContentTemplate>
+                
+
+
+</cc1:TabPanel>
                 <cc1:TabPanel ID="TabPanel2" runat="server" HeaderText="TabPanel2">
                     <HeaderTemplate>
-                        Browse</HeaderTemplate>
-                    <ContentTemplate>
+                        Browse
+</HeaderTemplate>
+                    
+
+
+<ContentTemplate>
                         <fieldset>
                             <div style="overflow: scroll; height: 300px; margin-top: 10px;">
                                 <asp:GridView ID="grLoan" runat="server" DataKeyNames="EMPID,FISCALYRID,LOANMONTH,CHEQUENUMER,CHEQUEDATE,BANKDETAIL,LOANSTATUS,ISDEDUCTCOMPLETE,INSDATE,REQLOANAMT,APPLOANDATE,RECEIVEAMT,RECEIVEDATE"
@@ -393,8 +495,12 @@
                                 </asp:GridView>
                             </div>
                         </fieldset>
-                    </ContentTemplate>
-                </cc1:TabPanel>
+                    
+</ContentTemplate>
+                
+
+
+</cc1:TabPanel>
             </cc1:TabContainer>
             <div id="DivCommand1" style="padding-top: 3px;">
                 <div style="text-align: left; float: left">
@@ -404,7 +510,7 @@
                 <div style="text-align: right;">
                     <asp:Button ID="btnSave" runat="server" Text="Save" Width="70px" UseSubmitBehavior="False"
                         OnClick="btnSave_Click" />
-                    <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();" />
+                    <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();" OnClick="btnDelete_Click" />
                 </div>
             </div>
         </div>

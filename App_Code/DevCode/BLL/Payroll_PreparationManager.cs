@@ -1271,7 +1271,7 @@ public class Payroll_PreparationManager
     }
     public DataTable GetPFLoanDataForPayrollPreparation(string strMonth, string strFY)
     {
-        SqlCommand cmd = new SqlCommand("SELECT EmpID,MonthlyRepay,LoanRate,LoanAmt from EMPPFLOANMST where LoanMonth=@VMONTH and FiscalYrID=@FISCALYRID");
+        SqlCommand cmd = new SqlCommand("SELECT EmpID,MonthlyRepay,LoanRate,LoanAmt,MonthlyInterest from EMPPFLOANMST where LoanMonth=@VMONTH and FiscalYrID=@FISCALYRID");
         cmd.CommandType = CommandType.Text;
 
         SqlParameter p_VMONTH = cmd.Parameters.Add("VMONTH", SqlDbType.BigInt);

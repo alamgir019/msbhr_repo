@@ -34,6 +34,7 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
         if (IsUpdate == true)
         {
             btnSave.Text = "Update";
+            btnDelete.Enabled = true;
             hfIsUpdate.Value = "Y";
             ddlMonth.Enabled = false;
             txtTransID.ReadOnly = true;
@@ -41,6 +42,7 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
         else
         {
             btnSave.Text = "Save";
+            btnDelete.Enabled = false  ;
             hfIsUpdate.Value = "N";
             this.ClearControls();            
         }
@@ -203,6 +205,15 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
     private void SaveData()
     {
         string strID = "";
+        string strRecDate = "";
+        string strChequeDate = "";
+
+        if (string.IsNullOrEmpty(txtRecDate.Text.Trim()) == false)
+            strRecDate = Common.ReturnDate(txtRecDate.Text.Trim());
+
+        if (string.IsNullOrEmpty(txtChequeDate.Text.Trim()) == false)
+            strChequeDate = Common.ReturnDate(txtChequeDate.Text.Trim());
+
         try
         {
             //Filling Class Properties with values
@@ -227,9 +238,9 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
             dRow["MONTHLYINTEREST"] = txtInterest.Text;
             dRow["MONTHLYREPAY"] = txtRepay.Text;
             dRow["RECEIVEAMT"] = txtRecTk.Text;
-            dRow["RECEIVEDATE"] = Common.ReturnDate(txtRecDate.Text);
+            dRow["RECEIVEDATE"] = strRecDate;
             dRow["CHEQUENUMER"] = txtChequeNumber.Text;
-            dRow["CHEQUEDATE"] = Common.ReturnDate(txtChequeDate.Text);
+            dRow["CHEQUEDATE"] = strChequeDate;
             dRow["BANKDETAIL"] = txtChequeDate.Text;
 
             if (hfIsUpdate.Value == "N")
@@ -267,5 +278,29 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
     protected void btnRefresh_Click(object sender, EventArgs e)
     {
         this.EntryMode(false);
+    }
+
+    protected void txtLoanRate_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        DateTime dtCurrDate = DateTime.Now;
+        Int16 iCurrMonth = Convert.ToInt16(dtCurrDate.Month);
+
+        //if (Convert.ToInt16(ddlMonth.SelectedValue)
+        if (iCurrMonth > Convert.ToInt16(ddlMonth.SelectedValue) )
+        {
+            lblMsg.Text = "Loan has already applied in previous month. Can not delete this entry.";
+            return;
+        }
+
+        objLoanMgr.DeletePFLoanData(txtTransID.Text.Trim());
+        lblMsg.Text = "Record Deleted Successfully";
+        this.EntryMode(false);
+        this.FillEmpInfo(txtEmpCode.Text.Trim());
+        TabContainer1.ActiveTabIndex = 0;
     }
 }

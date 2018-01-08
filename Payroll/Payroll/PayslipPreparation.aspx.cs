@@ -593,17 +593,16 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                                      else                                     
                                          dclSalHeadAmount = 0;                                     
                                  }
-                                 // Validate with Closing Amount;
-                                 if (dclCLLAmount == 0)
+                                // Validate with Closing Amount;
+                                if (dclCLLAmount == 0 && foundPFLLRow.Length > 0)
+                                {
+                                    dclSalHeadAmount = Common.RoundDecimal(foundPFLLRow[0]["CLLOAN"].ToString().Trim(), 0);
+                                    ////dclSalHeadAmount = 0;
+                                }
+                                if (dclCLLAmount > 0)
                                  {
-                                     dclSalHeadAmount = 0;
-                                 }
-                                 if (dclCLLAmount > 0)
-                                 {
-
                                      if (dclCLLAmount < dclSalHeadAmount)
                                          dclSalHeadAmount = dclCLLAmount;
-
                                  }
                                  if (dclCashPay > 0)
                                  {
@@ -621,26 +620,36 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                                      if (Common.RoundDecimal(foundPFLLRow[0]["CLLOAN"].ToString().Trim(), 0) > 0)
                                          dclCLLAmount = Common.RoundDecimal(foundPFLLRow[0]["CMINTEREST"].ToString().Trim(), 0);
                                  }
-                                 if (foundPFLRRow.Length > 0)
-                                 {                                    
-                                     foreach (DataRow dCRow in foundPFLRRow)
-                                     {
-                                         if (dCRow["ADJTYPE"].ToString().Trim() == "Deduction")
-                                         {
-                                             dclRepay = Common.RoundDecimal(dCRow["ADJAMOUNT"].ToString().Trim(), 0);
-                                         }
-                                         if (dCRow["ADJTYPE"].ToString().Trim() == "Cash Pay")
-                                         {
-                                             dclCashPay = Common.RoundDecimal(dCRow["ADJAMOUNT"].ToString().Trim(), 0);
-                                         }
-                                     }
-                                     dclSalHeadAmount = dclCLLAmount - dclCashPay;
-                                 }
-                                 else
-                                 {
-                                     dclSalHeadAmount = dclCLLAmount;
-                                     //dclSalHeadAmount = Common.RoundDecimal(foundPFLLRow[0]["CMINTEREST"].ToString().Trim(), 0);
-                                 }
+                                if (foundPFLRRow.Length > 0)
+                                {
+                                    foreach (DataRow dCRow in foundPFLRRow)
+                                    {
+                                        if (dCRow["ADJTYPE"].ToString().Trim() == "Deduction")
+                                        {
+                                            dclRepay = Common.RoundDecimal(dCRow["ADJAMOUNT"].ToString().Trim(), 0);
+                                        }
+                                        if (dCRow["ADJTYPE"].ToString().Trim() == "Cash Pay")
+                                        {
+                                            dclCashPay = Common.RoundDecimal(dCRow["ADJAMOUNT"].ToString().Trim(), 0);
+                                        }
+                                    }
+                                    dclSalHeadAmount = dclCLLAmount - dclCashPay;
+                                }
+                                else
+                                {
+                                    if (foundPFLoanRow.Length > 0)
+                                        dclSalHeadAmount = Common.RoundDecimal(foundPFLoanRow[0]["MonthlyInterest"].ToString().Trim(), 0);
+                                    else if ((foundPFLLRow.Length > 0) && (Convert.ToDecimal(foundPFLLRow[0]["CLLOAN"].ToString())>0))
+                                        dclSalHeadAmount = Common.RoundDecimal(foundPFLLRow[0]["CMINTEREST"].ToString().Trim(), 0);
+                                    else
+                                        dclSalHeadAmount = 0;
+                                }
+                                 ////   else
+                                 ////{
+                                 ////    dclSalHeadAmount = dclCLLAmount;
+                                 ////    //dclSalHeadAmount = Common.RoundDecimal(foundPFLLRow[0]["CMINTEREST"].ToString().Trim(), 0);
+                                 ////}
+
                                  // Get Percent Amount;
                                  //if (dclSalHeadAmount > 0)
                                  //{
