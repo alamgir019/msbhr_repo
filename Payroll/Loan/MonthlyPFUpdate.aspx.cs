@@ -35,13 +35,8 @@ public partial class Payroll_Loan_MonthlyPFUpdate : System.Web.UI.Page
     {
         string strEmpID = "";
 
-
-        //DataTable dtEmpPayroll = objPayRptMgr.GetSalarySheetDataForCrystalReport(strGenFor, strGenValue,
-        //    strMonth, strYear, strBank,
-        //    strSalType);
-        DataTable dtEmpPayroll = objPayAppMgr.GetPayrollApprovedDataForDisbursement(strGenFor, strGenValue,
-            strMonth, strYear, strBank, "1");
-        //
+        DataTable dtEmpPayroll = objPayAppMgr.GetPayrollApprovedDataForDisbursement(strGenFor, strGenValue,strMonth, strYear, strBank, "1");
+        
         foreach (DataRow dEmpRow in dtEmpPayroll.Rows)
         {
             if (strEmpID == dEmpRow["EMPID"].ToString().Trim())
