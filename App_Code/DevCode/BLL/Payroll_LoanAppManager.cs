@@ -560,9 +560,7 @@ public class Payroll_LoanAppManager
     {
 
         DataTable dtDistinctLoanee = this.GetDintinctLoaneeRecord(strMonth,strFinYear);
-        dtDistinctLoanee=Common.SelectDistinct("DistinctEmpForPFLoan", dtDistinctLoanee, "EMPID", "EMPID");
-
-       
+        dtDistinctLoanee=Common.SelectDistinct("DistinctEmpForPFLoan", dtDistinctLoanee, "EMPID", "EMPID");       
 
         // Previous Month Loan Ledger Record
         string strFY = "";
@@ -1310,9 +1308,9 @@ public class Payroll_LoanAppManager
         else
             strFY = strFinYear;
 
-        string strSQL = "SELECT EMPID AS EMPID FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID1 AND EMPID IN('E001348')"
+        string strSQL = "SELECT EMPID AS EMPID FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID1"// AND EMPID IN('E001348')"
                        + " UNION ALL "
-                       + " SELECT EMPID AS EMPID FROM EmpPFLoanMst WHERE LOANMONTH=@LOANMONTH AND FISCALYRID=@FISCALYRID2 AND EMPID IN('E001348')"
+                       + " SELECT EMPID AS EMPID FROM EmpPFLoanMst WHERE LOANMONTH=@LOANMONTH AND FISCALYRID=@FISCALYRID2"// AND EMPID IN('E001348')"
                        + " ORDER BY EMPID";
         SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;

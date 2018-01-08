@@ -209,7 +209,7 @@
                                         Request for Loan Tk.
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtReqAmount" runat="server" Width="100px" onchange="SetMonthlyInterest();"></asp:TextBox>
+                                        <asp:TextBox ID="txtReqAmount" runat="server" Width="100px" ></asp:TextBox><%--onchange="SetMonthlyInterest();"--%>
 
 
 
