@@ -18,8 +18,8 @@
         </div>
         
         <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
-             Width="100%" Height="760px">            
-            <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1" Width="90%" Height="600px">
+             Width="100%" Height="100%">            
+            <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1" Width="90%" Height="100%">
                 <HeaderTemplate>
                     Training Budget Setup
                 </HeaderTemplate>

@@ -30,9 +30,16 @@ public partial class Training_TrainingYearlyPlan : System.Web.UI.Page
             Common.FillDropDownList(objTrMgr.SelectTrainingList("0"), ddlTrainingName,true);
             Common.FillDropDownList(objEmp.SelectProjectList(0), ddlFundedBy, "ProjectName", "ProjectId", true);
             Common.FillYearList(4, ddlYear);
-            //Common.FillDropDownList(objTblmast.SelectDesignation(0), ddlDesignation, "DesigName", "DesigId", true);
             Common.FillDropDownList(objTrMgr.SelectTrainingVenue("A"), ddlVenue, "VenueName", "VenueId", true);
             Common.FillDropDownList(objTrMgr.SelectLocation("0"), ddlLocation, "SalLocName", "SalLocId", true);
+
+            DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
+            dtEmp = objEmp.SelectIntEmpWithID();
+            Common.FillDropDownList(dtEmp, ddlSubtitledBy, "EmpName", "EmpID", true);
+            Common.FillDropDownList(dtEmp, ddlReviewedBy, "EmpName", "EmpID", true);
+            Common.FillDropDownList(dtEmp, ddlRecommend1, "EmpName", "EmpID", true);
+            Common.FillDropDownList(dtEmp, ddlRecommend2, "EmpName", "EmpID", true);
+            Common.FillDropDownList(dtEmp, ddlApprovedBy, "EmpName", "EmpID", true);
         }
     }
 
@@ -104,6 +111,11 @@ public partial class Training_TrainingYearlyPlan : System.Web.UI.Page
         nRow["EndDate"] = Common.ReturnDate(txtEndDate.Text.Trim());
         nRow["Duration"] = Common.RoundDecimal(txtDuration.Text.Trim(), 0);
         nRow["Remarks"] = txtRemarks.InnerText;
+        nRow["SubtitledBy"] = ddlSubtitledBy.SelectedValue.ToString().Trim();
+        nRow["ReviewedBy"] = ddlReviewedBy.SelectedValue.ToString().Trim();
+        nRow["RecommBy1"] = ddlRecommend1.SelectedValue.ToString().Trim();
+        nRow["RecommBy2"] = ddlRecommend2.SelectedValue.ToString().Trim();
+        nRow["ApprovedBy"] = ddlApprovedBy.SelectedValue.ToString().Trim();
 
         if (cmdType == "I")
         {
@@ -213,6 +225,31 @@ public partial class Training_TrainingYearlyPlan : System.Web.UI.Page
                         lblMsg.Text = "Please add Designation.";
                         return false;
                     }
+                    else if (ddlSubtitledBy.SelectedIndex <= 0)
+                    {
+                        lblMsg.Text = "Please Select Subtitled By";
+                        return false;
+                    }
+                    else if (ddlReviewedBy.SelectedIndex <= 0)
+                    {
+                        lblMsg.Text = "Please Select Reviewed By";
+                        return false;
+                    }
+                    else if (ddlRecommend1.SelectedIndex <= 0)
+                    {
+                        lblMsg.Text = "Please Select Remommend By";
+                        return false;
+                    }
+                    else if (ddlRecommend2.SelectedIndex <= 0)
+                    {
+                        lblMsg.Text = "Please Select Recommend By";
+                        return false;
+                    }
+                    else if (ddlApprovedBy.SelectedIndex <= 0)
+                    {
+                        lblMsg.Text = "Please Select Approved By";
+                        return false;
+                    }
                     break;
                 case "Add":
                     if (ddlDesignation.SelectedIndex<=0)
@@ -311,6 +348,24 @@ public partial class Training_TrainingYearlyPlan : System.Web.UI.Page
                     txtMiscellaneous.Text = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[18].ToString().Trim();
                     txtTrainingType.Text = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[15].ToString().Trim();
                     txtTotalParticipant.Text = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[16].ToString().Trim();
+
+
+                    ddlSubtitledBy.SelectedValue = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[19].ToString();
+                    this.FillEmployeeInfo(grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[19].ToString().Trim(), "1");
+
+                    ddlReviewedBy.SelectedValue = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[20].ToString();
+                    this.FillEmployeeInfo(grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[20].ToString().Trim(), "2");
+
+                    ddlRecommend1.SelectedValue = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[21].ToString();
+                    this.FillEmployeeInfo(grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[21].ToString().Trim(), "3");
+
+                    ddlRecommend2.SelectedValue = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[22].ToString();
+                    this.FillEmployeeInfo(grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[22].ToString().Trim(), "4");
+
+                    ddlApprovedBy.SelectedValue = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[23].ToString();
+                    this.FillEmployeeInfo(grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[23].ToString().Trim(), "5");
+
+
                     if (grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[8].ToString().Trim() == "Y")
                         chkInActive.Checked = false;
                     else
@@ -442,4 +497,94 @@ public partial class Training_TrainingYearlyPlan : System.Web.UI.Page
         else
             ddlVenue.SelectedIndex = 0;
     }
+
+    private void FillEmployeeInfo(string strEmpId, string ddlId)
+    {
+        DataRow[] dr = objTrMgr.SelectEmployeeDetail(strEmpId).Select("EmpId='" + strEmpId + "'");
+
+        if (dr.Length > 0)
+        {
+            switch (ddlId)
+            {
+                case "1":
+                    {
+                        txtDesigSub.Text = dr[0]["DesigName"].ToString().Trim();
+                        txtDeptSub.Text = dr[0]["DeptName"].ToString().Trim();
+                    }
+                    break;
+                case "2":
+                    {
+                        txtDesigReview.Text = dr[0]["DesigName"].ToString().Trim();
+                        txtDeptReview.Text = dr[0]["DeptName"].ToString().Trim();
+                    }
+                    break;
+                case "3":
+                    {
+                        txtDesigRec1.Text = dr[0]["DesigName"].ToString().Trim();
+                        txtDeptRec1.Text = dr[0]["DeptName"].ToString().Trim();
+                    }
+                    break;
+                case "4":
+                    {
+                        txtDesigRec2.Text = dr[0]["DesigName"].ToString().Trim();
+                        txtDeptRec2.Text = dr[0]["DeptName"].ToString().Trim();
+                    }
+                    break;
+                case "5":
+                    {
+                        txtDesigApp.Text = dr[0]["DesigName"].ToString().Trim();
+                        txtDeptApp.Text = dr[0]["DeptName"].ToString().Trim();
+                    }
+                    break;
+            }
+
+        }
+    }
+
+    protected void ddlSubtitledBy_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        txtDesigSub.Text = "";
+        txtDeptSub.Text = "";
+        if (Common.CheckNullString(ddlSubtitledBy.SelectedValue.ToString().Trim()) != "")
+        {
+            this.FillEmployeeInfo(ddlSubtitledBy.SelectedValue.ToString().Trim(), "1");
+        }
+    }
+    protected void ddlReviewedBy_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        txtDesigReview.Text = "";
+        txtDeptReview.Text = "";
+        if (Common.CheckNullString(ddlReviewedBy.SelectedValue.ToString().Trim()) != "")
+        {
+            this.FillEmployeeInfo(ddlReviewedBy.SelectedValue.ToString().Trim(), "2");
+        }
+    }
+    protected void ddlRecommend1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        txtDesigRec1.Text = "";
+        txtDeptRec1.Text = "";
+        if (Common.CheckNullString(ddlRecommend1.SelectedValue.ToString().Trim()) != "")
+        {
+            this.FillEmployeeInfo(ddlRecommend1.SelectedValue.ToString().Trim(), "3");
+        }
+    }
+    protected void ddlRecommend2_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        txtDesigRec2.Text = "";
+        txtDeptRec2.Text = "";
+        if (Common.CheckNullString(ddlRecommend2.SelectedValue.ToString().Trim()) != "")
+        {
+            this.FillEmployeeInfo(ddlRecommend2.SelectedValue.ToString().Trim(), "4");
+        }
+    }
+    protected void ddlApprovedBy_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        txtDesigApp.Text = "";
+        txtDeptApp.Text = "";
+        if (Common.CheckNullString(ddlApprovedBy.SelectedValue.ToString().Trim()) != "")
+        {
+            this.FillEmployeeInfo(ddlApprovedBy.SelectedValue.ToString().Trim(), "5");
+        }
+    }
+
 }

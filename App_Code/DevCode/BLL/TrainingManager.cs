@@ -1707,8 +1707,10 @@ where tr.BudgetId=@BudgetId";
     {
         string strSQL = @"SELECT TM.YrPlanId,TM.YrPlanName,TM.TrainType,TM.Year,CONVERT(varchar(10),TM.StrDate,103) as StrDate,CONVERT(varchar(10),TM.EndDate,103) as EndDate,
 TM.Duration,TM.Remarks,TM.IsActive,TM.TrainId,TL.TrainName+' ['+CONVERT(VARCHAR(5),LTRIM(RTRIM(TM.TrainId)))+']' AS TrainName,
-TM.Remarks,TM.CourseFee,TM.Perdiem,Tm.FAOthers,TM.Transport,TM.TrainType,TM.LocalTransport,TM.TotalParticipant,TM.PracticalCost,TM.Miscellaneous
-from TrTrainingYrPlan TM LEFT JOIN TrTrainingList TL ON TM.TrainId=TL.TrainId WHERE TM.IsDeleted='N'";
+TM.Remarks,TM.CourseFee,TM.Perdiem,Tm.FAOthers,TM.Transport,TM.TrainType,TM.LocalTransport,TM.TotalParticipant,TM.PracticalCost,TM.Miscellaneous,
+TM.SubtitledBy,TM.ReviewedBy,TM.RecommBy1,TM.Recommby2,TM.ApprovedBy
+from TrTrainingYrPlan TM LEFT JOIN TrTrainingList TL ON TM.TrainId=TL.TrainId
+        WHERE TM.IsDeleted='N'";
         return objDC.CreateDT(strSQL, "TrTrainingYrPlan");
     }
 

@@ -75,8 +75,8 @@
                                             <ItemTemplate>
                                                 <asp:TextBox ID="txtApproverId" Width="40%" runat="server" CssClass="TextBoxAmt60"
                                                     Enabled="true" />
-                                                 <asp:Button ID="btnApproverId" MaxLength="6" Width="20%" runat="server" CssClass="TextBoxAmt60" Text="..."
-                                                    Enabled="true" />
+                                                 <%--<asp:Button ID="btnApproverId" MaxLength="6" Width="20%" runat="server" CssClass="TextBoxAmt60" Text="..."
+                                                    Enabled="true" />--%>
                                             </ItemTemplate>
                                         </asp:TemplateField>                                        
                                         <asp:ButtonField HeaderText="Recommend" Text="Recommend" CommandName="RecommendClick">

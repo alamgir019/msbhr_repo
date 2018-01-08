@@ -67,8 +67,8 @@
         </div>
         
         <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
-             Width="100%" Height="760px">            
-            <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1" Width="90%" Height="600px">
+             Width="100%" Height="800px">            
+            <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1" Width="90%" Height="100%">
                 <HeaderTemplate>
                     Training Plan Setup
                 </HeaderTemplate>
@@ -262,7 +262,136 @@
             </asp:GridView>
             <!--Grid view Code Ends-->
         </div>        
-
+<div class="officeSetupInner">        
+        <fieldset>
+        <br />
+        <br />
+        <br />
+            <table width="99%">            
+                <tr>
+                    <td>
+                        <asp:Label ID="Label22" runat="server" CssClass="textlevel" Text="Subtitled by :"></asp:Label>
+                    </td>
+                    <td>
+                        <asp:Label ID="Label23" runat="server" CssClass="textlevel" Text="Reviewed by :"></asp:Label>
+                    </td>
+                    <td>
+                        <asp:Label ID="Label24" runat="server" CssClass="textlevel" Text="Recommended by :"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:DropDownList ID="ddlSubtitledBy" runat="server" CssClass="textlevelleft" Width="200px"
+                            ToolTip="Select Prepared By" OnSelectedIndexChanged="ddlSubtitledBy_SelectedIndexChanged"
+                            AutoPostBack="True">
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="ddlReviewedBy" runat="server" CssClass="textlevelleft" Width="200px"
+                            ToolTip="Select Reviewed By" OnSelectedIndexChanged="ddlReviewedBy_SelectedIndexChanged"
+                            AutoPostBack="True">
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="ddlRecommend1" runat="server" CssClass="textlevelleft" Width="200px"
+                            ToolTip="Select Recommend By" OnSelectedIndexChanged="ddlRecommend1_SelectedIndexChanged"
+                            AutoPostBack="True">
+                        </asp:DropDownList>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:TextBox ID="txtDesigSub" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ErrorMessage="*"
+                            ControlToValidate="txtDesigSub"></asp:RequiredFieldValidator>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="txtDesigReview" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="*"
+                            ControlToValidate="txtDesigReview"></asp:RequiredFieldValidator>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="txtDesigRec1" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ErrorMessage="*"
+                            ControlToValidate="txtDesigRec1"></asp:RequiredFieldValidator>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:TextBox ID="txtDeptSub" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="txtDeptReview" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="txtDeptRec1" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+            <td>
+                <br /></td>
+            <td>
+                <br /></td>
+            <td>
+                <br /></td>
+            </tr>
+            <tr>
+            <td>
+                <br /></td>
+            <td>
+                <br /></td>
+            <td>
+                <br /></td>
+            </tr>
+                <tr>
+                    <td>
+                        <asp:Label ID="Label25" runat="server" CssClass="textlevel" Text="Recommended by :"></asp:Label>
+                    </td>
+                    <td>
+                        <asp:Label ID="Label27" runat="server" CssClass="textlevel" Text="Apporved by :"></asp:Label>
+                    </td>
+                    <td>                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:DropDownList ID="ddlRecommend2" runat="server" CssClass="textlevelleft" Width="200px"
+                            ToolTip="Select Recommend By" OnSelectedIndexChanged="ddlRecommend2_SelectedIndexChanged"
+                            AutoPostBack="True">
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="ddlApprovedBy" runat="server" CssClass="textlevelleft" Width="200px"
+                            ToolTip="Select Approved By" OnSelectedIndexChanged="ddlApprovedBy_SelectedIndexChanged"
+                            AutoPostBack="True">
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:TextBox ID="txtDesigRec2" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="txtDesigApp" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:TextBox ID="txtDeptRec2" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="txtDeptApp" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        </div>
         <div class="DivCommand1">
             <div class="DivCommandL">
                 <asp:Button ID="btnClear" runat="server" Text="Refresh" Width="70px" OnClick="btnClear_Click"
@@ -287,7 +416,8 @@
     <!--Grid view Code starts-->
             <asp:GridView ID="grTrainingYearlyPlan" runat="server" DataKeyNames="YrPlanId,YrPlanName,TrainId,TrainName,Year,
             StrDate,EndDate,Duration,IsActive,Remarks,CourseFee,Perdiem,FAOthers,Transport,LocalTransport,
-            TrainType,TotalParticipant,PracticalCost,Miscellaneous"
+            TrainType,TotalParticipant,PracticalCost,Miscellaneous,
+                SubtitledBy,ReviewedBy,RecommBy1,Recommby2,ApprovedBy"
              AutoGenerateColumns="False" EmptyDataText="No Record Found" Font-Size="9px" Width="99%" 
                 onrowcommand="grTrainingYearlyPlan_RowCommand">
                 <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
