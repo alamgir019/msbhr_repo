@@ -18,8 +18,8 @@
         </div>
         
         <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" 
-             Width="100%" Height="100%">            
-            <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1" Width="90%" Height="100%">
+             Width="100%" Height="800px">            
+            <cc1:TabPanel ID="TabPanel1" runat="server" HeaderText="TabPanel1" Width="90%" Height="750px">
                 <HeaderTemplate>
                     Training Budget Setup
                 </HeaderTemplate>
@@ -298,18 +298,12 @@
                 <tr>
                     <td>
                         <asp:TextBox ID="txtDesigRec2" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
-                       <%-- <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ErrorMessage="*"
-                            ControlToValidate="txtDesigRec2"></asp:RequiredFieldValidator>--%>
                     </td>
                     <td>
                         <asp:TextBox ID="txtDesigRec3" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
-                        <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" ErrorMessage="*"
-                            ControlToValidate="txtDesigRec3"></asp:RequiredFieldValidator>--%>
                     </td>
                     <td>
                         <asp:TextBox ID="txtDesigApp" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
-                       <%-- <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" ErrorMessage="*"
-                            ControlToValidate="txtDesigApp"></asp:RequiredFieldValidator>--%>
                     </td>
                 </tr>
                 <tr>
