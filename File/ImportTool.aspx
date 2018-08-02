@@ -92,15 +92,40 @@
                      &nbsp;</td>
                 <td>
                       <asp:Button ID="btnUploadSalaryHisPackageTitle1" runat="server" 
-                          Text="Upload SalaryPackage His Dtls" OnClick="btnUploadSalaryHisPackageTitle1_Click" /> 
+                          Text="Upload SalaryPackage His Dtls" OnClick="btnUploadSalaryHisPackageTitle1_Click" Visible="False" /> 
                 </td>
                 <td style="width: 3px">
                     <asp:Button ID="btnGenerateLogId" runat="server" Text="Generate Log Id" 
-                        OnClick="btnGenerateLogId_Click" />
+                        OnClick="btnGenerateLogId_Click" Visible="False" />
                 </td>
                 <td>
                     <asp:Button ID="btnUpdateHisPack" runat="server" Text="Update Salary His Package" 
-                        OnClick="btnUpdateHisPack_Click" />
+                        OnClick="btnUpdateHisPack_Click" Visible="False" />
+                </td>
+                <td>
+                    &nbsp;</td>
+                 <td>
+                     &nbsp;</td>
+                 <td>
+                     &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                
+            </tr>
+            <tr>
+                <td>
+                     &nbsp;</td>
+                <td>
+                      <asp:Button ID="btnUploadSalaryHisPackageTitleInc" runat="server" 
+                          Text="Upload SalaryPackage His Dtls Inc" OnClick="btnUploadSalaryHisPackageTitleInc_Click" /> 
+                </td>
+                <td style="width: 3px">
+                    &nbsp;</td>
+                <td>
+                    <asp:Button ID="btnUpdateMasterPack" runat="server" Text="Update Salary Master His Package " 
+                        OnClick="btnUpdateMasterPack_Click" />
                 </td>
                 <td>
                     &nbsp;</td>
