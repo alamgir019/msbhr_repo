@@ -747,8 +747,9 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
 
     protected void btnPrint_Click(object sender, EventArgs e)
     {
-        string filePathReceipt = Path.GetTempFileName();
-
+        //string filePathReceipt = Path.GetTempFileName();
+        string filePathReceipt = System.Web.Configuration.WebConfigurationManager.AppSettings["PrintPath"];
+        //filePathReceipt = "C:\\Users\\Public\\CRVT.pdf"; //C:\\Users\\Alamgir\\AppData\\Local\\Temp\\tmp8660.tmp
         try
         {
             ReportDoc.ExportToDisk(ExportFormatType.PortableDocFormat, filePathReceipt);
@@ -761,7 +762,7 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
         //Printing receipt: start
         System.Diagnostics.Process printjob = new System.Diagnostics.Process();
         printjob.StartInfo.FileName = filePathReceipt;
-        //printjob.StartInfo.Verb = string.Empty;
+        printjob.StartInfo.Verb = string.Empty;
         printjob.StartInfo.Verb = "PrintTo";
         printjob.StartInfo.UseShellExecute = true;
         printjob.StartInfo.CreateNoWindow = true;
@@ -774,18 +775,18 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
         try
         {
             printjob.Start();
-            //ll.Text = "4";
+            ll.Text = "4";
         }
         catch (Exception ex)
         {
-            //ll.Text=ex.Message;
+            ll.Text = ex.Message;
         }
         //Printing receipt: end
 
         if (File.Exists(filePathReceipt))
         {
             //Delete the file after it has been printed
-            File.Delete(filePathReceipt);
+           // File.Delete(filePathReceipt);
         }
     }
 
