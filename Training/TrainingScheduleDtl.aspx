@@ -1,32 +1,28 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true"
     CodeFile="TrainingScheduleDtl.aspx.cs" Inherits="Training_TrainingScheduleDtl" %>
-
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="MainContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js">
-        //Date Time Picker script
-    </script>
-    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js">
-        //Delete Confirmation Message
-    </script>
+    <script src="../JScripts/jquery-1.2.3.min.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js"></script>
     <script language="javascript" type="text/javascript">
-        function ToUpper(ctrl) {
-            var t = ctrl.value;
-            ctrl.value = t.toUpperCase();
-        }
-    </script>
-    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            calculateDuration("");
+        });
         function txtDuration_onclick() {
-            document.getElementById('<%=lblMsg.ClientID%>').innerHTML = '';
+            calculateDuration("Please Enter Date");
+        }
+        function calculateDuration(msg) {
+            document.getElementById('<%=lblValidMsg.ClientID%>').innerHTML = '';
             if (document.getElementById('<%=txtStrDate.ClientID%>').value == '') {
                 // alert('Please Enter Start Date.');
-                document.getElementById('<%=lblMsg.ClientID%>').innerHTML = 'Please Enter Start Date.';
+                document.getElementById('<%=lblValidMsg.ClientID%>').innerHTML = msg;
                 document.getElementById('<%=txtDuration.ClientID%>').value = '';
                 return;
             }
             else if (document.getElementById('<%=txtEndDate.ClientID%>').value == '') {
                 //alert('Please Enter End Date.');
-                document.getElementById('<%=lblMsg.ClientID%>').innerHTML = 'Please Enter End Date.';
+                document.getElementById('<%=lblValidMsg.ClientID%>').innerHTML = msg;
                 document.getElementById('<%=txtDuration.ClientID%>').value = '';
                 return;
             }
@@ -36,7 +32,7 @@
             var diff = daydiff(strDate, endDate) + 1;
             if (diff < 0) {
                 //alert('Start Date Cannot be Greater Than End Date.');
-                document.getElementById('<%=lblMsg.ClientID%>').innerHTML = 'Start Date Cannot be Greater Than End Date.';
+                document.getElementById('<%=lblValidMsg.ClientID%>').innerHTML = 'Start Date Cannot be Greater Than End Date.';
                 document.getElementById('<%=txtDuration.ClientID%>').value = '';
                 return;
             }
@@ -44,7 +40,6 @@
                 document.getElementById('<%=txtDuration.ClientID%>').value = diff;
             }
         }
-
         function daydiff(first, second) {
             return Math.round((second - first) / (1000 * 60 * 60 * 24));
         }
@@ -82,6 +77,7 @@
                     <div class="MsgBox">
                         <!--Div for msg-->
                         <asp:Label ID="lblMsg" runat="server"></asp:Label>
+                        <asp:Label ID="lblValidMsg" runat="server"></asp:Label>
                     </div>
                     <div class="officeSetupInner">
                         <fieldset>

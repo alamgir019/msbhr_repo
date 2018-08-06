@@ -20,11 +20,9 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
 
     private string LogoPath = System.Web.Configuration.WebConfigurationManager.AppSettings["LogoPath"];
 
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Page_Init(object sender, EventArgs e)
     {        
         ConfigureCrystalReports();
-       
-        
     }
 
     protected void Page_Unload(object sender, EventArgs e)
@@ -776,11 +774,11 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
         try
         {
             printjob.Start();
-            ll.Text = "4";
+            //ll.Text = "4";
         }
         catch (Exception ex)
         {
-            ll.Text=ex.Message;
+            //ll.Text=ex.Message;
         }
         //Printing receipt: end
 

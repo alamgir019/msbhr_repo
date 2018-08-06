@@ -1,18 +1,14 @@
 <%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true"
-    CodeFile="AttndReports.aspx.cs" Inherits="CrystalReports_Attendance_AttndReports"
-    Title="Attendance Reports" %>
-
+    CodeFile="AttndReports.aspx.cs" Inherits="CrystalReports_Attendance_AttndReports" Title="Attendance Reports" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="MainContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script language="javascript" type="text/javascript" src="../../JScripts/datetimepicker.js">
-        //Date Time Picker script
-    </script>
-    <script language="javascript" type="text/javascript">
-        function ToUpper(ctrl) {
-            var t = ctrl.value;
-            ctrl.value = t.toUpperCase();
-        }
-    </script>
+<script language="javascript" type="text/javascript" src="../../JScripts/datetimepicker.js"></script>
+<script language="javascript" type="text/javascript">
+    function ToUpper(ctrl) {
+        var t = ctrl.value;
+        ctrl.value = t.toUpperCase();
+    }
+</script>
     <div class="formStyle">
         <div id='formhead6'>
             Report List</div>

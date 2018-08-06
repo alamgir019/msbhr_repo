@@ -21,7 +21,7 @@ public partial class CrystalReports_KPI_KPIReportsViewer : System.Web.UI.Page
     string LogoPath = "";
     string directoryPath = "";
 
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Page_Init(object sender, EventArgs e)
     {
         //directoryPath = System.Web.Configuration.WebConfigurationManager.AppSettings["LogoPath"];
         //DirectoryInfo info = new DirectoryInfo(Server.MapPath(directoryPath));

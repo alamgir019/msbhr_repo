@@ -304,9 +304,7 @@ public class UserManager
 
         return cmd;
     }
-
-
-
+    
     public void UpdatePassword(UserCreation User)
     {
         // sproc functionality

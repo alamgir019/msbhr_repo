@@ -1,4 +1,4 @@
-<script src="/crystalreportviewers13/js/crviewer/crv.js"></script>
+<%--<script src="../../crystalreportviewers13/js/crviewer/crv.js"></script>--%>
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmAttndReportViewer.aspx.cs"
     Inherits="frmAttndReportViewer" Title="Report Page" %>
 
@@ -11,13 +11,12 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
         <fieldset style="text-align: left; background-color: White">
             <CR:CrystalReportViewer ID="CRV" runat="server" EnableDatabaseLogonPrompt="False"
                 OnBeforeRender="CRV_BeforeRender" OnUnload="CRV_Unload" BorderColor="White" BorderWidth="0px"
                 GroupTreeStyle-BackColor="White" GroupTreeStyle-BorderColor="White" GroupTreeStyle-BorderStyle="None"
                 Height="50px" ToolbarStyle-BackColor="White" ToolbarStyle-BorderColor="White"
-                Width="350px" HasToggleGroupTreeButton="False" ToolPanelView="None" />
+                Width="350px" HasToggleGroupTreeButton="False" ToolPanelView="None" PrintMode="ActiveX" ReuseParameterValuesOnRefresh="True" ShowAllPageIds="True" ViewStateMode="Enabled" />
         </fieldset>
     </div>
     </form>

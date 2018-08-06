@@ -29,6 +29,7 @@ public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
             grDtlsList.DataBind();
             Common.EmptyTextBoxValues(this);
             lblMsg.Text = "";
+            lblValidMsg.Text = "";
             this.EntryMode(false);
             this.OpenRecord();
             this.CreateTable();
@@ -85,6 +86,7 @@ public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
         DateTime dtFrom = new DateTime();
         DateTime dtTo = new DateTime();
         lblMsg.Text = "";
+        lblValidMsg.Text = "";
         string[] arinfo = Common.str_split(strDate.Trim(), splitter);
 
         if (arinfo.Length == 3)
@@ -104,7 +106,7 @@ public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
         TotDay =Math.Round(Convert.ToDouble(Dur.Days), 0) + 1;
         if (TotDay < 0)
         {
-            lblMsg.Text = "Start Date can not be greater than end date";
+            lblValidMsg.Text = "Start Date can not be greater than end date";
             txtDuration.Text = "";
             return false;
         }
@@ -121,18 +123,18 @@ public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
             double TotDay = 0;
             DateTime dtFrom = new DateTime();
             DateTime dtTo = new DateTime();
-            lblMsg.Text = "";
+            lblValidMsg.Text = "";
             switch (Flag)
             {
                 case "Save":
                     if (ddlTrName.SelectedIndex <= 0)
                     {
-                        lblMsg.Text = "Please Select Training Name";
+                        lblValidMsg.Text = "Please Select Training Name";
                         return false;
                     }
                     else if ((ddlLocation.SelectedIndex <= 0)&& (ddlVenue.SelectedIndex <= 0))
                     {
-                        lblMsg.Text = "Please Select Training Location or Venue.";
+                        lblValidMsg.Text = "Please Select Training Location or Venue.";
                         return false;
                     }
 
@@ -158,7 +160,7 @@ public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
                         TotDay = Math.Round(Convert.ToDouble(Dur.Days), 0)+1;
                         if (TotDay < 0)
                         {
-                            lblMsg.Text = "Start Date can not be greater than end date";
+                            lblValidMsg.Text = "Start Date can not be greater than end date";
                             return false;
                         }
                         else
@@ -171,7 +173,7 @@ public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
                 case "Add":
                     if (ddlFundedby.SelectedIndex <= 0)
                     {
-                        lblMsg.Text = "Please Select Funded By.";
+                        lblValidMsg.Text = "Please Select Funded By.";
                         return false;
                     }
                     break;
@@ -181,6 +183,7 @@ public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
         catch (Exception ex)
         {
             lblMsg.Text = "";
+            lblValidMsg.Text = "";
             throw (ex);
         }
     }

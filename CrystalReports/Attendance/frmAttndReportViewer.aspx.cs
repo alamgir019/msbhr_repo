@@ -15,7 +15,7 @@ public partial class frmAttndReportViewer : System.Web.UI.Page
 
     private string LogoPath = System.Web.Configuration.WebConfigurationManager.AppSettings["LogoPath"];
 
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Page_Init(object sender, EventArgs e)
     {
         ConfigureCrystalReports();
     }

@@ -1,4 +1,4 @@
-<script src="/crystalreportviewers13/js/crviewer/crv.js"></script>
+<%--<script src="/crystalreportviewers13/js/crviewer/crv.js"></script>--%>
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="frmLeaveReportViewer.aspx.cs"
     Inherits="frmLeaveReportViewer" Title="Report Page" %>
 
