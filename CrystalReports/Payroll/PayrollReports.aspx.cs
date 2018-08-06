@@ -305,10 +305,14 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
                     break;
                 }
-            case "ESI":
+            case "ESI":          
+                {
+                    PanelVisibilityMst("0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                    break;
+                }
             case "SCH":         
                 {
-                    PanelVisibilityMst("0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");                   
+                    PanelVisibilityMst("0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");                   
                     //Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);                   
                     //Common.FillDropDownList_All(MasMgr.SelectDepartmentddl(0), ddlDept);
                     //Common.FillDropDownList_All(MasMgr.SelectGrade(0), ddlGrade);

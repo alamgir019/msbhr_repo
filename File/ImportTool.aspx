@@ -45,8 +45,87 @@
                         OnClick="btnUpdateFlag_Click" />
                 </td>
                 <td>
-                    <asp:Button ID="btnInsSalPakHisDetls" runat="server" Text="Update Salary Package" 
+                    <asp:Button ID="btnInsSalPakHisDetls" runat="server" Text="Insert Salary Package" 
                         OnClick="btnInsSalPakHisDetls_Click" />
+                </td>
+                <td>
+                    &nbsp;</td>
+                 <td>
+                     &nbsp;</td>
+                 <td>
+                     &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                
+            </tr>
+            <tr>
+                <td>
+                     &nbsp;</td>
+                <td>
+                      <asp:Button ID="btnUploadSalaryPackageTitle0" runat="server" 
+                          Text="Upload SalaryPackage Dtls" OnClick="btnUploadSalaryPackageTitle0_Click" /> 
+                </td>
+                <td style="width: 3px">
+                    <asp:Button ID="btnGenerateSalPakId" runat="server" Text="Generate Sal Pak Id" 
+                        OnClick="btnGenerateSalPakId_Click" />
+                </td>
+                <td>
+                    <asp:Button ID="btnUpdatePack" runat="server" Text="Update Salary Package" 
+                        OnClick="btnUpdatePack_Click" />
+                </td>
+                <td>
+                    &nbsp;</td>
+                 <td>
+                     &nbsp;</td>
+                 <td>
+                     &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                
+            </tr>
+            <tr>
+                <td>
+                     &nbsp;</td>
+                <td>
+                      <asp:Button ID="btnUploadSalaryHisPackageTitle1" runat="server" 
+                          Text="Upload SalaryPackage His Dtls" OnClick="btnUploadSalaryHisPackageTitle1_Click" Visible="False" /> 
+                </td>
+                <td style="width: 3px">
+                    <asp:Button ID="btnGenerateLogId" runat="server" Text="Generate Log Id" 
+                        OnClick="btnGenerateLogId_Click" Visible="False" />
+                </td>
+                <td>
+                    <asp:Button ID="btnUpdateHisPack" runat="server" Text="Update Salary His Package" 
+                        OnClick="btnUpdateHisPack_Click" Visible="False" />
+                </td>
+                <td>
+                    &nbsp;</td>
+                 <td>
+                     &nbsp;</td>
+                 <td>
+                     &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                
+            </tr>
+            <tr>
+                <td>
+                     &nbsp;</td>
+                <td>
+                      <asp:Button ID="btnUploadSalaryHisPackageTitleInc" runat="server" 
+                          Text="Upload SalaryPackage His Dtls Inc" OnClick="btnUploadSalaryHisPackageTitleInc_Click" /> 
+                </td>
+                <td style="width: 3px">
+                    &nbsp;</td>
+                <td>
+                    <asp:Button ID="btnUpdateMasterPack" runat="server" Text="Update Salary Master His Package " 
+                        OnClick="btnUpdateMasterPack_Click" />
                 </td>
                 <td>
                     &nbsp;</td>
@@ -185,22 +264,6 @@
                 <td style="width: 3px">
                     <asp:Button ID="btnUpdatePFLoan" runat="server" Text="Update PFLoan" 
                         OnClick="btnUpdatePFLoan_Click" />
-                    </td>
-                <td style="width: 3px">
-                    &nbsp;</td>
-                    
-            </tr>
-            <tr>
-                <td>
-                    &nbsp;</td>
-                <td>
-                      <asp:Button ID="btnUploadChildEducation" runat="server" 
-                        Text="Upload Child Education" 
-                          OnClick="btnUploadChildEducation_Click" /> 
-                </td>
-                <td style="width: 3px">
-                    <asp:Button ID="btnUpdateChildEducation" runat="server" Text="Update Child Education" 
-                        OnClick="btnUpdateChildEducation_Click" />
                     </td>
                 <td style="width: 3px">
                     &nbsp;</td>

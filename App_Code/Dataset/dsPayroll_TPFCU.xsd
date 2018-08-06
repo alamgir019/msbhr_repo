@@ -1,98 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="dsPayroll_TPFCU" targetNamespace="http://tempuri.org/dsPayroll_TPFCU.xsd" xmlns:mstns="http://tempuri.org/dsPayroll_TPFCU.xsd" xmlns="http://tempuri.org/dsPayroll_TPFCU.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+<xs:schema id="dsPayroll_TPFCU" targetNamespace="http://tempuri.org/dsPayroll_TPFCU.xsd" xmlns:mstns="http://tempuri.org/dsPayroll_TPFCU.xsd" xmlns="http://tempuri.org/dsPayroll_TPFCU.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-        <Connections>
-        </Connections>
-        <Tables>
-        </Tables>
-        <Sources>
-        </Sources>
+        <Connections />
+        <Tables />
+        <Sources />
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="dsPayroll_TPFCU" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+  <xs:element name="dsPayroll_TPFCU" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsPayroll_TPFCU" msprop:Generator_UserDSName="dsPayroll_TPFCU">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="dtTotalPF">
+        <xs:element name="dtTotalPF" msprop:Generator_TableClassName="dtTotalPFDataTable" msprop:Generator_TableVarName="tabledtTotalPF" msprop:Generator_RowChangedName="dtTotalPFRowChanged" msprop:Generator_TablePropName="dtTotalPF" msprop:Generator_RowDeletingName="dtTotalPFRowDeleting" msprop:Generator_RowChangingName="dtTotalPFRowChanging" msprop:Generator_RowEvHandlerName="dtTotalPFRowChangeEventHandler" msprop:Generator_RowDeletedName="dtTotalPFRowDeleted" msprop:Generator_RowClassName="dtTotalPFRow" msprop:Generator_UserTableName="dtTotalPF" msprop:Generator_RowEvArgName="dtTotalPFRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="EMPID" type="xs:string" minOccurs="0" />
-              <xs:element name="NAME" type="xs:string" minOccurs="0" />
-              <xs:element name="JOININGDATE" type="xs:dateTime" minOccurs="0" />
-              <xs:element name="CONFIRMATIONDATE" msdata:Caption="CONFIRMATIONMDATE" type="xs:dateTime" minOccurs="0" />
-              <xs:element name="OPENINGPF" type="xs:decimal" minOccurs="0" />
-              <xs:element name="OPENINGINTEREST" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CURRENTPF" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CURRENTPFINTEREST" type="xs:decimal" minOccurs="0" />
-              <xs:element name="JAN" type="xs:decimal" minOccurs="0" />
-              <xs:element name="FEB" type="xs:decimal" minOccurs="0" />
-              <xs:element name="MAR" type="xs:decimal" minOccurs="0" />
-              <xs:element name="APR" type="xs:decimal" minOccurs="0" />
-              <xs:element name="MAY" type="xs:decimal" minOccurs="0" />
-              <xs:element name="JUN" type="xs:decimal" minOccurs="0" />
-              <xs:element name="JUL" type="xs:decimal" minOccurs="0" />
-              <xs:element name="AUG" type="xs:decimal" minOccurs="0" />
-              <xs:element name="SEP" type="xs:decimal" minOccurs="0" />
-              <xs:element name="OCT" type="xs:decimal" minOccurs="0" />
-              <xs:element name="NOV" type="xs:decimal" minOccurs="0" />
-              <xs:element name="DEC" type="xs:decimal" minOccurs="0" />
-              <xs:element name="MONTHOFINTEREST" type="xs:decimal" minOccurs="0" />
-              <xs:element name="PFLOAN" type="xs:decimal" minOccurs="0" />
-              <xs:element name="PFLOANDEDUCTION" msdata:Caption="PFLOANDED" type="xs:decimal" minOccurs="0" />
-              <xs:element name="PFINTERESTDEDUCTION" msdata:Caption="PFINTDED" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CASHPAY" type="xs:decimal" minOccurs="0" />
-              <xs:element name="PFMONTH" type="xs:string" minOccurs="0" />
-              <xs:element name="PFYEAR" type="xs:string" minOccurs="0" />
-              <xs:element name="MONTHLYREPAY" type="xs:decimal" minOccurs="0" />
-              <xs:element name="LASTOPENINGLOAN" type="xs:decimal" minOccurs="0" />
-              <xs:element name="PFMONTHLYINTEREST" type="xs:decimal" minOccurs="0" />
-              <xs:element name="PAYMENTDATE" type="xs:dateTime" minOccurs="0" />
-              <xs:element name="PAYMENTAMOUNT" type="xs:decimal" minOccurs="0" />
-              <xs:element name="LASTMONTHREPAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="EMPID" msprop:Generator_ColumnVarNameInTable="columnEMPID" msprop:Generator_ColumnPropNameInRow="EMPID" msprop:Generator_ColumnPropNameInTable="EMPIDColumn" msprop:Generator_UserColumnName="EMPID" type="xs:string" minOccurs="0" />
+              <xs:element name="NAME" msprop:Generator_ColumnVarNameInTable="columnNAME" msprop:Generator_ColumnPropNameInRow="NAME" msprop:Generator_ColumnPropNameInTable="NAMEColumn" msprop:Generator_UserColumnName="NAME" type="xs:string" minOccurs="0" />
+              <xs:element name="JOININGDATE" msprop:Generator_ColumnVarNameInTable="columnJOININGDATE" msprop:Generator_ColumnPropNameInRow="JOININGDATE" msprop:Generator_ColumnPropNameInTable="JOININGDATEColumn" msprop:Generator_UserColumnName="JOININGDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="CONFIRMATIONDATE" msdata:Caption="CONFIRMATIONMDATE" msprop:Generator_ColumnVarNameInTable="columnCONFIRMATIONDATE" msprop:Generator_ColumnPropNameInRow="CONFIRMATIONDATE" msprop:Generator_ColumnPropNameInTable="CONFIRMATIONDATEColumn" msprop:Generator_UserColumnName="CONFIRMATIONDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="OPENINGPF" msprop:Generator_ColumnVarNameInTable="columnOPENINGPF" msprop:Generator_ColumnPropNameInRow="OPENINGPF" msprop:Generator_ColumnPropNameInTable="OPENINGPFColumn" msprop:Generator_UserColumnName="OPENINGPF" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OPENINGINTEREST" msprop:Generator_ColumnVarNameInTable="columnOPENINGINTEREST" msprop:Generator_ColumnPropNameInRow="OPENINGINTEREST" msprop:Generator_ColumnPropNameInTable="OPENINGINTERESTColumn" msprop:Generator_UserColumnName="OPENINGINTEREST" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CURRENTPF" msprop:Generator_ColumnVarNameInTable="columnCURRENTPF" msprop:Generator_ColumnPropNameInRow="CURRENTPF" msprop:Generator_ColumnPropNameInTable="CURRENTPFColumn" msprop:Generator_UserColumnName="CURRENTPF" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CURRENTPFINTEREST" msprop:Generator_ColumnVarNameInTable="columnCURRENTPFINTEREST" msprop:Generator_ColumnPropNameInRow="CURRENTPFINTEREST" msprop:Generator_ColumnPropNameInTable="CURRENTPFINTERESTColumn" msprop:Generator_UserColumnName="CURRENTPFINTEREST" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JAN" msprop:Generator_ColumnVarNameInTable="columnJAN" msprop:Generator_ColumnPropNameInRow="JAN" msprop:Generator_ColumnPropNameInTable="JANColumn" msprop:Generator_UserColumnName="JAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FEB" msprop:Generator_ColumnVarNameInTable="columnFEB" msprop:Generator_ColumnPropNameInRow="FEB" msprop:Generator_ColumnPropNameInTable="FEBColumn" msprop:Generator_UserColumnName="FEB" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MAR" msprop:Generator_ColumnVarNameInTable="columnMAR" msprop:Generator_ColumnPropNameInRow="MAR" msprop:Generator_ColumnPropNameInTable="MARColumn" msprop:Generator_UserColumnName="MAR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="APR" msprop:Generator_ColumnVarNameInTable="columnAPR" msprop:Generator_ColumnPropNameInRow="APR" msprop:Generator_ColumnPropNameInTable="APRColumn" msprop:Generator_UserColumnName="APR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MAY" msprop:Generator_ColumnVarNameInTable="columnMAY" msprop:Generator_ColumnPropNameInRow="MAY" msprop:Generator_ColumnPropNameInTable="MAYColumn" msprop:Generator_UserColumnName="MAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JUN" msprop:Generator_ColumnVarNameInTable="columnJUN" msprop:Generator_ColumnPropNameInRow="JUN" msprop:Generator_ColumnPropNameInTable="JUNColumn" msprop:Generator_UserColumnName="JUN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JUL" msprop:Generator_ColumnVarNameInTable="columnJUL" msprop:Generator_ColumnPropNameInRow="JUL" msprop:Generator_ColumnPropNameInTable="JULColumn" msprop:Generator_UserColumnName="JUL" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AUG" msprop:Generator_ColumnVarNameInTable="columnAUG" msprop:Generator_ColumnPropNameInRow="AUG" msprop:Generator_ColumnPropNameInTable="AUGColumn" msprop:Generator_UserColumnName="AUG" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SEP" msprop:Generator_ColumnVarNameInTable="columnSEP" msprop:Generator_ColumnPropNameInRow="SEP" msprop:Generator_ColumnPropNameInTable="SEPColumn" msprop:Generator_UserColumnName="SEP" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OCT" msprop:Generator_ColumnVarNameInTable="columnOCT" msprop:Generator_ColumnPropNameInRow="OCT" msprop:Generator_ColumnPropNameInTable="OCTColumn" msprop:Generator_UserColumnName="OCT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NOV" msprop:Generator_ColumnVarNameInTable="columnNOV" msprop:Generator_ColumnPropNameInRow="NOV" msprop:Generator_ColumnPropNameInTable="NOVColumn" msprop:Generator_UserColumnName="NOV" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DEC" msprop:Generator_ColumnVarNameInTable="columnDEC" msprop:Generator_ColumnPropNameInRow="DEC" msprop:Generator_ColumnPropNameInTable="DECColumn" msprop:Generator_UserColumnName="DEC" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MONTHOFINTEREST" msprop:Generator_ColumnVarNameInTable="columnMONTHOFINTEREST" msprop:Generator_ColumnPropNameInRow="MONTHOFINTEREST" msprop:Generator_ColumnPropNameInTable="MONTHOFINTERESTColumn" msprop:Generator_UserColumnName="MONTHOFINTEREST" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PFLOAN" msprop:Generator_ColumnVarNameInTable="columnPFLOAN" msprop:Generator_ColumnPropNameInRow="PFLOAN" msprop:Generator_ColumnPropNameInTable="PFLOANColumn" msprop:Generator_UserColumnName="PFLOAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PFLOANDEDUCTION" msdata:Caption="PFLOANDED" msprop:Generator_ColumnVarNameInTable="columnPFLOANDEDUCTION" msprop:Generator_ColumnPropNameInRow="PFLOANDEDUCTION" msprop:Generator_ColumnPropNameInTable="PFLOANDEDUCTIONColumn" msprop:Generator_UserColumnName="PFLOANDEDUCTION" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PFINTERESTDEDUCTION" msdata:Caption="PFINTDED" msprop:Generator_ColumnVarNameInTable="columnPFINTERESTDEDUCTION" msprop:Generator_ColumnPropNameInRow="PFINTERESTDEDUCTION" msprop:Generator_ColumnPropNameInTable="PFINTERESTDEDUCTIONColumn" msprop:Generator_UserColumnName="PFINTERESTDEDUCTION" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CASHPAY" msprop:Generator_ColumnVarNameInTable="columnCASHPAY" msprop:Generator_ColumnPropNameInRow="CASHPAY" msprop:Generator_ColumnPropNameInTable="CASHPAYColumn" msprop:Generator_UserColumnName="CASHPAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PFMONTH" msprop:Generator_ColumnVarNameInTable="columnPFMONTH" msprop:Generator_ColumnPropNameInRow="PFMONTH" msprop:Generator_ColumnPropNameInTable="PFMONTHColumn" msprop:Generator_UserColumnName="PFMONTH" type="xs:string" minOccurs="0" />
+              <xs:element name="PFYEAR" msprop:Generator_ColumnVarNameInTable="columnPFYEAR" msprop:Generator_ColumnPropNameInRow="PFYEAR" msprop:Generator_ColumnPropNameInTable="PFYEARColumn" msprop:Generator_UserColumnName="PFYEAR" type="xs:string" minOccurs="0" />
+              <xs:element name="MONTHLYREPAY" msprop:Generator_ColumnVarNameInTable="columnMONTHLYREPAY" msprop:Generator_ColumnPropNameInRow="MONTHLYREPAY" msprop:Generator_ColumnPropNameInTable="MONTHLYREPAYColumn" msprop:Generator_UserColumnName="MONTHLYREPAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LASTOPENINGLOAN" msprop:Generator_ColumnVarNameInTable="columnLASTOPENINGLOAN" msprop:Generator_ColumnPropNameInRow="LASTOPENINGLOAN" msprop:Generator_ColumnPropNameInTable="LASTOPENINGLOANColumn" msprop:Generator_UserColumnName="LASTOPENINGLOAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PFMONTHLYINTEREST" msprop:Generator_ColumnVarNameInTable="columnPFMONTHLYINTEREST" msprop:Generator_ColumnPropNameInRow="PFMONTHLYINTEREST" msprop:Generator_ColumnPropNameInTable="PFMONTHLYINTERESTColumn" msprop:Generator_UserColumnName="PFMONTHLYINTEREST" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PAYMENTDATE" msprop:Generator_ColumnVarNameInTable="columnPAYMENTDATE" msprop:Generator_ColumnPropNameInRow="PAYMENTDATE" msprop:Generator_ColumnPropNameInTable="PAYMENTDATEColumn" msprop:Generator_UserColumnName="PAYMENTDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PAYMENTAMOUNT" msprop:Generator_ColumnVarNameInTable="columnPAYMENTAMOUNT" msprop:Generator_ColumnPropNameInRow="PAYMENTAMOUNT" msprop:Generator_ColumnPropNameInTable="PAYMENTAMOUNTColumn" msprop:Generator_UserColumnName="PAYMENTAMOUNT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LASTMONTHREPAY" msprop:Generator_ColumnVarNameInTable="columnLASTMONTHREPAY" msprop:Generator_ColumnPropNameInRow="LASTMONTHREPAY" msprop:Generator_ColumnPropNameInTable="LASTMONTHREPAYColumn" msprop:Generator_UserColumnName="LASTMONTHREPAY" type="xs:decimal" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="dtTotalCU">
+        <xs:element name="dtTotalCU" msprop:Generator_TableClassName="dtTotalCUDataTable" msprop:Generator_TableVarName="tabledtTotalCU" msprop:Generator_RowChangedName="dtTotalCURowChanged" msprop:Generator_TablePropName="dtTotalCU" msprop:Generator_RowDeletingName="dtTotalCURowDeleting" msprop:Generator_RowChangingName="dtTotalCURowChanging" msprop:Generator_RowEvHandlerName="dtTotalCURowChangeEventHandler" msprop:Generator_RowDeletedName="dtTotalCURowDeleted" msprop:Generator_RowClassName="dtTotalCURow" msprop:Generator_UserTableName="dtTotalCU" msprop:Generator_RowEvArgName="dtTotalCURowChangeEvent">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="EMPID" type="xs:string" minOccurs="0" />
-              <xs:element name="NAME" type="xs:string" minOccurs="0" />
-              <xs:element name="LOC" type="xs:string" minOccurs="0" />
-              <xs:element name="OPENINGSHARE" type="xs:decimal" minOccurs="0" />
-              <xs:element name="OPENINGSHAREVALUE" type="xs:decimal" minOccurs="0" />
-              <xs:element name="OPENINGDIVIDEND" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CURRENTSHARE" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CURRENTSHAREVALUE" type="xs:decimal" minOccurs="0" />
-              <xs:element name="YEARLYDIVIDEND" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CURRENTDIVIDEND" type="xs:decimal" minOccurs="0" />
-              <xs:element name="JAN" type="xs:decimal" minOccurs="0" />
-              <xs:element name="FEB" type="xs:decimal" minOccurs="0" />
-              <xs:element name="MAR" type="xs:decimal" minOccurs="0" />
-              <xs:element name="APR" type="xs:decimal" minOccurs="0" />
-              <xs:element name="MAY" type="xs:decimal" minOccurs="0" />
-              <xs:element name="JUN" type="xs:decimal" minOccurs="0" />
-              <xs:element name="JUL" type="xs:decimal" minOccurs="0" />
-              <xs:element name="AUG" type="xs:decimal" minOccurs="0" />
-              <xs:element name="SEP" type="xs:decimal" minOccurs="0" />
-              <xs:element name="OCT" type="xs:decimal" minOccurs="0" />
-              <xs:element name="NOV" type="xs:decimal" minOccurs="0" />
-              <xs:element name="DEC" type="xs:decimal" minOccurs="0" />
-              <xs:element name="MONTHOFDIVIDEND" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CULOAN" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CULOANDEDUCTION" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CUINTERESTDEDUCTION" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CASHPAY" type="xs:decimal" minOccurs="0" />
-              <xs:element name="WITHDRAW" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CUMONTH" type="xs:string" minOccurs="0" />
-              <xs:element name="CUYEAR" type="xs:string" minOccurs="0" />
-              <xs:element name="MONTHLYREPAY" type="xs:decimal" minOccurs="0" />
-              <xs:element name="MEMBERSHIP" type="xs:string" minOccurs="0" />
-              <xs:element name="SHAREWITHDRAW" type="xs:decimal" minOccurs="0" />
-              <xs:element name="LASTOPENINGLOAN" type="xs:decimal" minOccurs="0" />
-              <xs:element name="CUMONTHLYINTEREST" type="xs:decimal" minOccurs="0" />
-              <xs:element name="LASTMONTHREPAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="EMPID" msprop:Generator_ColumnVarNameInTable="columnEMPID" msprop:Generator_ColumnPropNameInRow="EMPID" msprop:Generator_ColumnPropNameInTable="EMPIDColumn" msprop:Generator_UserColumnName="EMPID" type="xs:string" minOccurs="0" />
+              <xs:element name="NAME" msprop:Generator_ColumnVarNameInTable="columnNAME" msprop:Generator_ColumnPropNameInRow="NAME" msprop:Generator_ColumnPropNameInTable="NAMEColumn" msprop:Generator_UserColumnName="NAME" type="xs:string" minOccurs="0" />
+              <xs:element name="LOC" msprop:Generator_ColumnVarNameInTable="columnLOC" msprop:Generator_ColumnPropNameInRow="LOC" msprop:Generator_ColumnPropNameInTable="LOCColumn" msprop:Generator_UserColumnName="LOC" type="xs:string" minOccurs="0" />
+              <xs:element name="OPENINGSHARE" msprop:Generator_ColumnVarNameInTable="columnOPENINGSHARE" msprop:Generator_ColumnPropNameInRow="OPENINGSHARE" msprop:Generator_ColumnPropNameInTable="OPENINGSHAREColumn" msprop:Generator_UserColumnName="OPENINGSHARE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OPENINGSHAREVALUE" msprop:Generator_ColumnVarNameInTable="columnOPENINGSHAREVALUE" msprop:Generator_ColumnPropNameInRow="OPENINGSHAREVALUE" msprop:Generator_ColumnPropNameInTable="OPENINGSHAREVALUEColumn" msprop:Generator_UserColumnName="OPENINGSHAREVALUE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OPENINGDIVIDEND" msprop:Generator_ColumnVarNameInTable="columnOPENINGDIVIDEND" msprop:Generator_ColumnPropNameInRow="OPENINGDIVIDEND" msprop:Generator_ColumnPropNameInTable="OPENINGDIVIDENDColumn" msprop:Generator_UserColumnName="OPENINGDIVIDEND" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CURRENTSHARE" msprop:Generator_ColumnVarNameInTable="columnCURRENTSHARE" msprop:Generator_ColumnPropNameInRow="CURRENTSHARE" msprop:Generator_ColumnPropNameInTable="CURRENTSHAREColumn" msprop:Generator_UserColumnName="CURRENTSHARE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CURRENTSHAREVALUE" msprop:Generator_ColumnVarNameInTable="columnCURRENTSHAREVALUE" msprop:Generator_ColumnPropNameInRow="CURRENTSHAREVALUE" msprop:Generator_ColumnPropNameInTable="CURRENTSHAREVALUEColumn" msprop:Generator_UserColumnName="CURRENTSHAREVALUE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="YEARLYDIVIDEND" msprop:Generator_ColumnVarNameInTable="columnYEARLYDIVIDEND" msprop:Generator_ColumnPropNameInRow="YEARLYDIVIDEND" msprop:Generator_ColumnPropNameInTable="YEARLYDIVIDENDColumn" msprop:Generator_UserColumnName="YEARLYDIVIDEND" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CURRENTDIVIDEND" msprop:Generator_ColumnVarNameInTable="columnCURRENTDIVIDEND" msprop:Generator_ColumnPropNameInRow="CURRENTDIVIDEND" msprop:Generator_ColumnPropNameInTable="CURRENTDIVIDENDColumn" msprop:Generator_UserColumnName="CURRENTDIVIDEND" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JAN" msprop:Generator_ColumnVarNameInTable="columnJAN" msprop:Generator_ColumnPropNameInRow="JAN" msprop:Generator_ColumnPropNameInTable="JANColumn" msprop:Generator_UserColumnName="JAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FEB" msprop:Generator_ColumnVarNameInTable="columnFEB" msprop:Generator_ColumnPropNameInRow="FEB" msprop:Generator_ColumnPropNameInTable="FEBColumn" msprop:Generator_UserColumnName="FEB" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MAR" msprop:Generator_ColumnVarNameInTable="columnMAR" msprop:Generator_ColumnPropNameInRow="MAR" msprop:Generator_ColumnPropNameInTable="MARColumn" msprop:Generator_UserColumnName="MAR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="APR" msprop:Generator_ColumnVarNameInTable="columnAPR" msprop:Generator_ColumnPropNameInRow="APR" msprop:Generator_ColumnPropNameInTable="APRColumn" msprop:Generator_UserColumnName="APR" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MAY" msprop:Generator_ColumnVarNameInTable="columnMAY" msprop:Generator_ColumnPropNameInRow="MAY" msprop:Generator_ColumnPropNameInTable="MAYColumn" msprop:Generator_UserColumnName="MAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JUN" msprop:Generator_ColumnVarNameInTable="columnJUN" msprop:Generator_ColumnPropNameInRow="JUN" msprop:Generator_ColumnPropNameInTable="JUNColumn" msprop:Generator_UserColumnName="JUN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="JUL" msprop:Generator_ColumnVarNameInTable="columnJUL" msprop:Generator_ColumnPropNameInRow="JUL" msprop:Generator_ColumnPropNameInTable="JULColumn" msprop:Generator_UserColumnName="JUL" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AUG" msprop:Generator_ColumnVarNameInTable="columnAUG" msprop:Generator_ColumnPropNameInRow="AUG" msprop:Generator_ColumnPropNameInTable="AUGColumn" msprop:Generator_UserColumnName="AUG" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SEP" msprop:Generator_ColumnVarNameInTable="columnSEP" msprop:Generator_ColumnPropNameInRow="SEP" msprop:Generator_ColumnPropNameInTable="SEPColumn" msprop:Generator_UserColumnName="SEP" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OCT" msprop:Generator_ColumnVarNameInTable="columnOCT" msprop:Generator_ColumnPropNameInRow="OCT" msprop:Generator_ColumnPropNameInTable="OCTColumn" msprop:Generator_UserColumnName="OCT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NOV" msprop:Generator_ColumnVarNameInTable="columnNOV" msprop:Generator_ColumnPropNameInRow="NOV" msprop:Generator_ColumnPropNameInTable="NOVColumn" msprop:Generator_UserColumnName="NOV" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DEC" msprop:Generator_ColumnVarNameInTable="columnDEC" msprop:Generator_ColumnPropNameInRow="DEC" msprop:Generator_ColumnPropNameInTable="DECColumn" msprop:Generator_UserColumnName="DEC" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MONTHOFDIVIDEND" msprop:Generator_ColumnVarNameInTable="columnMONTHOFDIVIDEND" msprop:Generator_ColumnPropNameInRow="MONTHOFDIVIDEND" msprop:Generator_ColumnPropNameInTable="MONTHOFDIVIDENDColumn" msprop:Generator_UserColumnName="MONTHOFDIVIDEND" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CULOAN" msprop:Generator_ColumnVarNameInTable="columnCULOAN" msprop:Generator_ColumnPropNameInRow="CULOAN" msprop:Generator_ColumnPropNameInTable="CULOANColumn" msprop:Generator_UserColumnName="CULOAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CULOANDEDUCTION" msprop:Generator_ColumnVarNameInTable="columnCULOANDEDUCTION" msprop:Generator_ColumnPropNameInRow="CULOANDEDUCTION" msprop:Generator_ColumnPropNameInTable="CULOANDEDUCTIONColumn" msprop:Generator_UserColumnName="CULOANDEDUCTION" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CUINTERESTDEDUCTION" msprop:Generator_ColumnVarNameInTable="columnCUINTERESTDEDUCTION" msprop:Generator_ColumnPropNameInRow="CUINTERESTDEDUCTION" msprop:Generator_ColumnPropNameInTable="CUINTERESTDEDUCTIONColumn" msprop:Generator_UserColumnName="CUINTERESTDEDUCTION" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CASHPAY" msprop:Generator_ColumnVarNameInTable="columnCASHPAY" msprop:Generator_ColumnPropNameInRow="CASHPAY" msprop:Generator_ColumnPropNameInTable="CASHPAYColumn" msprop:Generator_UserColumnName="CASHPAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="WITHDRAW" msprop:Generator_ColumnVarNameInTable="columnWITHDRAW" msprop:Generator_ColumnPropNameInRow="WITHDRAW" msprop:Generator_ColumnPropNameInTable="WITHDRAWColumn" msprop:Generator_UserColumnName="WITHDRAW" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CUMONTH" msprop:Generator_ColumnVarNameInTable="columnCUMONTH" msprop:Generator_ColumnPropNameInRow="CUMONTH" msprop:Generator_ColumnPropNameInTable="CUMONTHColumn" msprop:Generator_UserColumnName="CUMONTH" type="xs:string" minOccurs="0" />
+              <xs:element name="CUYEAR" msprop:Generator_ColumnVarNameInTable="columnCUYEAR" msprop:Generator_ColumnPropNameInRow="CUYEAR" msprop:Generator_ColumnPropNameInTable="CUYEARColumn" msprop:Generator_UserColumnName="CUYEAR" type="xs:string" minOccurs="0" />
+              <xs:element name="MONTHLYREPAY" msprop:Generator_ColumnVarNameInTable="columnMONTHLYREPAY" msprop:Generator_ColumnPropNameInRow="MONTHLYREPAY" msprop:Generator_ColumnPropNameInTable="MONTHLYREPAYColumn" msprop:Generator_UserColumnName="MONTHLYREPAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MEMBERSHIP" msprop:Generator_ColumnVarNameInTable="columnMEMBERSHIP" msprop:Generator_ColumnPropNameInRow="MEMBERSHIP" msprop:Generator_ColumnPropNameInTable="MEMBERSHIPColumn" msprop:Generator_UserColumnName="MEMBERSHIP" type="xs:string" minOccurs="0" />
+              <xs:element name="SHAREWITHDRAW" msprop:Generator_ColumnVarNameInTable="columnSHAREWITHDRAW" msprop:Generator_ColumnPropNameInRow="SHAREWITHDRAW" msprop:Generator_ColumnPropNameInTable="SHAREWITHDRAWColumn" msprop:Generator_UserColumnName="SHAREWITHDRAW" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LASTOPENINGLOAN" msprop:Generator_ColumnVarNameInTable="columnLASTOPENINGLOAN" msprop:Generator_ColumnPropNameInRow="LASTOPENINGLOAN" msprop:Generator_ColumnPropNameInTable="LASTOPENINGLOANColumn" msprop:Generator_UserColumnName="LASTOPENINGLOAN" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CUMONTHLYINTEREST" msprop:Generator_ColumnVarNameInTable="columnCUMONTHLYINTEREST" msprop:Generator_ColumnPropNameInRow="CUMONTHLYINTEREST" msprop:Generator_ColumnPropNameInTable="CUMONTHLYINTERESTColumn" msprop:Generator_UserColumnName="CUMONTHLYINTEREST" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LASTMONTHREPAY" msprop:Generator_ColumnVarNameInTable="columnLASTMONTHREPAY" msprop:Generator_ColumnPropNameInRow="LASTMONTHREPAY" msprop:Generator_ColumnPropNameInTable="LASTMONTHREPAYColumn" msprop:Generator_UserColumnName="LASTMONTHREPAY" type="xs:decimal" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

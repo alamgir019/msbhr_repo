@@ -505,7 +505,8 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             ////dclRebate = dclRebate * dclInvRebatePlc / 100;
             ////gRow.Cells[17].Text = Common.RoundDecimal(dclRebate.ToString(), 0).ToString();
 
-            dclRebate = Common.RoundDecimal(gRow.Cells[16].Text, 0) * dclInvAllowPlc / 100;
+            //dclRebate = Common.RoundDecimal(gRow.Cells[16].Text, 0) * dclInvAllowPlc / 100;
+             dclRebate = (Common.RoundDecimal(gRow.Cells[16].Text, 0) +dclYPF)* dclInvAllowPlc / 100;
 
             //Inv Slot 16.10.16
             decimal dclSlot = 0;
@@ -642,8 +643,8 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             if (ddlMonth.SelectedValue.Trim() != "6")
             {
                 if (ddlMonth.SelectedValue.Trim() == "7")
-                    inMon = inMon; //Open below link from August Month
-                    ////inMon = inMon + 1;
+                    inMon = inMon + 1;
+                ////inMon = inMon; //Open below link from August Month                   
                   
                 dclMonthlyTax = (dclActTax - dclITDepo) / inMon;
                 dclMonthlyTax = Math.Round(dclMonthlyTax, 0);
@@ -996,7 +997,7 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
         txtRebate.Text = Common.RoundDecimal(dclRebate.ToString(), 0).ToString();
 
         // TTI_2
-        txtTTI_2.Text = Convert.ToString(Common.RoundDecimal(txtTTI_1.Text, 0) + Common.RoundDecimal(txtYPFDeduction.Text, 0));
+        txtTTI_2.Text = Convert.ToString(Common.RoundDecimal(txtTTI_1.Text, 0));// + Common.RoundDecimal(txtYPFDeduction.Text, 0));
         // Z_M_F
         if (txtGender.Text == "M")
         {
