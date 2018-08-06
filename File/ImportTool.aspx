@@ -234,7 +234,10 @@
                         OnClick="btnUpdateTax_Click" />
                     </td>
                 <td style="width: 3px">
-                    &nbsp;</td>
+                      <asp:Button ID="btnUploadSalPackDate" runat="server" 
+                        Text="Upload SalPackdate" 
+                          OnClick="btnUploadSalPackDate_Click" /> 
+                </td>
                     
             </tr>
             <tr>
@@ -250,7 +253,9 @@
                         OnClick="btnUpdatePF_Click" />
                     </td>
                 <td style="width: 3px">
-                    &nbsp;</td>
+                    <asp:Button ID="btnUpdateSalPackdate" runat="server" Text="Update SalPackDate" 
+                        OnClick="btnUpdateSalPackdate_Click" />
+                    </td>
                     
             </tr>
             <tr>
@@ -281,7 +286,10 @@
                         OnClick="btnUpdateJobTitleDes_Click" />
                     </td>
                 <td style="width: 3px">
-                    &nbsp;</td>
+                      <asp:Button ID="btnUploadInc" runat="server" 
+                        Text="Upload Incdate" 
+                          OnClick="btnUploadInc_Click" /> 
+                </td>
                     
             </tr>
             <tr>
@@ -296,7 +304,9 @@
                          />
                     </td>
                 <td style="width: 3px">
-                    &nbsp;</td>
+                    <asp:Button ID="btnUpdateIncDate" runat="server" Text="Update IncDate" 
+                        OnClick="btnUpdateIncDate_Click" />
+                    </td>
                     
             </tr>
             <tr>

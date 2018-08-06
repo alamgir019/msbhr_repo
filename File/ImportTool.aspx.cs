@@ -2355,4 +2355,89 @@ public partial class File_ImportTool : System.Web.UI.Page
         grPayroll.DataSource = ds;
         grPayroll.DataBind();
     }
+
+    protected void btnUploadSalPackDate_Click(object sender, EventArgs e)
+    {
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Salary Package Date.xls;Extended Properties=Excel 8.0";
+        OleDbConnection conn = new OleDbConnection(connstr);
+        string strSQL = "SELECT * FROM [Sheet1$]";
+
+        OleDbCommand cmd = new OleDbCommand(strSQL, conn);
+        DataSet ds = new DataSet();
+        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+        da.Fill(ds);
+        grPayroll.DataSource = ds;
+        grPayroll.DataBind();
+    }
+
+    public void UpdateSalPackDate(string sSalPakId, string sEmpId, string sEffDate)
+    {
+        string strSQL = "UPDATE SalaryPakHisDetls SET EffDate=@EffDate WHERE InsertedDate BETWEEN '2018-08-02 00:00' AND '2018-08-02 23:59' AND LastUpdatedFrom='Salary Package'"
+            + " AND SalPakId=@SalPakId AND EmpId=@EmpId";
+        SqlCommand command = new SqlCommand(strSQL);
+        command.CommandType = CommandType.Text;
+
+        SqlParameter p_SalPakId = command.Parameters.Add("SalPakId", SqlDbType.Decimal);
+        p_SalPakId.Direction = ParameterDirection.Input;
+        p_SalPakId.Value = sSalPakId;
+
+        SqlParameter p_EmpId = command.Parameters.Add("EmpId", SqlDbType.Char);
+        p_EmpId.Direction = ParameterDirection.Input;
+        p_EmpId.Value = sEmpId;
+
+        SqlParameter p_EffDate = command.Parameters.Add("EffDate", SqlDbType.DateTime);
+        p_EffDate.Direction = ParameterDirection.Input;
+        p_EffDate.Value = Common.ReturnDate(sEffDate);
+
+        objDC.ExecuteQuery(command);
+    }
+
+    protected void btnUpdateSalPackdate_Click(object sender, EventArgs e)
+    {
+        foreach (GridViewRow gRow in grPayroll.Rows)
+        {
+            this.UpdateSalPackDate(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[2].Text.Trim(),
+               gRow.Cells[1].Text.Trim());
+        }
+    }
+
+    protected void btnUploadInc_Click(object sender, EventArgs e)
+    {
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Salary Inc Date.xls;Extended Properties=Excel 8.0";
+        OleDbConnection conn = new OleDbConnection(connstr);
+        string strSQL = "SELECT * FROM [Sheet1$]";
+
+        OleDbCommand cmd = new OleDbCommand(strSQL, conn);
+        DataSet ds = new DataSet();
+        OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+        da.Fill(ds);
+        grPayroll.DataSource = ds;
+        grPayroll.DataBind();
+    }
+
+    protected void btnUpdateIncDate_Click(object sender, EventArgs e)
+    {
+        foreach (GridViewRow gRow in grPayroll.Rows)
+        {
+            this.UpdateIncDate(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[1].Text.Trim());
+        }
+    }
+
+    public void UpdateIncDate(string sEmpId, string sEffDate)
+    {
+        string strSQL = "UPDATE SalaryPakHisDetls SET EffDate=@EffDate WHERE InsertedDate BETWEEN '2018-08-02 00:00' AND '2018-08-02 23:59' AND LastUpdatedFrom='Increment'"
+            + " AND EmpId=@EmpId";
+        SqlCommand command = new SqlCommand(strSQL);
+        command.CommandType = CommandType.Text;
+
+        SqlParameter p_EmpId = command.Parameters.Add("EmpId", SqlDbType.Char);
+        p_EmpId.Direction = ParameterDirection.Input;
+        p_EmpId.Value = sEmpId;
+
+        SqlParameter p_EffDate = command.Parameters.Add("EffDate", SqlDbType.DateTime);
+        p_EffDate.Direction = ParameterDirection.Input;
+        p_EffDate.Value = Common.ReturnDate(sEffDate);
+
+        objDC.ExecuteQuery(command);
+    }
 }
