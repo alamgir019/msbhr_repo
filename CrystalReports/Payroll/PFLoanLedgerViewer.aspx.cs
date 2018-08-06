@@ -23,7 +23,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
     private PrintDocument printDoc = new PrintDocument();
     private string ReportPath = "";
 
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Page_Init(object sender, EventArgs e)
     {
         string strParams = Request.QueryString["params"];
         string[] strVal = strParams.Split(',');

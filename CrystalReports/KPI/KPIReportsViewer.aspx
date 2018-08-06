@@ -1,4 +1,4 @@
-﻿<script src="/crystalreportviewers13/js/crviewer/crv.js"></script>
+﻿<%--<script src="/crystalreportviewers13/js/crviewer/crv.js"></script>--%>
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="KPIReportsViewer.aspx.cs" 
     Inherits="CrystalReports_KPI_KPIReportsViewer" Title="KPI Report Page" %>
 

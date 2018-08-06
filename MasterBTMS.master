@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <title>HR & Payroll System</title>
     <link href="Css/StyleSheet.css" rel="stylesheet" type="text/css" />
@@ -140,11 +141,11 @@
         </div> 
           
        </form> </div>
-       
-    
-   <div id="footer">
+      
+    <div id="footer">
         <div style="float:left;"></div><%--<img src="../Images/Save-Children.jpg" alt="" />--%>
         <div style="float:right; padding-top:8px; padding-right:15px;">Copyright &copy <a href="http://www.baseltd.com/">BASE Limited</a></div>
     </div>
+
 </body>
 </html>

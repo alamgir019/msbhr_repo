@@ -302,7 +302,6 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
             this.SaveData("U");
         }
     }
-
     protected void btnClear_Click(object sender, EventArgs e)
     {
         Common.EmptyTextBoxValues(this);
@@ -310,7 +309,6 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
         this.OpenRecord();
         lblMsg.Text = "";
     }
-
     protected void btnDelete_Click(object sender, EventArgs e)
     {
         if (string.IsNullOrEmpty(hfId.Value) == false)
@@ -372,7 +370,6 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
             }
         }
     }
-
     protected void ddlBTitleType_SelectedIndexChanged(object sender, EventArgs e)
     {
         this.FillBudgetTitle();
@@ -462,7 +459,6 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
             this.FillEmployeeInfo(ddlApprovedBy.SelectedValue.ToString().Trim(), "6");
         }
     }
-
     private void FillEmployeeInfo(string strEmpId, string ddlId)
     {
         DataRow[] dr = objTrMgr.SelectEmployeeDetail(strEmpId).Select("EmpId='" + strEmpId+"'");
@@ -511,7 +507,6 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
 
         }
     }
-
     protected void grList_RowDelete(object sender, GridViewDeleteEventArgs e)
     {
     }

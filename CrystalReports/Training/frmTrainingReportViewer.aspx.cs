@@ -15,7 +15,7 @@ public partial class frmTrainingReportViewer : System.Web.UI.Page
 
     DataTable MyDataTable = new DataTable();
     
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Page_Init(object sender, EventArgs e)
     {
         ConfigureCrystalReports();        
     }
@@ -43,9 +43,9 @@ public partial class frmTrainingReportViewer : System.Web.UI.Page
         switch (Session["REPORTID"].ToString())
         {
             case "ETD":
-                {
+                {                    
                     ReportPath = Server.MapPath("~/CrystalReports/Training/rptEmployeeTrainingDetails.rpt");
-                    ReportDoc.Load(ReportPath);
+                    ReportDoc.Load(ReportPath,OpenReportMethod.OpenReportByDefault);
                     MyDataTable = rptManager.GetEmployeeTrainingDetails(Session["TrainingID"].ToString(), Session["FromDate"].ToString(), Session["ToDate"].ToString());
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("PageHeader", "Employee Training Details");
