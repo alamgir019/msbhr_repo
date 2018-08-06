@@ -23,6 +23,7 @@ public partial class File_ImportTool : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            
             //Common.FillDropDownList(objMasMgr.SelectEmpInfoDesignation(), ddlDesig,"PAYEMPID","DESGID",false);
             //Common.FillDropDownList(objMasMgr.SelectDepartmentddl2(0), ddlProject, "DEPTCODE", "DEPTID", false);
             //Common.FillDropDownList(objMasMgr.SelectDivisionddl(0), ddlDivision, "DIVISIONNAME", "DIVISIONID", false);
