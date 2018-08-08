@@ -490,7 +490,7 @@ public partial class File_ImportTool : System.Web.UI.Page
 
     protected void btnUploadEmpSalPakId_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Emp Basic Gross Sal.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Salary Imput From Jan  to Aug  2018.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -506,7 +506,7 @@ public partial class File_ImportTool : System.Web.UI.Page
     {
         foreach (GridViewRow gRow in grPayroll.Rows)
         {
-            this.UpdateEmpGrossBasicSal(gRow.Cells[0].Text.Trim(), Common.CheckNullString(gRow.Cells[1].Text.Trim()), Common.CheckNullString(gRow.Cells[2].Text.Trim()));
+            this.UpdateEmpGrossBasicSal(gRow.Cells[0].Text.Trim(), Common.CheckNullString(gRow.Cells[3].Text.Trim()));
         }
         lblMsg.Text = "Record Updated Successfully";
     }
@@ -547,9 +547,10 @@ public partial class File_ImportTool : System.Web.UI.Page
         objDC.ExecuteQuery(command);
     }
 
-    public void UpdateEmpGrossBasicSal(string EmpId, string sBasicSalary, string sGrossSalary)
+    public void UpdateEmpGrossBasicSal(string EmpId, string sBasicSalary)//string sBasicSalary,
     {
-        string strSQL = "UPDATE EmpInfo SET BasicSalary = @BasicSalary,GrossSalary=@GrossSalary WHERE EmpId = @EmpId";
+        //string strSQL = "UPDATE EmpInfo SET BasicSalary = @BasicSalary,GrossSalary=@GrossSalary WHERE EmpId = @EmpId";
+        string strSQL = "UPDATE EmpInfo SET BasicSalary=@BasicSalary WHERE EmpId = @EmpId";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
 
@@ -561,9 +562,9 @@ public partial class File_ImportTool : System.Web.UI.Page
         p_BasicSalary.Direction = ParameterDirection.Input;
         p_BasicSalary.Value = sBasicSalary;
 
-        SqlParameter p_GrossSalary = command.Parameters.Add("GrossSalary", SqlDbType.Decimal);
-        p_GrossSalary.Direction = ParameterDirection.Input;
-        p_GrossSalary.Value = sGrossSalary;
+        //SqlParameter p_GrossSalary = command.Parameters.Add("GrossSalary", SqlDbType.Decimal);
+        //p_GrossSalary.Direction = ParameterDirection.Input;
+        //p_GrossSalary.Value = sGrossSalary;
         objDC.ExecuteQuery(command);
     }
     protected void btnUploadBankCodeRouting_Click(object sender, EventArgs e)
@@ -2093,7 +2094,8 @@ public partial class File_ImportTool : System.Web.UI.Page
         lblMsg.Text = "Record Upadated Successfully";
     }
 
-    public void InsertSalaryPackageHisDetls(string strLogId, string strSalPakId, string strEmpId, string strSHeadId, string strPayAmt,string strEffDate)
+    public void InsertSalaryPackageHisDetls(string strLogId, string strSalPakId, string strEmpId, string strSHeadId, string strPayAmt,
+        string strEffDate,string sLastupdatedFrom)
     {
         string strSQL = "INSERT INTO SalaryPakHisDetls(LogId,SalPakId,EmpId,SHEADID,PAYAMT,EffDate,InsertedBy,InsertedDate,LastUpdatedFrom)"
             + " VALUES(@LogId,@SalPakId,@EmpId,@SHEADID,@PAYAMT,@EffDate,@InsertedBy,@InsertedDate,@LastUpdatedFrom)";
@@ -2135,7 +2137,7 @@ public partial class File_ImportTool : System.Web.UI.Page
 
         SqlParameter p_LastUpdatedFrom = command.Parameters.Add("LastUpdatedFrom", SqlDbType.VarChar);
         p_LastUpdatedFrom.Direction = ParameterDirection.Input;
-        p_LastUpdatedFrom.Value = "Increment";
+        p_LastUpdatedFrom.Value = sLastupdatedFrom;
 
         objDC.ExecuteQuery(command);
     }
@@ -2191,23 +2193,24 @@ public partial class File_ImportTool : System.Web.UI.Page
             if (string.IsNullOrEmpty(gRow.Cells[1].Text.Trim()) == false)
             {
                 this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[2].Text.Trim(),
-                   gRow.Cells[3].Text.Trim());
+                   gRow.Cells[3].Text.Trim(),"Increment");
                 this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[4].Text.Trim(),
-                    gRow.Cells[5].Text.Trim());
+                    gRow.Cells[5].Text.Trim(), "Increment");
                 this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[6].Text.Trim(),
-                    gRow.Cells[7].Text.Trim());
-                this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[8].Text.Trim(),
-                  "-" + gRow.Cells[9].Text.Trim());
-                this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[11].Text.Trim(),
-                    "-" + gRow.Cells[12].Text.Trim());
+                    gRow.Cells[7].Text.Trim(), "Increment");
+                //this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[8].Text.Trim(),
+                //  "-" + gRow.Cells[9].Text.Trim());
+                //this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[11].Text.Trim(),
+                //    "-" + gRow.Cells[12].Text.Trim());
             }
         }
         lblMsg.Text = "Record Upadated Successfully";
     }
 
-    public void UpdateSalPackDetls(string sSalPakId, string sSHeadId,string sPayAmt)
+    public void UpdateSalPackDetls(string sSalPakId, string sSHeadId,string sPayAmt,string sLastupdatedFrom)
     {
-        string strSQL = "UPDATE SALARYPAKDETLS SET PayAmt=@PayAmt,TotAmnt=@TotAmnt WHERE SalPakId=@SalPakId AND SHeadId=@SHeadId";
+        string strSQL = "UPDATE SALARYPAKDETLS SET PayAmt=@PayAmt,TotAmnt=@TotAmnt,UpdatedBy=@UpdatedBy,UpdatedDate=@UpdatedDate,"
+                + " LastUpdatedFrom=@LastUpdatedFrom WHERE SalPakId=@SalPakId AND SHeadId=@SHeadId";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
 
@@ -2226,13 +2229,25 @@ public partial class File_ImportTool : System.Web.UI.Page
         SqlParameter p_TotAmnt = command.Parameters.Add("TotAmnt", SqlDbType.Decimal);
         p_TotAmnt.Direction = ParameterDirection.Input;
         p_TotAmnt.Value = Math.Round(Convert.ToDecimal(sPayAmt), 2);
-       
+
+        SqlParameter p_InsertedBy = command.Parameters.Add("UpdatedBy", SqlDbType.Char);
+        p_InsertedBy.Direction = ParameterDirection.Input;
+        p_InsertedBy.Value = "admin";
+
+        SqlParameter p_InsertedDate = command.Parameters.Add("UpdatedDate", SqlDbType.DateTime);
+        p_InsertedDate.Direction = ParameterDirection.Input;
+        p_InsertedDate.Value = Common.SetDateTime(DateTime.Now.ToString());
+
+        SqlParameter p_LastUpdatedFrom = command.Parameters.Add("LastUpdatedFrom", SqlDbType.VarChar);
+        p_LastUpdatedFrom.Direction = ParameterDirection.Input;
+        p_LastUpdatedFrom.Value = sLastupdatedFrom;
+
         objDC.ExecuteQuery(command);
     }
 
     protected void btnUploadSalaryPackageTitle0_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Salary Data July 2018.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Salary Imput From Jan  to Aug  2018.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -2299,9 +2314,15 @@ public partial class File_ImportTool : System.Web.UI.Page
     {
         foreach (GridViewRow gRow in grPayroll.Rows)
         {           
-            InsertSalaryPackageHisDetls(gRow.Cells[4].Text.Trim(),gRow.Cells[1].Text.Trim(), gRow.Cells[0].Text.Trim(), gRow.Cells[2].Text.Trim(), 
-                gRow.Cells[3].Text.Trim(), gRow.Cells[5].Text.Trim());
-            
+            InsertSalaryPackageHisDetls(gRow.Cells[8].Text.Trim(),gRow.Cells[1].Text.Trim(), gRow.Cells[0].Text.Trim(), gRow.Cells[2].Text.Trim(), 
+                gRow.Cells[3].Text.Trim(), gRow.Cells[9].Text.Trim(),"Increment");
+
+            InsertSalaryPackageHisDetls(gRow.Cells[8].Text.Trim(), gRow.Cells[1].Text.Trim(), gRow.Cells[0].Text.Trim(), gRow.Cells[4].Text.Trim(),
+                gRow.Cells[5].Text.Trim(), gRow.Cells[9].Text.Trim(), "Increment");
+
+            InsertSalaryPackageHisDetls(gRow.Cells[8].Text.Trim(), gRow.Cells[1].Text.Trim(), gRow.Cells[0].Text.Trim(), gRow.Cells[6].Text.Trim(),
+                gRow.Cells[7].Text.Trim(), gRow.Cells[9].Text.Trim(), "Increment");
+
         }
         lblMsg.Text = "Record Upadated Successfully";
     }
@@ -2313,11 +2334,11 @@ public partial class File_ImportTool : System.Web.UI.Page
             if (string.IsNullOrEmpty(gRow.Cells[1].Text.Trim()) == false)
             {
                 this.InsertSalaryPackageHisDetls(gRow.Cells[8].Text.Trim(), gRow.Cells[1].Text.Trim(), gRow.Cells[0].Text.Trim(),
-                    gRow.Cells[2].Text.Trim(), gRow.Cells[3].Text.Trim(), gRow.Cells[9].Text.Trim());
+                    gRow.Cells[2].Text.Trim(), gRow.Cells[3].Text.Trim(), gRow.Cells[9].Text.Trim(),"Increment");
                 this.InsertSalaryPackageHisDetls(gRow.Cells[8].Text.Trim(), gRow.Cells[1].Text.Trim(), gRow.Cells[0].Text.Trim(),
-                    gRow.Cells[4].Text.Trim(), gRow.Cells[5].Text.Trim(), gRow.Cells[9].Text.Trim());
+                    gRow.Cells[4].Text.Trim(), gRow.Cells[5].Text.Trim(), gRow.Cells[9].Text.Trim(), "Increment");
                 this.InsertSalaryPackageHisDetls(gRow.Cells[8].Text.Trim(), gRow.Cells[1].Text.Trim(), gRow.Cells[0].Text.Trim(),
-                    gRow.Cells[6].Text.Trim(), gRow.Cells[7].Text.Trim(), gRow.Cells[9].Text.Trim());
+                    gRow.Cells[6].Text.Trim(), gRow.Cells[7].Text.Trim(), gRow.Cells[9].Text.Trim(), "Increment");
             }
         }
         lblMsg.Text = "Record Upadated Successfully";
