@@ -89,14 +89,14 @@ public partial class Payroll_Payroll_VariableAllowanceUpload : System.Web.UI.Pag
         string strID = "";
         try
         {
-            if (ddlSalHead.SelectedValue.ToString() != "13")
+            //if (ddlSalHead.SelectedValue.ToString() != "13")
                 objVarMgr.InsertData(grPayroll, strID, ddlSalHead.SelectedValue.ToString(),
                        ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), "Y", "N", Session["USERID"].ToString(),
                        Common.SetDateTime(DateTime.Now.ToString()), "");
-            else
-                objVarMgr.InsertBonusAllowanceData(grPayroll, "36", "",
-                    ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.ToString(), Common.SetDateTime(DateTime.Now.ToString()),
-                    "19", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()), "");
+            //else
+            //    objVarMgr.InsertBonusAllowanceData(grPayroll, "36", "",
+            //        ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.ToString(), Common.SetDateTime(DateTime.Now.ToString()),
+            //        "19", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()), "");
 
             this.EntryMode(false);
             lblMsg.Text = "Record Saved Successfully";

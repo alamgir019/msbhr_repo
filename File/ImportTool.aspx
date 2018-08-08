@@ -100,7 +100,7 @@
                 </td>
                 <td>
                     <asp:Button ID="btnUpdateHisPack" runat="server" Text="Update Salary His Package" 
-                        OnClick="btnUpdateHisPack_Click" Visible="False" />
+                        OnClick="btnUpdateHisPack_Click" />
                 </td>
                 <td>
                     &nbsp;</td>
