@@ -19,6 +19,7 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
     dsTimeSheet ds = new dsTimeSheet();
 
     private string LogoPath = System.Web.Configuration.WebConfigurationManager.AppSettings["LogoPath"];
+    //private string printerName = System.Web.Configuration.WebConfigurationManager.AppSettings["PrinterName"];
 
     protected void Page_Init(object sender, EventArgs e)
     {        
@@ -78,52 +79,9 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
                 ReportDoc.SetParameterValue("ComLogo", LogoPath);                           
                 ReportDoc.SetParameterValue("pHeader", "Employee List");
                 CRVT.ReportSource = ReportDoc;
-                //string fileName = "D://Development//VS-2010//MSBHR//CrystalReports//Employee//Employee.pdf";
-                string fileName = ConfigurationManager.AppSettings["EmployeePrintPath"];
-                ReportDoc.ExportToDisk(ExportFormatType.PortableDocFormat, fileName);
+
                 break;
-
-//                ReportDoc.Load(ReportPath);
-//                MyDataTable = rptManager.GetEmpoyeeList(Session["GradeId"].ToString(), Session["EmpId"].ToString(),Session["FullName"].ToString(),
-//                    Session["Gender"].ToString(),Session["SectorId"].ToString(), Session["DeptId"].ToString(),Session["UnitId"].ToString(),
-//                    Session["PostingDivId"].ToString(),Session["PostingDistId"].ToString(), Session["DesigId"].ToString(), 
-//                    Session["PosByFuncId"].ToString(), Session["ReligionId"].ToString(),Session["EmpType"].ToString(),Session["TNTPosition"].ToString(),
-//                    Session["FromDate"].ToString(), Session["ToDate"].ToString(), Session["EmpStatus"].ToString(), Session["Basic"].ToString());
-//                ReportDoc.SetDataSource(MyDataTable);              
-
-////                System.Windows.Controls.PrintDialog dialogue = new System.Windows.Controls.PrintDialog();
- 
-//                PrinterSettings printerSettings = new PrinterSettings();
-//                PrintDialog printDialog = new PrintDialog();
-//                printDialog.PrinterSettings = printerSettings;
-//                printDialog.AllowPrintToFile = false;
-//                printDialog.AllowSomePages = true;
-//                printDialog.UseEXDialog = true;
-//                printDialog.ShowDialog();
                 
-
-                
-
-//                //DialogResult dr = printDialog.ShowDialog();
-//                //if (printDialog.ShowDialog() == DialogResult.OK)
-
-//                if (printDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-//                {
-//                    // Do something
-//                }
-
-//                //this.ReportDoc.PrintOptions.PrinterName = printerSettings.PrinterName;
-//                //this.ReportDoc.PrintToPrinter(printerSettings.Copies, false, 0, 0);
-
-
-
-
-
-//                ReportDoc.SetParameterValue("ComLogo", LogoPath);                           
-//                ReportDoc.SetParameterValue("pHeader", "Employee List");
-//                CRVT.ReportSource = ReportDoc;
-
-//                break;
             case "ELNB":
                 ReportPath = Server.MapPath("~/CrystalReports/Employee/rptEmpoyeeNGOforBureau.rpt");
                 ReportDoc.Load(ReportPath);
@@ -747,47 +705,27 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
 
     protected void btnPrint_Click(object sender, EventArgs e)
     {
-        //string filePathReceipt = Path.GetTempFileName();
-        string filePathReceipt = System.Web.Configuration.WebConfigurationManager.AppSettings["PrintPath"];
-        //filePathReceipt = "C:\\Users\\Public\\CRVT.pdf"; //C:\\Users\\Alamgir\\AppData\\Local\\Temp\\tmp8660.tmp
-        try
-        {
-            ReportDoc.ExportToDisk(ExportFormatType.PortableDocFormat, filePathReceipt);
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message);
-        }
-
-        //Printing receipt: start
-        System.Diagnostics.Process printjob = new System.Diagnostics.Process();
-        printjob.StartInfo.FileName = filePathReceipt;
-        printjob.StartInfo.Verb = string.Empty;
-        printjob.StartInfo.Verb = "PrintTo";
-        printjob.StartInfo.UseShellExecute = true;
-        printjob.StartInfo.CreateNoWindow = true;
-
-        printjob.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+        ReportDoc = new ReportDocument();
         
-        PrinterSettings setting = new PrinterSettings();       
-        setting.DefaultPageSettings.Landscape = true;
+        if (Session["Basic"].ToString() == "B")
+            ReportPath = Server.MapPath("~/CrystalReports/Employee/rptEmployeeList.rpt");
+        else
+            ReportPath = Server.MapPath("~/CrystalReports/Employee/rptEmployeeListWithoutBasic.rpt");
 
-        try
-        {
-            printjob.Start();
-            ll.Text = "4";
+        ReportDoc.Load(ReportPath);
+        MyDataTable = rptManager.GetEmpoyeeList(Session["GradeId"].ToString(), Session["EmpId"].ToString(), Session["FullName"].ToString(),
+            Session["Gender"].ToString(), Session["SectorId"].ToString(), Session["DeptId"].ToString(), Session["UnitId"].ToString(),
+            Session["PostingDivId"].ToString(), Session["PostingDistId"].ToString(), Session["DesigId"].ToString(),
+            Session["PosByFuncId"].ToString(), Session["ReligionId"].ToString(), Session["EmpType"].ToString(), Session["TNTPosition"].ToString(),
+            Session["FromDate"].ToString(), Session["ToDate"].ToString(), Session["EmpStatus"].ToString(), Session["Basic"].ToString());
+        ReportDoc.SetDataSource(MyDataTable);
+        ReportDoc.SetDataSource(MyDataTable);
+        ReportDoc.SetParameterValue("ComLogo", LogoPath);
+        ReportDoc.SetParameterValue("pHeader", "Employee List");
+        //int start = Convert.ToInt32(txtFrom.Text);
+        //int end = Convert.ToInt32(txtTo.Text);
+        //ReportDoc.PrintOptions.PrinterName = printerName;
+        //ReportDoc.PrintToPrinter(1, true, start, end);
         }
-        catch (Exception ex)
-        {
-            ll.Text = ex.Message;
-        }
-        //Printing receipt: end
-
-        if (File.Exists(filePathReceipt))
-        {
-            //Delete the file after it has been printed
-           // File.Delete(filePathReceipt);
-        }
-    }
 
 }
