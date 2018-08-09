@@ -38,8 +38,8 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
             ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
             ddlYear.SelectedValue = Convert.ToString(DateTime.Today.Year);
             btnDelete.Enabled = false;
-            Common.FillDropDownList(objMasMgr.SelectEmpType(0,"Y"), ddlEmpType, true);
-            ddlEmpType.SelectedIndex = 1; 
+            //Common.FillDropDownList(objMasMgr.SelectEmpType(0,"Y"), ddlEmpType, true);
+            //ddlEmpType.SelectedIndex = 1; 
            // this.OpenRecord("0");
         }
     }
@@ -60,7 +60,7 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
    
     protected void GenerateRecord()
     {
-        dtEmp = objBonMgr.GetEmployeeForBonusAllowance(ddlReligion.SelectedValue.Trim(), Common.ReturnDate(txtFestivalDate.Text.Trim()), ddlEmpType.SelectedValue.ToString());
+        dtEmp = objBonMgr.GetEmployeeForBonusAllowance(ddlReligion.SelectedValue.Trim(), Common.ReturnDate(txtFestivalDate.Text.Trim()));
         grEmployee.DataSource = dtEmp;
         grEmployee.DataBind();
 
@@ -144,7 +144,7 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
         objBonMgr.InsertBonusAllowanceData(grEmployee, ddlFiscalYear.SelectedValue.Trim(), ddlReligion.SelectedValue.Trim(),
             ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), Common.ReturnDate(txtFestivalDate.Text.Trim()),
             "14", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()), ddlFestival.SelectedValue.Trim(), "P",
-            ddlFiscalYearTax.SelectedValue.Trim(), ddlEmpType.SelectedValue.ToString());
+            ddlFiscalYearTax.SelectedValue.Trim());
         this.GenerateRecord();
         lblMsg.Text = "Record Saved Successfully";
         grEmployee.DataSource = null;
@@ -162,7 +162,7 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
         objBonMgr.InsertBonusAllowanceData(grEmployee, ddlFiscalYear.SelectedValue.Trim(), ddlReligion.SelectedValue.Trim(),
             ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), Common.ReturnDate(txtFestivalDate.Text.Trim()),
            "14", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()), ddlFestival.SelectedValue.Trim(), "D",
-           ddlFiscalYearTax.SelectedValue.Trim(),ddlEmpType.SelectedValue.ToString()   );
+           ddlFiscalYearTax.SelectedValue.Trim() );
         this.GenerateRecord();
         lblMsg.Text = "Record Saved Successfully";
     }
@@ -175,7 +175,7 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
             return;
         }
         objBonMgr.DeleteBonusAllowanceData(ddlMonth.SelectedValue.Trim(),ddlYear.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.Trim(), "14", 
-            ddlReligion.SelectedValue.Trim(),ddlFestival.SelectedValue.Trim(),ddlEmpType.SelectedValue.ToString()   );
+            ddlReligion.SelectedValue.Trim(),ddlFestival.SelectedValue.Trim()  );
         lblMsg.Text = "Records delete successfully";
 
         grEmployee.DataSource = null;
@@ -206,7 +206,7 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
             grEmployee.DataBind();
 
             DataTable dtBonusRecord = objBonMgr.GetBonusAllowanceData(ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(),
-            ddlFiscalYear.SelectedValue.Trim(), "14", ddlReligion.SelectedValue.Trim(),ddlFestival.SelectedValue.Trim(),ddlEmpType.SelectedValue.ToString()   );
+            ddlFiscalYear.SelectedValue.Trim(), "14", ddlReligion.SelectedValue.Trim(),ddlFestival.SelectedValue.Trim() );
 
             if (dtBonusRecord.Rows.Count > 0)
             {

@@ -169,6 +169,53 @@ public class Common
         return inDiff;
     }
 
+
+    public static int GetMonthDiffTillJuly(string strMonth)
+    {
+        int inMonth = Convert.ToInt32(strMonth);
+        int inDiff = 0;
+        switch (inMonth)
+        {
+            case 1:
+                inDiff = 6;
+                break;
+            case 2:
+                inDiff = 5;
+                break;
+            case 3:
+                inDiff = 4;
+                break;
+            case 4:
+                inDiff = 3;
+                break;
+            case 5:
+                inDiff = 2;
+                break;
+            case 6:
+                inDiff = 1;
+                break;
+            case 7:
+                inDiff = 12;
+                break;
+            case 8:
+                inDiff = 11;
+                break;
+            case 9:
+                inDiff = 10;
+                break;
+            case 10:
+                inDiff = 9;
+                break;
+            case 11:
+                inDiff = 8;
+                break;
+            case 12:
+                inDiff = 7;
+                break;
+        }
+        return inDiff;
+    }
+
     public static DateTime DBTOGUIDate(string txt)
     {
         string[] arInfo = new string[4];

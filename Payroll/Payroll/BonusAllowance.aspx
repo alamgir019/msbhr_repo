@@ -93,8 +93,7 @@
                             </td>--%>
 
                             <td>
-                                <asp:DropDownList ID="ddlEmpType" runat="server" Width="116px" CssClass="textlevelleft" Height="18px"></asp:DropDownList>
-                            </td>
+                                &nbsp;</td>
                             <td>
                                 <asp:Button ID="btnGenerate" runat="server" Text="Generate" Width="80px" OnClick="btnGenerate_Click" />
                             </td>

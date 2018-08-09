@@ -643,7 +643,7 @@ public partial class File_ImportTool : System.Web.UI.Page
     }
     protected void btnUploadBankId_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\BASESOFT\\StaffWsBankBranch.xls;Extended Properties=Excel 12.0";
+        string connstr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\UploadFile\\MSB\\Contract Expire date Changing.xls;Extended Properties=Excel 12.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -665,7 +665,7 @@ public partial class File_ImportTool : System.Web.UI.Page
 
     public void UpdateBankId(string EmpId, string BankCode)
     {
-        string strSQL = "UPDATE EmpInfo SET BankCode = @BankCode WHERE EmpId = @EmpId";
+        string strSQL = "UPDATE EmpInfo SET ContractEndDate = @ContractEndDate WHERE EmpId = @EmpId";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
 
@@ -673,7 +673,7 @@ public partial class File_ImportTool : System.Web.UI.Page
         p_EmpId.Direction = ParameterDirection.Input;
         p_EmpId.Value = EmpId;
 
-        SqlParameter p_SPTitle = command.Parameters.Add("BankCode", SqlDbType.VarChar);
+        SqlParameter p_SPTitle = command.Parameters.Add("ContractEndDate", SqlDbType.DateTime);
         p_SPTitle.Direction = ParameterDirection.Input;
         p_SPTitle.Value = BankCode;
 
