@@ -17,7 +17,7 @@ public class BonusAllowanceManager
     DBConnector objDC = new DBConnector();
 
     public void InsertBonusAllowanceData(GridView gr, string strFinYear, string strReligion, string strMonth, string strYear, string strFestiveDate,
-        string strSheadID, string strInsBy, string strInsDate, string FestivalID, string strVStatus,string strTaxFinYr,string strEmpTypeId)
+        string strSheadID, string strInsBy, string strInsDate, string FestivalID, string strVStatus,string strTaxFinYr)
     {
         SqlCommand[] cmd = new SqlCommand[gr.Rows.Count + 1];
         int i = 1;
@@ -50,9 +50,9 @@ public class BonusAllowanceManager
         p_FestivalID.Direction = ParameterDirection.Input;
         p_FestivalID.Value = FestivalID;
 
-        SqlParameter p_EmpTypeId = cmd[0].Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
+        //SqlParameter p_EmpTypeId = cmd[0].Parameters.Add("EmpTypeId", SqlDbType.BigInt);
+        //p_EmpTypeId.Direction = ParameterDirection.Input;
+        //p_EmpTypeId.Value = strEmpTypeId;
 
         foreach (GridViewRow gRow in gr.Rows)
         {
@@ -143,7 +143,7 @@ public class BonusAllowanceManager
         objDC.MakeTransaction(cmd);
     }
 
-    public void DeleteBonusAllowanceData(string strMonth, string strYear, string strFinYear, string strSheadId, string strRelegion, string strFistavalID, string strEmpTypeId)
+    public void DeleteBonusAllowanceData(string strMonth, string strYear, string strFinYear, string strSheadId, string strRelegion, string strFistavalID)
     {
         SqlCommand cmd = new SqlCommand("Proc_Payroll_Delete_BonusAllowance");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -172,14 +172,14 @@ public class BonusAllowanceManager
         p_FestivalID.Direction = ParameterDirection.Input;
         p_FestivalID.Value = strFistavalID;
 
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
+        //SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
+        //p_EmpTypeId.Direction = ParameterDirection.Input;
+        //p_EmpTypeId.Value = strEmpTypeId;
 
         objDC.ExecuteQuery(cmd);
     }
 
-    public DataTable GetBonusAllowanceData(string strMonth,string strYear,string strFinYear,string strSheadId, string strRelegion,string strFistavalID,string strEmpTypeId)
+    public DataTable GetBonusAllowanceData(string strMonth,string strYear,string strFinYear,string strSheadId, string strRelegion,string strFistavalID)
     {
         SqlCommand cmd = new SqlCommand("Proc_Payroll_Select_BonusAllowance");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -208,15 +208,15 @@ public class BonusAllowanceManager
         p_FestivalID.Direction = ParameterDirection.Input;
         p_FestivalID.Value = strFistavalID;
 
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
+        //SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
+        //p_EmpTypeId.Direction = ParameterDirection.Input;
+        //p_EmpTypeId.Value = strEmpTypeId;
 
         objDC.CreateDSFromProc(cmd, "GetBonusAllowanceData");
         return objDC.ds.Tables["GetBonusAllowanceData"];
     }
 
-    public DataTable GetEmployeeForBonusAllowance(string strRelegion, string strDate, string strEmpTypeId)
+    public DataTable GetEmployeeForBonusAllowance(string strRelegion, string strDate)
     {
         SqlCommand cmd = new SqlCommand("proc_Payroll_Select_EmployeeForBonusAllowance");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -229,9 +229,9 @@ public class BonusAllowanceManager
         p_JoiningDate.Direction = ParameterDirection.Input;
         p_JoiningDate.Value = strDate;
 
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
+        //SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
+        //p_EmpTypeId.Direction = ParameterDirection.Input;
+        //p_EmpTypeId.Value = strEmpTypeId;
 
         // SqlParameter p_JoiningDate = cmd.Parameters.Add("JoiningDate", SqlDbType.DateTime);
         //p_JoiningDate.Direction = ParameterDirection.Input;

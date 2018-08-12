@@ -393,7 +393,7 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             if ((Convert.ToInt32(ddlMonth.SelectedValue.Trim()) >= 7) && (Convert.ToInt32(ddlMonth.SelectedValue.Trim()) <= 12))
             {
                 if (dtSalary.Rows.Count > 0)
-                    dclMonthDur = 6 - (Convert.ToDecimal(ddlMonth.SelectedValue.Trim())) + 12;
+                    dclMonthDur = 6 - (Convert.ToDecimal(ddlMonth.SelectedValue.Trim())) + 13;//12
                 else
                     dclMonthDur = 6 - (Convert.ToDecimal(ddlMonth.SelectedValue.Trim())) + 13;
             }
@@ -506,7 +506,10 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             ////gRow.Cells[17].Text = Common.RoundDecimal(dclRebate.ToString(), 0).ToString();
 
             //dclRebate = Common.RoundDecimal(gRow.Cells[16].Text, 0) * dclInvAllowPlc / 100;
-             dclRebate = (Common.RoundDecimal(gRow.Cells[16].Text, 0) +dclYPF)* dclInvAllowPlc / 100;
+            if (ddlMonth.SelectedValue =="7" )
+                dclRebate = Common.RoundDecimal(gRow.Cells[16].Text, 0) * dclInvAllowPlc / 100;
+            else
+                dclRebate = (Common.RoundDecimal(gRow.Cells[16].Text, 0) + dclYPF) * dclInvAllowPlc / 100;
 
             //Inv Slot 16.10.16
             decimal dclSlot = 0;
@@ -615,7 +618,7 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             decimal dclMonthlyTax = 0;
             decimal dclActTax = 0;
             int inMon = Convert.ToInt32(ddlMonth.SelectedValue.Trim());
-            inMon = Common.GetMonthDiffTillJune(ddlMonth.SelectedValue.Trim());
+            inMon = Common.GetMonthDiffTillJuly(ddlMonth.SelectedValue.Trim()); //Common.GetMonthDiffTillJune(ddlMonth.SelectedValue.Trim());
 
             if (foundLastYrRow.Length > 0)
                 gRow.Cells[28].Text = Common.ReturnZeroForNull(foundLastYrRow[0]["REFUNDAMT"].ToString().Trim());
