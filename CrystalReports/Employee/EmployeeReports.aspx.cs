@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CrystalDecisions.CrystalReports.Engine;
+//using CrystalDecisions.ReportAppServer.ReportDefModel;
+using CrystalDecisions.Shared;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -16,6 +19,8 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
     LeaveManager objLeaveMgr=new LeaveManager();
     private Payroll_MasterMgr objPayMgr = new Payroll_MasterMgr();
     EmpInfoManager objEmpInfoMgr = new EmpInfoManager();
+    ReportManager rptManager = new ReportManager();
+    private string LogoPath = System.Web.Configuration.WebConfigurationManager.AppSettings["LogoPath"];
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -56,14 +61,6 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
 
     
     protected void tvReports_SelectedNodeChanged(object sender, EventArgs e)
-
-    //{
-    //    //PGroupWise,PEmpId,PEmpName,PGrade,PDesig,PSector,PProgDept,PCompUnit,PPosByFunc,PSalarySubLoc,PSalaryLoc,PDivision,PDistrict,PPlaceOfPosting,PGender,PReligion,PBank,PBloodGroup,PDateRange,PrbtnTypeEmp,PActveInAcBasic,PShow
-
-    //    this.PanelVisibilityMst("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-       
-        //this.FillddlEmplStatus();
-
     {
         this.PanelVisibilityMst("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");        
 
@@ -360,30 +357,59 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
     }
 
     protected void btnShow_Click(object sender, EventArgs e)
-    {       
+    {
+        ReportDocument ReportDoc=new ReportDocument();
+        DataTable MyDataTable = new DataTable();
+        string fileName = "";
         switch (tvReports.SelectedValue)
         {
             case "EL":
                 {
-                    Session["REPORTID"] = tvReports.SelectedNode.Value;
-                    Session["GradeId"] = ddlGrade.SelectedValue;
-                    Session["EmpId"] = txtEmpCode.Text.Trim();
-                    Session["FullName"] = txtEmpName.Text.Trim();
-                    Session["Gender"] = ddlGender.SelectedValue;
-                    Session["SectorId"] = ddlSector.SelectedValue;
-                    Session["DeptId"] = ddlDepartment.SelectedValue;
-                    Session["UnitId"] = ddlComponentUnit.SelectedValue;
-                    Session["PostingDivId"] = ddlDivision.SelectedValue;
-                    Session["PostingDistId"] = ddlDistrict.SelectedValue;
-                    Session["DesigId"] = ddlDesignation.SelectedValue;
-                    Session["PosByFuncId"] = ddlPosByFunc.SelectedValue;
-                    Session["ReligionId"] = ddlReligion.SelectedValue;
-                    Session["TNTPosition"] = ddlTNTPosition.SelectedValue;
-                    Session["FromDate"] = txtFromDate.Text;                   
-                    Session["ToDate"] = txtToDate.Text;
-                    Session["EmpType"] = ddlEmpType.SelectedValue;
-                    Session["EmpStatus"] = radBtnListEmp.SelectedValue;
-                    Session["Basic"]=radBtnBasic.SelectedValue;
+                    string basic=radBtnBasic.SelectedValue;
+                    string gradeId = ddlGrade.SelectedValue;
+                    string reportId= tvReports.SelectedNode.Value;
+                    string empId = txtEmpCode.Text.Trim();
+                    string fullName = txtEmpName.Text.Trim();
+                    string gender = ddlGender.SelectedValue;
+                    string sectorId = ddlSector.SelectedValue;
+                    string deptId = ddlDepartment.SelectedValue;
+                    string unitId = ddlComponentUnit.SelectedValue;
+                    string postingDivId = ddlDivision.SelectedValue;
+                    string postingDistId = ddlDistrict.SelectedValue;
+                    string desigId = ddlDesignation.SelectedValue;
+                    string posByFuncId = ddlPosByFunc.SelectedValue;
+                    string religionId = ddlReligion.SelectedValue;
+                    string TNTPosition = ddlTNTPosition.SelectedValue;
+                    string fromDate = txtFromDate.Text;                   
+                    string toDate = txtToDate.Text;
+                    string empType = ddlEmpType.SelectedValue;
+                    string empStatus = radBtnListEmp.SelectedValue;
+                    string ReportPath = "";
+                    if (basic == "B")
+                        ReportPath = Server.MapPath("~/CrystalReports/Employee/rptEmployeeList.rpt");
+                    else
+                        ReportPath = Server.MapPath("~/CrystalReports/Employee/rptEmployeeListWithoutBasic.rpt");
+
+                    ReportDoc.Load(ReportPath);
+                    MyDataTable = rptManager.GetEmpoyeeList(gradeId, empId, fullName,gender, sectorId, deptId, unitId,postingDivId, postingDistId,desigId,
+                        posByFuncId, religionId, empType, TNTPosition,fromDate,toDate, empStatus,basic);
+                    ReportDoc.SetDataSource(MyDataTable);
+                    //ReportDoc.SetDataSource(MyDataTable);
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                    ReportDoc.SetParameterValue("pHeader", "Employee List");
+                    CrystalDecisions.Shared.ExportOptions CrExportOptions;
+                    DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
+                    PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
+                    fileName = Session["USERID"].ToString() + "_" + "EmployeeList" + ".pdf";
+                    CrDiskFileDestinationOptions.DiskFileName = Server.MapPath("~/CrystalReports/Employee/VirtualReport/" + fileName);
+                    CrExportOptions = ReportDoc.ExportOptions;
+                    {
+                        CrExportOptions.ExportDestinationType = ExportDestinationType.DiskFile;
+                        CrExportOptions.ExportFormatType = ExportFormatType.PortableDocFormat;
+                        CrExportOptions.DestinationOptions = CrDiskFileDestinationOptions;
+                        CrExportOptions.FormatOptions = CrFormatTypeOptions;
+                    }
+                    ReportDoc.Export();
                     break;
                 }
             case "ELNB":
@@ -567,8 +593,6 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
                     Session["EmpID"] = txtEmpCode.Text.Trim(); 
                     Session["SalLocId"] = ddlSalaryLoc.SelectedValue;
                     Session["PostingDivId"] = ddlDivision.SelectedValue;
-                   // Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
-                   // Session["VYear"] = ddlYear.SelectedValue.ToString();
                     Session["ReasonOfAction"] = ddlReasonList.SelectedValue.ToString();
                     Session["ActionType"]=ddlAction.SelectedValue.ToString();
                     Session["FromDate"] = txtFromDate.Text;
@@ -710,33 +734,6 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
                     
                     break;
                 }
-            //case "DP":
-            //    {
-            //        Session["REPORTID"] = tvReports.SelectedNode.Value;
-            //        string strEmpId = "";
-            //        int i = 1;
-            //        foreach (GridViewRow gRow in gvEmp.Rows)
-            //        {
-            //            CheckBox checkBox = new CheckBox();
-            //            checkBox = (CheckBox)gRow.Cells[0].FindControl("chkBoxEmp");
-            //            if (checkBox.Checked)
-            //            {
-            //                if (i == 1)
-            //                    strEmpId = gRow.Cells[1].Text.Trim();
-            //                else
-            //                    strEmpId = strEmpId + "," + gRow.Cells[1].Text.Trim();
-            //                i++;
-            //            }
-            //        }
-            //        Session["EmpID"] = strEmpId;// txtEmpCode.Text.Trim(); //
-            //        Session["DeptId"] = ddlDepartment.SelectedValue;
-            //        Session["LAreaId"] = ddlLearningArea.SelectedValue.ToString();
-            //        Session["GradeId"] = ddlGrade.SelectedValue.ToString();
-            //        Session["FiscalYrId"] = ddlFiscalYr.SelectedValue.ToString();
-            //        Session["FiscalYr"] = ddlFiscalYr.SelectedItem.ToString();
-
-            //        break;
-            //    }
             case "ESI": 
                 {
                     Session["REPORTID"] = tvReports.SelectedNode.Value;
@@ -748,15 +745,6 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
                     Session["GradeId"] = ddlGrade.SelectedValue.ToString();
                     //Session["PostingDivId"] = ddlDivision.SelectedValue;
                     Session["EmpTypeID"] = ddlEmpType.SelectedValue;
-                    //Session["PostingDistId"] = ddlDistrict.SelectedValue;
-                    //if (string.IsNullOrEmpty(txtServiceLength.Text.Trim()) == false)
-                    //    Session["BasicFrom"] = txtServiceLength.Text.Trim();
-                    //else
-                    //    Session["BasicFrom"] = "0";
-                    //if (string.IsNullOrEmpty(txtTo.Text.Trim()) == false)
-                    //    Session["BasicTo"] = txtTo.Text.Trim();
-                    //else
-                    //Session["BasicTo"] = "0";
                     break;
                 }
                 //----------------- New  --------
@@ -907,7 +895,8 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
         //Open New Window
         StringBuilder sb = new StringBuilder();
         sb.Append("<script>");
-        sb.Append("window.open('frmEmployeeReportViewer.aspx', '', 'fullscreen=true,scrollbars=yes,resizable=yes');");//
+        sb.Append("window.open('VirtualReport/" + fileName+"', '', 'fullscreen=true,scrollbars=yes,resizable=yes');");
+        //sb.Append("window.open('frmEmployeeReportViewer.aspx', '', 'fullscreen=true,scrollbars=yes,resizable=yes');");//
         sb.Append("</script>");
         ScriptManager.RegisterStartupScript(this, this.GetType(), "ConfirmSubmit",
                                  sb.ToString(), false);

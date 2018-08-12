@@ -12,20 +12,15 @@
     <form id="form1" runat="server">
         <div>           
             <fieldset style="text-align: left; background-color: White">
-                <%-- <CR:CrystalReportViewer ID="CRVT" runat="server" EnableDatabaseLogonPrompt="False"
-                    OnBeforeRender="CRVT_BeforeRender" OnUnload="CRVT_Unload" 
-                    BorderColor="White" BorderWidth="0px" GroupTreeStyle-BackColor="White" 
-                    GroupTreeStyle-BorderColor="White" GroupTreeStyle-BorderStyle="None" 
-                    Height="50px" ToolbarStyle-BackColor="White" 
-                    ToolbarStyle-BorderColor="White" Width="350px" 
-                    HasToggleGroupTreeButton="False" ToolPanelView="None" />--%>
-                <asp:Button ID="btnPrint" runat="server" Visible="true" onclick="btnPrint_Click" 
-                    Text="Print" />
-                <asp:Label ID="ll" Visible="false" runat="server" Text="0" />
-                    <CR:CrystalReportViewer ID="CRVT" runat="server"  
-                    EnableDatabaseLogonPrompt="False" OnBeforeRender="CRVT_BeforeRender" 
-                    OnUnload="CRVT_Unload" AutoDataBind="true" PrintMode="ActiveX" 
-                    HasDrillUpButton="False"/>
+                 <asp:Label ID="Label1" runat="server" Text="From :" Width="50px" CssClass="textlevel"></asp:Label>
+                <asp:TextBox ID="txtFrom" runat="server" Width="50px" Text="1"></asp:TextBox>
+                 <asp:Label ID="Label2" runat="server" Text="To :" Width="50px" CssClass="textlevel"></asp:Label>
+                <asp:TextBox ID="txtTo" runat="server" Width="50px" Text="1"></asp:TextBox>
+                <asp:Button ID="btnPrint" runat="server" Visible="true" onclick="btnPrint_Click" Text="Print" />
+                <CR:CrystalReportViewer ID="CRVT" runat="server"  
+                EnableDatabaseLogonPrompt="False" OnBeforeRender="CRVT_BeforeRender" 
+                OnUnload="CRVT_Unload" AutoDataBind="true" PrintMode="ActiveX" 
+                HasDrillUpButton="False"/>
             </fieldset>
         </div>
     </form>
