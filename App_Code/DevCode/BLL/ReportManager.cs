@@ -1723,6 +1723,10 @@ public class ReportManager
         p_DesigId.Direction = ParameterDirection.Input;
         p_DesigId.Value = Convert.ToInt32(desigId);
 
+        SqlParameter p_ProjectId = command.Parameters.Add("ProjectID", SqlDbType.BigInt);
+        p_ProjectId.Direction = ParameterDirection.Input;
+        p_ProjectId.Value = Convert.ToInt32(posByFuncId);
+
         SqlParameter p_ReligionId = command.Parameters.Add("ReligionId", SqlDbType.BigInt);
         p_ReligionId.Direction = ParameterDirection.Input;
         p_ReligionId.Value = Convert.ToInt32(religionId);
