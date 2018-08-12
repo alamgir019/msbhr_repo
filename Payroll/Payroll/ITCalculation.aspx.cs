@@ -506,7 +506,10 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             ////gRow.Cells[17].Text = Common.RoundDecimal(dclRebate.ToString(), 0).ToString();
 
             //dclRebate = Common.RoundDecimal(gRow.Cells[16].Text, 0) * dclInvAllowPlc / 100;
-             dclRebate = (Common.RoundDecimal(gRow.Cells[16].Text, 0) +dclYPF)* dclInvAllowPlc / 100;
+            if (ddlMonth.SelectedValue =="7" )
+                dclRebate = Common.RoundDecimal(gRow.Cells[16].Text, 0) * dclInvAllowPlc / 100;
+            else
+                dclRebate = (Common.RoundDecimal(gRow.Cells[16].Text, 0) + dclYPF) * dclInvAllowPlc / 100;
 
             //Inv Slot 16.10.16
             decimal dclSlot = 0;
