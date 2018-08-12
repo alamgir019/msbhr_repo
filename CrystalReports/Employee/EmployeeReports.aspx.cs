@@ -394,22 +394,21 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
                     MyDataTable = rptManager.GetEmpoyeeList(gradeId, empId, fullName,gender, sectorId, deptId, unitId,postingDivId, postingDistId,desigId,
                         posByFuncId, religionId, empType, TNTPosition,fromDate,toDate, empStatus,basic);
                     ReportDoc.SetDataSource(MyDataTable);
-                    //ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     ReportDoc.SetParameterValue("pHeader", "Employee List");
-                    CrystalDecisions.Shared.ExportOptions CrExportOptions;
-                    DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
-                    PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
-                    fileName = Session["USERID"].ToString() + "_" + "EmployeeList" + ".pdf";
-                    CrDiskFileDestinationOptions.DiskFileName = Server.MapPath("~/CrystalReports/Employee/VirtualReport/" + fileName);
-                    CrExportOptions = ReportDoc.ExportOptions;
-                    {
-                        CrExportOptions.ExportDestinationType = ExportDestinationType.DiskFile;
-                        CrExportOptions.ExportFormatType = ExportFormatType.PortableDocFormat;
-                        CrExportOptions.DestinationOptions = CrDiskFileDestinationOptions;
-                        CrExportOptions.FormatOptions = CrFormatTypeOptions;
-                    }
-                    ReportDoc.Export();
+                    //CrystalDecisions.Shared.ExportOptions CrExportOptions;
+                    //DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
+                    //PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
+                    //fileName = Session["USERID"].ToString() + "_" + "EmployeeList" + ".pdf";
+                    //CrDiskFileDestinationOptions.DiskFileName = Server.MapPath("~/CrystalReports/Employee/VirtualReport/" + fileName);
+                    //CrExportOptions = ReportDoc.ExportOptions;
+                    //{
+                    //    CrExportOptions.ExportDestinationType = ExportDestinationType.DiskFile;
+                    //    CrExportOptions.ExportFormatType = ExportFormatType.PortableDocFormat;
+                    //    CrExportOptions.DestinationOptions = CrDiskFileDestinationOptions;
+                    //    CrExportOptions.FormatOptions = CrFormatTypeOptions;
+                    //}
+                    //ReportDoc.Export();
                     break;
                 }
             case "ELNB":
@@ -890,13 +889,12 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
             
 
         }
-          
       
         //Open New Window
         StringBuilder sb = new StringBuilder();
         sb.Append("<script>");
-        sb.Append("window.open('VirtualReport/" + fileName+"', '', 'fullscreen=true,scrollbars=yes,resizable=yes');");
-        //sb.Append("window.open('frmEmployeeReportViewer.aspx', '', 'fullscreen=true,scrollbars=yes,resizable=yes');");//
+        //sb.Append("window.open('VirtualReport/" + fileName+"', '', 'fullscreen=true,scrollbars=yes,resizable=yes');");
+        sb.Append("window.open('frmEmployeeReportViewer.aspx', '', 'fullscreen=true,scrollbars=yes,resizable=yes');");//
         sb.Append("</script>");
         ScriptManager.RegisterStartupScript(this, this.GetType(), "ConfirmSubmit",
                                  sb.ToString(), false);

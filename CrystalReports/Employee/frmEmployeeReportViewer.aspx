@@ -12,11 +12,11 @@
     <form id="form1" runat="server">
         <div>           
             <fieldset style="text-align: left; background-color: White">
-                 <asp:Label ID="Label1" runat="server" Text="From :" Width="50px" CssClass="textlevel"></asp:Label>
+                <%-- <asp:Label ID="Label1" runat="server" Text="From :" Width="50px" CssClass="textlevel"></asp:Label>
                 <asp:TextBox ID="txtFrom" runat="server" Width="50px" Text="1"></asp:TextBox>
                  <asp:Label ID="Label2" runat="server" Text="To :" Width="50px" CssClass="textlevel"></asp:Label>
                 <asp:TextBox ID="txtTo" runat="server" Width="50px" Text="1"></asp:TextBox>
-                <asp:Button ID="btnPrint" runat="server" Visible="true" onclick="btnPrint_Click" Text="Print" />
+                <asp:Button ID="btnPrint" runat="server" Visible="true" onclick="btnPrint_Click" Text="Print" />--%>
                 <CR:CrystalReportViewer ID="CRVT" runat="server"  
                 EnableDatabaseLogonPrompt="False" OnBeforeRender="CRVT_BeforeRender" 
                 OnUnload="CRVT_Unload" AutoDataBind="true" PrintMode="ActiveX" 
