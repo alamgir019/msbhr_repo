@@ -11,7 +11,11 @@
 </script>
     <div class="formStyle">
         <div id='formhead6'>
-            Report List</div>
+            <div style="width: 98%; float: left;">
+                Report List</div>
+            <div style="margin: 2px; float: left; padding-right: 3px;">
+                <a href="../../Default.aspx">
+                    <img src="../../Images/close_icon.gif" alt="Close" /></a></div></div>
         <div class="repotForm2">
             <fieldset>
                 <div id="reportList">
