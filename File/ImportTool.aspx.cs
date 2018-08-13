@@ -1157,7 +1157,7 @@ public partial class File_ImportTool : System.Web.UI.Page
     }
     protected void btnUploadDistrcit_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=C:\\BASESOFT\\ContractEndDate.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\TIN Update.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -1190,7 +1190,7 @@ public partial class File_ImportTool : System.Web.UI.Page
     {
         foreach (GridViewRow gRow in grPayroll.Rows)
         {
-            if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[1].Text.Trim())) == false)
+            //if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[1].Text.Trim())) == false)
                 this.UpdateContractEndDate(gRow.Cells[0].Text.Trim(), Common.CheckNullString(gRow.Cells[1].Text.Trim()));
         }
         lblMsg.Text = "Record Updated Successfully";
@@ -1336,9 +1336,9 @@ public partial class File_ImportTool : System.Web.UI.Page
         objDC.ExecuteQuery(command);
     }
 
-    public void UpdateContractEndDate(string EmpId, string OfficeEmail)
+    public void UpdateContractEndDate(string EmpId, string TINNO)
     {
-        string strSQL = "UPDATE EmpInfo SET ContractEndDate=@ContractEndDate WHERE EmpId = @EmpId";
+        string strSQL = "UPDATE EmpInfo SET TINNO=@TINNO WHERE EmpId = @EmpId";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
 
@@ -1346,9 +1346,9 @@ public partial class File_ImportTool : System.Web.UI.Page
         p_EmpId.Direction = ParameterDirection.Input;
         p_EmpId.Value = EmpId;
 
-        SqlParameter p_SupervisorId = command.Parameters.Add("ContractEndDate", SqlDbType.VarChar);
+        SqlParameter p_SupervisorId = command.Parameters.Add("TINNO", SqlDbType.VarChar);
         p_SupervisorId.Direction = ParameterDirection.Input;
-        p_SupervisorId.Value = OfficeEmail;
+        p_SupervisorId.Value = TINNO;
 
         objDC.ExecuteQuery(command);
     }
