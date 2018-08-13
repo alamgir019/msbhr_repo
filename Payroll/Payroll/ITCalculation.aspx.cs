@@ -28,8 +28,7 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             dtFisYr = objPayrollMgr.SelectFiscalYear(0, "T");
             Common.FillDropDownList(dtFisYr, ddlFiscalYear, "FISCALYRTITLE", "FISCALYRID", false);
             Session["TAXFISCALSTARTDATE"] = dtFisYr.Rows[0]["STARTDATE"].ToString().Trim();   
-            txtAssYear.Text = DateTime.Now.Year.ToString();
-            Common.FillDropDownList(objMasMgr.SelectEmpType(0,"Y"), ddlEmpType, true);
+            txtAssYear.Text = DateTime.Now.Year.ToString();           
         }
         ScriptManager _ScriptMan = ScriptManager.GetCurrent(this);
         _ScriptMan.AsyncPostBackTimeout = 1200;
@@ -78,7 +77,7 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
         string strEmpID = "";
         if (txtEmpID.Text.Trim() != "")
             strEmpID = txtEmpID.Text.Trim();
-        DataTable dtEmployee = objITMgr.GetEmployeeForITCalculation(strEmpID, ddlMonth.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.Trim(),ddlEmpType.SelectedValue.ToString()  );
+        DataTable dtEmployee = objITMgr.GetEmployeeForITCalculation(strEmpID, ddlMonth.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.Trim()  );
         grEmployee.DataSource = dtEmployee;
         grEmployee.DataBind();
         lblRecordCount.Text = grEmployee.Rows.Count.ToString();
@@ -497,7 +496,7 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             }
             // TTI_1
             gRow.Cells[16].Text = Convert.ToString(Math.Round(dclYBasic + Common.RoundDecimal(gRow.Cells[11].Text, 0) + Common.RoundDecimal(gRow.Cells[13].Text, 0) + 
-                Common.RoundDecimal(gRow.Cells[34].Text,0) + dclYFestival + dclYField + dclYOther, 0));
+                Common.RoundDecimal(gRow.Cells[34].Text,0)  +dclYFestival + dclYField + dclYOther, 0));
 
             // Rebate dclInvAllowPlc=30%; dclInvRebatePlc=15%
             ////dclRebate = Common.RoundDecimal(gRow.Cells[16].Text, 0) * dclInvAllowPlc / 100;
@@ -506,10 +505,12 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             ////gRow.Cells[17].Text = Common.RoundDecimal(dclRebate.ToString(), 0).ToString();
 
             //dclRebate = Common.RoundDecimal(gRow.Cells[16].Text, 0) * dclInvAllowPlc / 100;
-            if (ddlMonth.SelectedValue =="7" )
-                dclRebate = Common.RoundDecimal(gRow.Cells[16].Text, 0) * dclInvAllowPlc / 100;
-            else
-                dclRebate = (Common.RoundDecimal(gRow.Cells[16].Text, 0) + dclYPF) * dclInvAllowPlc / 100;
+            //if (ddlMonth.SelectedValue =="7" )
+            //    dclRebate = Common.RoundDecimal(gRow.Cells[16].Text, 0) * dclInvAllowPlc / 100;
+            //else
+            dclRebate = (Common.RoundDecimal(gRow.Cells[16].Text, 0) + dclYPF) * dclInvAllowPlc / 100;
+
+
 
             //Inv Slot 16.10.16
             decimal dclSlot = 0;
@@ -646,7 +647,8 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             if (ddlMonth.SelectedValue.Trim() != "6")
             {
                 if (ddlMonth.SelectedValue.Trim() == "7")
-                    inMon = inMon + 1;
+                    inMon = inMon;
+                ////inMon = inMon + 1;
                 ////inMon = inMon; //Open below link from August Month                   
                   
                 dclMonthlyTax = (dclActTax - dclITDepo) / inMon;
@@ -765,7 +767,6 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             {
                 decTax[4] = decRemAmount * 30 / 100;
             }
-
         }
         decTax[5] = decTax[0] + decTax[1] + decTax[2] + decTax[3] + decTax[4];
         decimal decGtax = decTax[5];

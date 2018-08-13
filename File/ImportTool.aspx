@@ -327,11 +327,11 @@
                     &nbsp;</td>
                 <td>
                       <asp:Button ID="btnUploadDistrcit" runat="server" 
-                        Text="Upload District" onclick="btnUploadDistrcit_Click"/> 
+                        Text="Upload District" onclick="btnUploadDistrcit_Click" BorderColor="#CC00CC"/> 
                 </td>
                 <td style="width: 3px">
                     <asp:Button ID="btnUpdateDistrict" runat="server" Text="Update District" 
-                        OnClick="btnUpdateDistrict_Click" />
+                        OnClick="btnUpdateDistrict_Click" BorderColor="#CC00CC" />
                 </td>
                 <td style="width: 3px">
                     &nbsp;</td>

@@ -521,7 +521,7 @@ public class Payroll_ITDepositRecords
         return objDC.ds.Tables["GetITDepositedDataFY"];
     }
 
-    public DataTable GetEmployeeForITCalculation(string strEmpID, string strMonth, string strFinYear,string strEmpTypeId)
+    public DataTable GetEmployeeForITCalculation(string strEmpID, string strMonth, string strFinYear)
     {
         SqlCommand cmd = new SqlCommand("PROC_PAYROLL_SELECT_EMPFORITCALCULATION");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -537,10 +537,6 @@ public class Payroll_ITDepositRecords
         SqlParameter p_FISCALYRID = cmd.Parameters.Add("FISCALYRID", SqlDbType.BigInt);
         p_FISCALYRID.Direction = ParameterDirection.Input;
         p_FISCALYRID.Value = strFinYear;
-
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
 
         objDC.CreateDSFromProc(cmd, "GetEMPForITCalculation");
         return objDC.ds.Tables["GetEMPForITCalculation"];

@@ -106,12 +106,7 @@
                                 <td>
                                     <asp:TextBox ID="txtAssYear" runat="server" Width="100px"></asp:TextBox>
                                     <asp:RequiredFieldValidator runat="server" ErrorMessage="*" ControlToValidate="txtAssYear"></asp:RequiredFieldValidator>
-                                </td>
-                                <td class="textlevel">
-                                    Employee Type :</td>
-                                <td class="textlevel">
-                                     <asp:DropDownList ID="ddlEmpType" runat="server" Width="80px" CssClass="textlevelleft">
-                                    </asp:DropDownList></td>
+                                </td>                               
                                 <td class="textlevel">
                                     Employee :</td>
                                 <td>
