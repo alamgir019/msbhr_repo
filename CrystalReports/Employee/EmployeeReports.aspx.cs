@@ -885,9 +885,6 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
 
                 break;
             #endregion
-
-
-
             #region System Report
             case "UHR":
                 {
@@ -898,9 +895,6 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
                     break;
                 }
                 #endregion
-
-
-
         }
 
 
