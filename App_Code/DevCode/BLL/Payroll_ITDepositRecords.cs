@@ -475,7 +475,7 @@ public class Payroll_ITDepositRecords
         objDC.MakeTransaction(command);
     }
 
-    public DataTable GetEmployeeITData(string strGenerateFor, string strGeneratValue, string strMonth, string strYear,string strEmpTypeId)
+    public DataTable GetEmployeeITData(string strGenerateFor, string strGeneratValue, string strMonth, string strYear)
     {
         SqlCommand cmd = new SqlCommand("proc_payroll_select_ITDepositRecords");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -495,10 +495,6 @@ public class Payroll_ITDepositRecords
         SqlParameter p_VYEAR = cmd.Parameters.Add("VYEAR", SqlDbType.BigInt);
         p_VYEAR.Direction = ParameterDirection.Input;
         p_VYEAR.Value = strYear;
-
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
 
         objDC.CreateDSFromProc(cmd, "GetEmployeeITData");
         return objDC.ds.Tables["GetEmployeeITData"];
@@ -593,7 +589,7 @@ public class Payroll_ITDepositRecords
         return objDC.ds.Tables["GetITCalculationReportData"];
     }
 
-    public DataTable GetExistingData(string strDiv, string strMonth, string strYear, string strFinYear,string strEmpType)
+    public DataTable GetExistingData(string strDiv, string strMonth, string strYear, string strFinYear)
     {
         if (objDC.ds.Tables["GetExistingData"] != null)
         {
@@ -604,10 +600,10 @@ public class Payroll_ITDepositRecords
         //string strSQL = "SELECT DISTINCT CHALLANNO,BANKNAME,CHALLANDATE FROM ITDEPOSITRECORDS WHERE EmpGrpID=@EmpGrpID AND VMONTH=@VMONTH AND VYEAR=@VYEAR AND FISCALYRID=@FISCALYRID";
         if (strSQL != "")
             strSQL = "SELECT DISTINCT ITD.CHALLANNO,ITD.BANKNAME,ITD.CHALLANDATE FROM ITDEPOSITRECORDS ITD, EmpInfo E WHERE ITD.EmpId=E.EmpId"
-                + " AND ITD.PostingDivId=@PostingDivId AND ITD.VMONTH=@VMONTH AND ITD.VYEAR=@VYEAR AND ITD.TAXFISCALYRID=@TAXFISCALYRID AND E.EmpTypeId=@EmpTypeId";
+                + " AND ITD.PostingDivId=@PostingDivId AND ITD.VMONTH=@VMONTH AND ITD.VYEAR=@VYEAR AND ITD.TAXFISCALYRID=@TAXFISCALYRID";
         else
             strSQL = "SELECT DISTINCT ITD.CHALLANNO,ITD.BANKNAME,ITD.CHALLANDATE FROM ITDEPOSITRECORDS ITD, EmpInfo E WHERE ITD.EmpId=E.EmpId"
-                + " AND ITD.VMONTH=@VMONTH AND ITD.VYEAR=@VYEAR AND ITD.TAXFISCALYRID=@TAXFISCALYRID AND E.EmpTypeId=@EmpTypeId";
+                + " AND ITD.VMONTH=@VMONTH AND ITD.VYEAR=@VYEAR AND ITD.TAXFISCALYRID=@TAXFISCALYRID";
 
         SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;
@@ -627,10 +623,6 @@ public class Payroll_ITDepositRecords
         SqlParameter p_FISCALYRID = cmd.Parameters.Add("TAXFISCALYRID", SqlDbType.BigInt);
         p_FISCALYRID.Direction = ParameterDirection.Input;
         p_FISCALYRID.Value = strFinYear;
-
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpType;
 
         objDC.CreateDT(cmd, "GetExistingData");
         return objDC.ds.Tables["GetExistingData"];

@@ -29,7 +29,6 @@ public partial class Payroll_Payroll_ITDepositRecords : System.Web.UI.Page
             ddlYear.SelectedValue = Convert.ToString(DateTime.Today.Year);
             Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0, "T"), ddlFinYear, "FISCALYRTITLE", "FISCALYRID", false);
             Common.FillDropDownList_All(objMastMg.SelectClinic(), ddlGenerateValue);
-            Common.FillDropDownList(objMastMg.SelectEmpType(0,"Y"), ddlEmpType, true);
         }
     }
 
@@ -37,7 +36,7 @@ public partial class Payroll_Payroll_ITDepositRecords : System.Web.UI.Page
     {
         string strGenerateValue = ddlGenerateValue.SelectedValue.ToString().Trim();
         DataTable dtITDeposit = objITMgr.GetExistingData(ddlGenerateValue.SelectedValue.Trim(), ddlMonth.SelectedValue.Trim(),
-            ddlYear.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(),ddlEmpType.SelectedValue.ToString());
+            ddlYear.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim());
 
         if (dtITDeposit.Rows.Count > 0)
         {
@@ -54,7 +53,7 @@ public partial class Payroll_Payroll_ITDepositRecords : System.Web.UI.Page
             btnSave.Text = "Save";
         }
 
-        DataTable dtEmp = objITMgr.GetEmployeeITData("D", strGenerateValue, ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.ToString(), ddlEmpType.SelectedValue.ToString());
+        DataTable dtEmp = objITMgr.GetEmployeeITData("D", strGenerateValue, ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.ToString());
         grEmployee.DataSource = dtEmp;
         grEmployee.DataBind();
         decimal decTotal = 0;

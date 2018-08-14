@@ -53,12 +53,9 @@ function CheckBoxListSelect(cbControl, state)
                             </asp:DropDownList></td>
                     </tr>
                     <tr>
-                        <td class="textlevel"> Employee Type :
-                        </td>
+                        <td class="textlevel"> &nbsp;</td>
                         <td>
-                             <asp:DropDownList ID="ddlEmpType" runat="server" Width="116px" 
-                                 CssClass="textlevelleft" Height="18px">
-                                    </asp:DropDownList></td>
+                             &nbsp;</td>
                         <td colspan="2">
                             <asp:Button ID="btnGetEmployee" runat="server" Text="Get IT Records" Width="184px"
                                 OnClick="btnGetEmployee_Click" />
