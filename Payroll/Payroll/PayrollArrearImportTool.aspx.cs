@@ -47,7 +47,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
             this.EntryMode();
 
 
-            //ddlArrearCase.SelectedValue = "4";
+            ddlArrearCase.SelectedValue = "5";
             //ddlJoiningMonth.Visible = true;
             //ddlJoiningMonth.SelectedValue = "10";
             //ddlArrearMonth.SelectedValue = "10"; 
@@ -358,43 +358,20 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
         switch (strSHeadId)
         {
             case "1":
-            case "19":
-                nRow["SHeadId"] = "19";
+            case "16":
+                nRow["SHeadId"] = "16";
                 break;
             case "2":
-            case "20":
-                nRow["SHeadId"] = "20";
+            case "17":
+                nRow["SHeadId"] = "17";
                 break;
             case "3":
-            case "21":
-                nRow["SHeadId"] = "21";
-                break;
-            case "4":
-            case "22":
-                nRow["SHeadId"] = "22";
-                break;
-            case "6":
-                nRow["SHeadId"] = "6";
-                break;
-            case "7":
-            case "23":
-                nRow["SHeadId"] = "23";
-                break;
+            case "18":
+                nRow["SHeadId"] = "18";
+                break;          
             case "8":
-                nRow["SHeadId"] = "8";
-                break;
-            case "9":
-            case "24":
-                nRow["SHeadId"] = "24";
-                break;
-            case "25":
+            case "19":
                 nRow["SHeadId"] = "19";
-                break;
-            case "29":
-                nRow["SHeadId"] = "29";
-                break;
-            case "30":
-                nRow["SHeadId"] = "30";
                 break;
         }
         #endregion
@@ -685,16 +662,16 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
 
             foreach (DataRow dDtlsRow in foundRows)
             {
-                if ((dRow["SHeadId"].ToString() == "1") && (dDtlsRow["SHeadId"].ToString() == "19"))
+                if ((dRow["SHeadId"].ToString() == "1") && (dDtlsRow["SHeadId"].ToString() == "16"))
                     dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
-                if ((dRow["SHeadId"].ToString() == "2") && (dDtlsRow["SHeadId"].ToString() == "20"))
+                if ((dRow["SHeadId"].ToString() == "2") && (dDtlsRow["SHeadId"].ToString() == "17"))
                     dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
-                if ((dRow["SHeadId"].ToString() == "3") && (dDtlsRow["SHeadId"].ToString() == "21"))
+                if ((dRow["SHeadId"].ToString() == "3") && (dDtlsRow["SHeadId"].ToString() == "18"))
                     dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
-                if ((dRow["SHeadId"].ToString() == "4") && (dDtlsRow["SHeadId"].ToString() == "22"))
-                    dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
-                if ((dRow["SHeadId"].ToString() == "7") && (dDtlsRow["SHeadId"].ToString() == "23"))
-                    dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
+                //if ((dRow["SHeadId"].ToString() == "4") && (dDtlsRow["SHeadId"].ToString() == "22"))
+                //    dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
+                //if ((dRow["SHeadId"].ToString() == "7") && (dDtlsRow["SHeadId"].ToString() == "23"))
+                //    dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
 
                 if (strSHeadId == dDtlsRow["SHeadId"].ToString())
                 {
@@ -711,9 +688,9 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
                                  dRow["SHeadId"].ToString(), dDtlsRow["HeadName"].ToString().Trim(), dtFrom.Month.ToString(),
                                   dblTotAmt, "", dblTotDurs,dtFrom.ToString(),dtTo.ToString());
 
-                        if (dDtlsRow["SHeadId"].ToString() == "19")
+                        if (dDtlsRow["SHeadId"].ToString() == "16")
                             this.AddScheduleData(dRow["EmpId"].ToString().Trim(), dDtlsRow["FullName"].ToString().Trim(), Common.ReturnDate(dDtlsRow["JoiningDate"].ToString().Trim()),
-                                "9", "PF Emp Arrear", dtFrom.Month.ToString(),
+                                "8", "PF Emp Arrear", dtFrom.Month.ToString(),
                                 Math.Round(Convert.ToDouble(this.GetPayAmnt(dblTotDurs, -dblTotAmt, "1", ddlArrearCase.SelectedValue.ToString())) / 10),
                                 dtFrom.Year.ToString(), dblTotDurs, dtFrom.ToString(), dtTo.ToString());
 
@@ -891,6 +868,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
         }
         this.EntryMode();
     }
+
     protected void btnSearch_Click(object sender, EventArgs e)
     {
         DataTable dtArrearList = new DataTable();

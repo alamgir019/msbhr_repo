@@ -1468,7 +1468,7 @@ public partial class File_ImportTool : System.Web.UI.Page
     }
     protected void btnSalPak_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\SULATA BACK\\SPTitle.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\SalaryPakId.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -2461,5 +2461,96 @@ public partial class File_ImportTool : System.Web.UI.Page
         p_EffDate.Value = Common.ReturnDate(sEffDate);
 
         objDC.ExecuteQuery(command);
+    }
+
+    protected void btnInsertArrSalaryHead_Click(object sender, EventArgs e)
+    {
+        this.InsertBasicArrear(grPayroll);
+        this.InsertHRArrear(grPayroll);
+        this.InsertMedArrear(grPayroll);
+        lblMsg.Text = "Basic, HR, Med Arrear Salary head has inserted for all staff has inserted Successfully";
+    }
+
+    public void InsertBasicArrear(GridView gr)
+    {
+        SqlCommand[] cmd = new SqlCommand[gr.Rows.Count];
+        int i = 0;
+
+        foreach (GridViewRow gRow in gr.Rows)
+        {
+            cmd[i] = new SqlCommand("INSERT INTO SALARYPAKDETLS (SalPakId,SHeadId,PayAmt,IsInPercent,IsBasicSal,IsPFund,TotAmnt,IsActive,InsertedBy,InsertedDate)"
+                + " VALUES(@SalPakId,16,0,'N','N','N',0,'Y',@InsertedBy,@InsertedDate)");
+
+            SqlParameter p_PAYEMPID = cmd[i].Parameters.Add("SalPakId", SqlDbType.BigInt);
+            p_PAYEMPID.Direction = ParameterDirection.Input;
+            p_PAYEMPID.Value = gRow.Cells[0].Text.Trim();
+
+            SqlParameter p_InsertedBy = cmd[i].Parameters.Add("InsertedBy", SqlDbType.Char);
+            p_InsertedBy.Direction = ParameterDirection.Input;
+            p_InsertedBy.Value = "admin";
+
+            SqlParameter p_InsertedDate = cmd[i].Parameters.Add("InsertedDate", SqlDbType.DateTime);
+            p_InsertedDate.Direction = ParameterDirection.Input;
+            p_InsertedDate.Value = Common.SetDateTime(DateTime.Now.ToString());
+
+            i++;
+        }
+        objDC.MakeTransaction(cmd);
+    }
+
+
+    public void InsertHRArrear(GridView gr)
+    {
+        SqlCommand[] cmd = new SqlCommand[gr.Rows.Count];
+        int i = 0;
+
+        foreach (GridViewRow gRow in gr.Rows)
+        {
+            cmd[i] = new SqlCommand("INSERT INTO SALARYPAKDETLS (SalPakId,SHeadId,PayAmt,IsInPercent,IsBasicSal,IsPFund,TotAmnt,IsActive,InsertedBy,InsertedDate)"
+                + " VALUES(@SalPakId,17,0,'N','N','N',0,'Y',@InsertedBy,@InsertedDate)");
+
+            SqlParameter p_PAYEMPID = cmd[i].Parameters.Add("SalPakId", SqlDbType.BigInt);
+            p_PAYEMPID.Direction = ParameterDirection.Input;
+            p_PAYEMPID.Value = gRow.Cells[0].Text.Trim();
+
+            SqlParameter p_InsertedBy = cmd[i].Parameters.Add("InsertedBy", SqlDbType.Char);
+            p_InsertedBy.Direction = ParameterDirection.Input;
+            p_InsertedBy.Value = "admin";
+
+            SqlParameter p_InsertedDate = cmd[i].Parameters.Add("InsertedDate", SqlDbType.DateTime);
+            p_InsertedDate.Direction = ParameterDirection.Input;
+            p_InsertedDate.Value = Common.SetDateTime(DateTime.Now.ToString());
+
+            i++;
+        }
+        objDC.MakeTransaction(cmd);
+    }
+
+
+    public void InsertMedArrear(GridView gr)
+    {
+        SqlCommand[] cmd = new SqlCommand[gr.Rows.Count];
+        int i = 0;
+
+        foreach (GridViewRow gRow in gr.Rows)
+        {
+            cmd[i] = new SqlCommand("INSERT INTO SALARYPAKDETLS (SalPakId,SHeadId,PayAmt,IsInPercent,IsBasicSal,IsPFund,TotAmnt,IsActive,InsertedBy,InsertedDate)"
+                + " VALUES(@SalPakId,18,0,'N','N','N',0,'Y',@InsertedBy,@InsertedDate)");
+
+            SqlParameter p_PAYEMPID = cmd[i].Parameters.Add("SalPakId", SqlDbType.BigInt);
+            p_PAYEMPID.Direction = ParameterDirection.Input;
+            p_PAYEMPID.Value = gRow.Cells[0].Text.Trim();
+
+            SqlParameter p_InsertedBy = cmd[i].Parameters.Add("InsertedBy", SqlDbType.Char);
+            p_InsertedBy.Direction = ParameterDirection.Input;
+            p_InsertedBy.Value = "admin";
+
+            SqlParameter p_InsertedDate = cmd[i].Parameters.Add("InsertedDate", SqlDbType.DateTime);
+            p_InsertedDate.Direction = ParameterDirection.Input;
+            p_InsertedDate.Value = Common.SetDateTime(DateTime.Now.ToString());
+
+            i++;
+        }
+        objDC.MakeTransaction(cmd);
     }
 }

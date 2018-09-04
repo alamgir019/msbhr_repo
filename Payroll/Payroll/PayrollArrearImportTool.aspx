@@ -37,9 +37,9 @@
                                         <asp:ListItem Value="-1">Select</asp:ListItem>
                                         <asp:ListItem Value="6">Appraisal</asp:ListItem>
                                         <asp:ListItem Value="4">Promotion</asp:ListItem>
-                                        <asp:ListItem Value="3">LWOP</asp:ListItem>
-                                        <asp:ListItem Value="5">Salary Amendment</asp:ListItem>
-                                        <asp:ListItem Value="2">Previous Month Joining</asp:ListItem>
+                                       <%-- <asp:ListItem Value="3">LWOP</asp:ListItem>--%>
+                                        <asp:ListItem Value="5">Salary Increment</asp:ListItem>
+                                        <%--<asp:ListItem Value="2">Previous Month Joining</asp:ListItem>--%>
                                     </asp:DropDownList>
                                 </td>
                                 <td class="textlevelleft">

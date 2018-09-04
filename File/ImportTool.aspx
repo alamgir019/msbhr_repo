@@ -327,11 +327,11 @@
                     &nbsp;</td>
                 <td>
                       <asp:Button ID="btnUploadDistrcit" runat="server" 
-                        Text="Upload District" onclick="btnUploadDistrcit_Click" BorderColor="#CC00CC"/> 
+                        Text="Upload District" onclick="btnUploadDistrcit_Click"/> 
                 </td>
                 <td style="width: 3px">
                     <asp:Button ID="btnUpdateDistrict" runat="server" Text="Update District" 
-                        OnClick="btnUpdateDistrict_Click" BorderColor="#CC00CC" />
+                        OnClick="btnUpdateDistrict_Click" />
                 </td>
                 <td style="width: 3px">
                     &nbsp;</td>
@@ -364,14 +364,16 @@
                         OnClick="btnUpdateSupervisorId_Click" />
                 </td>
                 <td style="width: 3px">
-                    &nbsp;</td>
+                    <asp:Button ID="btnInsertArrSalaryHead" runat="server" Text="Insert Basic Arr &amp;HArr, MedArr &amp; PF Arr" 
+                        OnClick="btnInsertArrSalaryHead_Click" BorderColor="#CC0066" />
+                </td>
             </tr>
             <tr>
                 <td>
                     &nbsp;</td>
                 <td>
                       <asp:Button ID="btnSalPak" runat="server" Text="Upload SalPak" 
-                        OnClick="btnSalPak_Click" /> 
+                        OnClick="btnSalPak_Click" BorderColor="#990099" /> 
                 </td>
                 <td style="width: 3px">
                     <asp:Button ID="btnUpdateSalPak" runat="server" Text="Update New Salary Package Amt" 

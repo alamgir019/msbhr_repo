@@ -900,7 +900,7 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
         switch (strArrearCase)
         {
             case "1"://Fractional Joining
-                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalaryPakId,J.JobTitle,G.GradeName"
+                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalPakId,J.JobTitle,G.GradeName"
                     + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
                     + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
                     + " WHERE E.Status='A' AND IsPayrollStaff='Y' AND E.JoiningDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'"
@@ -908,7 +908,7 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
                     + " AND PM.VMonth>=" + strMonth + " AND PM.VYear=" + strYear + ")";
                 break;
             case "2"://Previous Months Joining              
-                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalaryPakId,J.JobTitle,G.GradeName"
+                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalPakId,J.JobTitle,G.GradeName"
                     + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
                     + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
                     + " WHERE E.Status='A' AND IsPayrollStaff='Y'  AND E.JoiningDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'"
@@ -916,7 +916,7 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
                     + " AND PM.VMonth>=" + strMonth + " AND PM.VYear=" + strYear + ")";
                 break;
             case "3"://LWOP
-                strSQL = "SELECT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalaryPakId,J.JobTitle,G.GradeName,SUM(LD.Duration) AS Duration"
+                strSQL = "SELECT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalPakId,J.JobTitle,G.GradeName,SUM(LD.Duration) AS Duration"
                     + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
                     + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
                     + " INNER JOIN LeavAppMst LM ON E.EmpId=LM.EmpId "
@@ -926,7 +926,7 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
                     + " GROUP BY E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalaryPakId,J.JobTitle,G.GradeName";
                 break;
             case "4"://Promotion
-                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalaryPakId,J.JobTitle,G.GradeName,SPH.EffDate "
+                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalPakId,J.JobTitle,G.GradeName,SPH.EffDate "
                     + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
                     + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
                     + " INNER JOIN SalaryPakHisDetls SPH ON E.EmpId=SPH.EmpId "
@@ -934,22 +934,23 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
                     + " WHERE E.Status='A' AND E.IsPayrollStaff='Y'"
                     + " AND SPH.LASTUPDATEDFROM='Promotion' AND ET.EffDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'";
                 break;
-            case "5"://Salary Amendment
-                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalaryPakId,J.JobTitle,G.GradeName,SPH.EffDate "
-                    + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
-                    + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
+            case "5"://Salary Increment
+                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContractEndDate,E.BasicSalary,"
+                    + " E.SalPakId AS SalaryPakId,J.DesigName AS JobTitle,G.GradeName,SPH.EffDate "
+                    + " FROM EmpInfo E LEFT OUTER JOIN Designation J ON E.DesigId=J.DesigId"
+                    + " LEFT OUTER JOIN GradeList G ON E.GradeId=G.GradeId"
                     + " INNER JOIN SalaryPakHisDetls SPH ON E.EmpId=SPH.EmpId "
-                    + " INNER JOIN EmpSalaryAmendment ET ON E.EmpId=ET.EmpId"
-                    + " WHERE E.Status='A' AND E.IsPayrollStaff='Y'"
-                    + " AND SPH.LASTUPDATEDFROM='Salary Amendment' AND ET.ActionDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'";
+                    + " INNER JOIN EmpSalaryIncrementLog ET ON E.EmpId=ET.EmpId"
+                    + " WHERE E.EmpStatus='A' AND E.IsPayrollStaff='Y'"
+                    + " AND SPH.LASTUPDATEDFROM='Increment' AND SPH.EffDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'";
                 break;
             case "6"://APA
-                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalaryPakId,J.JobTitle,G.GradeName,SPH.EffDate "
-                    + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
+                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContractEndDate,E.BasicSalary,E.SalPakId,J.DesigName AS JobTitle,G.GradeName,SPH.EffDate "
+                    + " FROM EmpInfo E INNER JOIN Designation J ON E.DesigId=J.DesigId"
                     + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
                     + " INNER JOIN SalaryPakHisDetls SPH ON E.EmpId=SPH.EmpId "
                     + " INNER JOIN APAMst ET ON E.EmpId=ET.EmpId"
-                    + " WHERE E.Status='A' AND E.IsPayrollStaff='Y'"
+                    + " WHERE E.EmpStatus='A' AND E.IsPayrollStaff='Y'"
                     + " AND SPH.LASTUPDATEDFROM='Appriasal' AND ET.EffectiveDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'";
                 break;
         }
@@ -1057,7 +1058,7 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
         }
         string strSQL = "";
         if (strIsPayrollExist == "Y")
-            strSQL = "SELECT PM.HREmpId AS EmpId,PM.EmpId AS PayEmpId,SH.HEADNAME,PD.SHEADID,PD.PAYAMT FROM PAYSLIPDETS PD,SALARYHEAD SH,GROSSSALHEAD GH,PAYSLIPMST PM,SALARYHEADWITHSEQ SHQ"
+            strSQL = "SELECT PM.EmpId,PM.EmpId AS PayEmpId,SH.HEADNAME,PD.SHEADID,PD.PAYAMT FROM PAYSLIPDETS PD,SALARYHEAD SH,GROSSSALHEAD GH,PAYSLIPMST PM,SALARYHEADWITHSEQ SHQ"
               + " WHERE PD.SHEADID=SH.SHEADID AND PD.SHEADID=GH.SHEADID AND PD.PSBID=PM.PSBID AND PD.EMPID=PM.EMPID and PD.SHEADID=SHQ.SHEADID "
               + " AND PD.EMPID=@EMPID AND  PM.VMONTH=@VMONTH AND PM.FISCALYRID=@FISCALYRID AND PM.VYEAR=@VYEAR "
               + " ORDER BY SHQ.SEQNO ";
