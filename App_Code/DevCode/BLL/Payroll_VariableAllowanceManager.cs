@@ -796,11 +796,15 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
         int i = 0;
         long lnTransID = Convert.ToInt64(Common.getMaxId("PayrollArrear", "TransID"));
         string lvPayAmt;
-
+        string strSQL = "";
         foreach (GridViewRow gRow in gr.Rows)
         {
-            cmd[i] = new SqlCommand("Proc_Payroll_Insert_PayrollArrear");
-            cmd[i].CommandType = CommandType.StoredProcedure;
+            strSQL = "INSERT INTO PayrollArrear(TransID,EmpID,VMonth,FiscalYrID,SHeadID,PayAmt,VDays,ValidFrom,ValidTo,"
+                + " ArrearCase,ArrearMonth,InsertedBy,InsertedDate,LastUpdatedFrom,Remarks) "
+                + " Values(@TransID, @EmpID, @VMonth, @FiscalYrID, @SHeadID, @PayAmt, @VDays, @ValidFrom, @ValidTo,"
+                + " @ArrearCase, @ArrearMonth, @InsertedBy, @InsertedDate, @LastUpdatedFrom, @Remarks) ";
+            cmd[i] = new SqlCommand(strSQL);
+            cmd[i].CommandType = CommandType.Text;
 
             SqlParameter p_TransID = cmd[i].Parameters.Add("TransID", SqlDbType.BigInt);
             p_TransID.Direction = ParameterDirection.Input;
@@ -860,6 +864,10 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
             SqlParameter p_LastUpFrom = cmd[i].Parameters.Add("LastUpdatedFrom", SqlDbType.VarChar);
             p_LastUpFrom.Direction = ParameterDirection.Input;
             p_LastUpFrom.Value = strLastUpFrom;
+
+            SqlParameter p_Remarks = cmd[i].Parameters.Add("Remarks", SqlDbType.VarChar);
+            p_Remarks.Direction = ParameterDirection.Input;
+            p_Remarks.Value = strLastUpFrom;
 
             i++;
             lnTransID++;
@@ -926,12 +934,12 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
                     + " GROUP BY E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalaryPakId,J.JobTitle,G.GradeName";
                 break;
             case "4"://Promotion
-                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalPakId,J.JobTitle,G.GradeName,SPH.EffDate "
-                    + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
-                    + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
+                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContractEndDate,E.BasicSalary,E.SalPakId  AS SalaryPakId,J.DesigName AS JobTitle,G.GradeName,SPH.EffDate "
+                    + " FROM EmpInfo E LEFT OUTER JOIN Designation J ON E.DesigId=J.DesigId"
+                    + " LEFT OUTER  JOIN GradeList G ON E.GradeId=G.GradeId"
                     + " INNER JOIN SalaryPakHisDetls SPH ON E.EmpId=SPH.EmpId "
                     + " INNER JOIN EmpTransitionLog ET ON E.EmpId=ET.EmpId"
-                    + " WHERE E.Status='A' AND E.IsPayrollStaff='Y'"
+                    + " WHERE E.EmpStatus='A' AND E.IsPayrollStaff='Y'"
                     + " AND SPH.LASTUPDATEDFROM='Promotion' AND ET.EffDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'";
                 break;
             case "5"://Salary Increment
@@ -941,7 +949,7 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
                     + " LEFT OUTER JOIN GradeList G ON E.GradeId=G.GradeId"
                     + " INNER JOIN SalaryPakHisDetls SPH ON E.EmpId=SPH.EmpId "
                     + " INNER JOIN EmpSalaryIncrementLog ET ON E.EmpId=ET.EmpId"
-                    + " WHERE E.EmpStatus='A' AND E.IsPayrollStaff='Y'"
+                    + " WHERE E.EmpStatus='A' AND E.IsPayrollStaff='Y' "//AND E.EmpId='E000004'
                     + " AND SPH.LASTUPDATEDFROM='Increment' AND SPH.EffDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'";
                 break;
             case "6"://APA

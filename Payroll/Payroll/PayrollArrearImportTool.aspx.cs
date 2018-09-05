@@ -75,8 +75,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
             return;
         }
         else
-            lblMsg.Text = "";
-        
+            lblMsg.Text = "";        
 
         grArrrearDetails.Visible = false;
 
@@ -278,8 +277,8 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
             #endregion
             #region Salary Amendment
             case "5"://Salary Amendment
-                //grPayrollArrear.Visible = true;
-                //grArrrearDetails.Visible = true;
+                grPayrollArrear.Visible = true;
+                grArrrearDetails.Visible = true;
                 this.GetArrearDetails();
                 break;
             #endregion
@@ -304,13 +303,13 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
         double dclDur = 0;
         if (strSheadId == "1")
         {
-            if (dclTotWorkingDays > 0)
-            {
-                dclTotWorkingDays = dclDaysDur +dclTotWorkingDays;
-                if (dclTotWorkingDays > 21.67)
-                    dclDur = 21.67 - dclPreWorkingDays;
-            }
-            else
+            //if (dclTotWorkingDays > 0)
+            //{
+            //    dclTotWorkingDays = dclDaysDur +dclTotWorkingDays;
+            //    if (dclTotWorkingDays > 21.67)
+            //        dclDur = 21.67 - dclPreWorkingDays;
+            //}
+            //else
                 dclDur = Convert.ToDouble(dclDaysDur - iWeekendDays);
 
             dclTotWorkingDays = dclTotWorkingDays + dclDaysDur;
@@ -326,14 +325,14 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
         double decPayAmnt = 0;
         double decMonthlyAmount = dclPayAmt;
    
-        if (strSheadId == "1" || strSheadId == "25")
-            decPayAmnt = (dclPayAmt * 12) / 260 * dclDaysDur;
-        else
-        {
+        //if (strSheadId == "1" || strSheadId == "25")
+        //    decPayAmnt = (dclPayAmt * 12) / 260 * dclDaysDur;
+        //else
+        //{
             decMonthlyAmount = dclPayAmt;
             decUnitDayAmnt = decMonthlyAmount / 30;
             decPayAmnt = decUnitDayAmnt * dclDaysDur;
-        }
+        //}
         if (strArrearCase == "1")
         {
             if (strSheadId != "29")
@@ -370,8 +369,8 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
                 nRow["SHeadId"] = "18";
                 break;          
             case "8":
-            case "19":
-                nRow["SHeadId"] = "19";
+            case "11":
+                nRow["SHeadId"] = "11";
                 break;
         }
         #endregion
@@ -438,6 +437,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
         #region Promotion Frational Calculation
         if (dtAction.Rows.Count > 0)
         {
+            #region Joining & Effective month is same
             if (ddlJoiningMonth.SelectedValue.ToString() == ddlArrearMonth.SelectedValue.ToString())
             {
                 foreach (DataRow dRow in dtAction.Rows)
@@ -450,7 +450,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
                         foreach (DataRow dPakRow in dtSalPakDetls.Rows)
                         {
                             if ((Convert.ToDecimal(dPakRow["PayAmt"].ToString()) != 0) && ((dPakRow["SHeadId"].ToString() == "1") || (dPakRow["SHeadId"].ToString() == "2")
-                                || (dPakRow["SHeadId"].ToString() == "3") || (dPakRow["SHeadId"].ToString() == "4") || (dPakRow["SHeadId"].ToString() == "7") ))
+                                || (dPakRow["SHeadId"].ToString() == "3") ))
                             {
                                 dtFrom = Convert.ToDateTime(dRow["EffDate"].ToString().Trim());
                                 dtTo = Convert.ToDateTime(dtFrom.Year.ToString() + "/" + dtFrom.Month.ToString() + "/" + Common.GetMonthDay(dtFrom));
@@ -507,7 +507,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
                         foreach (DataRow dPakRow in dtSalPakDetls.Rows)
                         {
                             if ((Convert.ToDecimal(dPakRow["PayAmt"].ToString()) != 0) && ((dPakRow["SHeadId"].ToString() == "1") || (dPakRow["SHeadId"].ToString() == "2")
-                                || (dPakRow["SHeadId"].ToString() == "3") || (dPakRow["SHeadId"].ToString() == "4") || (dPakRow["SHeadId"].ToString() == "7")))
+                                || (dPakRow["SHeadId"].ToString() == "3")))
                             {
                                 dtFrom = Convert.ToDateTime(dtFrom.Year.ToString() + "/" + dtFrom.Month.ToString() + "/01");
                                 dtTo = Convert.ToDateTime(dRow["EffDate"].ToString().Trim());
@@ -559,6 +559,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
                     dclPreWorkingDays = 0;
                 }
             }
+            #endregion
             //Full Promotion amount Calculation for next arrear month
             else
             {
@@ -570,7 +571,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
                         foreach (DataRow dPakRow in dtSalPakDetls.Rows)
                         {
                             if ((Convert.ToDecimal(dPakRow["PayAmt"].ToString()) != 0) && ((dPakRow["SHeadId"].ToString() == "1") || (dPakRow["SHeadId"].ToString() == "2")
-                                || (dPakRow["SHeadId"].ToString() == "3") || (dPakRow["SHeadId"].ToString() == "4") || (dPakRow["SHeadId"].ToString() == "7") || (dPakRow["SHeadId"].ToString() == "9")))
+                                || (dPakRow["SHeadId"].ToString() == "3") || (dPakRow["SHeadId"].ToString() == "8")))
                             {
                                 dtFrom = Convert.ToDateTime(dtFrom.Year.ToString() + "/" + dtFrom.Month.ToString() + "/01");
                                 dtFromMonthEndDate = Convert.ToDateTime(dtFrom.Year.ToString() + "/" + dtFrom.Month.ToString() + "/" + Common.GetMonthDay(dtFrom));
@@ -651,7 +652,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
         strToDate = ddlYear.SelectedValue.ToString() + "/" + ddlArrearMonth.SelectedValue.ToString() + "/" + Common.GetMonthDay(dtFrom);
         dtTo = Convert.ToDateTime(strToDate);
         
-        DataRow[] foundRows = dtArrearDtls.Select("EmpId='" + dtSalary.Rows[0]["PayEmpId"].ToString().Trim() + "'");
+        DataRow[] foundRows = dtArrearDtls.Select("EmpId='" + dtSalary.Rows[0]["EmpId"].ToString().Trim() + "'");
 
         foreach (DataRow dRow in dtSalary.Rows)
         {
@@ -681,7 +682,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
                     dblTotDurs = dblTotDurs + Convert.ToDouble(dDtlsRow["VDAYS"].ToString());
                     dblTotAmt = dblTotAmt + Convert.ToDouble(lvPayAmt);
 
-                    if (i == 2)
+                    if ((i == 1) || (i == 2))
                     {
                         dblTotAmt = dblTotAmt - dblSalaryAmt;
                         this.AddScheduleData(dRow["EmpId"].ToString().Trim(), dDtlsRow["FullName"].ToString().Trim(), Common.ReturnDate(dDtlsRow["JoiningDate"].ToString().Trim()),
@@ -850,7 +851,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
                 grArrrearDetails.Visible = true;
                 break;
             case "5":
-                lblJoiningMonth.Text = "Amendment Month";
+                lblJoiningMonth.Text = "Increment Month";
                 lblArrearMonth.Text = "Arrear Month";
                 lblJoiningMonth.Visible = true;
                 ddlJoiningMonth.Visible = true;
