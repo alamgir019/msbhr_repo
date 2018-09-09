@@ -782,22 +782,7 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
         {
             decTax[6] = dclMinTaxPlc;
         }
-
-
-        //decimal decGtax = decTax[4];
-        //if (decTax[4] > dclRebate)
-        //{
-        //    decTax[5] = decTax[4] - dclRebate;
-        //    if (decTax[5] < dclMinTaxPlc)
-        //    {
-        //        decTax[5] = dclMinTaxPlc;
-        //    }
-        //}
-        //else
-        //{
-        //    decTax[5] = dclMinTaxPlc;
-        //}
-        // NOte: dclMinTaxPlc=3000
+        
         return decTax;
     }
 
