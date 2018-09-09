@@ -646,6 +646,7 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
         CRVT.ParameterFieldInfo = pFields;
 
     }
+
     public void PassParameterHeader(string ReportName, string FromDate, string ToDate)
     {
         ParameterFields pFields = new ParameterFields();

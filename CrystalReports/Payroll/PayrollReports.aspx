@@ -1013,14 +1013,26 @@
                                 <table>
                                     <tbody>
                                         <tr>
-                                            <td style="width: 220px">
+                                            <td style="width: 220px">t
                                             </td>
                                             <td style="width: 3px">
                                                 <asp:Panel ID="PShow" runat="server" Visible="False">
-                                                    <asp:Button ID="btnShow" OnClick="btnShow_Click" runat="server" Text="Show Report"
-                                                        Font-Underline="False"></asp:Button>
+                                                    <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width: 66px">                                                                
+                                                                <asp:Button ID="btnShow" OnClick="btnShow_Click" runat="server" Text="Show Report"
+                                                                    Font-Underline="False"></asp:Button>
+                                                            </td>
+                                                            <td style="width: 70px">
+                                                            <asp:Button ID="btnExcel" OnClick="btnExcel_Click" runat="server" Text="Export Excel"
+                                                                Font-Underline="False"></asp:Button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                                 </asp:Panel>
-                                            </td>
+                                            </td> 
                                         </tr>
                                     </tbody>
                                 </table>
