@@ -158,10 +158,10 @@ public partial class Payroll_Loan_MonthlyPFUpdate : System.Web.UI.Page
             DataTable dtEmpPayroll = this.GeneratePayrollReport("A", "", ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), "", "S");
             objLoanMgr.InsertPFLoanLedgerData(dtEmpPayroll, ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.Trim(),
                 "PF", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()));
-            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() +  " PF has been Loan Ledger Prepared Successfully.";
+            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() +  " PF Loan Ledger Prepared Successfully.";
         }
         else
-            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() +  " PF Loan Ledger Aleady Prepared.";
+            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() +  " PF Loan Ledger Already Prepared.";
     }
     protected void btnDelete_Click(object sender, EventArgs e)
     {
