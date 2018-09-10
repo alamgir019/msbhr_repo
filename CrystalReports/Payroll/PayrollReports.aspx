@@ -1013,8 +1013,7 @@
                                 <table>
                                     <tbody>
                                         <tr>
-                                            <td style="width: 220px">t
-                                            </td>
+                                            <td style="width: 220px"></td>
                                             <td style="width: 3px">
                                                 <asp:Panel ID="PShow" runat="server" Visible="False">
                                                     <table>

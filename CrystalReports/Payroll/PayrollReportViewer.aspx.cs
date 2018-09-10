@@ -71,6 +71,14 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("P_Header", "Salary/Wages for the month of-- " + Common.ReturnFullMonthName(Session["VMonth"].ToString())+", " + Session["VYear"].ToString());
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    //if (string.Equals( Session["ReportFormat"].ToString(),"excel"))
+                    //{
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+                    //}
+                    //else if (string.Equals(Session["ReportFormat"].ToString(), "pdf"))
+                    //{
+                    //    ReportDoc.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "ReortDetails");
+                    //}
                     break;
                 }
             case "BSFF":
@@ -86,12 +94,13 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("p_Year",  Session["VYear"].ToString());
                     ReportDoc.SetParameterValue("p_SalaryType", Session["SalType"].ToString());                    
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
                 #region Salary Certificate
             case "SC":
                 {
-                    string rptType = Session["rbtTax"].ToString();
+                    string rptType = Session["rptType"].ToString();
                     string strGender = "";
                     string strHeShe = "";
                     decimal dclFestivalBonus = 0;
@@ -116,23 +125,23 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     {
                         string EmpTypeID = (dt1.Rows[0]["EmpTypeID"]).ToString();
                         ReportDoc.SetParameterValue("P_Name", dt1.Rows[0]["FullName"]);
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
                         ReportDoc.SetParameterValue("P_Desig", dt1.Rows[0]["DesigName"]);
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
                         ReportDoc.SetParameterValue("P_Basic", String.Format("{0:0,0}", dt1.Rows[0]["P_Basic"]));
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
                         ReportDoc.SetParameterValue("P_HouseRent", String.Format("{0:0,0}", dt1.Rows[0]["P_HouseRent"]));
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
                         ReportDoc.SetParameterValue("P_Medical", String.Format("{0:0,0}", dt1.Rows[0]["P_Medical"]));
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
                         ReportDoc.SetParameterValue("P_Other", String.Format("{0:0,0}", dt1.Rows[0]["P_Other"]));
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
                         ReportDoc.SetParameterValue("P_Gross", String.Format("{0:0,0}", dt1.Rows[0]["P_Gross"]));
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
                         ReportDoc.SetParameterValue("P_PF", String.Format("{0:0,0}", (EmpTypeID == "2" ? 0 : dt1.Rows[0]["P_PF"])));
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
                         ReportDoc.SetParameterValue("P_TotalLoan", String.Format("{0:0,0}", (EmpTypeID == "2" ? 0 : dt1.Rows[0]["P_TotalLoan"])));
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
 
                         //dclFestivalBonus = Math.Round(Convert.ToDecimal(dt1.Rows[0]["P_Basic"]) / 6, 0);
 
@@ -140,7 +149,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                         //dclFestivalBonus = Math.Round((EmpTypeID == "2" ? 0 : Convert.ToDecimal(dt1.Rows[0]["P_Basic"])) / 6, 0);
                         dclPF = Math.Round((EmpTypeID == "2" ? 0 : Convert.ToDecimal(dt1.Rows[0]["P_PF"])));
                         ReportDoc.SetParameterValue("P_FBonus", String.Format("{0:0,0}", dclFestivalBonus));
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
 
                         //Joining Date to Current Date Calculation
                         DateTime dtJoiningDate = Convert.ToDateTime(dt1.Rows[0]["JoiningDate"]);
@@ -172,19 +181,19 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                         //    dclGratuity = 0;
 
                         ReportDoc.SetParameterValue("P_Gratuaty", String.Format("{0:0,0}", dclGratuity));
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
 
                         dclGrandTotal = Convert.ToDecimal(dt1.Rows[0]["P_Gross"])  + dclFestivalBonus + dclGratuity;
                         ReportDoc.SetParameterValue("P_GrandTotal", String.Format("{0:0,0}", dclGrandTotal));
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
 
                         if (rptType == "1")
                         {
                             ReportDoc.SetParameterValue("P_IT", String.Format("{0:0,0}", dt1.Rows[0]["P_IT"]));
-                            CRV.ReportSource = ReportDoc;
+                            //CRV.ReportSource = ReportDoc;
                             dclNetPay = dclGrandTotal - Convert.ToDecimal(dt1.Rows[0]["P_IT"]) - (dclPF * 2) - Math.Round((EmpTypeID == "2" ? 0 : Convert.ToDecimal(dt1.Rows[0]["P_TotalLoan"])));
                             ReportDoc.SetParameterValue("P_NetPay", String.Format("{0:0,0}", dclNetPay));
-                            CRV.ReportSource = ReportDoc;
+                            //CRV.ReportSource = ReportDoc;
                         }
                         strGender = dt1.Rows[0]["Gender"].ToString();
                         if (strGender == "M")
@@ -210,12 +219,13 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
 
                         ReportDoc.SetParameterValue("P_SalaryTitle", strGender + "current salary (monthly) statement is as follows:");
 
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
                         ReportDoc.SetParameterValue("P_date", now.ToString("MMMM") + " " + now.ToString("dd") + ", " + now.ToString("yyyy"));
                         ReportDoc.SetParameterValue("p_He_She", strHeShe);
-                        CRV.ReportSource = ReportDoc;
+                        //CRV.ReportSource = ReportDoc;
                     }
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "ReortDetails");
                     break;
                 }
                 #endregion
@@ -234,6 +244,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             case "SSSum":
@@ -250,6 +261,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             case "ESI":               
@@ -260,6 +272,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                 ReportDoc.SetParameterValue("pHeader", "Employee Salary Information");
                 ReportDoc.SetParameterValue("ComLogo", LogoPath);
                 CRV.ReportSource = ReportDoc;
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                 break;
             case "SEC":
                 ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptEmpSalaryExceptionCase.rpt");
@@ -269,6 +282,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                 ReportDoc.SetParameterValue("pHeader", "Employee Salary Information");
                 ReportDoc.SetParameterValue("ComLogo", LogoPath);
                 CRV.ReportSource = ReportDoc;
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                 break;
             case "SCH":
                 ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptEmpSalaryHistory.rpt");
@@ -278,6 +292,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                 ReportDoc.SetParameterValue("pHeader", "Employee Salary History");
                 ReportDoc.SetParameterValue("ComLogo", LogoPath);
                 CRV.ReportSource = ReportDoc;
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                 break;
             //Salary Statement
             case "SS":
@@ -356,6 +371,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("P_Header", "Payroll for the Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             case "ER":
