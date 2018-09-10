@@ -996,6 +996,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", "Festival Bonus for " + Session["FestivalName"].ToString() + " the Month of - " + now.ToString("MMMM") + "," + now.ToString("yyyy"));
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             case "BSR":
