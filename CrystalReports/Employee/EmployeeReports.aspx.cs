@@ -53,17 +53,8 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
         }
 
     }
-
-
+    
     protected void tvReports_SelectedNodeChanged(object sender, EventArgs e)
-
-    //{
-    //    //PGroupWise,PEmpId,PEmpName,PGrade,PDesig,PSector,PProgDept,PCompUnit,PPosByFunc,PSalarySubLoc,PSalaryLoc,PDivision,PDistrict,PPlaceOfPosting,PGender,PReligion,PBank,PBloodGroup,PDateRange,PrbtnTypeEmp,PActveInAcBasic,PShow
-
-    //    this.PanelVisibilityMst("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-
-    //this.FillddlEmplStatus();
-
     {
         this.PanelVisibilityMst("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
 
@@ -349,11 +340,11 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
         this.PanelVisibilityDet();
     }
 
-
     protected void ddlReportBy_SelectedIndexChanged(object sender, EventArgs e)
     {
         this.PanelVisibilityDet();
     }
+
     private void PanelVisibilityDet()
     {
 
@@ -1110,8 +1101,6 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
     protected void ddlGroupWise_SelectedIndexChanged(object sender, EventArgs e)
     {
         // PGroupWise.Visible = true;
-
-
 
         if (ddlGroupWise.SelectedValue == "1")
             PGrade.Visible = true;
