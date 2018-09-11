@@ -1227,7 +1227,7 @@ public partial class File_ImportTool : System.Web.UI.Page
     }
     protected void btnUploadBankAccNo_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\BASESOFT\\Staff Wise Sal Pak Id.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\UploadFile\\MSB\\Tax Region Setup.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -1762,7 +1762,7 @@ public partial class File_ImportTool : System.Web.UI.Page
     }
     protected void btnLvBalance_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\SCBUploadTool\\Leave Cross Check_July 19 2016 for Action Enjoyed.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Leave Balance For Head Office MSB_Enjoyed.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -1777,12 +1777,20 @@ public partial class File_ImportTool : System.Web.UI.Page
     {
         foreach (GridViewRow gRow in grPayroll.Rows)
         {
-            this.UpdateLeaveEnjoyed(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[1].Text.Trim(), gRow.Cells[2].Text.Trim());
+            this.UpdateLeaveEnjoyed(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[1].Text.Trim(),
+                gRow.Cells[2].Text.Trim());
+            this.UpdateLeaveEnjoyed(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[3].Text.Trim(),
+                gRow.Cells[4].Text.Trim());
+            this.UpdateLeaveEnjoyed(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[5].Text.Trim(),
+                gRow.Cells[6].Text.Trim());
+            this.UpdateLeaveEnjoyed(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[7].Text.Trim(),
+                gRow.Cells[8].Text.Trim());
+            lblMsg.Text = "Record Updated Successfully";
         }
     }
     public void UpdateLeaveEnjoyed(string EmpId, string sLTypeId, string sLEnjoyed)
     {
-        string strSQL = "UPDATE EmpLeaveProfile SET LeaveEnjoyed=@LeaveEnjoyed WHERE EmpId = @EmpId AND LTypeId=@LTypeId";
+        string strSQL = "UPDATE EmpLeaveProfile SET LeaveEnjoyed=@LeaveEnjoyed,UpdatedBy=@UpdatedBy,UpdatedDate=@UpdatedDate WHERE EmpId = @EmpId AND LTypeId=@LTypeId";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
 
@@ -1798,13 +1806,21 @@ public partial class File_ImportTool : System.Web.UI.Page
         p_LEnjoyed.Direction = ParameterDirection.Input;
         p_LEnjoyed.Value = sLEnjoyed;
 
+        SqlParameter p_InsertedBy = command.Parameters.Add("UpdatedBy", SqlDbType.Char);
+        p_InsertedBy.Direction = ParameterDirection.Input;
+        p_InsertedBy.Value = "admin";
+
+        SqlParameter p_InsertedDate = command.Parameters.Add("UpdatedDate", SqlDbType.DateTime);
+        p_InsertedDate.Direction = ParameterDirection.Input;
+        p_InsertedDate.Value = Common.SetDateTime(DateTime.Now.ToString());
+
         objDC.ExecuteQuery(command);
     }
 
 
     protected void btnLvEntitle_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=C:\\BASESOFT\\LeaveData_20171228.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Leave Balance For Head Office MSB_Entile.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -1829,11 +1845,8 @@ public partial class File_ImportTool : System.Web.UI.Page
                 gRow.Cells[4].Text.Trim());
             this.UpdateLeaveEntitle(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[5].Text.Trim(),
                 gRow.Cells[6].Text.Trim());
-            //this.InsertLeaveEntitle(Common.CheckNullString(gRow.Cells[0].Text.Trim()), "4", "0");
-            //this.InsertLeaveEntitle(Common.CheckNullString(gRow.Cells[0].Text.Trim()), "5", "0");
-            //this.InsertLeaveEntitle(Common.CheckNullString(gRow.Cells[0].Text.Trim()), "6", "0");
-            //this.InsertLeaveEntitle(Common.CheckNullString(gRow.Cells[0].Text.Trim()), "7", "0");
-            //this.InsertLeaveEntitle(Common.CheckNullString(gRow.Cells[0].Text.Trim()), "8", "0");
+            this.UpdateLeaveEntitle(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[7].Text.Trim(),
+                gRow.Cells[8].Text.Trim());
             lblMsg.Text = "Record Updated Successfully";
         }
 
@@ -1873,7 +1886,7 @@ public partial class File_ImportTool : System.Web.UI.Page
 
     public void UpdateLeaveEntitle(string EmpId, string sLTypeId, string sLEntitled)
     {
-        string strSQL = "UPDATE EmpLeaveProfile SET LEntitled=@LEntitled WHERE EMPID=@EMPID AND LTYPEID=@LTYPEID";
+        string strSQL = "UPDATE EmpLeaveProfile SET LEntitled=@LEntitled,UpdatedBy=@UpdatedBy,UpdatedDate=@UpdatedDate WHERE EMPID=@EMPID AND LTYPEID=@LTYPEID";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
 
@@ -1888,6 +1901,14 @@ public partial class File_ImportTool : System.Web.UI.Page
         SqlParameter p_LEnjoyed = command.Parameters.Add("LEntitled", SqlDbType.Decimal);
         p_LEnjoyed.Direction = ParameterDirection.Input;
         p_LEnjoyed.Value = Math.Round(Convert.ToDecimal(sLEntitled), 1);
+
+        SqlParameter p_InsertedBy = command.Parameters.Add("UpdatedBy", SqlDbType.Char);
+        p_InsertedBy.Direction = ParameterDirection.Input;
+        p_InsertedBy.Value = "admin";
+
+        SqlParameter p_InsertedDate = command.Parameters.Add("UpdatedDate", SqlDbType.DateTime);
+        p_InsertedDate.Direction = ParameterDirection.Input;
+        p_InsertedDate.Value = Common.SetDateTime(DateTime.Now.ToString());
 
         objDC.ExecuteQuery(command);
     }

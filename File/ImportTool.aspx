@@ -341,11 +341,11 @@
                     &nbsp;</td>
                 <td>
                       <asp:Button ID="btnUploadBankAccNo" runat="server" 
-                        Text="Upload BankAccNo" onclick="btnUploadBankAccNo_Click"/> 
+                        Text="Upload BankAccNo" onclick="btnUploadBankAccNo_Click" BorderColor="#660033"/> 
                 </td>
                 <td style="width: 3px">
                     <asp:Button ID="btnUpdateBankAccNo" runat="server" Text="Update BankAccNo" 
-                        OnClick="btnUpdateBankAccNo_Click" />
+                        OnClick="btnUpdateBankAccNo_Click" BorderColor="#660033" />
                 </td>
                 <td style="width: 3px">
                     <asp:Button ID="btnInsertSalaryHead" runat="server" Text="Insert PF Ar. &amp;Loan &amp; Festival Bonus Head" 
@@ -404,11 +404,11 @@
                 <td>
                     &nbsp;</td>
                 <td>
-                      <asp:Button ID="btnLvBalance" runat="server" Text="Upload Leave Balance" 
+                      <asp:Button ID="btnLvBalance" runat="server" Text="Upload Leave Enjoy" 
                         OnClick="btnLvBalance_Click" /> 
                 </td>
                 <td style="width: 3px">
-                    <asp:Button ID="btnUpdateLvBalance" runat="server" Text="Update Leave Balance" 
+                    <asp:Button ID="btnUpdateLvBalance" runat="server" Text="Update Leave Enjoy" 
                         OnClick="btnUpdateLvBalance_Click" />
                 </td>
                 <td style="width: 3px">

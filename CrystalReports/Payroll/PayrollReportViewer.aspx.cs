@@ -939,6 +939,8 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("P_Header", "Bonus Statement For the Festival of " + Session["FestivalName"].ToString() + "  For The Month - " + Common.ReturnFullMonthName(Session["VMonth"].ToString()));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             case "EBPS":
