@@ -38,11 +38,10 @@ public partial class Payroll_Payroll_PayrollDisbursement : System.Web.UI.Page
             Common.FillYearList(5, ddlYear);
             ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
             ddlYear.SelectedValue = Convert.ToString(DateTime.Today.Year);
-            Common.FillDropDownList_All(objMastMg.SelectClinic(), ddlBank);
+            Common.FillDropDownList_All(objMastMg.SelectClinic("Y"), ddlBank);
             //Common.FillDropDownList(objMastMg.SelectLocation(0), ddlGenerateValue, "LocationName", "LocationID", false);
             ////Common.FillDropDownList(objPayrollMgr.SelectBankAndBranchList(), ddlBank, "BANKBRANCH", "RoutingNo", true, "Nil");
             //Common.FillDropDownList(objMastMg.SelectEmpGroup(0), ddlGroup, "GrpName", "EmpGrpID", false);
-            Common.FillDropDownList(objMastMg.SelectEmpType(0,"Y"), ddlEmpType, "TypeName", "EmpTypeID", false);
         }
     }
 
@@ -102,7 +101,7 @@ public partial class Payroll_Payroll_PayrollDisbursement : System.Web.UI.Page
         dtEmpPayroll.Rows.Clear();
         dtEmpPayroll.Dispose();
         dtEmpPayroll = objPayAppMgr.GetPayrollApprovedDataForDisbursement(ddlGeneratefor.SelectedValue.ToString(), strGenerateValue, ddlMonth.SelectedValue.ToString(),
-            ddlYear.SelectedValue.ToString(), ddlBank.SelectedValue.Trim(), ddlEmpType.SelectedValue.ToString());
+            ddlYear.SelectedValue.ToString(), ddlBank.SelectedValue.Trim());
         this.GenerateReport(grApproveList, dtSalaryHead, inBenefitHeadCount, lblGenerateFor, lblPayrollMonth);
         if (grApproveList.Rows.Count > 0)
         {

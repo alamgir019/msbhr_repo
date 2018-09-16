@@ -5121,10 +5121,16 @@ public class MasterTablesManager
 
     #region Clinic
 
-    public DataTable SelectClinic()
+    public DataTable SelectClinic(string strIsActive)
     {
-        string strSQL = "SELECT CL.*,B.BankName,B.BranchName FROM ClinicList CL LEFT OUTER JOIN BankList B ON CL.BankCode=B.BankCode "
-            + "  AND CL.RoutingNo=B.RoutingNo WHERE CL.ISACTIVE='Y' and CL.IsDeleted='N' ORDER BY ClinicName";
+        string strSQL = "";
+        if (strIsActive=="A")
+         strSQL = "SELECT CL.*,B.BankName,B.BranchName FROM ClinicList CL LEFT OUTER JOIN BankList B ON CL.BankCode=B.BankCode "
+            + "  AND CL.RoutingNo=B.RoutingNo WHERE CL.IsDeleted='N' ORDER BY ClinicName";
+        else
+        strSQL= "SELECT CL.*,B.BankName,B.BranchName FROM ClinicList CL LEFT OUTER JOIN BankList B ON CL.BankCode = B.BankCode "
+               + "  AND CL.RoutingNo=B.RoutingNo WHERE CL.ISACTIVE='Y' and CL.IsDeleted='N' ORDER BY ClinicName"; 
+
         return objDC.CreateDT(strSQL, "ClinicList");
     }
 

@@ -1471,7 +1471,7 @@ public class Payroll_LoanAppManager
         if (strEmpStatus == "A")
         {
             // Current Month PF AMount
-            DataTable dtPayroll = objPayAppMgr.GetPayrollApprovedDataForDisbursement("E", strEMPID, strMonth, strYear, strEMPID, "1");
+            DataTable dtPayroll = objPayAppMgr.GetPayrollApprovedDataForDisbursement("E", strEMPID, strMonth, strYear, strEMPID);
 
             foreach (DataRow dRow in dtPayroll.Rows)
             {

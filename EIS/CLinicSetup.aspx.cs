@@ -52,7 +52,7 @@ public partial class EIS_CLinicSetup : System.Web.UI.Page
 
     private void OpenRecord()
     {
-        dtCompany = objMasMgr.SelectClinic();
+        dtCompany = objMasMgr.SelectClinic("A");
         grClinic.DataSource = dtCompany;
         grClinic.DataBind();
     }

@@ -78,13 +78,6 @@
                             <asp:DropDownList ID="ddlYear" runat="server" Width="80px" CssClass="textlevelleft">
                             </asp:DropDownList>
                         </td>
-                        <td class="textlevel">
-                            Employee Type :
-                        </td>
-                        <td>
-                            <asp:DropDownList ID="ddlEmpType" runat="server" Width="130px" CssClass="textlevelleft">
-                            </asp:DropDownList>
-                        </td>
                         <td>
                             <asp:Button ID="btnGenerate" runat="server" Text="Get Payroll Data" Width="184px"
                                 OnClick="btnGenerate_Click" />

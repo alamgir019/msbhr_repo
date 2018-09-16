@@ -1,7 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" CodeFile="PFActivities.aspx.cs" Inherits="Payroll_Loan_PFActivities" Title="Monthly PF Activites" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<script language="javascript" type="text/javascript">
+    <script language="javascript" type="text/javascript">
     function printDiv(divName) 
     {
          var printContents = document.getElementById(divName).innerHTML;

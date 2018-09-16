@@ -25,7 +25,7 @@ public partial class EIS_HRAction_TempDutyAssign : System.Web.UI.Page
             Common.FillDropDownList_Nil(objMasMgr.SelectDepartment(0), ddlDept);
             Common.FillDropDownList_Nil(objMasMgr.SelectDeptWsSubDept(Convert.ToInt32(ddlDept.SelectedValue)), ddlSubDept);  
             Common.FillDropDownList_Nil(objMasMgr.SelectDivisionList (0), ddlCompany);
-            Common.FillDropDownList_Nil(objMasMgr.SelectClinic(), ddlClinic);
+            Common.FillDropDownList_Nil(objMasMgr.SelectClinic("Y"), ddlClinic);
             Common.FillDropDownList_Nil(objMasMgr.SelectProject(), ddlProject);
 
             hfIsUpdate.Value = "N";

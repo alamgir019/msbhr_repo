@@ -23,7 +23,7 @@ public partial class EIS_HRAction_Transition : System.Web.UI.Page
         {
             Common.FillDropDownList_Nil(objMasMgr.SelectAction(0, "P"), ddlAction);
             Common.FillDropDownList_Nil(objMasMgr.SelectDivision(0), ddlCompany);
-            Common.FillDropDownList_Nil(objMasMgr.SelectClinic(), ddlClinic);
+            Common.FillDropDownList_Nil(objMasMgr.SelectClinic("Y"), ddlClinic);
             Common.FillDropDownList_Nil(objMasMgr.SelectProject(0), ddlProject);
             Common.FillDropDownList_Nil(objMasMgr.SelectDepartment(0), ddlDepartment);
             Common.FillDropDownList_Nil(objMasMgr.SelectDeptWsSubDept(Convert.ToInt32(ddlDepartment.SelectedValue)), ddlSubDept);            

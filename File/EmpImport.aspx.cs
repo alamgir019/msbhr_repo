@@ -15,7 +15,7 @@ public partial class File_EmpImport : System.Web.UI.Page
     {
         Common.FillDropDownList(objMasMgr.SelectDesignation(0), ddlDesig, "DESIGNAME", "DESIGID", false);
         Common.FillDropDownList(objMasMgr.SelectSubDepartment(0), ddlSubDept, "SUBDEPTNAME", "SUBDEPTID", false);
-        Common.FillDropDownList(objMasMgr.SelectClinic(), ddlClinic, "CLINICNAME", "CLINICID", false);
+        Common.FillDropDownList(objMasMgr.SelectClinic("Y"), ddlClinic, "CLINICNAME", "CLINICID", false);
         Common.FillDropDownList(objMasMgr.SelectLocationCategory(0), ddlLocationCategory, "LOCCATNAME", "LOCCATID", false);
         Common.FillDropDownList(objMasMgr.SelectDivision(0), ddlOrg, "DIVISIONSHORTNAME", "DIVISIONID", false);
         Common.FillDropDownList(objMasMgr.SelectEmpTypeList(0), ddlEmpType, "TYPENAME", "EMPTYPEID", false);

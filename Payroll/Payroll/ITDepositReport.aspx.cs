@@ -29,7 +29,8 @@ public partial class Payroll_Payroll_ITDepositReport : System.Web.UI.Page
             // Common.FillYearList(5, ddlYear);
             // ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
             // ddlYear.SelectedValue = Convert.ToString(DateTime.Today.Year);
-            Common.FillDropDownList(objMastMg.SelectClinic(), ddlLocation, "ClinicName", "ClinicId", true, "All");            
+            Common.FillDropDownList(objMastMg.SelectDivision(0), ddlCompany,"DivisionName","DivisionId",true ,"All");
+            Common.FillDropDownList(objMastMg.SelectClinic("Y"), ddlLocation, "ClinicName", "ClinicId", true, "All");            
             Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0, "T"), ddlFinYear, "FISCALYRTITLE", "FISCALYRID", false);
         }
     }
@@ -48,9 +49,9 @@ public partial class Payroll_Payroll_ITDepositReport : System.Web.UI.Page
     {
         string strGenFor = "";        
 
-        DataTable dtEmp = objITMgr.GetDistinctEmpoyeeData(ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
-        DataTable dtDate = objITMgr.GetDistinctDate(ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
-        DataTable dtRecords = objITMgr.GetDetailsData(ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
+        DataTable dtEmp = objITMgr.GetDistinctEmpoyeeData(ddlCompany.SelectedValue.ToString(), ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
+        DataTable dtDate = objITMgr.GetDistinctDate(ddlCompany.SelectedValue.ToString(), ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
+        DataTable dtRecords = objITMgr.GetDetailsData(ddlCompany.SelectedValue.ToString(),    ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
 
         lblFiscalYear.Text = ddlFinYear.SelectedItem.Text.Trim();
         // Data Filling for Report

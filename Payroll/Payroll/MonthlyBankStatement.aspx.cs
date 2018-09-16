@@ -23,7 +23,7 @@ public partial class Payroll_Payroll_MonthlyBankStatement : System.Web.UI.Page
             Common.FillYearList(5, ddlYear);
             ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
             ddlYear.SelectedValue = Convert.ToString(DateTime.Today.Year);
-            Common.FillDropDownList_Nil(objMastMg.SelectClinic(), ddlClinic);
+            Common.FillDropDownList_Nil(objMastMg.SelectClinic("Y"), ddlClinic);
             Common.FillDropDownList(objPayrollMgr.SelectBankAndBranchList(), ddlBank, "BANKBRANCH", "RoutingNo", true, "Nil");
             //Common.FillDropDownList(objMastMg.SelectEmpGroup(0), ddlGroup, "GrpName", "EmpGrpID", false);  
         }

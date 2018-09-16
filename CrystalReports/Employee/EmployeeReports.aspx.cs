@@ -23,7 +23,7 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
         {
             Common.FillDropDownList_All(objMasMgr.SelectGrade(0), ddlGrade);
             Common.FillDropDownList_All(objMasMgr.SelectDivision(0), ddlComponentUnit);
-            Common.FillDropDownList_All(objMasMgr.SelectClinic(), ddlSector);
+            Common.FillDropDownList_All(objMasMgr.SelectClinic("Y"), ddlSector);
             Common.FillDropDownList_All(objMasMgr.SelectEmpType(0, "Y"), ddlEmpType);
             Common.FillDropDownList_All(objMasMgr.SelectDepartment(0), ddlDepartment);
             Common.FillDropDownList_All(objMasMgr.SelectDivision(0), ddlDivision);

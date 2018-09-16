@@ -249,7 +249,7 @@ public class Payroll_PayslipApprovalManager
     }
 
     public DataTable GetPayrollDataForEndorcement(string strGenerateFor, string strGeneratValue, string strMonth, string strYear,
-        string strBranchCode,string strEmpTypeId)
+        string strBranchCode)
     {
         if (objDC.ds.Tables["GetPayrollDataForEndorcement"] != null)
         {
@@ -278,10 +278,6 @@ public class Payroll_PayslipApprovalManager
         SqlParameter p_VYEAR = cmd.Parameters.Add("VYEAR", SqlDbType.BigInt);
         p_VYEAR.Direction = ParameterDirection.Input;
         p_VYEAR.Value = strYear;
-
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
 
         objDC.CreateDSFromProc(cmd, "GetPayrollDataForEndorcement");
         return objDC.ds.Tables["GetPayrollDataForEndorcement"];
@@ -327,7 +323,7 @@ public class Payroll_PayslipApprovalManager
     }
 
     public DataTable GetPayrollReviewedData(string strGenerateFor, string strGeneratValue, string strMonth, string strYear,
-        string strBranchCode, string strEmpTypeId)
+        string strBranchCode)
     {
         if (objDC.ds.Tables["GetPayrollReviewedData"] != null)
         {
@@ -356,10 +352,6 @@ public class Payroll_PayslipApprovalManager
         SqlParameter p_VYEAR = cmd.Parameters.Add("VYEAR", SqlDbType.BigInt);
         p_VYEAR.Direction = ParameterDirection.Input;
         p_VYEAR.Value = strYear;
-
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
 
         objDC.CreateDSFromProc(cmd, "GetPayrollReviewedData");
         return objDC.ds.Tables["GetPayrollReviewedData"];
@@ -453,7 +445,7 @@ public class Payroll_PayslipApprovalManager
     }
     
     public DataTable GetAuditedDataForEndorcement(string strGenerateFor, string strGeneratValue, string strMonth, string strYear,
-        string strBranchCode, string strEmpTypeId)
+        string strBranchCode)
     {
         if (objDC.ds.Tables["GetAuditedDataForEndorcement"] != null)
         {
@@ -483,16 +475,12 @@ public class Payroll_PayslipApprovalManager
         p_VYEAR.Direction = ParameterDirection.Input;
         p_VYEAR.Value = strYear;
 
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
-
         objDC.CreateDSFromProc(cmd, "GetAuditedDataForEndorcement");
         return objDC.ds.Tables["GetAuditedDataForEndorcement"];
     }
 
     public DataTable GetPayrollApprovedData(string strGenerateFor, string strGeneratValue, string strMonth, string strYear,
-        string strBranchCode, string strEmpTypeId)
+        string strBranchCode)
     {
         if (objDC.ds.Tables["GetPayrollApprovedData"] != null)
         {
@@ -522,16 +510,12 @@ public class Payroll_PayslipApprovalManager
         p_VYEAR.Direction = ParameterDirection.Input;
         p_VYEAR.Value = strYear;
 
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
-
         objDC.CreateDSFromProc(cmd, "GetPayrollApprovedData");
         return objDC.ds.Tables["GetPayrollApprovedData"];
     }
 
     public DataTable GetPayrollApprovedDataForDisbursement(string strGenerateFor, string strGeneratValue,
-        string strMonth, string strYear, string strBranchCode, string strEmpTypeId)
+        string strMonth, string strYear, string strBranchCode)
     {
         if (objDC.ds.Tables["GetPayrollApprovedDataForDisbursement"] != null)
         {
@@ -562,10 +546,6 @@ public class Payroll_PayslipApprovalManager
         p_VYEAR.Direction = ParameterDirection.Input;
         p_VYEAR.Value = strYear;
         
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
-
         objDC.CreateDSFromProc(cmd, "GetPayrollApprovedDataForDisbursement");
         return objDC.ds.Tables["GetPayrollApprovedDataForDisbursement"];
     }

@@ -24,7 +24,7 @@ public partial class CrystalReports_Leave_LeaveReports : System.Web.UI.Page
             Common.FillDropDownList_All(MasMgr.SelectDivision(0), ddlPostDivision);
             Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "FA"), ddlFiscalYr, "FISCALYRTITLE", "FISCALYRID", false);            
             Common.FillDropDownList_All(MasMgr.SelectLeaveType(0), ddlLeaveType);
-            Common.FillDropDownList_All(MasMgr.SelectClinic(), ddlSector);
+            Common.FillDropDownList_All(MasMgr.SelectClinic("Y"), ddlSector);
             Common.FillDropDownList_All(MasMgr.SelectDepartment(0), ddlDepartment);
             Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmployeeType);
 

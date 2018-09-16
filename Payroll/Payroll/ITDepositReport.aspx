@@ -38,6 +38,12 @@ function printDiv(divName)
                 <table>
                     <tr>
                         <td class="textlevel">
+                            Company :</td>
+                        <td class="textlevel">
+                                    <asp:DropDownList ID="ddlCompany" runat="server" Width="200px" AutoPostBack="true" CssClass="textlevelleft">
+                                    </asp:DropDownList>
+                                </td>
+                        <td class="textlevel">
                             Cost Center :</td>
                         <td>
                             <asp:DropDownList ID="ddlLocation" CssClass="textlevelleft" runat="server" Width="150px">
@@ -81,6 +87,8 @@ function printDiv(divName)
                         Width="100px" />
                 </div>
             </fieldset>
+        </div>
+        <div>
         </div>
     </div>
 </asp:Content>

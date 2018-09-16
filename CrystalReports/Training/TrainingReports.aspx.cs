@@ -24,7 +24,7 @@ public partial class CrystalReports_Training_TrainingReports : System.Web.UI.Pag
             Common.FillDropDownList_All(objMasMgr.SelectProject(0), ddlFundedBy);
             Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "FA"), ddlFiscalYr, "FISCALYRTITLE", "FISCALYRID", false);
             Common.FillDropDownList_All(objMasMgr.SelectDepartment(0), ddlProgDept);
-            Common.FillDropDownList_All(objMasMgr.SelectClinic(), ddlSalLoc);
+            Common.FillDropDownList_All(objMasMgr.SelectClinic("Y"), ddlSalLoc);
             Common.FillDropDownList_All(objEmp.SelectEmpNameWithID("A"), ddlEmployeeName);
 
             ddlFiscalYr.SelectedIndex = 0;

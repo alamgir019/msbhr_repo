@@ -72,7 +72,7 @@ public class clsEmpInfoHr
     public string LeavePakId { get; set; }
     public string WeekendId { get; set; }
     public string AttnPolicyID { get; set; }
-    public Int32 CardNo { get; set; }
+    public string CardNo { get; set; }
     public string MPCId { get; set; }
     public string IsPayrollStaff { get; set; }
     public string WorkingDays { get; set; }

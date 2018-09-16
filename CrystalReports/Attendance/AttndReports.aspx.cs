@@ -25,7 +25,7 @@ public partial class CrystalReports_Attendance_AttndReports : System.Web.UI.Page
         if (!IsPostBack)
         {
             Common.FillDropDownList_All(objMasMgr.SelectDivision(0), ddlDivision);
-            Common.FillDropDownList_All(objMasMgr.SelectClinic(), ddlSUB);
+            Common.FillDropDownList_All(objMasMgr.SelectClinic("Y"), ddlSUB);
             Common.FillDropDownList_All(objMasMgr.SelectDepartment(0), ddlDept);
             Common.FillDropDownList_All(AttPMgr.GetData("0"), ddlShift);
 

@@ -440,7 +440,7 @@ public class Payroll_PreparationManager
     #endregion
 
     #region Select Querys
-    public DataTable GetEmployeeData(string strMonth, string strYear, string strEmpStatus, string strEmpTypeId, string strEmpId,string strClinicId)
+    public DataTable GetEmployeeData(string strMonth, string strYear, string strEmpStatus, string strEmpId,string strClinicId)
     {
         SqlCommand cmd = new SqlCommand("proc_Payroll_Select_EmpInfo_PayslipPreparation");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -456,10 +456,6 @@ public class Payroll_PreparationManager
         SqlParameter p_EmpStatus = cmd.Parameters.Add("EmpStatus", SqlDbType.Char);
         p_EmpStatus.Direction = ParameterDirection.Input;
         p_EmpStatus.Value = strEmpStatus;
-
-        SqlParameter p_EmpTypeId = cmd.Parameters.Add("EmpTypeId", SqlDbType.BigInt);
-        p_EmpTypeId.Direction = ParameterDirection.Input;
-        p_EmpTypeId.Value = strEmpTypeId;
 
         SqlParameter p_EmpId = cmd.Parameters.Add("EmpId", SqlDbType.VarChar);
         p_EmpId.Direction = ParameterDirection.Input;

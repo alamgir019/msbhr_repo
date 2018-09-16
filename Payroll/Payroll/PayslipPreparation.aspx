@@ -98,16 +98,14 @@
                                     height="16" alt="Pick a date" src="../../images/cal.gif" width="16" /></a>
                         </td>
                         <td class="textlevel">
-                            &nbsp;Employee Type :</td>
-                        <td>
-                            <asp:DropDownList ID="ddlEmpType" runat="server" Width="130px" CssClass="textlevelleft">
-                            </asp:DropDownList>
-                        </td>
-                        <td class="textlevel">
                             Emp Id :</td>
                         <td>
                             <asp:TextBox ID="txtEmpId" runat="server" Width="80px"></asp:TextBox>
                         </td>
+                        <td class="textlevel">
+                            &nbsp;</td>
+                        <td>
+                            &nbsp;</td>
                         <td>
                             &nbsp;</td>
                         <td>

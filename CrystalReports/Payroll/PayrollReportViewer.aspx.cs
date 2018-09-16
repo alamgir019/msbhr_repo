@@ -225,7 +225,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                         //CRV.ReportSource = ReportDoc;
                     }
                     CRV.ReportSource = ReportDoc;
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "ReortDetails");
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.Excel, Response, true, "ReortDetails");
                     break;
                 }
                 #endregion
@@ -542,6 +542,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("C_Month", Common.ReturnFullMonthName(Session["VMonth"].ToString()));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             case "YPFC":          
@@ -553,6 +554,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("P_Header", "Yearly PF Contribution For The Fiscal Year " + Session["FisYearText"].ToString());
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }           
             case "YPFB":
@@ -564,6 +566,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("P_Header", "Yearly PF Contribution For The Fiscal Year " + Session["FisYearText"].ToString());
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
            
@@ -576,6 +579,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("P_Header", "PF Loan Deduction For The Fiscal Year " + Session["FisYearText"].ToString());
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             #endregion

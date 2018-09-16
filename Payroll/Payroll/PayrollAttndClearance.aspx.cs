@@ -38,7 +38,7 @@ public partial class Payroll_Payroll_PayrollAttndClearance : System.Web.UI.Page
             //this.FillGenerateDropDownList();
             Common.FillDropDownList(objPayOptMgr.GetMonthlyPayrollCycleData(), ddlMPC, "MPCTITLE", "MPCID", false);
             Common.FillDropDownList(objMastMg.SelectEmpType(0,"Y"), ddlEmpType, "TypeName", "EmpTypeID", false);
-            Common.FillDropDownList_All(objMastMg.SelectClinic(), ddlCostCenter);
+            Common.FillDropDownList_All(objMastMg.SelectClinic("Y"), ddlCostCenter);
         }
     }
 

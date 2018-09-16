@@ -628,7 +628,7 @@ public class Payroll_ITDepositRecords
         return objDC.ds.Tables["GetExistingData"];
     }
 
-    public DataTable GetDistinctEmpoyeeData(string strLocation, string strFinYear, string strGenFor)
+    public DataTable GetDistinctEmpoyeeData(string strComp, string strLocation, string strFinYear, string strGenFor)
     {
         if (objDC.ds.Tables["GetReporteEmpoyeeData"] != null)
         {
@@ -637,29 +637,35 @@ public class Payroll_ITDepositRecords
         }
 
         string strSQL = "";
+        string strCond = "";
+
+        if (strComp != "-1")
+            strCond = " AND E.DivisionId=@DivisionId";
+        else
+            strCond = "";
 
         if (strLocation != "-1")
-            strSQL = "SELECT DISTINCT ITD.EMPID,E.FULLNAME,J.JobTitleName,PD.ClinicName AS PostingDivName,E.JOININGDATE"
-                    + " FROM EMPINFO E"
-                    + " JOIN ITDEPOSITRECORDS ITD ON ITD.EMPID = E.EMPID"
-                    + " LEFT OUTER JOIN JOBTITLE J ON E.JobTitleId = J.JobTitleId"
-                    + " LEFT OUTER JOIN ClinicList PD ON E.ClinicId = PD.ClinicId"
-                    + " WHERE ITD.PostingDivId=@PostingDivId AND ITD.TAXFISCALYRID=@TAXFISCALYRID ORDER BY ITD.EMPID";
+            strCond = strCond + " AND ITD.SalLocId=@SalLocId";
         else
-            strSQL = "SELECT DISTINCT ITD.EMPID,E.FULLNAME,J.JobTitleName,PD.ClinicName AS PostingDivName,E.JOININGDATE"
+            strCond = strCond;
+
+        strSQL = "SELECT DISTINCT ITD.EMPID,E.FULLNAME,J.JobTitleName,PD.ClinicName AS PostingDivName,E.JOININGDATE"
                 + " FROM EMPINFO E"
                 + " JOIN ITDEPOSITRECORDS ITD ON ITD.EMPID = E.EMPID"
                 + " LEFT OUTER JOIN JOBTITLE J ON E.JobTitleId = J.JobTitleId"
                 + " LEFT OUTER JOIN ClinicList PD ON E.ClinicId = PD.ClinicId"
-                + " WHERE ITD.TAXFISCALYRID=@TAXFISCALYRID ORDER BY ITD.EMPID";
+                + " WHERE ITD.PayAmt>0 AND ITD.TAXFISCALYRID=@TAXFISCALYRID " + strCond + " ORDER BY ITD.EMPID";
         
         SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;
 
-        SqlParameter p_DIVISIONID = cmd.Parameters.Add("PostingDivId", SqlDbType.BigInt);
+        SqlParameter p_DIVISIONID = cmd.Parameters.Add("DivisionId", SqlDbType.BigInt);
         p_DIVISIONID.Direction = ParameterDirection.Input;
-        p_DIVISIONID.Value = strLocation;
+        p_DIVISIONID.Value = strComp;
 
+        SqlParameter p_SalLocId = cmd.Parameters.Add("SalLocId", SqlDbType.BigInt);
+        p_SalLocId.Direction = ParameterDirection.Input;
+        p_SalLocId.Value = strLocation;
 
         SqlParameter p_FISCALYRID = cmd.Parameters.Add("TAXFISCALYRID", SqlDbType.BigInt);
         p_FISCALYRID.Direction = ParameterDirection.Input;
@@ -696,7 +702,7 @@ public class Payroll_ITDepositRecords
 
     }
 
-    public DataTable GetDistinctDate(string strLocation, string strFinYear, string strGenFor)
+    public DataTable GetDistinctDate(string strComp,string strLocation, string strFinYear, string strGenFor)
     {
         if (objDC.ds.Tables["GetDistinctDate"] != null)
         {
@@ -705,17 +711,31 @@ public class Payroll_ITDepositRecords
         }
 
         string strSQL = "";
+        string strCond = "";
+
+        if (strComp != "-1")
+            strCond = " AND E.DivisionId=@DivisionId";
+        else
+            strCond = "";
 
         if (strLocation != "-1")
-            strSQL = "SELECT DISTINCT CHALLANDATE,CHALLANNO FROM ITDEPOSITRECORDS WHERE PostingDivId=@PostingDivId AND TAXFISCALYRID=@TAXFISCALYRID ORDER BY CHALLANDATE DESC";
+            strCond = strCond + " AND I.SalLocId=@SalLocId";
         else
-            strSQL = "SELECT DISTINCT CHALLANDATE,CHALLANNO FROM ITDEPOSITRECORDS WHERE TAXFISCALYRID=@TAXFISCALYRID ORDER BY CHALLANDATE DESC";
-        SqlCommand cmd = new SqlCommand(strSQL);
+            strCond = strCond;
+
+            strSQL = "SELECT DISTINCT CHALLANDATE,CHALLANNO FROM ITDEPOSITRECORDS I,EmpInfo E"
+                + " WHERE I.EmpId=E.EmpId AND I.PayAmt>0 AND TAXFISCALYRID=@TAXFISCALYRID ORDER BY I.CHALLANDATE DESC";
+
+          SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;
 
-        SqlParameter p_DIVISIONID = cmd.Parameters.Add("PostingDivId", SqlDbType.BigInt);
+        SqlParameter p_DIVISIONID = cmd.Parameters.Add("DivisionId", SqlDbType.BigInt);
         p_DIVISIONID.Direction = ParameterDirection.Input;
-        p_DIVISIONID.Value = strLocation;
+        p_DIVISIONID.Value = strComp;
+
+        SqlParameter p_SalLocId = cmd.Parameters.Add("SalLocId", SqlDbType.BigInt);
+        p_SalLocId.Direction = ParameterDirection.Input;
+        p_SalLocId.Value = strLocation;
 
         SqlParameter p_FISCALYRID = cmd.Parameters.Add("TAXFISCALYRID", SqlDbType.BigInt);
         p_FISCALYRID.Direction = ParameterDirection.Input;
@@ -750,29 +770,39 @@ public class Payroll_ITDepositRecords
 
     }
 
-    public DataTable GetDetailsData(string strLocation, string strFinYear, string strGenFor)
+    public DataTable GetDetailsData(string strComp, string strLocation, string strFinYear, string strGenFor)
     {
+        string strCond = "";
+        string strSQL = "";
         if (objDC.ds.Tables["GetDetailsData"] != null)
         {
             objDC.ds.Tables["GetDetailsData"].Rows.Clear();
             objDC.ds.Tables["GetDetailsData"].Dispose();
         }
-
-        string strSQL="";
+        
+        if (strComp != "-1")
+            strCond = " AND E.DivisionId=@DivisionId";
+        else
+            strCond = "";
 
         if (strLocation != "-1")
-            strSQL = "SELECT EMPID,CHALLANDATE,PAYAMT,CHALLANNO,TAXFISCALYRID "
-                + " FROM ITDEPOSITRECORDS WHERE PostingDivId=@PostingDivId AND TAXFISCALYRID=@TAXFISCALYRID ORDER BY EMPID,CHALLANDATE";
+            strCond = strCond + " AND I.SalLocId=@SalLocId";
         else
-            strSQL = "SELECT EMPID,CHALLANDATE,PAYAMT,CHALLANNO,TAXFISCALYRID "
-                + " FROM ITDEPOSITRECORDS WHERE TAXFISCALYRID=@TAXFISCALYRID ORDER BY EMPID,CHALLANDATE";
+            strCond = strCond;
+
+        strSQL = "SELECT I.EMPID,I.CHALLANDATE,I.PAYAMT,I.CHALLANNO,I.TAXFISCALYRID FROM ITDEPOSITRECORDS I,EmpInfo E"
+            + " WHERE I.EmpId=E.EmpId AND I.PayAmt>0 AND I.TAXFISCALYRID=@TAXFISCALYRID" + strCond + " ORDER BY I.EMPID,I.CHALLANDATE";
 
         SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;
 
-        SqlParameter p_DIVISIONID = cmd.Parameters.Add("PostingDivId", SqlDbType.BigInt);
+        SqlParameter p_DIVISIONID = cmd.Parameters.Add("DivisionId", SqlDbType.BigInt);
         p_DIVISIONID.Direction = ParameterDirection.Input;
-        p_DIVISIONID.Value = strLocation;
+        p_DIVISIONID.Value = strComp;
+
+        SqlParameter p_PostingDivId = cmd.Parameters.Add("SalLocId", SqlDbType.BigInt);
+        p_PostingDivId.Direction = ParameterDirection.Input;
+        p_PostingDivId.Value = strLocation;
 
         SqlParameter p_FISCALYRID = cmd.Parameters.Add("TAXFISCALYRID", SqlDbType.BigInt);
         p_FISCALYRID.Direction = ParameterDirection.Input;
@@ -780,7 +810,6 @@ public class Payroll_ITDepositRecords
 
         objDC.CreateDT(cmd, "GetDetailsData");
         return objDC.ds.Tables["GetDetailsData"];
-
     }
 
     public DataTable GetDetailsDataAll(string strFinYear)

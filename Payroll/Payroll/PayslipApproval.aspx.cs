@@ -23,7 +23,7 @@ public partial class Payroll_Payroll_PayslipApproval : System.Web.UI.Page
             Common.FillYearList(5, ddlYear);
             ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
             ddlYear.SelectedValue = Convert.ToString(DateTime.Today.Year);
-            Common.FillDropDownList_All(objMastMg.SelectClinic(), ddlGenerateValue);
+            Common.FillDropDownList_All(objMastMg.SelectClinic("Y"), ddlGenerateValue);
             Common.FillDropDownList(objPayrollMgr.SelectBankAndBranchList(), ddlBank, "BANKBRANCH", "RoutingNo", true, "Nil");
             Common.FillDropDownList(objMastMg.SelectEmpType(0,"Y"), ddlEmpType, "TypeName", "EmpTypeID", false);
             //Common.FillDropDownList(objMastMg.SelectEmpGroup(0), ddlGroup, "GrpName", "EmpGrpID", false);

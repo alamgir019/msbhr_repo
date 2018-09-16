@@ -56,9 +56,8 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
             Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0,"F"), ddlFiscalYear, "FISCALYRTITLE", "FISCALYRID", false);
             Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0, "T"), ddlFiscalYearTax, "FISCALYRTITLE", "FISCALYRID", false);
             Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0, "P"), ddlFiscalYearPF, "FISCALYRTITLE", "FISCALYRID", false);
-            
-            Common.FillDropDownList(objMastMg.SelectEmpType(0,"Y"), ddlEmpType, "TypeName", "EmpTypeID", false);
-            Common.FillDropDownList_All(objMastMg.SelectClinic(), ddlCostCenter);
+                        
+            Common.FillDropDownList_All(objMastMg.SelectClinic("Y"), ddlCostCenter);
         }
     }
 
@@ -403,7 +402,7 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
         lngPayBookID = Convert.ToInt64(Common.getMaxId("PaySlipBook", "PSBID"));
         lngPayID = objPreMgr.GerMaxPayID(ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), "S");
         dtEmpInfo = objPreMgr.GetEmployeeData(ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(),
-            ddlEmpStatus.SelectedValue.Trim(), ddlEmpType.SelectedValue.Trim(), txtEmpId.Text.Trim(), ddlCostCenter.SelectedValue.ToString().Trim());
+            ddlEmpStatus.SelectedValue.Trim(), txtEmpId.Text.Trim(), ddlCostCenter.SelectedValue.ToString().Trim());
         dtGrossSalHead = objPayrollMgr.SelectGrossSalHead(0);
 
         dtBenefits = objPreMgr.SelectVaribaleAllowanceData(ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.ToString());
@@ -718,7 +717,7 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                         inMonthDays.ToString(), dEmpRow["BANKCODE"].ToString().Trim(), dEmpRow["RoutingNo"].ToString().Trim(),
                         dEmpRow["BankAccNo"].ToString().Trim(), dEmpRow["DEPTID"].ToString().Trim(), dEmpRow["DesigId"].ToString().Trim(),
                         dEmpRow["EMPTYPEID"].ToString().Trim(), dEmpRow["PLANACCLINE"].ToString().Trim(), dEmpRow["JoiningDate"].ToString().Trim(), dEmpRow["SeparateDate"].ToString().Trim(),
-                        ddlEmpType.SelectedValue.Trim(), dEmpRow["DivisionId"].ToString().Trim(), dEmpRow["ClinicId"].ToString().Trim(), dEmpRow["ProbationPeriod"].ToString().Trim(), dEmpRow["ConfirmationDate"].ToString().Trim());
+                        "1", dEmpRow["DivisionId"].ToString().Trim(), dEmpRow["ClinicId"].ToString().Trim(), dEmpRow["ProbationPeriod"].ToString().Trim(), dEmpRow["ConfirmationDate"].ToString().Trim());
 
                     lngPayID = lngPayID + 1;
 
@@ -2125,7 +2124,7 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
 
             objPreMgr.InsertPSBData(grPayslipMst, objPayslip.Tables["dtPaySlipDets"], Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()), "N",
                 strPayDurStartDate, strPayDurEndDate, Common.ReturnDate(txtIssueDate.Text.Trim()),
-                ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.ToString(), "S", ddlEmpType.SelectedValue.Trim(), txtPercentage.Text.Trim(),
+                ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.ToString(), "S", "1", txtPercentage.Text.Trim(),
                 "1", ddlFiscalYearPF.SelectedValue.ToString(), ddlFiscalYearTax.SelectedValue.ToString());
             lblMsg.Text = "Salary Prepared Successfully";
         }
@@ -2427,7 +2426,7 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                     dEmpRow["SALDUR"].ToString().Trim(), dEmpRow["BANKCODE"].ToString().Trim(), dEmpRow["BRANCHCODE"].ToString().Trim(),
                     dEmpRow["BankAccNo"].ToString().Trim(), dEmpRow["DEPTID"].ToString().Trim(), dEmpRow["DESGID"].ToString().Trim(),
                     dEmpRow["EMPTYPEID"].ToString().Trim(), dEmpRow["PLANACCLINE"].ToString().Trim(), dEmpRow["JoiningDate"].ToString().Trim(), dEmpRow["LeavingDate"].ToString().Trim(),
-                    ddlEmpType.SelectedValue.Trim(), dEmpRow["DivisionId"].ToString().Trim(), dEmpRow["SalLocId"].ToString().Trim(), dEmpRow["ProbationPeriod"].ToString().Trim(), dEmpRow["ConfirmationDate"].ToString().Trim());
+                    "1", dEmpRow["DivisionId"].ToString().Trim(), dEmpRow["SalLocId"].ToString().Trim(), dEmpRow["ProbationPeriod"].ToString().Trim(), dEmpRow["ConfirmationDate"].ToString().Trim());
             }
         }
     }

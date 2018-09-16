@@ -27,7 +27,7 @@ public partial class Payroll_Payroll_FinalPaymentApprove : System.Web.UI.Page
             Common.FillYearList(5, ddlYear);
             ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
             ddlYear.SelectedValue = Convert.ToString(DateTime.Today.Year);
-            Common.FillDropDownList_All(objMasMgr.SelectClinic(), ddlBank);
+            Common.FillDropDownList_All(objMasMgr.SelectClinic("Y"), ddlBank);
             //Common.FillDropDownList(objMastMg.SelectLocation(0), ddlGenerateValue, "LocationName", "LocationID", false);
             //Common.FillDropDownList(objPayrollMgr.SelectBankAndBranchList(), ddlBank, "BANKBRANCH", "RoutingNo", true, "Nil");
             //Common.FillDropDownList(objMastMg.SelectEmpGroup(0), ddlGroup, "GrpName", "EmpGrpID", false);

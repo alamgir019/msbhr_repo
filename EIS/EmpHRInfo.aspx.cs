@@ -33,7 +33,7 @@ public partial class Back_Office_EmpHRInfo : System.Web.UI.Page
             Common.FillDropDownList_Nil(objMasMgr.SelectDivision(0), ddlCompany);
             Common.FillDropDownList_Nil(objMasMgr.SelectProject(), ddlProject);
             Common.FillDropDownList_Nil(objMasMgr.SelectProjectOffice(0), ddlProjectOffice);
-            Common.FillDropDownList_Nil(objMasMgr.SelectClinic(), ddlClinic);
+            Common.FillDropDownList_Nil(objMasMgr.SelectClinic("Y"), ddlClinic);
             Common.FillDropDownList_Nil(objMasMgr.SelectDepartment(0), ddlDept);
             Common.FillDropDownList_Nil(objMasMgr.SelectDeptWsSubDept(Convert.ToInt32(ddlDept.SelectedValue)), ddlSubDept);            
             Common.FillDropDownList_Nil(objMasMgr.SelectGrade(0), ddlGrade);
@@ -467,8 +467,10 @@ public partial class Back_Office_EmpHRInfo : System.Web.UI.Page
         obj.WeekendId = ddlWeekend.SelectedValue.ToString();
         obj.AttnPolicyID = ddlAttndPolicy.SelectedValue.ToString();
 
-        string strCardNo = txtEmpID.Text.Substring(1);
-        obj.CardNo = Convert.ToInt32(strCardNo);
+        //string strCardNo = txtEmpID.Text.Substring(1);
+        //obj.CardNo = Convert.ToInt32(strCardNo);
+
+        obj.CardNo = txtEmpID.Text.Trim();  
 
         obj.WorkingDays = txtWorkingDays.Text.Trim();
         obj.IsNotRehirable = chkIsNotRehire.Checked == true ? "Y" : "N";

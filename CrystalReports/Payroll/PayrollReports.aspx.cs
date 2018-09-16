@@ -52,7 +52,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
 
     protected void Bind_ddlSBU()
     {
-        Common.FillDropDownList_All(MasMgr.SelectClinic(), ddlSUB);
+        Common.FillDropDownList_All(MasMgr.SelectClinic("Y"), ddlSUB);
     }
 
     protected void Bind_ddlDept()
@@ -1025,15 +1025,21 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     //string strEmpType = radBtnListEmp.SelectedValue.Trim().ToString();
                     //string EmpStatus = strEmpType;
-                    string DeptId = ddlDept.SelectedValue;
-                    string ClinicId = ddlDivision.SelectedValue;
-                    string GradeId = ddlGrade.SelectedValue.ToString();
-                    string EmpId = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
-                    string EmpTypeID = ddlEmpType.SelectedValue;
+                    //string DeptId = ddlDept.SelectedValue;
+                    //string ClinicId = ddlDivision.SelectedValue;
+                    //string GradeId = ddlGrade.SelectedValue.ToString();
+                    //string EmpId = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
+                    //string EmpTypeID = ddlEmpType.SelectedValue;
+
+                    Session["DeptId"] = ddlDept.SelectedValue;
+                    Session["ClinicId"] = ddlDivision.SelectedValue;
+                    Session["GradeId"] = ddlGrade.SelectedValue.ToString();
+                    Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
+                    Session["EmpTypeID"] = ddlEmpType.SelectedValue;
 
                     ReportPath = Server.MapPath("~/CrystalReports/Employee/rptEmpSalaryInfo.rpt");
                     ReportDoc.Load(ReportPath);
-                    MyDataTable = rptManager.GetEmpSalaryInfo(EmpId, GradeId, ClinicId, DeptId, EmpTypeID);
+                    MyDataTable = rptManager.GetEmpSalaryInfo(Session["EmpId"].ToString(), Session["GradeId"].ToString(), Session["ClinicId"].ToString(), Session["DeptId"].ToString(), Session["EmpTypeID"].ToString());
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("pHeader", "Employee Salary Information");
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
@@ -1078,8 +1084,65 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     break;
                 }
             case "YPFC":
+                Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                Session["RptType"] = tvReports.SelectedValue.ToString();
+                Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
+                Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
+                Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
+                Session["EmpTypeId"] = "1";
+                Session["REPORTID"] = tvReports.SelectedNode.Value;
+
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFContribution.rpt");
+                MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFC", Session["EmpTypeId"].ToString());
+               // DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["FisYear"].ToString()));
+                ReportDoc.Load(ReportPath);
+                ReportDoc.SetDataSource(MyDataTable);
+                ReportDoc.SetParameterValue("P_Header", "Yearly PF Contribution For The Fiscal Year " + Session["FisYearText"].ToString());
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                fileName = Session["USERID"].ToString() + "_" + "Yearly PF Contribution" + ".pdf";
+
+                this.ExPortReport(ReportDoc, fileName);
+                break;
+
             case "YPFB":
+                //this.DivEmpLoad();    
+                Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                Session["RptType"] = tvReports.SelectedValue.ToString();
+                Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
+                Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
+                Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
+                Session["EmpTypeId"] = "1";
+                Session["REPORTID"] = tvReports.SelectedNode.Value;
+               
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFBalance.rpt");
+                MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFC", Session["EmpTypeId"].ToString());               
+                ReportDoc.Load(ReportPath);
+                ReportDoc.SetDataSource(MyDataTable);
+                ReportDoc.SetParameterValue("P_Header", "Yearly PF Contribution For The Fiscal Year " + Session["FisYearText"].ToString());
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                fileName = Session["USERID"].ToString() + "_" + "Yearly PF Contribution" + ".pdf";
+                this.ExPortReport(ReportDoc, fileName);
+                break;
+
             case "YPFLD":
+                Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                Session["RptType"] = tvReports.SelectedValue.ToString();
+                Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
+                Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
+                Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
+                Session["EmpTypeId"] = "1";
+                Session["REPORTID"] = tvReports.SelectedNode.Value;
+
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFLoanDeduct.rpt");
+                MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFLD", Session["EmpTypeId"].ToString());
+                ReportDoc.Load(ReportPath);
+                ReportDoc.SetDataSource(MyDataTable);
+                ReportDoc.SetParameterValue("P_Header", "PF Loan Deduction For The Fiscal Year " + Session["FisYearText"].ToString());
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                fileName = Session["USERID"].ToString() + "_" + "PF Loan Deduction" + ".pdf";
+                this.ExPortReport(ReportDoc, fileName);
+
+                break;
             case "IPFC":
             case "AI":
             case "AITD":
@@ -1492,6 +1555,32 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     break;
                 }
             case "FP":
+                Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
+                Session["VYear"] = ddlYear.SelectedValue.ToString();
+                Session["EmpID"] = txtEmpCode.Text.ToString() == "" ? "" : txtEmpCode.Text.ToString();
+                Session["REPORTID"] = tvReports.SelectedNode.Value;
+
+                DataSet ds = new DataSet();
+                ds = objPayRptMgr.Get_Rpt_FaynalPaymentList(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["EmpID"].ToString(), ds);
+
+                DataTable tableA = ds.Tables[0].Copy();
+                DataTable tableB = ds.Tables[1].Copy();
+                DataSet dso2 = new DataSet();
+
+                tableA.TableName = "dtFaynalPaymentList";
+                dso2.Tables.Add(tableA);
+                tableB.TableName = "dtYearlyPFContribution";
+                dso2.Tables.Add(tableB);
+
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptFinalPayment.rpt");
+                ReportDoc.Load(ReportPath);
+
+                ReportDoc.SetDataSource(dso2);
+                                             
+                fileName = Session["USERID"].ToString() + "_" + "FinalPaymentList" + ".pdf";
+
+                this.ExPortReport(ReportDoc, fileName);
+                break;
             case "FPL":
                 {
                     Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
@@ -1518,6 +1607,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     string FestivalName = ddlFestival.SelectedValue.Trim() == "-1" ? " " : this.ddlFestival.SelectedItem.Text.ToString();
                     string EmpTypeId = ddlEmpType.SelectedValue.ToString();
                     string REPORTID = tvReports.SelectedNode.Value;
+
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptdtBonusStatFastival.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_BonusStatementFastival(FisYear, VMonth,SalLoc,Religion,Festival,EmpTypeId);
@@ -1594,6 +1684,18 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Session["VMonthP"] = pmonth;
                     this.DivEmpLoad();                            
                     Session["REPORTID"] = tvReports.SelectedNode.Value;
+
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptMonthlyPFContribution.rpt");
+                    MyDataTable = objPayRptMgr.Get_MonthlyPFContribution(Session["FisYear"].ToString(), Session["VMonth"].ToString(), Session["FisYearP"].ToString(), Session["VMonthP"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString());
+                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["FisYear"].ToString()));
+                    ReportDoc.Load(ReportPath);
+                    ReportDoc.SetDataSource(MyDataTable);
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                    ReportDoc.SetParameterValue("P_Header", "Monthly PF Contribution For The Fiscal Year " + Session["FisYearText"].ToString());
+                    ReportDoc.SetParameterValue("P_Month", Common.ReturnFullMonthName(Session["VMonthP"].ToString()));
+                    ReportDoc.SetParameterValue("C_Month", Common.ReturnFullMonthName(Session["VMonth"].ToString()));
+                    fileName = Session["USERID"].ToString() + "_" + "Monthly PF Contribution" + ".pdf";
+                    this.ExPortReport(ReportDoc, fileName);
 
                     break;
                 }
@@ -1905,7 +2007,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Session["GradeId"] = ddlGrade.SelectedValue.ToString();
                     Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
                     Session["EmpTypeID"] = ddlEmpType.SelectedValue;
-
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;
                     //ReportPath = Server.MapPath("~/CrystalReports/Employee/rptEmpSalaryInfo.rpt");
                     //ReportDoc.Load(ReportPath);
                     //MyDataTable = rptManager.GetEmpSalaryInfo(EmpId, GradeId, ClinicId, DeptId, EmpTypeID);
@@ -1926,7 +2028,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Session["GradeId"] = ddlGrade.SelectedValue.ToString();
                     Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
                     Session["EmpTypeID"] = ddlEmpType.SelectedValue;
-
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;
                     //ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptEmpSalaryHistory.rpt");
                     //ReportDoc.Load(ReportPath);
                     //MyDataTable = rptManager.GetEmpSalaryHistoryInfo(EmpId, GradeId, ClinicId, DeptId, EmpTypeID);
@@ -1941,7 +2043,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
                     Session["VYear"] = ddlYear.SelectedValue.ToString();
-
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;
                     //ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptEmpSalaryExceptionCase.rpt");
                     //ReportDoc.Load(ReportPath);
                     //MyDataTable = rptManager.GetEmpSalaryExceptionCase(VMonth, VYear);
@@ -2456,7 +2558,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Session["FisYearP"] = fyer.ToString();
                     Session["VMonthP"] = pmonth;
                     this.DivEmpLoad();
-                    Session["REPORTID"] = tvReports.SelectedNode.Value;
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;  
 
                     break;
                 }
