@@ -355,6 +355,7 @@ public class Payroll_PayslipApprovalManager
 
         objDC.CreateDSFromProc(cmd, "GetPayrollReviewedData");
         return objDC.ds.Tables["GetPayrollReviewedData"];
+        
     }
 
     public DataTable GetReviewedDataForEndorcement(string strGenerateFor, string strGeneratValue, string strMonth, string strYear,

@@ -531,7 +531,7 @@ public partial class Payroll_Payroll_PayrollReview : System.Web.UI.Page
         string strToAddr = dt.Rows[0]["Review"].ToString().Trim();
         string strCC = dt.Rows[0]["Notify"].ToString().Trim();
         string strSubject = "Salary of " + ddlMonth.SelectedItem.ToString().Trim() + " has been waiting for ur Recommendation";
-        string strBody = "Hi,<br />The salary has been verified by Finance and found ok, you may recommend for approval.";
+        string strBody = "Hi,<br />The salary has been verified by Finance and found ok, you may recommend for approval.aa";
         string strFromAddr = Session["EMAILID"].ToString().Trim();
 
         strRetText = objMail.PayslipEmail(strFromAddr, strToAddr, strSubject, strBody, strCC);
