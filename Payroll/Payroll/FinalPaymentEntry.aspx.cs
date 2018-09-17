@@ -169,7 +169,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         if (strMonth == "1")
             strYear = Convert.ToString(Convert.ToInt32(strYear) - 1);
 
-        DataTable dtEmpPayroll = objPayAppMgr.GetPayrollApprovedDataForDisbursement("E", txtEmpID.Text.Trim(), strMonth, strYear, "", "1");
+        DataTable dtEmpPayroll = objPayAppMgr.GetPayrollApprovedDataForDisbursement("E", txtEmpID.Text.Trim(), strMonth, strYear, "");
 
         if (dtEmpPayroll.Rows.Count > 0)
             txtLastMonthSalary.Text = "0";

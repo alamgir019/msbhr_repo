@@ -69,9 +69,9 @@ public partial class Payroll_Payroll_ITDepositDetailsReport : System.Web.UI.Page
 
         if (strGenFor != "A")
         {
-            dtEmp = objITMgr.GetDistinctEmpoyeeData( ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
-            dtDate = objITMgr.GetDistinctDate( ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
-            dtRecords = objITMgr.GetDetailsData( ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
+            dtEmp = objITMgr.GetDistinctEmpoyeeData("-1", ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
+            dtDate = objITMgr.GetDistinctDate("-1", ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
+            dtRecords = objITMgr.GetDetailsData("-1", ddlLocation.SelectedValue.Trim(), ddlFinYear.SelectedValue.Trim(), strGenFor);
         }
         else
         {

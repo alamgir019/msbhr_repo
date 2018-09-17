@@ -576,7 +576,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 }
             case "BST":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "0", "0");
+                    PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "0", "0");
                     Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlLocation);
                     //this.AddAllinDDL(ddlSubLoc);
                     //Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType,false);
@@ -1601,7 +1601,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     string FisYear = ddlFisYear.SelectedValue.ToString();
                     string VMonth = ddlMonthFrm.SelectedValue.ToString();
-                    string SalLoc = this.ddlLocation.SelectedValue.ToString();
+                    string Division = ddlDivision.SelectedValue.ToString();
                     string Religion = ddlReligion.SelectedValue.ToString();
                     string Festival = ddlFestival.SelectedValue.Trim();
                     string FestivalName = ddlFestival.SelectedValue.Trim() == "-1" ? " " : this.ddlFestival.SelectedItem.Text.ToString();
@@ -1610,7 +1610,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
 
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptdtBonusStatFastival.rpt");
                     ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_BonusStatementFastival(FisYear, VMonth,SalLoc,Religion,Festival,EmpTypeId);
+                    MyDataTable = objPayRptMgr.Get_BonusStatementFastival(FisYear, VMonth, Division, Religion,Festival,EmpTypeId);
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", "Bonus Statement For the Festival of " + FestivalName + "  For The Month - " + VMonth);
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);

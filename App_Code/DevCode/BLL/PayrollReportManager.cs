@@ -1271,7 +1271,7 @@ public class PayrollReportManager
 
     //Get_BonusStatementFastival
     //
-    public DataTable Get_BonusStatementFastival(string FisYear, string VMonth, string SalLoc, string Religion, string Festival, string rbtEType)
+    public DataTable Get_BonusStatementFastival(string FisYear, string VMonth, string Division, string Religion, string Festival, string rbtEType)
     {
         SqlCommand cmd = new SqlCommand("Proc_Payroll_BonusStatementFastival");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -1284,9 +1284,9 @@ public class PayrollReportManager
         p_VMONTH.Direction = ParameterDirection.Input;
         p_VMONTH.Value = Convert.ToInt32(VMonth);
 
-        SqlParameter p_SalLoc = cmd.Parameters.Add("SalLoc", SqlDbType.BigInt);
+        SqlParameter p_SalLoc = cmd.Parameters.Add("DivisionId", SqlDbType.BigInt);
         p_SalLoc.Direction = ParameterDirection.Input;
-        p_SalLoc.Value = Convert.ToInt32(SalLoc);
+        p_SalLoc.Value = Convert.ToInt32(Division);
 
         //SqlParameter p_SalSubLoc = cmd.Parameters.Add("SalSubLoc", SqlDbType.BigInt);
         //p_SalSubLoc.Direction = ParameterDirection.Input;
