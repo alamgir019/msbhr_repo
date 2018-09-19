@@ -77,54 +77,7 @@ public partial class Payroll_Payroll_BonusReview : System.Web.UI.Page
 
         //this.ValidateWithBenefitsPolicy();
     }
-
-    //private void GetBonusData()
-    //{
-    //    DateTime dtJoining;
-    //    //DateTime dtFestival = Convert.ToDateTime(ddlYear.SelectedValue + "/" + "12" + "/" + "31");
-    //    DateTime dtBonusDate = Convert.ToDateTime(Common.ReturnDate(txtFestivalDate.Text.Trim()));
-
-    //    DataTable dt = objBonMgr.GetNoOfBasicRelagionWise(ddlReligion.SelectedItem.Value.ToString());
-    //    Decimal basic = 0;  // = Convert.ToDecimal(gRow.Cells[8].Text.Trim());
-    //    double dclTotDay = 0;
-    //    foreach (GridViewRow gRow in grEmployee.Rows)
-    //    {
-    //        TextBox txtBonus = (TextBox)gRow.FindControl("txtBonus");
-    //        dtJoining = Convert.ToDateTime(gRow.Cells[5].Text);
-    //        //TimeSpan ts = dtFestival - dtJoining;
-    //        TimeSpan tsBonus = dtBonusDate - dtJoining;
-    //        dclTotDay = Math.Round(Convert.ToDouble(tsBonus.Days), 0);
-    //        basic = Convert.ToDecimal(gRow.Cells[8].Text.Trim());
-    //        //if (ts.Days >= 365)
-    //        if (tsBonus.Days >= 365)
-    //        {
-    //            //txtBonus.Text = (Convert.ToDecimal(dt.Rows[0]["NumberOfbasic"]) * basic).ToString(); //gRow.Cells[8].Text.Trim();
-    //            txtBonus.Text = (1 * basic).ToString(); //gRow.Cells[8].Text.Trim();
-    //            gRow.Cells[10].Text = "12";
-    //            gRow.Cells[7].Text = "N";
-    //        }
-    //        else
-    //        {
-    //            if (dclTotDay < 30)
-    //                txtBonus.Text = "0";
-
-    //            else if (dclTotDay <= 180)
-    //                txtBonus.Text = Convert.ToString(Math.Round(((1 * basic) / 180) * Convert.ToDecimal(dclTotDay + 1)));
-
-    //            else if (dclTotDay > 180)
-    //                txtBonus.Text = (1 * basic).ToString();
-
-    //            gRow.Cells[10].Text = Convert.ToString(dclTotDay + 1);
-    //            gRow.Cells[7].Text = "Y";
-    //            //decimal JoiningMonth = Convert.ToInt32(dtJoining.Month.ToString());
-    //            ////txtBonus.Text =  Convert.ToString( Math.Round(((Convert.ToDecimal(dt.Rows[0]["NumberOfbasic"]) * basic) / 365) * Convert.ToDecimal(dclTotDay)));
-    //            //txtBonus.Text = Convert.ToString(Math.Round(((1 * basic) / 365) * Convert.ToDecimal(dclTotDay)));                    
-    //            //gRow.Cells[10].Text = Convert.ToString(12 - JoiningMonth + 1);
-    //            //gRow.Cells[7].Text = "Y";
-    //        }
-    //    }
-    //}
-
+    
     protected decimal GetProrataBfAmount(DateTime dtJoinDate, DateTime dtFestivalDate, decimal dclbfAmount)
     {
         decimal dclJobDuration = 0;
@@ -222,8 +175,7 @@ public partial class Payroll_Payroll_BonusReview : System.Web.UI.Page
             {
                 this.GenerateRecord();
                 btnDelete.Enabled = false;
-                btnSave.Enabled = true;
-                btnSaveDisburse.Enabled = true;
+                btnSave.Enabled = true;                
             }
         }
     }
