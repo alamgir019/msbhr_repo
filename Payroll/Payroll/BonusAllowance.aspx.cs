@@ -249,7 +249,7 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
     }
     protected void ddlReligion_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string religion=this.ddlReligion.SelectedValue.ToString();
+        string religion=ddlReligion.SelectedValue.ToString();
         if(religion!="99999")
             Common.FillDropDownList(objMasMgr.SelectRelagionFestivalList(Convert.ToInt32(religion)), ddlFestival,true);
     }

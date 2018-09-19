@@ -70,15 +70,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td>
-                                <asp:TextBox ID="txtFestivalDate" runat="server" Width="80px"></asp:TextBox>
-                                <a href="javascript:NewCal('<%= txtFestivalDate.ClientID %>','ddmmyyyy')">
-                                    <img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px"
-                                        height="16" alt="Pick a date" src="../../images/cal.gif" width="16" /></a>
-                            </td>
-                            <td>
-                                &nbsp;</td>
-                            <td>
-                                <asp:Button ID="btnShow" runat="server" Text="Get Bonus Data" Width="177px" />
+                                <asp:Button ID="btnShow" runat="server" Text="Get Bonus Data" Width="177px" OnClick="btnShow_Click" />
                             </td>
                         </tr>
                     </table>
@@ -92,12 +84,9 @@
                     </SelectedRowStyle>
                     <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
                     <Columns>
-                        <asp:TemplateField HeaderText="Select">
-                            <ItemStyle Width="3%" CssClass="ItemStylecss" />
-                            <ItemTemplate>
-                                <asp:CheckBox ID="ChkBox" runat="Server" Checked="true" />
-                            </ItemTemplate>
-                        </asp:TemplateField>
+                        <asp:BoundField HeaderText="SL No.">
+                            <ItemStyle CssClass="ItemStylecss" Width="5%"></ItemStyle>
+                        </asp:BoundField>
                         <asp:BoundField DataField="EMPID" HeaderText="Emp. ID">
                             <ItemStyle CssClass="ItemStylecss" Width="5%"></ItemStyle>
                         </asp:BoundField>
@@ -122,7 +111,11 @@
                         <asp:BoundField DataField="BasicSalary" HeaderText="Basic" HeaderStyle-HorizontalAlign="Right">
                             <ItemStyle CssClass="ItemStylecssRight" Width="5%"></ItemStyle>
                         </asp:BoundField>
-                        <asp:TemplateField HeaderText="Bonus" HeaderStyle-HorizontalAlign="Right">
+                        <asp:BoundField DataField="Bonus" HeaderText="Bonus" HeaderStyle-HorizontalAlign="Right">
+                            <ItemStyle CssClass="ItemStylecssRight" Width="5%"></ItemStyle>
+                        </asp:BoundField>
+
+                        <%--<asp:TemplateField HeaderText="Bonus" HeaderStyle-HorizontalAlign="Right">
                             <ItemStyle Width="6%" HorizontalAlign="right" CssClass="ItemStylecssRight"/>
                             <ItemTemplate>
                                 <asp:TextBox ID="txtBonus" Text='<%# Convert.ToString(Eval("BONUS")) %>' runat="server"
@@ -131,7 +124,7 @@
                                     FilterType="Custom,Numbers" ValidChars=".,-">
                                 </cc1:FilteredTextBoxExtender>
                             </ItemTemplate>
-                        </asp:TemplateField>
+                        </asp:TemplateField>--%>
                         <asp:BoundField DataField="PRORATADAYS" HeaderText="Prorata Months" HeaderStyle-HorizontalAlign="Right">
                             <ItemStyle CssClass="ItemStylecssRight" Width="5%"></ItemStyle>
                         </asp:BoundField>
@@ -148,10 +141,7 @@
                         OnClick="btnRefresh_Click" />
                 </div>
                 <div style="text-align: right;">
-                    <asp:Button ID="btnSaveDisburse" runat="server" Text="Save &amp; Disburse" 
-                        Width="143px" UseSubmitBehavior="False"
-                        OnClick="btnSaveDisburse_Click" style="margin-left: 0px" />
-                    <asp:Button ID="btnSave" runat="server" Text="Save for Payroll" Width="143px" UseSubmitBehavior="False"
+                    <asp:Button ID="btnSave" runat="server" Text="Review" Width="143px" UseSubmitBehavior="False"
                         OnClick="btnSave_Click" style="margin-left: 0px" />
                     <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();"
                         OnClick="btnDelete_Click" />
