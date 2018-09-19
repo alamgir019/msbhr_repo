@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 
-public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
+public partial class Payroll_Payroll_BonusReview : System.Web.UI.Page
 {   
     EmpInfoManager objEmpMgr = new EmpInfoManager();
     Payroll_MasterMgr objPayMstMgr = new Payroll_MasterMgr();
@@ -26,6 +26,7 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
         {
            //hfIsUpdate.Value = "Y";
            // Common.EmptyTextBoxValues(this);
+            lblMsg.Text = "";
             this.EntryMode(false);
             Common.FillDropDownList(objPayMstMgr.SelectFiscalYear(0, "F"), ddlFiscalYear, "FISCALYRTITLE", "FISCALYRID", false);
             Common.FillDropDownList(objPayMstMgr.SelectFiscalYear(0, "T"), ddlFiscalYearTax, "FISCALYRTITLE", "FISCALYRID", false);

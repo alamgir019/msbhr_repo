@@ -1308,8 +1308,8 @@ public class PayrollReportManager
 
 
         //Common.ReturnDate(SubmissionDate);
-        objDC.CreateDSFromProc(cmd, "GetSalaryStatement");
-        return objDC.ds.Tables["GetSalaryStatement"];
+        objDC.CreateDSFromProc(cmd, "GetBonusStatementFastival");
+        return objDC.ds.Tables["GetBonusStatementFastival"];
 
     }
     //Get_FastivalBonusSummery
