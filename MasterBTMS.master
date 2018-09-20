@@ -8,6 +8,7 @@
     <title>HR & Payroll System</title>
     <link href="Css/StyleSheet.css" rel="stylesheet" type="text/css" />
     <link href="Css/MenuStyle.css" rel="stylesheet" type="text/css" />
+    <link href="JScripts/jquery-ui-1.8.1.css" rel="stylesheet" />
     <%@ register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
 </head>
 <body>
