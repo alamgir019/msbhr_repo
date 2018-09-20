@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Text.RegularExpressions;
 
 public partial class Training_TrainingResult : System.Web.UI.Page
 {
@@ -26,16 +27,16 @@ public partial class Training_TrainingResult : System.Web.UI.Page
             this.EntryMode(false);
             this.OpenRecord();
             this.CreateTable();
-            DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
+            //DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
             //Common.FillDropDownList_Nil(objTrMgr.SelectTrainingList("0"), ddlTrainingName);
             Common.FillDropDownList(objTrMgr.SelectScheduleList("A"), ddlSchedule, "ScheDate", "ScheduleID", true);
 
             Common.FillDropDownList(objEmp.SelectProjectList(0), ddlFundedby, "ProjectName", "ProjectId", true);
-            Common.FillDropDownList(dtEmp, ddlEvaluationBy, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlSignatory1, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlSignatory2, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlSignatory3, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlSignatory4, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlEvaluationBy, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlSignatory1, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlSignatory2, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlSignatory3, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlSignatory4, "EmpName", "EmpID", true);
         }
     }
     private void CreateTable()
@@ -165,11 +166,26 @@ public partial class Training_TrainingResult : System.Web.UI.Page
         nRow["TrainId"] = Common.RoundDecimal(hfTrainingId.Value.ToString().Trim(), 0);
         nRow["EvalDate"] = Common.ReturnDate(txtEvaluationDate.Text.Trim());
         nRow["EvalMethod"] = txtEvaluationMethod.Text.Trim();
-        nRow["EvalBy"] = ddlEvaluationBy.SelectedValue.ToString().Trim();
-        nRow["SignID1"] = ddlSignatory1.SelectedValue.ToString().Trim();
-        nRow["SignID2"] = ddlSignatory2.SelectedValue.ToString().Trim();
-        nRow["SignID3"] = ddlSignatory3.SelectedValue.ToString().Trim();
-        nRow["SignID4"] = ddlSignatory4.SelectedValue.ToString().Trim();
+        //nRow["EvalBy"] = ddlEvaluationBy.SelectedValue.ToString().Trim();
+        var match = Regex.Match(txtEvaluationBy.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        string empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["EvalBy"] = empid;
+        //nRow["SignID1"] = ddlSignatory1.SelectedValue.ToString().Trim();
+        match = Regex.Match(txtSignatory1.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["SignID1"] = empid;
+        //nRow["SignID2"] = ddlSignatory2.SelectedValue.ToString().Trim();
+        match = Regex.Match(txtSignatory2.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["SignID2"] = empid;
+        //nRow["SignID3"] = ddlSignatory3.SelectedValue.ToString().Trim();
+        match = Regex.Match(txtSignatory3.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["SignID3"] = empid;
+        //nRow["SignID4"] = ddlSignatory4.SelectedValue.ToString().Trim();
+        match = Regex.Match(txtSignatory4.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["SignID4"] = empid;
 
         if (cmdType == "I")
         {
@@ -389,18 +405,18 @@ public partial class Training_TrainingResult : System.Web.UI.Page
 
                     txtEvaluationDate.Text = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[3].ToString();
                     txtEvaluationMethod.Text = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[4].ToString();
-                    ddlEvaluationBy.SelectedValue = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[5].ToString();
+                    txtEvaluationBy.Text = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[5].ToString();
 
-                    ddlSignatory1.SelectedValue = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[6].ToString();
+                    txtSignatory1.Text = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[6].ToString();
                     this.FillEmployeeInfo(grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[6].ToString().Trim(), "1");
 
-                    ddlSignatory2.SelectedValue = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[8].ToString();
+                    txtSignatory2.Text = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[8].ToString();
                     this.FillEmployeeInfo(grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[8].ToString().Trim(), "2");
 
-                    ddlSignatory3.SelectedValue = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[10].ToString();
+                    txtSignatory3.Text = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[10].ToString();
                     this.FillEmployeeInfo(grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[10].ToString().Trim(), "3");
 
-                    ddlSignatory4.SelectedValue = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[12].ToString();
+                    txtSignatory4.Text = grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[12].ToString();
                     this.FillEmployeeInfo(grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[12].ToString().Trim(), "4");
 
                     if (grTrainingResult.DataKeys[_gridView.SelectedIndex].Values[14].ToString().Trim() == "N")
@@ -476,9 +492,9 @@ public partial class Training_TrainingResult : System.Web.UI.Page
     {
         txtDesignation1.Text = "";
         txtDept1.Text = "";
-        if (Common.CheckNullString(ddlSignatory1.SelectedValue.ToString().Trim()) != "")
+        if (Common.CheckNullString(txtSignatory1.Text.ToString().Trim()) != "")
         {
-            this.FillEmployeeInfo(ddlSignatory1.SelectedValue.ToString().Trim(), "1");
+            this.FillEmployeeInfo(txtSignatory1.Text.ToString().Trim(), "1");
 
         }
     }
@@ -486,9 +502,9 @@ public partial class Training_TrainingResult : System.Web.UI.Page
     {
         txtDesignation2.Text = "";
         txtDept2.Text = "";
-        if (Common.CheckNullString(ddlSignatory2.SelectedValue.ToString().Trim()) != "")
+        if (Common.CheckNullString(txtSignatory2.Text.ToString().Trim()) != "")
         {
-            this.FillEmployeeInfo(ddlSignatory2.SelectedValue.ToString().Trim(), "2");
+            this.FillEmployeeInfo(txtSignatory2.Text.ToString().Trim(), "2");
 
         }
     }
@@ -496,9 +512,9 @@ public partial class Training_TrainingResult : System.Web.UI.Page
     {
         txtDesignation3.Text = "";
         txtDept3.Text = "";
-        if (Common.CheckNullString(ddlSignatory3.SelectedValue.ToString().Trim()) != "")
+        if (Common.CheckNullString(txtSignatory3.Text.ToString().Trim()) != "")
         {
-            this.FillEmployeeInfo(ddlSignatory3.SelectedValue.ToString().Trim(), "3");
+            this.FillEmployeeInfo(txtSignatory3.Text.ToString().Trim(), "3");
 
         }
     }
@@ -506,9 +522,9 @@ public partial class Training_TrainingResult : System.Web.UI.Page
     {
         txtDesignation4.Text = "";
         txtDept4.Text = "";
-        if (Common.CheckNullString(ddlSignatory4.SelectedValue.ToString().Trim()) != "")
+        if (Common.CheckNullString(txtSignatory4.Text.ToString().Trim()) != "")
         {
-            this.FillEmployeeInfo(ddlSignatory4.SelectedValue.ToString().Trim(), "4");
+            this.FillEmployeeInfo(txtSignatory4.Text.ToString().Trim(), "4");
 
         }
     }

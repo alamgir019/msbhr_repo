@@ -1,13 +1,194 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" CodeFile="TrainingBudget.aspx.cs" Inherits="Training_TrainingBudget" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
- <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js">
-     //Date Time Picker script
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-1.4.2.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-ui-1.8.1.min.js"></script>
+ <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js"></script>
+  <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".PreparedBy").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName,
+                                    empid: item.EmpId,
+                                    designame: item.Title,
+                                    deptname: item.DeptName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('.txtDesigPrep').val(ui.item.designame);
+                    $('.txtDeptPrep').val(ui.item.deptname);
+                    },
+                minLength: 2
+            });
+            $(".ReviewedBy").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName,
+                                    empid: item.EmpId,
+                                    designame: item.Title,
+                                    deptname: item.DeptName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('.txtDesigReview').val(ui.item.designame);
+                    $('.txtDeptReview').val(ui.item.deptname);
+                },
+                minLength: 2
+            });
+            $(".Recommend1").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName,
+                                    empid: item.EmpId,
+                                    designame: item.Title,
+                                    deptname: item.DeptName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('.txtDesigRec1').val(ui.item.designame);
+                    $('.txtDeptRec1').val(ui.item.deptname);
+                },
+                minLength: 2
+            });
+            $(".Recommend2").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName,
+                                    empid: item.EmpId,
+                                    designame: item.Title,
+                                    deptname: item.DeptName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('.txtDesigRec2').val(ui.item.designame);
+                    $('.txtDeptRec2').val(ui.item.deptname);
+                },
+                minLength: 2
+            });
+            $(".Recommend3").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName,
+                                    empid: item.EmpId,
+                                    designame: item.Title,
+                                    deptname: item.DeptName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('.txtDesigRec3').val(ui.item.designame);
+                    $('.txtDeptRec3').val(ui.item.deptname);
+                },
+                minLength: 2
+            });
+            $(".ApprovedBy").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName,
+                                    empid: item.EmpId,
+                                    designame: item.Title,
+                                    deptname: item.DeptName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('.txtDesigApp').val(ui.item.designame);
+                    $('.txtDeptApp').val(ui.item.deptname);
+                },
+                minLength: 2
+            });
+        });
     </script>
-    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js">
-        //Delete Confirmation Message
-    </script>
-
      <div class="officeSetup" style="width: 72%">
         <div id="formhead1">
             <div style="width: 96%; float: left;">
@@ -194,50 +375,53 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:DropDownList ID="ddlPreparedBy" runat="server" CssClass="textlevelleft" Width="200px"
+                        <asp:TextBox ID="txtPreparedBy" class="PreparedBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                        <%--<asp:DropDownList ID="ddlPreparedBy" runat="server" CssClass="textlevelleft" Width="200px"
                             ToolTip="Select Prepared By" OnSelectedIndexChanged="ddlPreparedBy_SelectedIndexChanged"
                             AutoPostBack="True">
-                        </asp:DropDownList>
+                        </asp:DropDownList>--%>
                     </td>
                     <td>
-                        <asp:DropDownList ID="ddlReviewedBy" runat="server" CssClass="textlevelleft" Width="200px"
+                        <asp:TextBox ID="txtReviewedBy" class="ReviewedBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                        <%--<asp:DropDownList ID="ddlReviewedBy" runat="server" CssClass="textlevelleft" Width="200px"
                             ToolTip="Select Reviewed By" OnSelectedIndexChanged="ddlReviewedBy_SelectedIndexChanged"
                             AutoPostBack="True">
-                        </asp:DropDownList>
+                        </asp:DropDownList>--%>
                     </td>
                     <td>
-                        <asp:DropDownList ID="ddlRecommend1" runat="server" CssClass="textlevelleft" Width="200px"
+                        <asp:TextBox ID="txtRecommend1" class="Recommend1 textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                        <%--<asp:DropDownList ID="ddlRecommend1" runat="server" CssClass="textlevelleft" Width="200px"
                             ToolTip="Select Recommend By" OnSelectedIndexChanged="ddlRecommend1_SelectedIndexChanged"
                             AutoPostBack="True">
-                        </asp:DropDownList>
+                        </asp:DropDownList>--%>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <asp:TextBox ID="txtDesigPrep" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDesigPrep" class="txtDesigPrep" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ErrorMessage="*"
                             ControlToValidate="txtDesigPrep"></asp:RequiredFieldValidator>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtDesigReview" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDesigReview" class="txtDesigReview" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="*"
                             ControlToValidate="txtDesigReview"></asp:RequiredFieldValidator>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtDesigRec1" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDesigRec1" class="txtDesigRec1" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ErrorMessage="*"
                             ControlToValidate="txtDesigRec1"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <asp:TextBox ID="txtDeptPrep" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDeptPrep" class="txtDeptPrep" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtDeptReview" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDeptReview" class="txtDeptReview" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtDeptRec1" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDeptRec1" class="txtDeptRec1" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
@@ -277,44 +461,47 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:DropDownList ID="ddlRecommend2" runat="server" CssClass="textlevelleft" Width="200px"
+                        <asp:TextBox ID="txtRecommend2" class="Recommend2 textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                        <%--<asp:DropDownList ID="ddlRecommend2" runat="server" CssClass="textlevelleft" Width="200px"
                             ToolTip="Select Recommend By" OnSelectedIndexChanged="ddlRecommend2_SelectedIndexChanged"
                             AutoPostBack="True">
-                        </asp:DropDownList>
+                        </asp:DropDownList>--%>
                     </td>
                     <td>
-                        <asp:DropDownList ID="ddlRecommend3" runat="server" CssClass="textlevelleft" Width="200px"
+                        <asp:TextBox ID="txtRecommend3" class="Recommend3 textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                        <%--<asp:DropDownList ID="ddlRecommend3" runat="server" CssClass="textlevelleft" Width="200px"
                             ToolTip="Select Recommend By" OnSelectedIndexChanged="ddlRecommend3_SelectedIndexChanged"
                             AutoPostBack="True">
-                        </asp:DropDownList>
+                        </asp:DropDownList>--%>
                     </td>
                     <td>
-                        <asp:DropDownList ID="ddlApprovedBy" runat="server" CssClass="textlevelleft" Width="200px"
+                        <asp:TextBox ID="txtApprovedBy" class="ApprovedBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                        <%--<asp:DropDownList ID="ddlApprovedBy" runat="server" CssClass="textlevelleft" Width="200px"
                             ToolTip="Select Approved By" OnSelectedIndexChanged="ddlApprovedBy_SelectedIndexChanged"
                             AutoPostBack="True">
-                        </asp:DropDownList>
+                        </asp:DropDownList>--%>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <asp:TextBox ID="txtDesigRec2" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDesigRec2" class="txtDesigRec2" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtDesigRec3" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDesigRec3" class="txtDesigRec3" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtDesigApp" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDesigApp" class="txtDesigApp" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <asp:TextBox ID="txtDeptRec2" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDeptRec2" class="txtDeptRec2" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtDeptRec3" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDeptRec3" class="txtDeptRec3" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtDeptApp" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDeptApp" class="txtDeptApp" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
                     </td>
                 </tr>
             </table>

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Text.RegularExpressions;
 
 public partial class Training_TrainingBudget : System.Web.UI.Page
 {
@@ -30,14 +31,14 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
             Common.FillDropDownList_Nil(objTrMgr.SelectTrainingVenue("A"), ddlVenue);
 
 
-            DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
-            dtEmp = objEmp.SelectIntEmpWithID();
-            Common.FillDropDownList(dtEmp, ddlPreparedBy, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlReviewedBy, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlRecommend1, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlRecommend2, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlRecommend3, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlApprovedBy, "EmpName", "EmpID", true);
+            //DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
+            //dtEmp = objEmp.SelectIntEmpWithID();
+            //Common.FillDropDownList(dtEmp, ddlPreparedBy, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlReviewedBy, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlRecommend1, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlRecommend2, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlRecommend3, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlApprovedBy, "EmpName", "EmpID", true);
             this.CreateTable();
         }
     }
@@ -123,17 +124,17 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
                         lblMsg.Text = "Please Enter Participant Level";
                         return false;
                     }
-                    else if (ddlPreparedBy.SelectedIndex <= 0)
+                    else if (txtPreparedBy.Text.Trim()=="")
                     {
                         lblMsg.Text = "Please Select Prepared By";
                         return false;
                     }
-                    else if (ddlReviewedBy.SelectedIndex <= 0)
+                    else if (txtReviewedBy.Text.Trim() == "")
                     {
                         lblMsg.Text = "Please Select Reviewed By";
                         return false;
                     }
-                    else if (ddlRecommend1.SelectedIndex <= 0)
+                    else if (txtRecommend1.Text.Trim() == "")
                     {
                         lblMsg.Text = "Please Select Remommend By";
                         return false;
@@ -148,7 +149,7 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
                     //    lblMsg.Text = "Please Select Recommend By";
                     //    return false;
                     //}
-                    else if (ddlApprovedBy.SelectedIndex <= 0)
+                    else if (txtApprovedBy.Text.Trim() == "")
                     {
                         lblMsg.Text = "Please Select Approved By";
                         return false;
@@ -222,12 +223,30 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
         nRow["TotalParticipant"] = Common.RoundDecimal(txtNoOfPerson.Text.Trim(), 0);
         nRow["Period"] = Common.RoundDecimal(hfDuration.Value, 0);
 
-        nRow["PreparedBy"] = ddlPreparedBy.SelectedValue.ToString().Trim();
-        nRow["ReviewedBy"] = ddlReviewedBy.SelectedValue.ToString().Trim();
-        nRow["RecomBy1"] = ddlRecommend1.SelectedValue.ToString().Trim();
-        nRow["RecomBy2"] = ddlRecommend2.SelectedValue.ToString().Trim();
-        nRow["RecomBy3"] = ddlRecommend3.SelectedValue.ToString().Trim();
-        nRow["ApprovedBy"] = ddlApprovedBy.SelectedValue.ToString().Trim();
+        //nRow["PreparedBy"] = txtPreparedBy.Text.Trim();
+        var match = Regex.Match(txtPreparedBy.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        string empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["PreparedBy"] = empid;
+        //nRow["ReviewedBy"] = txtReviewedBy.Text.Trim();
+        match = Regex.Match(txtReviewedBy.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["ReviewedBy"] = empid;
+        //nRow["RecomBy1"] = txtRecommend1.Text.Trim();
+        match = Regex.Match(txtRecommend1.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["RecomBy1"] = empid;
+        //nRow["RecomBy2"] = txtRecommend2.Text.Trim();
+        match = Regex.Match(txtRecommend2.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["RecomBy2"] = empid;
+        //nRow["RecomBy3"] = txtRecommend3.Text.Trim();
+        match = Regex.Match(txtRecommend3.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["RecomBy3"] = empid;
+        //nRow["ApprovedBy"] = txtApprovedBy.Text.Trim();
+        match = Regex.Match(txtApprovedBy.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["ApprovedBy"] = empid;
 
 
         if (cmdType == "I")
@@ -405,60 +424,60 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
         grList.DataSource = dt;
         grList.DataBind();
     }
-    protected void ddlPreparedBy_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        txtDesigPrep.Text = "";
-        txtDeptPrep.Text = "";
-        if (Common.CheckNullString(ddlPreparedBy.SelectedValue.ToString().Trim()) != "")
-        {
-            this.FillEmployeeInfo(ddlPreparedBy.SelectedValue.ToString().Trim(), "1");
-        }
-    }
-    protected void ddlReviewedBy_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        txtDesigReview.Text = "";
-        txtDeptReview.Text = "";
-        if (Common.CheckNullString(ddlReviewedBy.SelectedValue.ToString().Trim()) != "")
-        {
-            this.FillEmployeeInfo(ddlReviewedBy.SelectedValue.ToString().Trim(), "2");
-        }
-    }
-    protected void ddlRecommend1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        txtDesigRec1.Text = "";
-        txtDeptRec1.Text = "";
-        if (Common.CheckNullString(ddlRecommend1.SelectedValue.ToString().Trim()) != "")
-        {
-            this.FillEmployeeInfo(ddlRecommend1.SelectedValue.ToString().Trim(), "3");
-        }
-    }
-    protected void ddlRecommend2_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        txtDesigRec2.Text = "";
-        txtDeptRec2.Text = "";
-        if (Common.CheckNullString(ddlRecommend2.SelectedValue.ToString().Trim()) != "")
-        {
-            this.FillEmployeeInfo(ddlRecommend2.SelectedValue.ToString().Trim(), "4");
-        }
-    }
-    protected void ddlRecommend3_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        txtDesigRec3.Text = "";
-        txtDeptRec3.Text = "";
-        if (Common.CheckNullString(ddlRecommend3.SelectedValue.ToString().Trim()) != "")
-        {
-            this.FillEmployeeInfo(ddlRecommend3.SelectedValue.ToString().Trim(), "5");
-        }
-    }
-    protected void ddlApprovedBy_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        txtDesigApp.Text = "";
-        txtDeptApp.Text = "";
-        if (Common.CheckNullString(ddlApprovedBy.SelectedValue.ToString().Trim()) != "")
-        {
-            this.FillEmployeeInfo(ddlApprovedBy.SelectedValue.ToString().Trim(), "6");
-        }
-    }
+    //protected void ddlPreparedBy_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    txtDesigPrep.Text = "";
+    //    txtDeptPrep.Text = "";
+    //    if (Common.CheckNullString(txtPreparedBy.Text.Trim()) != "")
+    //    {
+    //        this.FillEmployeeInfo(txtPreparedBy.Text.Trim(), "1");
+    //    }
+    //}
+    //protected void ddlReviewedBy_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    txtDesigReview.Text = "";
+    //    txtDeptReview.Text = "";
+    //    if (Common.CheckNullString(ddlReviewedBy.SelectedValue.ToString().Trim()) != "")
+    //    {
+    //        this.FillEmployeeInfo(ddlReviewedBy.SelectedValue.ToString().Trim(), "2");
+    //    }
+    //}
+    //protected void ddlRecommend1_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    txtDesigRec1.Text = "";
+    //    txtDeptRec1.Text = "";
+    //    if (Common.CheckNullString(ddlRecommend1.SelectedValue.ToString().Trim()) != "")
+    //    {
+    //        this.FillEmployeeInfo(ddlRecommend1.SelectedValue.ToString().Trim(), "3");
+    //    }
+    //}
+    //protected void ddlRecommend2_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    txtDesigRec2.Text = "";
+    //    txtDeptRec2.Text = "";
+    //    if (Common.CheckNullString(ddlRecommend2.SelectedValue.ToString().Trim()) != "")
+    //    {
+    //        this.FillEmployeeInfo(ddlRecommend2.SelectedValue.ToString().Trim(), "4");
+    //    }
+    //}
+    //protected void ddlRecommend3_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    txtDesigRec3.Text = "";
+    //    txtDeptRec3.Text = "";
+    //    if (Common.CheckNullString(ddlRecommend3.SelectedValue.ToString().Trim()) != "")
+    //    {
+    //        this.FillEmployeeInfo(ddlRecommend3.SelectedValue.ToString().Trim(), "5");
+    //    }
+    //}
+    //protected void ddlApprovedBy_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    txtDesigApp.Text = "";
+    //    txtDeptApp.Text = "";
+    //    if (Common.CheckNullString(ddlApprovedBy.SelectedValue.ToString().Trim()) != "")
+    //    {
+    //        this.FillEmployeeInfo(ddlApprovedBy.SelectedValue.ToString().Trim(), "6");
+    //    }
+    //}
     private void FillEmployeeInfo(string strEmpId, string ddlId)
     {
         DataRow[] dr = objTrMgr.SelectEmployeeDetail(strEmpId).Select("EmpId='" + strEmpId+"'");
@@ -629,22 +648,22 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
                     txtParticipentLevel.Text = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[17].ToString();
                     ddlVenue.SelectedValue=grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[18].ToString();
 
-                    ddlPreparedBy.SelectedValue = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[9].ToString();
+                    txtPreparedBy.Text = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[9].ToString();
                     this.FillEmployeeInfo(grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[9].ToString().Trim(), "1");
 
-                    ddlReviewedBy.SelectedValue = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[10].ToString();
+                    txtReviewedBy.Text = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[10].ToString();
                     this.FillEmployeeInfo(grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[10].ToString().Trim(), "2");
 
-                    ddlRecommend1.SelectedValue = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[11].ToString();
+                    txtRecommend1.Text = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[11].ToString();
                     this.FillEmployeeInfo(grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[11].ToString().Trim(), "3");
                     
-                    ddlRecommend2.SelectedValue = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[12].ToString();
+                    txtRecommend2.Text = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[12].ToString();
                     this.FillEmployeeInfo(grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[12].ToString().Trim(), "4");
                     
-                    ddlRecommend3.SelectedValue = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[13].ToString();
+                    txtRecommend3.Text = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[13].ToString();
                     this.FillEmployeeInfo(grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[13].ToString().Trim(), "5");
                     
-                    ddlApprovedBy.SelectedValue = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[14].ToString();
+                    txtApprovedBy.Text = grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[14].ToString();
                     this.FillEmployeeInfo(grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[14].ToString().Trim(), "6");
 
                     if (grTrainingBudget.DataKeys[_gridView.SelectedIndex].Values[19].ToString().Trim() == "N")
