@@ -1143,13 +1143,20 @@ public class EmpInfoManager
 
     public DataTable SelectEmpNameWithID(string strStatus)
     {
-        string strSQL = "SELECT FULLNAME + ' [' + EMPID + ']' AS EMPNAME,EMPID FROM EMPINFO WHERE EmpStatus=@STATUS AND ISDELETED='N' ORDER BY EMPID";
+        string strSQL = "SELECT  FULLNAME + ' [' + EMPID + ']' AS EMPNAME,EMPID,dg.DesigName,dl.DeptName" +
+            " from EmpInfo ei left join Designation dg on ei.DesigId=dg.DesigId "+
+            "left join DepartmentList dl on ei.DeptId = dl.DeptId WHERE ei.ISDELETED ='N'";
+        if (!string.IsNullOrEmpty(strStatus))
+        {
+            strSQL += " AND ei.EmpStatus='" + strStatus+"'";
+        }
+        strSQL+= " ORDER BY ei.EMPID";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
 
-        SqlParameter p_STATUS = command.Parameters.Add("STATUS", SqlDbType.Char);
-        p_STATUS.Direction = ParameterDirection.Input;
-        p_STATUS.Value = strStatus;
+        //SqlParameter p_STATUS = command.Parameters.Add("STATUS", SqlDbType.Char);
+        //p_STATUS.Direction = ParameterDirection.Input;
+        //p_STATUS.Value = strStatus;
 
         objDC.CreateDT(command, "SelectEmpNameWithID");
         return objDC.ds.Tables["SelectEmpNameWithID"];
@@ -2571,8 +2578,7 @@ public class EmpInfoManager
         objDC.CreateDSFromProc(command, "tran");
         return objDC.ds.Tables["tran"];
     }
-
-  
+      
     //Update EmpInfo Action Info
     private SqlCommand UpdateEmpHRAction(string strEmpId, string strActionId, string strActionDate, string strInsertedBy, string strInsertedDate)
     {
@@ -5549,9 +5555,7 @@ public class EmpInfoManager
         }
         return objDC.CreateDT(strSQL, "EmpInfoGrWs");
     }
-
-    
-
+     
     public DataTable SelectTrainService(string EmpID, string strFiscalYrId)
     {
         if (objDC.ds.Tables["tblTrainingService"] != null)
@@ -5566,8 +5570,7 @@ public class EmpInfoManager
 
         return objDC.CreateDT(strSQL, "tblTrainingService");
     }
-
-
+    
     public DataTable SelectEmpEmailAddress(string empID)
     
     {
@@ -5886,6 +5889,7 @@ public class EmpInfoManager
             throw (ex);
         }
     }
+
     public DataTable SelectEmpInfoForLedger(string EmpID, string sbuID)
     {
         SqlCommand command = new SqlCommand("proc_Select_EmpInfo_ForLedger");
@@ -5922,8 +5926,7 @@ public class EmpInfoManager
         objDC.CreateDSFromProc(command, "tblProjectList");
         return objDC.ds.Tables["tblProjectList"];
     }
-
-
+    
     public DataTable SelectEmpForIncrement(string strClinicID)
     {
         string strSQL = "SELECT E.EMPID,E.FULLNAME,E.EmpTypeId,E.BasicSalary,E.GrossSalary,D.DesigName,C.ClinicName FROM EMPINFO E,Designation D,ClinicList C" +

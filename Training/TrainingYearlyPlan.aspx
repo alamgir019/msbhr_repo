@@ -1,61 +1,95 @@
 ﻿<%@ Page EnableEventValidation="false" EnableViewState="True" Title="" Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" CodeFile="TrainingYearlyPlan.aspx.cs" Inherits="Training_TrainingYearlyPlan" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js">
-    </script>
-    <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js">
-    </script>
+    <%--<script language="javascript" type="text/javascript" src="../JScripts/jquery-1.12.4.js"></script>--%>
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-1.4.2.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-ui-1.8.1.min.js"></script>
+    <%--<script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js"></script>--%>
     <script type="text/javascript">
-    // view ajaxcascadingdropdown
-        function SelectTrainingDtl() {
-            var ddlTrainingName = $("[id*=ddlTrainingName]");
-            $.ajax({
-                type: "POST",
-                url: "../MSBWebService.asmx/SelectTrainingDtlWithDesig",
-                data: '{trainId:' + ddlTrainingName.val() + '}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (r) {
-                    alert(r.d);
-                    FillDropdown(r, "ddlDesignation");
+        $(function () {
+            $(".SubtitledBy").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        //dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName,
+                                    empid: item.EmpId,
+                                    designame: item.Title,
+                                    deptname: item.DeptName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
                 },
-                error: function (xhr, err) {
-                    alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
-                    alert("responseText: " + xhr.responseText);
-                }
+                select: function (event, ui) {
+                    $('.txtDesigSub').val(ui.item.designame);
+                    $('.txtDeptSub').val(ui.item.deptname);
+                    },
+                minLength: 2
             });
-        } 
-        function getDuration() {
-            var strDate = stringToDate(document.getElementById('<%=txtStartDate.ClientID%>').value, "dd/MM/yyyy", "/");
-            var endDate = stringToDate(document.getElementById('<%=txtEndDate.ClientID%>').value, "dd/MM/yyyy", "/");
-            var diff = daydiff(strDate, endDate) + 1;
-            if (diff < 0) {
-                //alert('Start Date Cannot be Greater Than End Date.');
-                document.getElementById('<%=lblMsg.ClientID%>').innerHTML = 'Start Date Cannot be Greater Than End Date.';
-                document.getElementById('<%=txtDuration.ClientID%>').value = '';
-                return;
+            // view ajaxcascadingdropdown
+            function SelectTrainingDtl() {
+                var ddlTrainingName = $("[id*=ddlTrainingName]");
+                $.ajax({
+                    type: "POST",
+                    url: "../MSBWebService.asmx/SelectTrainingDtlWithDesig",
+                    data: '{trainId:' + ddlTrainingName.val() + '}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        alert(r.d);
+                        FillDropdown(r, "ddlDesignation");
+                    },
+                    error: function (xhr, err) {
+                        alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                        alert("responseText: " + xhr.responseText);
+                    }
+                });
             }
-            else {
-                document.getElementById('<%=txtDuration.ClientID%>').value = diff;
+
+            function getDuration() {
+                var strDate = stringToDate(document.getElementById('<%=txtStartDate.ClientID%>').value, "dd/MM/yyyy", "/");
+                var endDate = stringToDate(document.getElementById('<%=txtEndDate.ClientID%>').value, "dd/MM/yyyy", "/");
+                var diff = daydiff(strDate, endDate) + 1;
+                if (diff < 0) {
+                    //alert('Start Date Cannot be Greater Than End Date.');
+                    document.getElementById('<%=lblMsg.ClientID%>').innerHTML = 'Start Date Cannot be Greater Than End Date.';
+                    document.getElementById('<%=txtDuration.ClientID%>').value = '';
+                    return;
+                }
+                else {
+                    document.getElementById('<%=txtDuration.ClientID%>').value = diff;
+                }
             }
-        }
 
-        function daydiff(first, second) {
-            return Math.round((second - first) / (1000 * 60 * 60 * 24));
-        }
+            function daydiff(first, second) {
+                return Math.round((second - first) / (1000 * 60 * 60 * 24));
+            }
 
-        function stringToDate(_date, _format, _delimiter) {
-            var formatLowerCase = _format.toLowerCase();
-            var formatItems = formatLowerCase.split(_delimiter);
-            var dateItems = _date.split(_delimiter);
-            var monthIndex = formatItems.indexOf("mm");
-            var dayIndex = formatItems.indexOf("dd");
-            var yearIndex = formatItems.indexOf("yyyy");
-            var month = parseInt(dateItems[monthIndex]);
-            month -= 1;
-            var formatedDate = new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
-            return formatedDate;
-        }   
+            function stringToDate(_date, _format, _delimiter) {
+                var formatLowerCase = _format.toLowerCase();
+                var formatItems = formatLowerCase.split(_delimiter);
+                var dateItems = _date.split(_delimiter);
+                var monthIndex = formatItems.indexOf("mm");
+                var dayIndex = formatItems.indexOf("dd");
+                var yearIndex = formatItems.indexOf("yyyy");
+                var month = parseInt(dateItems[monthIndex]);
+                month -= 1;
+                var formatedDate = new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
+                return formatedDate;
+            }
+        });
     </script>
    <div class="officeSetup" style="width: 80%">
         <div id="formhead1">
@@ -281,10 +315,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:DropDownList ID="ddlSubtitledBy" runat="server" CssClass="textlevelleft" Width="200px"
-                            ToolTip="Select Prepared By" OnSelectedIndexChanged="ddlSubtitledBy_SelectedIndexChanged"
-                            AutoPostBack="True">
-                        </asp:DropDownList>
+                        <asp:TextBox ID="txtLeaveSupervisor" class="SubtitledBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
                     </td>
                     <td>
                         <asp:DropDownList ID="ddlReviewedBy" runat="server" CssClass="textlevelleft" Width="200px"
@@ -301,7 +332,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:TextBox ID="txtDesigSub" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDesigSub" class="txtDesigSub" runat="server" Width="200px"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ErrorMessage="*"
                             ControlToValidate="txtDesigSub"></asp:RequiredFieldValidator>
                     </td>
@@ -318,7 +349,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:TextBox ID="txtDeptSub" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>
+                        <asp:TextBox ID="txtDeptSub" runat="server" class="txtDeptSub" Width="200px" ReadOnly="True"></asp:TextBox>
                     </td>
                     <td>
                         <asp:TextBox ID="txtDeptReview" runat="server" Width="200px" ReadOnly="True"></asp:TextBox>

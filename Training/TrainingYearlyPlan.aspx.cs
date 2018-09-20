@@ -35,7 +35,7 @@ public partial class Training_TrainingYearlyPlan : System.Web.UI.Page
 
             DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
             dtEmp = objEmp.SelectIntEmpWithID();
-            Common.FillDropDownList(dtEmp, ddlSubtitledBy, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlSubtitledBy, "EmpName", "EmpID", true);
             Common.FillDropDownList(dtEmp, ddlReviewedBy, "EmpName", "EmpID", true);
             Common.FillDropDownList(dtEmp, ddlRecommend1, "EmpName", "EmpID", true);
             Common.FillDropDownList(dtEmp, ddlRecommend2, "EmpName", "EmpID", true);
@@ -111,7 +111,7 @@ public partial class Training_TrainingYearlyPlan : System.Web.UI.Page
         nRow["EndDate"] = Common.ReturnDate(txtEndDate.Text.Trim());
         nRow["Duration"] = Common.RoundDecimal(txtDuration.Text.Trim(), 0);
         nRow["Remarks"] = txtRemarks.InnerText;
-        nRow["SubtitledBy"] = ddlSubtitledBy.SelectedValue.ToString().Trim();
+        //nRow["SubtitledBy"] = ddlSubtitledBy.SelectedValue.ToString().Trim();
         nRow["ReviewedBy"] = ddlReviewedBy.SelectedValue.ToString().Trim();
         nRow["RecommBy1"] = ddlRecommend1.SelectedValue.ToString().Trim();
         nRow["RecommBy2"] = ddlRecommend2.SelectedValue.ToString().Trim();
@@ -225,11 +225,11 @@ public partial class Training_TrainingYearlyPlan : System.Web.UI.Page
                         lblMsg.Text = "Please add Designation.";
                         return false;
                     }
-                    else if (ddlSubtitledBy.SelectedIndex <= 0)
-                    {
-                        lblMsg.Text = "Please Select Subtitled By";
-                        return false;
-                    }
+                    //else if (ddlSubtitledBy.SelectedIndex <= 0)
+                    //{
+                    //    lblMsg.Text = "Please Select Subtitled By";
+                    //    return false;
+                    //}
                     else if (ddlReviewedBy.SelectedIndex <= 0)
                     {
                         lblMsg.Text = "Please Select Reviewed By";
@@ -350,7 +350,7 @@ public partial class Training_TrainingYearlyPlan : System.Web.UI.Page
                     txtTotalParticipant.Text = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[16].ToString().Trim();
 
 
-                    ddlSubtitledBy.SelectedValue = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[19].ToString();
+                    //ddlSubtitledBy.SelectedValue = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[19].ToString();
                     this.FillEmployeeInfo(grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[19].ToString().Trim(), "1");
 
                     ddlReviewedBy.SelectedValue = grTrainingYearlyPlan.DataKeys[_gridView.SelectedIndex].Values[20].ToString();
@@ -545,10 +545,10 @@ public partial class Training_TrainingYearlyPlan : System.Web.UI.Page
     {
         txtDesigSub.Text = "";
         txtDeptSub.Text = "";
-        if (Common.CheckNullString(ddlSubtitledBy.SelectedValue.ToString().Trim()) != "")
-        {
-            this.FillEmployeeInfo(ddlSubtitledBy.SelectedValue.ToString().Trim(), "1");
-        }
+        //if (Common.CheckNullString(ddlSubtitledBy.SelectedValue.ToString().Trim()) != "")
+        //{
+        //    this.FillEmployeeInfo(ddlSubtitledBy.SelectedValue.ToString().Trim(), "1");
+        //}
     }
     protected void ddlReviewedBy_SelectedIndexChanged(object sender, EventArgs e)
     {

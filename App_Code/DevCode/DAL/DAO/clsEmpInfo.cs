@@ -418,7 +418,13 @@ public class clsEmpInfo
         get { return _SpouseName; }
         set { _SpouseName = value; }
     }
-    
+
+    private string _DeptName;
+    public string DeptName
+    {
+        get { return _DeptName; }
+        set { _DeptName = value; }
+    }
     public clsEmpInfo(
         string EmpId,
         string Title,
