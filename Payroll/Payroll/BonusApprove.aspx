@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true"
-    CodeFile="BonusReview.aspx.cs" Inherits="Payroll_Payroll_BonusReview" Title="Bonus Review" %>
+    CodeFile="BonusApprove.aspx.cs" Inherits="Payroll_Payroll_BonusApprove" Title="Bonus Approve" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -8,7 +8,7 @@
     <div class="formStyle">
         <div id="formhead1">
             <div style="width: 98%; float: left;">
-                Bonus Review</div>
+                Bonus Approve</div>
             <div style="margin: 2px; float: left; padding-right: 3px;">
                 <a href="../../Default.aspx">
                     <img src="../../Images/close_icon.gif" /></a></div>
@@ -141,7 +141,7 @@
                         OnClick="btnRefresh_Click" />
                 </div>
                 <div style="text-align: right;">
-                    <asp:Button ID="btnSave" runat="server" Text="Review" Width="143px" UseSubmitBehavior="False"
+                    <asp:Button ID="btnSave" runat="server" Text="Approve" Width="143px" UseSubmitBehavior="False"
                         OnClick="btnSave_Click" style="margin-left: 0px" />
                 </div>
             </div>

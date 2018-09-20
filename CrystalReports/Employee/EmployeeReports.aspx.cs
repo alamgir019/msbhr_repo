@@ -7,7 +7,6 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
 public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Page
 {
     MasterTablesManager objMasMgr = new MasterTablesManager();

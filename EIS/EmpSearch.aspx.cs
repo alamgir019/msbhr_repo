@@ -51,15 +51,15 @@ public partial class EIS_EmpSearch : System.Web.UI.Page
         {
             sl = sl + 1;
             gRow.Cells[0].Text = sl.ToString();
-            gRow.Cells[8].Text = Common.DisplayDate(gRow.Cells[8].Text);
+            gRow.Cells[8].Text = Common.DisplayDate(gRow.Cells[10].Text);
 
-            for (int i = 0; i < grEmployee.Columns.Count; i++)
-            {
-                if (Common.CheckNullString(gRow.Cells[i].Text) == "")
-                {
-                    gRow.Cells[i].BackColor = System.Drawing.Color.LightGreen;
-                }
-            }
+            //for (int i = 0; i < grEmployee.Columns.Count; i++)
+            //{
+            //    if (Common.CheckNullString(gRow.Cells[i].Text) == "")
+            //    {
+            //        gRow.Cells[i].BackColor = System.Drawing.Color.LightGreen;
+            //    }
+            //}
         }
     }
 

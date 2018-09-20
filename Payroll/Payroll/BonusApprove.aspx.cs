@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 
-public partial class Payroll_Payroll_BonusReview : System.Web.UI.Page
+public partial class Payroll_Payroll_BonusApprove : System.Web.UI.Page
 {   
     Payroll_MasterMgr objPayMstMgr = new Payroll_MasterMgr();
     MasterTablesManager objMasMgr = new MasterTablesManager();
@@ -69,7 +69,7 @@ public partial class Payroll_Payroll_BonusReview : System.Web.UI.Page
             return;
         }
 
-        objBonMgr.UpdateBonusStatus(grEmployee, ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), "R", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()));
+        objBonMgr.UpdateBonusStatus(grEmployee, ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), "A", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()));
         
         lblMsg.Text = "Record Saved Successfully";
         grEmployee.DataSource = null;

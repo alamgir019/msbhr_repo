@@ -934,7 +934,42 @@ public class EmpInfoManager
     public DataTable GetSearchEmployee(string EmpID, string strProjectId, string strCompanyId,string strDept, string strGrade, string strDesgId,
         string strFullName, string strPersMobile, string strEmpAbbrName, string strSearchBy, string strUserId, string emptype, string EmpStatus)
     {
-        SqlCommand command = new SqlCommand("proc_Select_EmpSearch");
+        string strCond = "";
+
+        if (EmpID != "")
+            strCond = " AND EmpId=@EmpId";
+        else
+            strCond = "";
+
+        if (strProjectId != "-1")
+            strCond = strCond + " AND ProjectId=@ProjectId";
+        
+        if (strCompanyId != "-1")
+            strCond = strCond + " AND DivisionId=@DivisionId";
+       
+        if (strDept != "-1")
+            strCond = strCond + " AND DeptId=@DeptId";
+        
+        if (strGrade != "-1")
+            strCond = strCond + " AND GradeId=@GradeId";
+
+        if (strDesgId != "-1")
+            strCond = strCond + " AND DesigId=@DesigId";
+
+        if (strFullName != "")
+            strCond = strCond + " AND FullName LIKE '%" + strFullName + "%'";
+
+
+
+        if (emptype != "-1")
+            strCond = strCond + " AND EmpTypeId=@EmpTypeId";
+
+        if (EmpStatus != "-1")
+            strCond = strCond + " AND EmpStatus=@EmpStatus";
+
+        string strSQL = "SELECT * FROM VW_EmpInfo WHERE 1<>2" + strCond + " ORDER BY EmpId";
+        SqlCommand command = new SqlCommand(strSQL);
+        command.CommandType = CommandType.Text;   
 
         SqlParameter p_EmpID = command.Parameters.Add("EmpID", SqlDbType.Char);
         p_EmpID.Direction = ParameterDirection.Input;
@@ -944,7 +979,7 @@ public class EmpInfoManager
         p_EmpTypeStatus.Direction = ParameterDirection.Input;
         p_EmpTypeStatus.Value = emptype;
 
-        SqlParameter p_SectorId = command.Parameters.Add("CompanyId", SqlDbType.BigInt);
+        SqlParameter p_SectorId = command.Parameters.Add("DivisionId", SqlDbType.BigInt);
         p_SectorId.Direction = ParameterDirection.Input;
         p_SectorId.Value = strCompanyId;
 
@@ -964,9 +999,9 @@ public class EmpInfoManager
         p_UnitId.Direction = ParameterDirection.Input;
         p_UnitId.Value = strProjectId;
 
-        SqlParameter p_FullName = command.Parameters.Add("FullName", SqlDbType.VarChar);
-        p_FullName.Direction = ParameterDirection.Input;
-        p_FullName.Value = strFullName;
+        //SqlParameter p_FullName = command.Parameters.Add("FullName", SqlDbType.VarChar);
+        //p_FullName.Direction = ParameterDirection.Input;
+        //p_FullName.Value = strFullName;
 
         SqlParameter p_PersMobile = command.Parameters.Add("CellPhone", SqlDbType.VarChar);
         p_PersMobile.Direction = ParameterDirection.Input;
@@ -976,14 +1011,12 @@ public class EmpInfoManager
         p_SearchBy.Direction = ParameterDirection.Input;
         p_SearchBy.Value = strSearchBy;
 
-        SqlParameter p_EmpStatus = command.Parameters.Add("Status", SqlDbType.Char);
+        SqlParameter p_EmpStatus = command.Parameters.Add("EmpStatus", SqlDbType.Char);
         p_EmpStatus.Direction = ParameterDirection.Input;
         p_EmpStatus.Value = EmpStatus;
-
-        objDC.CreateDSFromProc(command, "EmpSearch");
-        return objDC.ds.Tables["EmpSearch"];
+       
+        return objDC.CreateDT(command, "EmpSearch");
     }
-
 
     public DataTable GetEmployeeForTaskAlert()
     {

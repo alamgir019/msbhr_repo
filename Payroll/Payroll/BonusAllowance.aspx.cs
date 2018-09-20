@@ -235,8 +235,7 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
             {
                 this.GenerateRecord();
                 btnDelete.Enabled = false;
-                btnSave.Enabled = true;
-                btnSaveDisburse.Enabled = true;
+                btnSave.Enabled = true;                
             }
         }
     }

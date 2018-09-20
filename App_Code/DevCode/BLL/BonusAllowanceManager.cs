@@ -259,16 +259,19 @@ public class BonusAllowanceManager
         return objDC.ds.Tables["NumberOfbasic"];
     }
 
-    public void ReviewBonus(DataTable dt, string strMonth, string strYear, string strStatus, string strInsBy, string strInsDate)
+    public void UpdateBonusStatus(GridView grEmp, string strMonth, string strYear, string strStatus, string strInsBy, string strInsDate)
     {
         int i = 0;
-        SqlCommand[] command = new SqlCommand[dt.Rows.Count];
+        SqlCommand[] command = new SqlCommand[grEmp.Rows.Count];
         string strSQL = "";
-        foreach (DataRow dRow in dt.Rows)
+        foreach (GridViewRow gRow in grEmp.Rows)
         {
-            strSQL = "UPDATE BonusAllowance SET VStatus=@VStatus,";
-            command[i] = new SqlCommand("Proc_Payroll_Update_PayslipMstStatus");
-            command[i].CommandType = CommandType.StoredProcedure;
+            if (strStatus=="R")
+            strSQL = "UPDATE BonusAllowance SET VStatus=@VStatus,ReviewedBy=@INSERTEDBY,ReviewedDate=@INSERTEDDATE WHERE VMONTH=@VMONTH AND VYEAR=@VYEAR AND EMPID=@EMPID";
+            else
+                strSQL = "UPDATE BonusAllowance SET VStatus=@VStatus,ApprovedBy=@INSERTEDBY,ApprovedDate=@INSERTEDDATE WHERE VMONTH=@VMONTH AND VYEAR=@VYEAR AND EMPID=@EMPID";
+            command[i] = new SqlCommand(strSQL);
+            command[i].CommandType = CommandType.Text;
 
             SqlParameter p_VMONTH = command[i].Parameters.Add("VMONTH", SqlDbType.BigInt);
             p_VMONTH.Direction = ParameterDirection.Input;
@@ -278,15 +281,15 @@ public class BonusAllowanceManager
             p_VYEAR.Direction = ParameterDirection.Input;
             p_VYEAR.Value = strYear;
 
-            SqlParameter p_PSBID = command[i].Parameters.Add("PSBID", SqlDbType.BigInt);
-            p_PSBID.Direction = ParameterDirection.Input;
-            p_PSBID.Value = dRow["PSBID"].ToString().Trim();
+            //SqlParameter p_PSBID = command[i].Parameters.Add("PSBID", SqlDbType.BigInt);
+            //p_PSBID.Direction = ParameterDirection.Input;
+            //p_PSBID.Value = dRow["PSBID"].ToString().Trim();
 
             SqlParameter p_EMPID = command[i].Parameters.Add("EMPID", SqlDbType.Char);
             p_EMPID.Direction = ParameterDirection.Input;
-            p_EMPID.Value = dRow["EMPID"].ToString().Trim();
+            p_EMPID.Value = gRow.Cells[1].Text.Trim();
 
-            SqlParameter p_PAYSLIPSTATUS = command[i].Parameters.Add("PAYSLIPSTATUS", SqlDbType.Char);
+            SqlParameter p_PAYSLIPSTATUS = command[i].Parameters.Add("VSTATUS", SqlDbType.Char);
             p_PAYSLIPSTATUS.Direction = ParameterDirection.Input;
             p_PAYSLIPSTATUS.Value = strStatus;
 

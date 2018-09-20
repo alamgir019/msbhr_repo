@@ -41,8 +41,6 @@
                             <td class="textlevelleft">
                                 Festival Date
                             </td>
-                            <td class="textlevelleft">
-                                Employee Type</td>
                             <td>
                                 </td>
 
@@ -92,8 +90,6 @@
                                 <asp:TextBox ID="txtTimes" runat="server" Width="80px" Text="1"></asp:TextBox>
                             </td>--%>
 
-                            <td>
-                                &nbsp;</td>
                             <td>
                                 <asp:Button ID="btnGenerate" runat="server" Text="Generate" Width="80px" OnClick="btnGenerate_Click" />
                             </td>
@@ -165,9 +161,6 @@
                         OnClick="btnRefresh_Click" />
                 </div>
                 <div style="text-align: right;">
-                    <asp:Button ID="btnSaveDisburse" runat="server" Text="Save &amp; Disburse" 
-                        Width="143px" UseSubmitBehavior="False"
-                        OnClick="btnSaveDisburse_Click" style="margin-left: 0px" />
                     <asp:Button ID="btnSave" runat="server" Text="Save for Payroll" Width="143px" UseSubmitBehavior="False"
                         OnClick="btnSave_Click" style="margin-left: 0px" />
                     <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();"
