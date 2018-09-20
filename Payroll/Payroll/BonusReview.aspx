@@ -143,8 +143,6 @@
                 <div style="text-align: right;">
                     <asp:Button ID="btnSave" runat="server" Text="Review" Width="143px" UseSubmitBehavior="False"
                         OnClick="btnSave_Click" style="margin-left: 0px" />
-                    <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();"
-                        OnClick="btnDelete_Click" />
                 </div>
             </div>
         </div>

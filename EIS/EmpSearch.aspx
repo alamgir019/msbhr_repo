@@ -80,9 +80,6 @@
                                 <asp:DropDownList ID="ddlSearchBy" runat="server" Width="127px" onchange="SearchByChanged()"
                                     CssClass="textlevelleft">
                                     <asp:ListItem Value="0">Office</asp:ListItem>
-                                    <asp:ListItem Value="5">Emp. No</asp:ListItem>
-                                    <asp:ListItem Value="2">Full Name</asp:ListItem>
-                                    <asp:ListItem Value="3">Cell No</asp:ListItem>
                                 </asp:DropDownList>
                             </td>
                             <td>
@@ -202,63 +199,12 @@
         <asp:UpdatePanel ID="UpdatePanel2" runat="server">
             <ContentTemplate>
                 <div id="empSearchResult">                    
-                    <asp:GridView ID="grEmployee" runat="server" Font-Size="9px" AutoGenerateColumns="False"
+                    <asp:GridView ID="grEmployee" runat="server" Font-Size="9px" AutoGenerateColumns="true"
                         Width="130%" DataKeyNames="" EmptyDataText="No Record Found">
                         <HeaderStyle BackColor="#B3CDE4" Font-Bold="True" />
                         <SelectedRowStyle BackColor="#D1DDF1" CssClass="ListHeader" Font-Bold="True" ForeColor="#333333" />
                         <AlternatingRowStyle BackColor="#EFF3FB" />
-                        <Columns>
-                            <asp:BoundField HeaderText="SL.No">
-                                <ItemStyle CssClass="ItemStylecss" Width="2%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="EmpId" HeaderText="Emp Id">
-                                <ItemStyle CssClass="ItemStylecss" Width="4%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="FullName" HeaderText="Employee Name">
-                                <ItemStyle CssClass="ItemStylecss" Width="10%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="DesigName" HeaderText="Designation">
-                                <ItemStyle CssClass="ItemStylecss" Width="10%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="DeptName" HeaderText="Department">
-                                <ItemStyle CssClass="ItemStylecss" Width="9%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="DivisionName" HeaderText="Company Name">
-                                <ItemStyle CssClass="ItemStylecss" Width="8%" />
-                            </asp:BoundField>
-                             <asp:BoundField DataField="ProjectName" HeaderText="Project Name">
-                                <ItemStyle CssClass="ItemStylecss" Width="8%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="GradeName" HeaderText="Grade">
-                                <ItemStyle CssClass="ItemStylecss" Width="5%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="JoiningDate" HeaderText="Joining Date">
-                                <ItemStyle CssClass="ItemStylecss" Width="5%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="SalLocName" HeaderText="Salary Location">
-                                <ItemStyle CssClass="ItemStylecss" Width="8%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="SPTitle" HeaderText="Salary Package">
-                                <ItemStyle CssClass="ItemStylecss" Width="12%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="SupervisorId" HeaderText="Supervisor Id">
-                                <ItemStyle CssClass="ItemStylecss" Width="8%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="RoutingNo" HeaderText="Routing No">
-                                <ItemStyle CssClass="ItemStylecss" Width="8%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="BankAccNo" HeaderText="Account No">
-                                <ItemStyle CssClass="ItemStylecss" Width="5%" />
-                            </asp:BoundField>
-                            <%--<asp:BoundField DataField="LPackName" HeaderText="Leave Package">
-                                <ItemStyle CssClass="ItemStylecss" Width="10%" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="NationalId" HeaderText="National ID">
-                                <ItemStyle CssClass="ItemStylecss" Width="5%" />
-                            </asp:BoundField>--%>
-                            <asp:BoundField DataField="CellPhone" HeaderText="Mobile No">
-                                <ItemStyle CssClass="ItemStylecss" Width="6%" />
-                            </asp:BoundField>
+                        <Columns>                            
                         </Columns>
                     </asp:GridView>
                 </div>

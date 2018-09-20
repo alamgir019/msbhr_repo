@@ -165,9 +165,6 @@
                         OnClick="btnRefresh_Click" />
                 </div>
                 <div style="text-align: right;">
-                    <asp:Button ID="btnSaveDisburse" runat="server" Text="Save &amp; Disburse" 
-                        Width="143px" UseSubmitBehavior="False"
-                        OnClick="btnSaveDisburse_Click" style="margin-left: 0px" />
                     <asp:Button ID="btnSave" runat="server" Text="Save for Payroll" Width="143px" UseSubmitBehavior="False"
                         OnClick="btnSave_Click" style="margin-left: 0px" />
                     <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();"
