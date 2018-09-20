@@ -259,7 +259,51 @@ public class BonusAllowanceManager
         return objDC.ds.Tables["NumberOfbasic"];
     }
 
-	public BonusAllowanceManager()
+    public void ReviewBonus(DataTable dt, string strMonth, string strYear, string strStatus, string strInsBy, string strInsDate)
+    {
+        int i = 0;
+        SqlCommand[] command = new SqlCommand[dt.Rows.Count];
+        string strSQL = "";
+        foreach (DataRow dRow in dt.Rows)
+        {
+            strSQL = "UPDATE BonusAllowance SET VStatus=@VStatus,";
+            command[i] = new SqlCommand("Proc_Payroll_Update_PayslipMstStatus");
+            command[i].CommandType = CommandType.StoredProcedure;
+
+            SqlParameter p_VMONTH = command[i].Parameters.Add("VMONTH", SqlDbType.BigInt);
+            p_VMONTH.Direction = ParameterDirection.Input;
+            p_VMONTH.Value = strMonth;
+
+            SqlParameter p_VYEAR = command[i].Parameters.Add("VYEAR", SqlDbType.BigInt);
+            p_VYEAR.Direction = ParameterDirection.Input;
+            p_VYEAR.Value = strYear;
+
+            SqlParameter p_PSBID = command[i].Parameters.Add("PSBID", SqlDbType.BigInt);
+            p_PSBID.Direction = ParameterDirection.Input;
+            p_PSBID.Value = dRow["PSBID"].ToString().Trim();
+
+            SqlParameter p_EMPID = command[i].Parameters.Add("EMPID", SqlDbType.Char);
+            p_EMPID.Direction = ParameterDirection.Input;
+            p_EMPID.Value = dRow["EMPID"].ToString().Trim();
+
+            SqlParameter p_PAYSLIPSTATUS = command[i].Parameters.Add("PAYSLIPSTATUS", SqlDbType.Char);
+            p_PAYSLIPSTATUS.Direction = ParameterDirection.Input;
+            p_PAYSLIPSTATUS.Value = strStatus;
+
+            SqlParameter p_INSERTEDBY = command[i].Parameters.Add("INSERTEDBY", SqlDbType.VarChar);
+            p_INSERTEDBY.Direction = ParameterDirection.Input;
+            p_INSERTEDBY.Value = strInsBy;
+
+
+            SqlParameter p_INSERTEDDATE = command[i].Parameters.Add("INSERTEDDATE", SqlDbType.DateTime);
+            p_INSERTEDDATE.Direction = ParameterDirection.Input;
+            p_INSERTEDDATE.Value = strInsDate;
+
+            i++;
+        }
+        objDC.MakeTransaction(command);
+    }
+    public BonusAllowanceManager()
 	{
 		//
 		// TODO: Add constructor logic here
