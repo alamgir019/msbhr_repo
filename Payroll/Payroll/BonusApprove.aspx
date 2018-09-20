@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true"
-    CodeFile="BonusAllowance.aspx.cs" Inherits="Payroll_Payroll_BonusAllowance" Title="Bonus Allowances" %>
+    CodeFile="BonusApprove.aspx.cs" Inherits="Payroll_Payroll_BonusApprove" Title="Bonus Approve" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -8,7 +8,7 @@
     <div class="formStyle">
         <div id="formhead1">
             <div style="width: 98%; float: left;">
-                Bonus Allowance</div>
+                Bonus Approve</div>
             <div style="margin: 2px; float: left; padding-right: 3px;">
                 <a href="../../Default.aspx">
                     <img src="../../Images/close_icon.gif" /></a></div>
@@ -37,13 +37,7 @@
                             </td>
                             <td class="textlevelleft">
                                 Year
-                            </td>
-                            <td class="textlevelleft">
-                                Festival Date
-                            </td>
-                            <td>
-                                </td>
-
+                            </td>                            
                         </tr>
                         <tr>
                             <td>
@@ -76,22 +70,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td>
-                                <asp:TextBox ID="txtFestivalDate" runat="server" Width="80px"></asp:TextBox>
-                                <a href="javascript:NewCal('<%= txtFestivalDate.ClientID %>','ddmmyyyy')">
-                                    <img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px"
-                                        height="16" alt="Pick a date" src="../../images/cal.gif" width="16" /></a>
-                            </td>
-
-                            <%--<td>
-                                <asp:DropDownList ID="ddlBenefitHead" runat="server" Width="120px" CssClass="textlevelleft">
-                                </asp:DropDownList>
-                            </td>
-                            <td>
-                                <asp:TextBox ID="txtTimes" runat="server" Width="80px" Text="1"></asp:TextBox>
-                            </td>--%>
-
-                            <td>
-                                <asp:Button ID="btnGenerate" runat="server" Text="Generate" Width="80px" OnClick="btnGenerate_Click" />
+                                <asp:Button ID="btnShow" runat="server" Text="Get Bonus Data" Width="177px" OnClick="btnShow_Click" />
                             </td>
                         </tr>
                     </table>
@@ -105,12 +84,9 @@
                     </SelectedRowStyle>
                     <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
                     <Columns>
-                        <asp:TemplateField HeaderText="Select">
-                            <ItemStyle Width="3%" CssClass="ItemStylecss" />
-                            <ItemTemplate>
-                                <asp:CheckBox ID="ChkBox" runat="Server" Checked="true" />
-                            </ItemTemplate>
-                        </asp:TemplateField>
+                        <asp:BoundField HeaderText="SL No.">
+                            <ItemStyle CssClass="ItemStylecss" Width="5%"></ItemStyle>
+                        </asp:BoundField>
                         <asp:BoundField DataField="EMPID" HeaderText="Emp. ID">
                             <ItemStyle CssClass="ItemStylecss" Width="5%"></ItemStyle>
                         </asp:BoundField>
@@ -135,7 +111,11 @@
                         <asp:BoundField DataField="BasicSalary" HeaderText="Basic" HeaderStyle-HorizontalAlign="Right">
                             <ItemStyle CssClass="ItemStylecssRight" Width="5%"></ItemStyle>
                         </asp:BoundField>
-                        <asp:TemplateField HeaderText="Bonus" HeaderStyle-HorizontalAlign="Right">
+                        <asp:BoundField DataField="Bonus" HeaderText="Bonus" HeaderStyle-HorizontalAlign="Right">
+                            <ItemStyle CssClass="ItemStylecssRight" Width="5%"></ItemStyle>
+                        </asp:BoundField>
+
+                        <%--<asp:TemplateField HeaderText="Bonus" HeaderStyle-HorizontalAlign="Right">
                             <ItemStyle Width="6%" HorizontalAlign="right" CssClass="ItemStylecssRight"/>
                             <ItemTemplate>
                                 <asp:TextBox ID="txtBonus" Text='<%# Convert.ToString(Eval("BONUS")) %>' runat="server"
@@ -144,7 +124,7 @@
                                     FilterType="Custom,Numbers" ValidChars=".,-">
                                 </cc1:FilteredTextBoxExtender>
                             </ItemTemplate>
-                        </asp:TemplateField>
+                        </asp:TemplateField>--%>
                         <asp:BoundField DataField="PRORATADAYS" HeaderText="Prorata Months" HeaderStyle-HorizontalAlign="Right">
                             <ItemStyle CssClass="ItemStylecssRight" Width="5%"></ItemStyle>
                         </asp:BoundField>
@@ -161,10 +141,8 @@
                         OnClick="btnRefresh_Click" />
                 </div>
                 <div style="text-align: right;">
-                    <asp:Button ID="btnSave" runat="server" Text="Save for Payroll" Width="143px" UseSubmitBehavior="False"
+                    <asp:Button ID="btnSave" runat="server" Text="Approve" Width="143px" UseSubmitBehavior="False"
                         OnClick="btnSave_Click" style="margin-left: 0px" />
-                    <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();"
-                        OnClick="btnDelete_Click" />
                 </div>
             </div>
         </div>
