@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Text.RegularExpressions;
 
 public partial class Training_TrainingRequisition : System.Web.UI.Page
 {
@@ -37,9 +38,9 @@ public partial class Training_TrainingRequisition : System.Web.UI.Page
 
             Common.FillDropDownList(dtEmp, ddlSigenBy1, "EmpName", "EmpID", true);
             Common.FillDropDownList(dtEmp, ddlSigenBy2, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlApproveBy, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlRecomandedBy, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlReviewBy, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlApproveBy, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlRecomandedBy, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlReviewBy, "EmpName", "EmpID", true);
             Common.FillDropDownList(dtEmp, ddlSeenBy, "EmpName", "EmpID", true);
           
             this.CreateTable();
@@ -90,6 +91,14 @@ public partial class Training_TrainingRequisition : System.Web.UI.Page
             else
                 hfId.Value = Common.getMaxId("TrRequisition", "ReqID");
 
+            var match = Regex.Match(txtReviewBy.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+            string empidRev = match.Groups[match.Groups.Count - 1].Value;
+
+            match = Regex.Match(txtRecomandedBy.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+            string empidRec = match.Groups[match.Groups.Count - 1].Value;
+
+            match = Regex.Match(txtApproveBy.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+            string empidApp = match.Groups[match.Groups.Count - 1].Value;
             clsTrRequisition objTrReq = new clsTrRequisition(
                 hfId.Value.ToString(),
                 ddlSchedule.SelectedValue.ToString(),
@@ -97,9 +106,7 @@ public partial class Training_TrainingRequisition : System.Web.UI.Page
                 this.ddlSigenBy1.SelectedValue.ToString().Trim(),
                 this.ddlSigenBy2.SelectedValue.ToString().Trim(),
                 this.ddlSeenBy.SelectedValue.ToString().Trim(),
-                this.ddlReviewBy.SelectedValue.ToString().Trim(),
-                this.ddlRecomandedBy.SelectedValue.ToString().Trim(),
-               this.ddlApproveBy.SelectedValue.ToString().Trim(),
+                empidRev,empidRec,empidApp,
                 (chkInActive.Checked == true ? "N" : "Y"),
                 txtRemark.Text.Trim()   
                 );
@@ -244,9 +251,9 @@ public partial class Training_TrainingRequisition : System.Web.UI.Page
                     ddlSigenBy1.SelectedValue=grRequisition.DataKeys[_gridView.SelectedIndex].Values[6].ToString().Trim();
                     ddlSigenBy2.SelectedValue = grRequisition.DataKeys[_gridView.SelectedIndex].Values[7].ToString().Trim();
                     ddlSeenBy.SelectedValue= grRequisition.DataKeys[_gridView.SelectedIndex].Values[8].ToString().Trim();
-                    ddlReviewBy.SelectedValue = grRequisition.DataKeys[_gridView.SelectedIndex].Values[9].ToString().Trim();
-                    ddlRecomandedBy.SelectedValue= grRequisition.DataKeys[_gridView.SelectedIndex].Values[10].ToString().Trim();
-                    ddlApproveBy.SelectedValue = grRequisition.DataKeys[_gridView.SelectedIndex].Values[11].ToString().Trim();
+                    txtReviewBy.Text = grRequisition.DataKeys[_gridView.SelectedIndex].Values[9].ToString().Trim();
+                    txtRecomandedBy.Text = grRequisition.DataKeys[_gridView.SelectedIndex].Values[10].ToString().Trim();
+                    txtApproveBy.Text = grRequisition.DataKeys[_gridView.SelectedIndex].Values[11].ToString().Trim();
                     if (grRequisition.DataKeys[_gridView.SelectedIndex].Values[12].ToString().Trim() == "Y")
                         chkInActive.Checked = false;
                     else

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Text.RegularExpressions;
 
 public partial class Training_TrainingList : System.Web.UI.Page
 {
@@ -29,14 +30,14 @@ public partial class Training_TrainingList : System.Web.UI.Page
             this.EntryMode(false);
             this.OpenRecord();
             this.CreateTable();
-            DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
+            //DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
             Common.FillDropDownList(objTrMgr.SelectTrainingList("0"), ddlTrainingName, "TrainName", "TrainId", true);
             //Common.FillDropDownList_Nil(objTrMgr.SelectTrainingList("0"), ddlTrainingName);
-            Common.FillDropDownList(dtEmp, ddlTraineeName, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlOrganisedBy, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlSignBy1, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlSignBy2, "EmpName", "EmpID", true);
-            Common.FillDropDownList(dtEmp, ddlSignBy3, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlTraineeName, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlOrganisedBy, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlSignBy1, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlSignBy2, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlSignBy3, "EmpName", "EmpID", true);
             //Common.FillDropDownList(objTrMgr.SelectLocation("0"), ddlLocation,"ClinicName","ClinicId",true );
             Common.FillDropDownList(objTrMgr.SelectLocation("0"), ddlLocation, "SalLocName", "SalLocId", true);
             Common.FillDropDownList(objSOFMgr.SelectProjectList(0), ddlFundedby, "ProjectName", "ProjectId", true);
@@ -88,12 +89,24 @@ public partial class Training_TrainingList : System.Web.UI.Page
         nRow["onDate"] = Common.ReturnDate(txtDate.Text.Trim());
         nRow["onTime"] =  tsTime.Hour + ":" + tsTime.Minute + " " + tsTime.AmPm;
 
-        nRow["SignBy1"] = ddlSignBy1.SelectedValue.ToString().Trim();
-        nRow["SignBy2"] = ddlSignBy2.SelectedValue.ToString().Trim();
-        nRow["SignBy3"] = ddlSignBy3.SelectedValue.ToString().Trim();
+        //nRow["SignBy1"] = ddlSignBy1.SelectedValue.ToString().Trim();
+        var match = Regex.Match(txtSignBy1.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        string empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["SignBy1"] = empid;
+        //nRow["SignBy2"] = ddlSignBy2.SelectedValue.ToString().Trim();
+        match = Regex.Match(txtSignBy2.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["SignBy2"] = empid;
+        //nRow["SignBy3"] = ddlSignBy3.SelectedValue.ToString().Trim();
+        match = Regex.Match(txtSignBy3.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["SignBy3"] = empid;
         nRow["CC"] = txtCC.Text.Trim();
         nRow["AdminGuideline"] = txtAdminGuideline.Text.Trim();
-        nRow["OrganizedBy"] = ddlOrganisedBy.SelectedValue.ToString().Trim();
+        //nRow["OrganizedBy"] = ddlOrganisedBy.SelectedValue.ToString().Trim();
+        match = Regex.Match(txtOrganisedBy.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["OrganizedBy"] = empid;
         nRow["Remarks"] = txtRemark.Text.Trim(); 
         if (cmdType == "I")
         {
@@ -223,12 +236,13 @@ public partial class Training_TrainingList : System.Web.UI.Page
                     else
                         tsTime.AmPm = MKB.TimePicker.TimeSelector.AmPmSpec.PM;
 
-                    ddlSignBy1.SelectedValue = grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[10].ToString().Trim();
-                    ddlSignBy2.SelectedValue = grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[12].ToString().Trim();
-                    ddlSignBy3.SelectedValue = grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[14].ToString().Trim();
+                    txtSignBy1.Text = grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[10].ToString().Trim();
+                    txtSignBy2.Text = grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[12].ToString().Trim();
+                    txtSignBy3.Text = grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[14].ToString().Trim();
                     txtCC.Text = grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[16].ToString().Trim();
                     txtAdminGuideline.Text = grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[17].ToString().Trim();
-                    ddlOrganisedBy.SelectedValue= grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[18].ToString().Trim();
+                    txtOrganisedBy.Text = grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[18].ToString().Trim();
+                    //ddlOrganisedBy.SelectedValue= grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[18].ToString().Trim();
                     if (grTrainingListSetup.DataKeys[_gridView.SelectedIndex].Values[20].ToString().Trim() == "N")
                         chkInActive.Checked = true;
                     else
@@ -281,7 +295,7 @@ public partial class Training_TrainingList : System.Web.UI.Page
                 {
                     //  //TraineeId,TraineeName,Designation,Dept,Fundedby,ProjectName,IsResidential
                     personTable = ViewState["dt"] as DataTable;          
-                    ddlTraineeName.SelectedValue = grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString();
+                    txtTraineeName.Text = grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString();
                     txtDesignation.Text=grList.DataKeys[_gridView.SelectedIndex].Values[2].ToString();
                     txtDept.Text = grList.DataKeys[_gridView.SelectedIndex].Values[3].ToString();
                     if (grList.DataKeys[_gridView.SelectedIndex].Values[6].ToString() == "Y")
@@ -367,7 +381,7 @@ public partial class Training_TrainingList : System.Web.UI.Page
                         lblMsg.Text = "Please select Training Schedule";
                         return false;
                     }
-                    if (ddlOrganisedBy.SelectedIndex <= 0)
+                    if (txtOrganisedBy.Text.Trim()=="")
                     {
                         lblMsg.Text = "Please select Organized By";
                         return false;
@@ -383,24 +397,24 @@ public partial class Training_TrainingList : System.Web.UI.Page
                         lblMsg.Text = "Please add Employee";
                         return false;
                     }
-                    if (ddlSignBy1.SelectedIndex <= 0)
+                    if (txtSignBy1.Text.Trim()=="")
                     {
                         lblMsg.Text = "Please select Sign By1";
                         return false;
                     }
-                    if (ddlSignBy2.SelectedIndex <= 0)
+                    if (txtSignBy2.Text.Trim() == "")
                     {
                         lblMsg.Text = "Please select Sign By2";
                         return false;
                     }
-                    if (ddlSignBy3.SelectedIndex <= 0)
+                    if (txtSignBy3.Text.Trim() == "")
                     {
                         lblMsg.Text = "Please select Sign By3";
                         return false;
                     }
                     break;
                 case "Add":
-                    if (ddlTraineeName.SelectedIndex <= 0)
+                    if (txtTraineeName.Text.Trim()=="")
                     {
                         lblMsg.Text = "Please select Employee";
                         return false;
@@ -449,17 +463,20 @@ public partial class Training_TrainingList : System.Web.UI.Page
             return;
         }
         DataTable dt = ViewState["dt"] as DataTable;
-        DataRow[] drr = dt.Select("TraineeId='" + ddlTraineeName.SelectedValue.ToString() + "'");
+
+        var match = Regex.Match(txtTraineeName.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        string  empid = match.Groups[match.Groups.Count - 1].Value;
+        DataRow[] drr = dt.Select("TraineeId='" + empid + "'");
         for (int i = 0; i < drr.Length; i++)
         {
             drr[i].Delete();
         }
         dt.AcceptChanges();
-        dt.Rows.Add(ddlTraineeName.SelectedValue.ToString(), ddlTraineeName.SelectedItem.Text.ToString(), txtDesignation.Text.ToString(), txtDept.Text.ToString(), ddlFundedby.SelectedValue.ToString(), ddlFundedby.SelectedItem.ToString(), chkIsResidential.Checked == true ? "N" : "Y");
+        dt.Rows.Add(empid, txtTraineeName.Text.Trim(), txtDesignation.Text.ToString(), txtDept.Text.ToString(), ddlFundedby.SelectedValue.ToString(), ddlFundedby.SelectedItem.ToString(), chkIsResidential.Checked == true ? "N" : "Y");
         grList.DataSource = dt;
         grList.DataBind();
 
-        ddlTraineeName.SelectedIndex = 0;
+        txtTraineeName.Text = "";
         txtDesignation.Text = "";
         txtDept.Text = ""; 
         ddlFundedby.SelectedIndex = 0;
@@ -467,21 +484,21 @@ public partial class Training_TrainingList : System.Web.UI.Page
 
     }
 
-    protected void ddlTraineeName_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (ddlTraineeName.SelectedIndex <= 0)
-            ClearControl("ddlTrainee");
-        if (Common.CheckNullString(ddlTraineeName.SelectedValue.ToString().Trim()) != "")
-        {
+    //protected void ddlTraineeName_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    if (ddlTraineeName.SelectedIndex <= 0)
+    //        ClearControl("ddlTrainee");
+    //    if (Common.CheckNullString(ddlTraineeName.SelectedValue.ToString().Trim()) != "")
+    //    {
 
-            DataTable dt = objTrMgr.SelectEmployeeDetail(ddlTraineeName.SelectedValue.ToString().Trim());
-            if (dt.Rows.Count > 0)
-            {
-                txtDesignation.Text = dt.Rows[0]["DesigName"].ToString().Trim();
-                txtDept.Text = dt.Rows[0]["ClinicName"].ToString().Trim();
-            }
-        }
-    }
+    //        DataTable dt = objTrMgr.SelectEmployeeDetail(ddlTraineeName.SelectedValue.ToString().Trim());
+    //        if (dt.Rows.Count > 0)
+    //        {
+    //            txtDesignation.Text = dt.Rows[0]["DesigName"].ToString().Trim();
+    //            txtDept.Text = dt.Rows[0]["ClinicName"].ToString().Trim();
+    //        }
+    //    }
+    //}
 
     protected void ddlTrainingName_SelectedIndexChanged(object sender, EventArgs e)
     {

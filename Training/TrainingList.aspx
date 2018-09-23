@@ -4,10 +4,137 @@
 <%@ Register Assembly="TimePicker" Namespace="MKB.TimePicker" TagPrefix="cc2" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="MainContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js">
-        //Date Time Picker script
-    </script>
-    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js">
+    <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js"></script>    
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-1.4.2.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-ui-1.8.1.min.js"></script>
+        <script type="text/javascript">
+        $(function () {
+            $(".SignBy1").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                minLength: 2
+            });
+            $(".SignBy2").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                minLength: 2
+            });
+            $(".SignBy3").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                minLength: 2
+            });
+
+            $(".OrganisedBy").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                minLength: 2
+            });
+
+            $(".TraineeName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName,
+                                    empid: item.EmpId,
+                                    designame: item.Title,
+                                    deptname: item.DeptName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $('.txtDesignation').val(ui.item.designame);
+                    $('.txtDept').val(ui.item.deptname);
+                },
+                minLength: 2
+            });
+        });
     </script>
     <div class="empTrainForm">
         <div id="formhead1">
@@ -108,9 +235,10 @@
                                         <asp:Label ID="Label17" runat="server" CssClass="textlevel" Text="Organised By :"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:DropDownList ID="ddlOrganisedBy" runat="server" CssClass="textlevelleft" Width="200px"
+                                        <asp:TextBox ID="txtOrganisedBy" class="OrganisedBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                                        <%--<asp:DropDownList ID="ddlOrganisedBy" runat="server" CssClass="textlevelleft" Width="200px"
                                             ToolTip="Select">
-                                        </asp:DropDownList>
+                                        </asp:DropDownList>--%>
                                     </td>
                                 </tr>
                                 <tr>
@@ -182,16 +310,17 @@
                                         <asp:Label ID="Label1" runat="server" CssClass="textlevel" Text="Employee Name :"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:DropDownList ID="ddlTraineeName" runat="server" CssClass="textlevelleft" Width="200px"
+                                        <asp:TextBox ID="txtTraineeName" class="TraineeName textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                                        <%--<asp:DropDownList ID="ddlTraineeName" runat="server" CssClass="textlevelleft" Width="200px"
                                             ToolTip="Select" OnSelectedIndexChanged="ddlTraineeName_SelectedIndexChanged"
                                             AutoPostBack="True">
-                                        </asp:DropDownList>
+                                        </asp:DropDownList>--%>
                                     </td>
                                     <td>
                                         <asp:Label ID="Label23" runat="server" CssClass="textlevel" Text="Designation :"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtDesignation" runat="server" Width="150px" ReadOnly="True"></asp:TextBox>
+                                        <asp:TextBox ID="txtDesignation" class="txtDesignation" runat="server" Width="150px" ReadOnly="True"></asp:TextBox>
                                     </td>
                                     <td>
                                     </td>
@@ -204,7 +333,7 @@
                                         <asp:Label ID="Label24" runat="server" CssClass="textlevel" Text="Dept/Clinic :"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtDept" runat="server" Width="150px" ReadOnly="True"></asp:TextBox>
+                                        <asp:TextBox ID="txtDept" class="txtDept" runat="server" Width="150px" ReadOnly="True"></asp:TextBox>
                                     </td>
                                     <td>
                                         <asp:Label ID="Label21" runat="server" CssClass="textlevel" Text="Funded By :"></asp:Label>
@@ -264,25 +393,28 @@
                                 <asp:Label ID="Label3" runat="server" CssClass="textlevel" Text="Sign By1 :"></asp:Label>
                             </td>
                             <td>
-                                <asp:DropDownList ID="ddlSignBy1" runat="server" CssClass="textlevelleft" Width="200px"
+                        <asp:TextBox ID="txtSignBy1" class="SignBy1 textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                                <%--<asp:DropDownList ID="ddlSignBy1" runat="server" CssClass="textlevelleft" Width="200px"
                                     ToolTip="Select Training Name">
-                                </asp:DropDownList>
+                                </asp:DropDownList>--%>
                             </td>
                             <td>
                                 <asp:Label ID="Label5" runat="server" CssClass="textlevel" Text="Sign By2 :"></asp:Label>
                             </td>
                             <td>
-                                <asp:DropDownList ID="ddlSignBy2" runat="server" CssClass="textlevelleft" Width="200px"
+                        <asp:TextBox ID="txtSignBy2" class="SignBy2 textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                                <%--<asp:DropDownList ID="ddlSignBy2" runat="server" CssClass="textlevelleft" Width="200px"
                                     ToolTip="Select Training Name">
-                                </asp:DropDownList>
+                                </asp:DropDownList>--%>
                             </td>
                             <td>
                                 <asp:Label ID="Label6" runat="server" CssClass="textlevel" Text="Sign By3 :"></asp:Label>
                             </td>
                             <td>
-                                <asp:DropDownList ID="ddlSignBy3" runat="server" CssClass="textlevelleft" ToolTip="Select Training Name"
+                        <asp:TextBox ID="txtSignBy3" class="SignBy3 textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                              <%--  <asp:DropDownList ID="ddlSignBy3" runat="server" CssClass="textlevelleft" ToolTip="Select Training Name"
                                     Width="200px">
-                                </asp:DropDownList>
+                                </asp:DropDownList>--%>
                             </td>
                         </tr>
                         <tr>

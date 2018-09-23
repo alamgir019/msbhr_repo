@@ -3,8 +3,82 @@
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="MainContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js">
-    </script>
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-1.4.2.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-ui-1.8.1.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".ReviewBy").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                minLength: 2
+            });
+            $(".RecomandedBy").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                minLength: 2
+            });
+            $(".ApproveBy").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                minLength: 2
+            });
+        });
+        </script>
     <div class="empTrainForm">
         <div id="formhead1">
             <div style="width: 96%; float: left;">
@@ -149,17 +223,19 @@
                                 <asp:Label ID="Label6" runat="server" CssClass="textlevel" Text="Prepared By :"></asp:Label>
                             </td>
                             <td>
-                                <asp:DropDownList ID="ddlReviewBy" runat="server" CssClass="textlevelleft" ToolTip="Select Trainee Name"
+                                <asp:TextBox ID="txtReviewBy" class="ReviewBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                                <%--<asp:DropDownList ID="ddlReviewBy" runat="server" CssClass="textlevelleft" ToolTip="Select Trainee Name"
                                     Width="200px">
-                                </asp:DropDownList>
+                                </asp:DropDownList>--%>
                             </td>
                             <td>
                                 <asp:Label ID="Label8" runat="server" CssClass="textlevel" Text="Recomanded By :"></asp:Label>
                             </td>
                             <td>
-                                <asp:DropDownList ID="ddlRecomandedBy" runat="server" CssClass="textlevelleft" ToolTip="Select Trainee Name"
+                                <asp:TextBox ID="txtRecomandedBy" class="RecomandedBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                                <%--<asp:DropDownList ID="ddlRecomandedBy" runat="server" CssClass="textlevelleft" ToolTip="Select Trainee Name"
                                     Width="200px">
-                                </asp:DropDownList>
+                                </asp:DropDownList>--%>
                             </td>
                         </tr>
                         <tr>
@@ -167,9 +243,10 @@
                                 <asp:Label ID="Label9" runat="server" CssClass="textlevel" Text="Approved By :"></asp:Label>
                             </td>
                             <td>
-                                <asp:DropDownList ID="ddlApproveBy" CssClass="textlevelleft" runat="server" Width="200px"
+                                <asp:TextBox ID="txtApproveBy" class="ApproveBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
+                                <%--<asp:DropDownList ID="ddlApproveBy" CssClass="textlevelleft" runat="server" Width="200px"
                                     ToolTip="Select Trainee Name">
-                                </asp:DropDownList>
+                                </asp:DropDownList>--%>
                             </td>
                             <td>
                                
