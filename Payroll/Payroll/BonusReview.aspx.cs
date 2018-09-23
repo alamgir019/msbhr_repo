@@ -71,7 +71,7 @@ public partial class Payroll_Payroll_BonusReview : System.Web.UI.Page
 
         objBonMgr.UpdateBonusStatus(grEmployee, ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), "R", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()));
         
-        lblMsg.Text = "Record Saved Successfully";
+        lblMsg.Text = "Bonus Reviewed Successfully";
         grEmployee.DataSource = null;
         grEmployee.DataBind();
     }  
