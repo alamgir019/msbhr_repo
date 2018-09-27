@@ -341,11 +341,11 @@
                     &nbsp;</td>
                 <td>
                       <asp:Button ID="btnUploadBankAccNo" runat="server" 
-                        Text="Upload BankAccNo" onclick="btnUploadBankAccNo_Click" BorderColor="#660033"/> 
+                        Text="Upload BankAccNo" onclick="btnUploadBankAccNo_Click" BorderColor="White"/> 
                 </td>
                 <td style="width: 3px">
                     <asp:Button ID="btnUpdateBankAccNo" runat="server" Text="Update BankAccNo" 
-                        OnClick="btnUpdateBankAccNo_Click" BorderColor="#660033" />
+                        OnClick="btnUpdateBankAccNo_Click" BorderColor="White" />
                 </td>
                 <td style="width: 3px">
                     <asp:Button ID="btnInsertSalaryHead" runat="server" Text="Insert PF Ar. &amp;Loan &amp; Festival Bonus Head" 
@@ -365,7 +365,7 @@
                 </td>
                 <td style="width: 3px">
                     <asp:Button ID="btnInsertArrSalaryHead" runat="server" Text="Insert Basic Arr &amp;HArr, MedArr &amp; PF Arr" 
-                        OnClick="btnInsertArrSalaryHead_Click" BorderColor="#CC0066" />
+                        OnClick="btnInsertArrSalaryHead_Click" BorderColor="White" />
                 </td>
             </tr>
             <tr>
@@ -373,7 +373,7 @@
                     &nbsp;</td>
                 <td>
                       <asp:Button ID="btnSalPak" runat="server" Text="Upload SalPak" 
-                        OnClick="btnSalPak_Click" BorderColor="#990099" /> 
+                        OnClick="btnSalPak_Click" BorderColor="White" /> 
                 </td>
                 <td style="width: 3px">
                     <asp:Button ID="btnUpdateSalPak" runat="server" Text="Update New Salary Package Amt" 
