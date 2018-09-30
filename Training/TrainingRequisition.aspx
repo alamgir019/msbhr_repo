@@ -8,6 +8,29 @@
     <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js"></script>
     <script type="text/javascript">
         $(function () {
+            $(".TraineeName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                minLength: 2
+            });
             $(".ReviewBy").autocomplete({
                 source: function (request, response) {
                     $.ajax({
@@ -167,9 +190,10 @@
                                         <asp:Label ID="Label1" runat="server" CssClass="textlevel" Text="Employee Name :"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:DropDownList ID="ddlTraineeName" CssClass="textlevelleft" runat="server" Width="200px"
+                                        <%--<asp:DropDownList ID="ddlTraineeName" CssClass="textlevelleft" runat="server" Width="200px"
                                             ToolTip="Select Trainee Name">
-                                        </asp:DropDownList>
+                                        </asp:DropDownList>--%>
+                                <asp:TextBox ID="txtTraineeName" class="TraineeName textlevelleft" runat="server" Width="200px"></asp:TextBox>
                                     </td>
                                     <td>
                                     </td>

@@ -2,12 +2,67 @@
     CodeFile="TrainingPlan.aspx.cs" Inherits="Training_TrainingPlan" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
-<asp:Content ID="MainContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js">
-    </script>
-    <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js">
-        //Date Time Picker script
-    </script>
+<asp:Content ID="MainContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">    
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-1.4.2.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-ui-1.8.1.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js"></script>
+     <script type="text/javascript">
+         $(function () {
+             $(".CourseCoordinator").autocomplete({
+                 source: function (request, response) {
+                     $.ajax({
+                         url: "employeelist.asmx/GetEmployee",
+                         data: "{ 'empname': '" + request.term + "' }",
+                         dataType: "json",
+                         type: "POST",
+                         contentType: "application/json; charset=utf-8",
+                         dataFilter: function (data) { return data; },
+                         success: function (data) {
+                             response($.map(data.d, function (item) {
+                                 return {
+                                     value: item.FullName,
+                                     empid: item.EmpId,
+                                     designame: item.Title,
+                                     deptname: item.DeptName
+                                 }
+                             }))
+                         },
+                         error: function (XMLHttpRequest, textStatus, errorThrown) {
+                             alert(textStatus);
+                         }
+                     });
+                 },
+                 minLength: 2
+             });
+             $(".RespectiveResource").autocomplete({
+                 source: function (request, response) {
+                     $.ajax({
+                         url: "employeelist.asmx/GetEmployee",
+                         data: "{ 'empname': '" + request.term + "' }",
+                         dataType: "json",
+                         type: "POST",
+                         contentType: "application/json; charset=utf-8",
+                         dataFilter: function (data) { return data; },
+                         success: function (data) {
+                             response($.map(data.d, function (item) {
+                                 return {
+                                     value: item.FullName,
+                                     empid: item.EmpId,
+                                     designame: item.Title,
+                                     deptname: item.DeptName
+                                 }
+                             }))
+                         },
+                         error: function (XMLHttpRequest, textStatus, errorThrown) {
+                             alert(textStatus);
+                         }
+                     });
+                 },
+                 minLength: 2
+             });
+         });
+         </script>
     <div class="empTrainForm">
         <div id="formhead1">
             <div style="width: 96%; float: left;">
@@ -90,9 +145,10 @@
                                     <td class="textlevel">
                                         Course Coordinator :</td>
                                     <td>
-                                        <asp:DropDownList ID="ddlCourseCoordinator" runat="server" CssClass="textlevelleft"
+                                       <%-- <asp:DropDownList ID="ddlCourseCoordinator" runat="server" CssClass="textlevelleft"
                                             Width="200px" ToolTip="Select Training Nmae">
-                                        </asp:DropDownList>
+                                        </asp:DropDownList>--%>
+                                        <asp:TextBox ID="txtCourseCoordinator" class="CourseCoordinator textlevelleft" runat="server" Width="200px"></asp:TextBox>
                                     </td>
                                     <td>
                                         <asp:Label ID="Label6" runat="server" CssClass="textlevel" Text="Remarks :"></asp:Label>
@@ -122,9 +178,10 @@
                                     <asp:Label ID="Label9" runat="server" CssClass="textlevel" Text="Respective Resource :"></asp:Label>
                                 </td>
                                 <td>
-                                    <asp:DropDownList ID="ddlRespectiveResource" runat="server" CssClass="textlevelleft"
+                                    <%--<asp:DropDownList ID="ddlRespectiveResource" runat="server" CssClass="textlevelleft"
                                         Width="200px" ToolTip="Select Training Nmae">
-                                    </asp:DropDownList>
+                                    </asp:DropDownList>--%>
+                                        <asp:TextBox ID="txtRespectiveResource" class="RespectiveResource textlevelleft" runat="server" Width="200px"></asp:TextBox>
                                 </td>
                                 <td>
                                     <asp:Button ID="btnAdd" runat="server" Text="Add" Width="60px" CausesValidation="False"

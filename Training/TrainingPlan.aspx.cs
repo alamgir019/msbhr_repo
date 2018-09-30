@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Text.RegularExpressions;
 
 public partial class Training_TrainingPlan : System.Web.UI.Page
 {
@@ -29,12 +30,12 @@ public partial class Training_TrainingPlan : System.Web.UI.Page
             this.OpenRecord();
             this.CreateTable();
             this.CreateTableLevel();
-            DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
+            //DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
             Common.FillDropDownList(objTrMgr.SelectTrainingList("0"), ddlTrainingName, "TrainName", "TrainId", true);
             //Common.FillDropDownList_Nil(objTrMgr.SelectTrainingList("0"), ddlTrainingName);
-            Common.FillDropDownList(dtEmp, ddlCourseCoordinator, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlCourseCoordinator, "EmpName", "EmpID", true);
             //Common.FillDropDownList_Nil(dtEmp, ddlRespectiveResource);
-            Common.FillDropDownList(dtEmp, ddlRespectiveResource, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlRespectiveResource, "EmpName", "EmpID", true);
             Common.FillDropDownList(objTrMgr.SelectTrainingVenue("A"), ddlVenue, "VenueName", "VenueId", true);
             Common.FillDropDownList(objEmp.GetEmpDesignation("A"), ddlParticipantLevel, "DesigName", "DesigId", true);
             Common.FillDropDownList(objSOFMgr.SelectProjectList(0), ddlFundedby, "ProjectName", "ProjectId", true);
@@ -161,7 +162,9 @@ public partial class Training_TrainingPlan : System.Web.UI.Page
         nRow["NoofParticipant"] = txtNoofParticipant.Text.Trim();
         nRow["ParticipantMatrix"] = txtParticipantMatrix.Text.Trim();
         nRow["Remarks"] = txtRemarks.Text.Trim();
-        nRow["CourseCoordinator"] = ddlCourseCoordinator.SelectedValue.ToString().Trim();       
+        var match = Regex.Match(txtCourseCoordinator.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        string empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["CourseCoordinator"] = empid;       
 
         if (cmdType == "I")
         {
@@ -305,7 +308,7 @@ public partial class Training_TrainingPlan : System.Web.UI.Page
                     txtNoofParticipant.Text= grTrainingPlan.DataKeys[_gridView.SelectedIndex].Values[8].ToString().Trim();
                     txtParticipantMatrix.Text = grTrainingPlan.DataKeys[_gridView.SelectedIndex].Values[9].ToString().Trim();
                     txtRemarks.Text = grTrainingPlan.DataKeys[_gridView.SelectedIndex].Values[10].ToString().Trim();
-                    ddlCourseCoordinator.SelectedValue = grTrainingPlan.DataKeys[_gridView.SelectedIndex].Values[11].ToString().Trim();
+                    txtCourseCoordinator.Text = grTrainingPlan.DataKeys[_gridView.SelectedIndex].Values[11].ToString().Trim();
 
                     
                     if (grTrainingPlan.DataKeys[_gridView.SelectedIndex].Values[13].ToString().Trim() == "N")
@@ -349,7 +352,7 @@ public partial class Training_TrainingPlan : System.Web.UI.Page
             case ("DoubleClick"):
                 {
                     personTable = ViewState["dt"] as DataTable;     
-                    ddlRespectiveResource.SelectedValue = grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim();
+                    txtRespectiveResource.Text = grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim();
 
                     DataRow[] drr = personTable.Select("RespectiveResourceId='" + grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim() + "'");
                     for (int i = 0; i < drr.Length; i++)
@@ -389,17 +392,21 @@ public partial class Training_TrainingPlan : System.Web.UI.Page
     protected void btnAdd_Click(object sender, EventArgs e)
     {
         DataTable dt = ViewState["dt"] as DataTable;
-        DataRow[] drr = dt.Select("RespectiveResourceId='" + ddlRespectiveResource.SelectedValue.ToString().Trim() + "'");
+        var match = Regex.Match(txtRespectiveResource.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        string empid = match.Groups[match.Groups.Count - 1].Value;
+        DataRow[] drr = dt.Select("RespectiveResourceId='" + empid + "'");
         for (int i = 0; i < drr.Length; i++)
         {
             drr[i].Delete();
         }
         dt.AcceptChanges();
-        dt.Rows.Add(ddlRespectiveResource.SelectedValue.ToString().Trim(), ddlRespectiveResource.SelectedItem.ToString().Trim());
+        var matchName = Regex.Match(txtRespectiveResource.Text.Trim(), "^(\\w+(.)*\\s)+[^\\[]");
+        string empName = match.Groups[match.Groups.Count - 3].Value;
+        dt.Rows.Add(empid, empName);
         grList.DataSource = dt;
         grList.DataBind();
 
-        ddlRespectiveResource.SelectedIndex = 0; 
+        txtRespectiveResource.Text = ""; 
     }
     protected void btnAddLevel_Click(object sender, EventArgs e)
     {

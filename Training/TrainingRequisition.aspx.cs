@@ -32,7 +32,7 @@ public partial class Training_TrainingRequisition : System.Web.UI.Page
             this.OpenRecord();
 
             DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
-            Common.FillDropDownList(dtEmp, ddlTraineeName, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(dtEmp, ddlTraineeName, "EmpName", "EmpID", true);
             Common.FillDropDownList(objEmpMgr.SelectScheduleList("A"), ddlSchedule, "ScheDate", "ScheduleID", true);
             Common.FillDropDownList(objSOFMgr.SelectProjectList(0), ddlProject, "ProjectName", "ProjectId", true);
 
@@ -190,7 +190,7 @@ public partial class Training_TrainingRequisition : System.Web.UI.Page
                 {
                     personTable = ViewState["dt"] as DataTable;
                     ddlProject.SelectedValue = grList.DataKeys[_gridView.SelectedIndex].Values[2].ToString();// Common.CheckNullString(grList.SelectedRow.Cells[1].Text.Trim());
-                    ddlTraineeName.SelectedValue = grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim();
+                    txtTraineeName.Text = grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim();
                     DataRow[] drr = personTable.Select("EmpID='" + grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim() + "'");
                     for (int i = 0; i < drr.Length; i++)
                     {
@@ -341,13 +341,17 @@ public partial class Training_TrainingRequisition : System.Web.UI.Page
         //    return;
         //}
         DataTable dt = ViewState["dt"] as DataTable;
-        DataRow[] drr = dt.Select("EmpID='" + ddlTraineeName.SelectedValue.ToString().Trim() + "'");
+        var match = Regex.Match(txtTraineeName.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        string empid = match.Groups[match.Groups.Count - 1].Value;
+        DataRow[] drr = dt.Select("EmpID='" + empid + "'");
         for (int i = 0; i < drr.Length; i++)
         {
             drr[i].Delete();
         }
         dt.AcceptChanges();
-        dt.Rows.Add(ddlTraineeName.SelectedValue.ToString().Trim(), ddlTraineeName.SelectedItem.Text.ToString().Trim(), ddlProject.SelectedValue.ToString().Trim(), ddlProject.SelectedItem.ToString().Trim());
+        var matchName = Regex.Match(txtTraineeName.Text.Trim(), "^(\\w+(.)*\\s)+[^\\[]");
+        string empName = match.Groups[match.Groups.Count - 3].Value;
+        dt.Rows.Add(empid, empName, ddlProject.SelectedValue.ToString().Trim(), ddlProject.SelectedItem.ToString().Trim());
         grList.DataSource = dt;
         grList.DataBind();
     }
