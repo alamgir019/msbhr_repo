@@ -1762,7 +1762,7 @@ public partial class File_ImportTool : System.Web.UI.Page
     }
     protected void btnLvBalance_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Leave Balance For Head Office MSB_Enjoyed.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Leave Balance For Head Office MSB_Enjoyed _Sep_2018.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -1783,8 +1783,8 @@ public partial class File_ImportTool : System.Web.UI.Page
                 gRow.Cells[4].Text.Trim());
             this.UpdateLeaveEnjoyed(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[5].Text.Trim(),
                 gRow.Cells[6].Text.Trim());
-            this.UpdateLeaveEnjoyed(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[7].Text.Trim(),
-                gRow.Cells[8].Text.Trim());
+            //this.UpdateLeaveEnjoyed(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[7].Text.Trim(),
+            //    gRow.Cells[8].Text.Trim());
             lblMsg.Text = "Record Updated Successfully";
         }
     }
@@ -1820,7 +1820,7 @@ public partial class File_ImportTool : System.Web.UI.Page
 
     protected void btnLvEntitle_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Leave Balance For Head Office MSB_Entile.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Leave Balance For Head Office MSB_Entile_Sep_2018.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -1845,8 +1845,8 @@ public partial class File_ImportTool : System.Web.UI.Page
                 gRow.Cells[4].Text.Trim());
             this.UpdateLeaveEntitle(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[5].Text.Trim(),
                 gRow.Cells[6].Text.Trim());
-            this.UpdateLeaveEntitle(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[7].Text.Trim(),
-                gRow.Cells[8].Text.Trim());
+            //this.UpdateLeaveEntitle(Common.CheckNullString(gRow.Cells[0].Text.Trim()), gRow.Cells[7].Text.Trim(),
+            //    gRow.Cells[8].Text.Trim());
             lblMsg.Text = "Record Updated Successfully";
         }
 
