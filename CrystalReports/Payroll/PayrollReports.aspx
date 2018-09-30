@@ -35,6 +35,7 @@
                                     <asp:TreeNode Text="Yearly PF Contribution" Value="YPFC"></asp:TreeNode>
                                     <asp:TreeNode Text="Yearly PF Balance" Value="YPFB"></asp:TreeNode>
                                     <asp:TreeNode Text="PF Loan Deduction" Value="YPFLD"></asp:TreeNode>
+                                     <asp:TreeNode Text="PF Loan Ledger" Value="PFLL"></asp:TreeNode>
                                 </asp:TreeNode>
                                 <asp:TreeNode Text="Final Payment" Value="FP">
                                     <asp:TreeNode Text="Final Payment" Value="FP"></asp:TreeNode>
@@ -48,7 +49,16 @@
                                  </asp:TreeNode>  
                                   <asp:TreeNode Text="Bonus" Value="B">
                                     <asp:TreeNode Text="Bonus Statement for the festival" Value="BST"></asp:TreeNode>
+                                     <asp:TreeNode Text="Bonus Statement Summary" Value="BSTSum"></asp:TreeNode>    
                                     </asp:TreeNode> 
+                                <asp:TreeNode Text="Tax" Value="T">
+                                    <asp:TreeNode Text="Yearly Income Tax" Value="AITD"></asp:TreeNode>
+                                    <asp:TreeNode Text="Month Wise Income Tax" Value="AITMD"></asp:TreeNode>
+                                    <asp:TreeNode Text="Tax Certificate" Value="TC"></asp:TreeNode>
+                                  </asp:TreeNode>
+                                 <asp:TreeNode Text="Salary Reconciliation" Value="SR">
+                                <asp:TreeNode Text="Salary Reconciliation Report" Value="SRR"></asp:TreeNode>
+                                     </asp:TreeNode> 
                                 <asp:TreeNode Text="Salary SC" Value="SR">
                                     <asp:TreeNode Text="Salary Statement" Value="SS"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Summary" Value="SalSum"></asp:TreeNode>
@@ -62,7 +72,7 @@
                                     <asp:TreeNode Text="Add/Deduction Report" Value="ADR"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Reconciliation Report " Value="SR"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Reconciliation Statement" Value="SRDTL"></asp:TreeNode>
-                                    <asp:TreeNode Text="Salary Reconciliation Report 2" Value="SRR"></asp:TreeNode>
+                                    
                                 </asp:TreeNode>
                                 <asp:TreeNode Text="Voucher" Value="V">
                                     <asp:TreeNode Text="All Voucher" Value="AV"></asp:TreeNode>
@@ -90,13 +100,12 @@
                                     
                                 </asp:TreeNode>
                                 <asp:TreeNode Text="Annual Income" Value="AI"></asp:TreeNode>
-                                <asp:TreeNode Text="Tax" Value="T">
-                                    <asp:TreeNode Text="Yearly Income Tax" Value="AITD"></asp:TreeNode>
-                                    <asp:TreeNode Text="Tax Deduction Rpt." Value="TDR"></asp:TreeNode>
+                                
+                                    <%--asp:TreeNode Text="Tax Deduction Rpt." Value="TDR"></asp:TreeNode>
                                     <asp:TreeNode Text="Income Tax Assessment" Value="ITA"></asp:TreeNode>
                                     <asp:TreeNode Text="Computation of Income Tax" Value="ITC"></asp:TreeNode>
-                                    <asp:TreeNode Text="Tax Certificate" Value="TC"></asp:TreeNode>
-                                </asp:TreeNode>
+                                    --%>
+                              
                                 <asp:TreeNode Text="Gratuity" Value="GR">
                                     <asp:TreeNode Text="Severance Benefits Report" Value="SBR"></asp:TreeNode>
                                     <asp:TreeNode Text="Severance Benefits Summery Report" Value="SBSR"></asp:TreeNode>

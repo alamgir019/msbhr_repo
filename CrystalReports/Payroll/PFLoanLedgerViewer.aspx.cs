@@ -19,7 +19,9 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
 {
     PayrollReportManager objPayRptMgr = new PayrollReportManager();
 
-    private ReportDocument ReportDoc;
+    ReportDocument ReportDoc;
+    DataTable MyDataTable = new DataTable();
+    
     private PrintDocument printDoc = new PrintDocument();
     private string ReportPath = "";
 
@@ -37,12 +39,16 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
         //this.PassParameter(Common.ReturnFullMonthName(strMonth));
         ReportDoc.Load(ReportPath);
 
-        
+
         ReportDoc.SetDataSource(objPayRptMgr.GetPFLoanLedgerData(strMonth, strFinYear, "M"));
 
-        ReportDoc.SetParameterValue("pMonthName",Common.ReturnFullMonthName(strMonth));
+        ReportDoc.SetParameterValue("pMonthName", Common.ReturnFullMonthName(strMonth));
         CRV.ReportSource = ReportDoc;
+
+
     }
+
+
 
     public void PassParameter(string strMonthName)
     {

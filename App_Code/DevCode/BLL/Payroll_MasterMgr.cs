@@ -1050,6 +1050,38 @@ public class Payroll_MasterMgr
         return objDC.ds.Tables["SalaryPakDetls"];
     }
 
+    public DataTable SelectSalaryPakHisDetls(Int32 SalPakId, string strEmpId, string strLogId)
+    {
+        if (objDC.ds.Tables["SalaryPakHisDetls"] != null)
+        {
+            objDC.ds.Tables["SalaryPakHisDetls"].Rows.Clear();
+            objDC.ds.Tables["SalaryPakHisDetls"].Dispose();
+        }
+        string strSql = "";
+        if (strLogId == "")
+            strSql = " SELECT SPH.*,SH.HeadName FROM SalaryPakHisDetls SPH,SalaryHead SH WHERE SPH.SHeadId=SH.SHeadId"
+                + " AND SPH.SalPakId=" + SalPakId + " AND SPH.EmpId='" + strEmpId + "'";
+        else
+            strSql = " SELECT SPH.*,SH.HeadName FROM SalaryPakHisDetls SPH,SalaryHead SH WHERE SPH.SHeadId=SH.SHeadId"
+            + " AND SPH.LogId=" + strLogId;
+        SqlCommand cmd = new SqlCommand(strSql);
+
+        SqlParameter p_SalPakId = cmd.Parameters.Add("SalPakId", SqlDbType.BigInt);
+        p_SalPakId.Direction = ParameterDirection.Input;
+        p_SalPakId.Value = SalPakId;
+
+        SqlParameter p_EmpId = cmd.Parameters.Add("EmpId", SqlDbType.VarChar);
+        p_EmpId.Direction = ParameterDirection.Input;
+        p_EmpId.Value = strEmpId;
+
+        SqlParameter p_LogId = cmd.Parameters.Add("LogId", SqlDbType.BigInt);
+        p_LogId.Direction = ParameterDirection.Input;
+        p_LogId.Value = strLogId;
+
+        objDC.CreateDT(cmd, "SalaryPakHisDetls");
+        return objDC.ds.Tables["SalaryPakHisDetls"];
+    }
+
     public DataTable SelectSalaryPackage(Int32 SalPakId)
     {
         SqlCommand command = new SqlCommand("proc_Payroll_Select_SalaryPackage");
