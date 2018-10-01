@@ -301,21 +301,21 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
     protected double GetDaysDur(double dclDaysDur, string strSheadId, int iWeekendDays)
     {
         double dclDur = 0;
-        if (strSheadId == "1")
-        {
-            //if (dclTotWorkingDays > 0)
-            //{
-            //    dclTotWorkingDays = dclDaysDur +dclTotWorkingDays;
-            //    if (dclTotWorkingDays > 21.67)
-            //        dclDur = 21.67 - dclPreWorkingDays;
-            //}
-            //else
-                dclDur = Convert.ToDouble(dclDaysDur - iWeekendDays);
+        //if (strSheadId == "1")
+        //{
+        //    //if (dclTotWorkingDays > 0)
+        //    //{
+        //    //    dclTotWorkingDays = dclDaysDur +dclTotWorkingDays;
+        //    //    if (dclTotWorkingDays > 21.67)
+        //    //        dclDur = 21.67 - dclPreWorkingDays;
+        //    //}
+        //    //else
+        //        dclDur = Convert.ToDouble(dclDaysDur - iWeekendDays);
 
-            dclTotWorkingDays = dclTotWorkingDays + dclDaysDur;
-            dclPreWorkingDays = dclDur;
-        }
-        else
+        //    dclTotWorkingDays = dclTotWorkingDays + dclDaysDur;
+        //    dclPreWorkingDays = dclDur;
+        //}
+        //else
             dclDur = dclDaysDur;
         return Math.Round(dclDur, 2);
     }
@@ -503,7 +503,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
                     iWeekendDaysPart1 = Get_Days_Without_Weekend(dRow["EmpId"].ToString().Trim(), Common.ReturnDate(strFromDate), Common.ReturnDate(dRow["EffDate"].ToString().Trim()));
                     if (string.IsNullOrEmpty(dRow["SalaryPakId"].ToString()) == false)
                     {
-                        //dtSalPakDetls = objPayMstMgr.SelectSalaryPakHisDetls(Convert.ToInt32(dRow["SalaryPakId"].ToString()), dRow["EmpId"].ToString().Trim(), strLogId);
+                        dtSalPakDetls = objPayMstMgr.SelectSalaryPakHisDetls(Convert.ToInt32(dRow["SalaryPakId"].ToString()), dRow["EmpId"].ToString().Trim(), strLogId);
                         foreach (DataRow dPakRow in dtSalPakDetls.Rows)
                         {
                             if ((Convert.ToDecimal(dPakRow["PayAmt"].ToString()) != 0) && ((dPakRow["SHeadId"].ToString() == "1") || (dPakRow["SHeadId"].ToString() == "2")

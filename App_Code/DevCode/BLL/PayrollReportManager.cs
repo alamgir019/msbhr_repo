@@ -1141,7 +1141,26 @@ public class PayrollReportManager
         return objDC.ds.Tables["GetPRSalReconParam"];
     }
 
+    public DataTable Get_BonusSummary(string fdate, string FisYear, string SalDivision)
+    {
+        SqlCommand cmd = new SqlCommand("proc_Rpt_BonusSummery");
+        cmd.CommandType = CommandType.StoredProcedure;
 
+        SqlParameter p_VMONTH = cmd.Parameters.Add("VMonth", SqlDbType.BigInt);
+        p_VMONTH.Direction = ParameterDirection.Input;
+        p_VMONTH.Value = fdate;
+
+        SqlParameter p_FisYear = cmd.Parameters.Add("FisYear", SqlDbType.BigInt);
+        p_FisYear.Direction = ParameterDirection.Input;
+        p_FisYear.Value = FisYear;
+
+        SqlParameter p_SalSubLocId = cmd.Parameters.Add("p_SalSubLocId", SqlDbType.Char);
+        p_SalSubLocId.Direction = ParameterDirection.Input;
+        p_SalSubLocId.Value = SalDivision;
+
+        objDC.CreateDSFromProc(cmd, "GetPRSalReconParam");
+        return objDC.ds.Tables["GetPRSalReconParam"];
+    }
 
     public DataTable Get_Salary_SheetSummary01(string fdate, string FisYear, string SalDivision)
     {

@@ -938,7 +938,7 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
                     + " FROM EmpInfo E LEFT OUTER JOIN Designation J ON E.DesigId=J.DesigId"
                     + " LEFT OUTER  JOIN GradeList G ON E.GradeId=G.GradeId"
                     + " INNER JOIN SalaryPakHisDetls SPH ON E.EmpId=SPH.EmpId "
-                    + " INNER JOIN EmpTransitionLog ET ON E.EmpId=ET.EmpId"
+                    + " INNER JOIN EmpTransitionLog ET ON E.EmpId=ET.EmpId "
                     + " WHERE E.EmpStatus='A' AND E.IsPayrollStaff='Y'"
                     + " AND SPH.LASTUPDATEDFROM='Promotion' AND ET.EffDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'";
                 break;
@@ -948,8 +948,8 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
                     + " FROM EmpInfo E LEFT OUTER JOIN Designation J ON E.DesigId=J.DesigId"
                     + " LEFT OUTER JOIN GradeList G ON E.GradeId=G.GradeId"
                     + " INNER JOIN SalaryPakHisDetls SPH ON E.EmpId=SPH.EmpId "
-                    + " INNER JOIN EmpSalaryIncrementLog ET ON E.EmpId=ET.EmpId"
-                    + " WHERE E.EmpStatus='A' AND E.IsPayrollStaff='Y' "//AND E.EmpId='E000004'
+                    + " INNER JOIN EmpSalaryIncrementLog ET ON E.EmpId=ET.EmpId "
+                    + " WHERE E.EmpStatus='A' AND E.IsPayrollStaff='Y' AND E.EmpId='E006045' " 
                     + " AND SPH.LASTUPDATEDFROM='Increment' AND SPH.EffDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'";
                 break;
             case "6"://APA
