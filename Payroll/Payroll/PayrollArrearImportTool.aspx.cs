@@ -34,16 +34,16 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
             Common.FillMonthList(ddlJoiningMonth);
             Common.FillMonthList(ddlMonthSearch);
             Common.FillYearList(10,ddlYear);
-            ddlArrearMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
-            ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
-            ddlMonthSearch.SelectedValue = Convert.ToString(DateTime.Today.Month);
+            ddlArrearMonth.SelectedValue = Convert.ToString(DateTime.Today.Month-1);
+            ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month-1);
+            ddlMonthSearch.SelectedValue = Convert.ToString(DateTime.Today.Month-1);
             ddlYear.SelectedValue = Convert.ToString(DateTime.Today.Year);
 
-            ddlJoiningMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
+            ddlJoiningMonth.SelectedValue = Convert.ToString(DateTime.Today.Month-1);
 
-            Common.FillDropDownList(objPayMstMgr.SelectFiscalYear(0), ddlFiscalYr, "FISCALYRTITLE", "FISCALYRID", false);
-            Common.FillDropDownList(objPayMstMgr.SelectFiscalYear(0), ddlFiscalYrSearch, "FISCALYRTITLE", "FISCALYRID", false);
-
+            Common.FillDropDownList(objPayMstMgr.SelectFiscalYear(0, "F"), ddlFiscalYr, "FISCALYRTITLE", "FISCALYRID", false);
+            Common.FillDropDownList(objPayMstMgr.SelectFiscalYear(0, "F"), ddlFiscalYrSearch, "FISCALYRTITLE", "FISCALYRID", false);
+            
             this.EntryMode();
 
 
@@ -270,8 +270,8 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
             #endregion
             #region Promotion
             case "4"://Promotion    
-                //grPayrollArrear.Visible = true;
-                //grArrrearDetails.Visible = true;
+                grPayrollArrear.Visible = true;
+                grArrrearDetails.Visible = true;
                 this.GetArrearDetails();     
                 break;
             #endregion
@@ -637,11 +637,15 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
 
     private void GetArrearMst(DataTable dtSalary, DataTable dtArrearDtls)
     {
+
         double dblTotDurs = 0;
         double dblTotAmt = 0;
-        double dblSalaryAmt = 0;
-        string lvPayAmt;       
+        double dblBasicAmt = 0, dblHRAmt=0, dblMedAmt=0;
+        string lvPayAmt;
         string strSHeadId = "";
+        string strFullName = "";
+        string strJoinDate = "";
+
         int i = 0;
 
         string strFromDate, strToDate;
@@ -651,58 +655,115 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
         dtFrom = Convert.ToDateTime(strFromDate);
         strToDate = ddlYear.SelectedValue.ToString() + "/" + ddlArrearMonth.SelectedValue.ToString() + "/" + Common.GetMonthDay(dtFrom);
         dtTo = Convert.ToDateTime(strToDate);
-        
+        //foreach (GridViewRow gRow in grArrrearDetails.Rows)
+        //{
         DataRow[] foundRows = dtArrearDtls.Select("EmpId='" + dtSalary.Rows[0]["EmpId"].ToString().Trim() + "'");
 
-        foreach (DataRow dRow in dtSalary.Rows)
+
+        foreach (DataRow dDtlsRow in foundRows)
         {
-            strSHeadId = dRow["SHeadId"].ToString();
-            dblTotDurs = 0;
-            dblTotAmt = 0;
-            i = 0;
-
-            foreach (DataRow dDtlsRow in foundRows)
-            {
-                if ((dRow["SHeadId"].ToString() == "1") && (dDtlsRow["SHeadId"].ToString() == "16"))
-                    dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
-                if ((dRow["SHeadId"].ToString() == "2") && (dDtlsRow["SHeadId"].ToString() == "17"))
-                    dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
-                if ((dRow["SHeadId"].ToString() == "3") && (dDtlsRow["SHeadId"].ToString() == "18"))
-                    dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
-                //if ((dRow["SHeadId"].ToString() == "4") && (dDtlsRow["SHeadId"].ToString() == "22"))
-                //    dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
-                //if ((dRow["SHeadId"].ToString() == "7") && (dDtlsRow["SHeadId"].ToString() == "23"))
-                //    dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
-
-                if (strSHeadId == dDtlsRow["SHeadId"].ToString())
-                {
-                    i++;
-                    lvPayAmt = dDtlsRow["PayAmt"].ToString(); 
-
-                    dblTotDurs = dblTotDurs + Convert.ToDouble(dDtlsRow["VDAYS"].ToString());
-                    dblTotAmt = dblTotAmt + Convert.ToDouble(lvPayAmt);
-
-                    if ((i == 1) || (i == 2))
-                    {
-                        dblTotAmt = dblTotAmt - dblSalaryAmt;
-                        this.AddScheduleData(dRow["EmpId"].ToString().Trim(), dDtlsRow["FullName"].ToString().Trim(), Common.ReturnDate(dDtlsRow["JoiningDate"].ToString().Trim()),
-                                 dRow["SHeadId"].ToString(), dDtlsRow["HeadName"].ToString().Trim(), dtFrom.Month.ToString(),
-                                  dblTotAmt, "", dblTotDurs,dtFrom.ToString(),dtTo.ToString());
-
-                        if (dDtlsRow["SHeadId"].ToString() == "16")
-                            this.AddScheduleData(dRow["EmpId"].ToString().Trim(), dDtlsRow["FullName"].ToString().Trim(), Common.ReturnDate(dDtlsRow["JoiningDate"].ToString().Trim()),
-                                "8", "PF Emp Arrear", dtFrom.Month.ToString(),
-                                Math.Round(Convert.ToDouble(this.GetPayAmnt(dblTotDurs, -dblTotAmt, "1", ddlArrearCase.SelectedValue.ToString())) / 10),
-                                dtFrom.Year.ToString(), dblTotDurs, dtFrom.ToString(), dtTo.ToString());
-
-                        grPayrollArrear.DataSource = dtSch;
-                        grPayrollArrear.DataBind();
-                        this.SetGrScheduleSerial();
-                    }
-                }
-            }
+            strFullName = dDtlsRow["FullName"].ToString().Trim();
+            strJoinDate = dDtlsRow["JoiningDate"].ToString().Trim();
+            if ((dDtlsRow["SHeadId"].ToString() == "1") || (dDtlsRow["SHeadId"].ToString() == "16"))
+                dblBasicAmt = dblBasicAmt + Convert.ToDouble(dDtlsRow["PayAmt"]);
+            if ((dDtlsRow["SHeadId"].ToString() == "2") || (dDtlsRow["SHeadId"].ToString() == "17"))
+                dblHRAmt = dblHRAmt + Convert.ToDouble(dDtlsRow["PayAmt"]);
+            if ((dDtlsRow["SHeadId"].ToString() == "3") || (dDtlsRow["SHeadId"].ToString() == "18"))
+                dblMedAmt = dblMedAmt + Convert.ToDouble(dDtlsRow["PayAmt"]);
         }
+        if (dblBasicAmt > 0)
+        {
+            this.AddScheduleData(dtSalary.Rows[0]["EmpId"].ToString().Trim(), strFullName, strJoinDate,
+                     "1", "Basic", dtFrom.Month.ToString(), dblBasicAmt, "30", dblTotDurs, dtFrom.ToString(), dtTo.ToString());
+            dblBasicAmt = 0;
+        }
+        if (dblHRAmt > 0)
+        {
+            this.AddScheduleData(dtSalary.Rows[0]["EmpId"].ToString().Trim(), strFullName, strJoinDate,
+                     "2", "House Rent", dtFrom.Month.ToString(), dblHRAmt, "30", dblTotDurs, dtFrom.ToString(), dtTo.ToString());
+            dblHRAmt = 0;
+        }
+        if (dblMedAmt > 0)
+        {
+            this.AddScheduleData(dtSalary.Rows[0]["EmpId"].ToString().Trim(), strFullName, strJoinDate,
+                     "3", "Medical", dtFrom.Month.ToString(), dblMedAmt, "30", dblTotDurs, dtFrom.ToString(), dtTo.ToString());
+            dblMedAmt = 0;
+        }
+
+        grPayrollArrear.DataSource = dtSch;
+        grPayrollArrear.DataBind();
+        this.SetGrScheduleSerial();
+
+        //}
     }
+    //private void GetArrearMst(DataTable dtSalary, DataTable dtArrearDtls)
+    //{
+    //    double dblTotDurs = 0;
+    //    double dblTotAmt = 0;
+    //    double dblSalaryAmt = 0;
+    //    string lvPayAmt;       
+    //    string strSHeadId = "";
+    //    int i = 0;
+
+    //    string strFromDate, strToDate;
+    //    DateTime dtFrom, dtTo;
+
+    //    strFromDate = ddlYear.SelectedValue.ToString() + "/" + ddlArrearMonth.SelectedValue.ToString() + "/01";
+    //    dtFrom = Convert.ToDateTime(strFromDate);
+    //    strToDate = ddlYear.SelectedValue.ToString() + "/" + ddlArrearMonth.SelectedValue.ToString() + "/" + Common.GetMonthDay(dtFrom);
+    //    dtTo = Convert.ToDateTime(strToDate);
+        
+    //    DataRow[] foundRows = dtArrearDtls.Select("EmpId='" + dtSalary.Rows[0]["EmpId"].ToString().Trim() + "'");
+
+    //    foreach (DataRow dRow in dtSalary.Rows)
+    //    {
+    //        strSHeadId = dRow["SHeadId"].ToString();
+    //        dblTotDurs = 0;
+    //        dblTotAmt = 0;
+    //        i = 0;
+
+    //        foreach (DataRow dDtlsRow in foundRows)
+    //        {
+    //            if ((dRow["SHeadId"].ToString() == "1") && (dDtlsRow["SHeadId"].ToString() == "16"))
+    //                dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
+    //            if ((dRow["SHeadId"].ToString() == "2") && (dDtlsRow["SHeadId"].ToString() == "17"))
+    //                dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
+    //            if ((dRow["SHeadId"].ToString() == "3") && (dDtlsRow["SHeadId"].ToString() == "18"))
+    //                dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
+    //            //if ((dRow["SHeadId"].ToString() == "4") && (dDtlsRow["SHeadId"].ToString() == "22"))
+    //            //    dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
+    //            //if ((dRow["SHeadId"].ToString() == "7") && (dDtlsRow["SHeadId"].ToString() == "23"))
+    //            //    dblSalaryAmt = Convert.ToDouble(dRow["PayAmt"]);
+
+    //            if (strSHeadId == dDtlsRow["SHeadId"].ToString())
+    //            {
+    //                i++;
+    //                lvPayAmt = dDtlsRow["PayAmt"].ToString(); 
+
+    //                dblTotDurs = dblTotDurs + Convert.ToDouble(dDtlsRow["VDAYS"].ToString());
+    //                dblTotAmt = dblTotAmt + Convert.ToDouble(lvPayAmt);
+
+    //                if ((i == 1) || (i == 2))
+    //                {
+    //                    dblTotAmt = dblTotAmt - dblSalaryAmt;
+    //                    this.AddScheduleData(dRow["EmpId"].ToString().Trim(), dDtlsRow["FullName"].ToString().Trim(), Common.ReturnDate(dDtlsRow["JoiningDate"].ToString().Trim()),
+    //                             dRow["SHeadId"].ToString(), dDtlsRow["HeadName"].ToString().Trim(), dtFrom.Month.ToString(),
+    //                              dblTotAmt, "", dblTotDurs,dtFrom.ToString(),dtTo.ToString());
+
+    //                    if (dDtlsRow["SHeadId"].ToString() == "16")
+    //                        this.AddScheduleData(dRow["EmpId"].ToString().Trim(), dDtlsRow["FullName"].ToString().Trim(), Common.ReturnDate(dDtlsRow["JoiningDate"].ToString().Trim()),
+    //                            "8", "PF Emp Arrear", dtFrom.Month.ToString(),
+    //                            Math.Round(Convert.ToDouble(this.GetPayAmnt(dblTotDurs, -dblTotAmt, "1", ddlArrearCase.SelectedValue.ToString())) / 10),
+    //                            dtFrom.Year.ToString(), dblTotDurs, dtFrom.ToString(), dtTo.ToString());
+
+    //                    grPayrollArrear.DataSource = dtSch;
+    //                    grPayrollArrear.DataBind();
+    //                    this.SetGrScheduleSerial();
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
     protected void btnArrearSave_Click(object sender, EventArgs e)
     {
