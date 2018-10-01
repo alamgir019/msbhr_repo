@@ -73,9 +73,9 @@
                             </tr>
                             <tr>
                                 <td class="textlevelleft">
-                                    <asp:Label ID="lblJoiningMonth" runat="server" Text="Joining Month" Visible="False"></asp:Label></td>
+                                    <asp:Label ID="lblJoiningMonth" runat="server" Text="Joining Month"></asp:Label></td>
                                 <td>
-                                    <asp:DropDownList ID="ddlJoiningMonth" runat="server" Visible="False">
+                                    <asp:DropDownList ID="ddlJoiningMonth" runat="server">
                                     </asp:DropDownList></td>
                                 <td class="textlevelleft">
                                 </td>

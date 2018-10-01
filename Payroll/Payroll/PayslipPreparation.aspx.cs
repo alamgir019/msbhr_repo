@@ -413,6 +413,7 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
            Common.ReturnDate(Common.GetMonthDay(Convert.ToInt32(ddlMonth.SelectedValue.ToString()), ddlYear.SelectedValue.ToString())
            + "/" + ddlMonth.SelectedValue.ToString() + "/" + ddlYear.SelectedValue.ToString()));
         DataTable dtFestivalBonus = objPreMgr.GetEmployeeBonusData(ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim());
+
         DataRow[] foundBfRow;
         //DataRow[] foundOTRow;
         DataRow[] foundFBRow;
@@ -422,12 +423,13 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
         DataTable dtPFLoan = objPreMgr.GetPFLoanDataForPayrollPreparation(ddlMonth.SelectedValue.ToString().Trim(), ddlFiscalYearPF.SelectedValue.ToString());
         DataTable dtPFLoanRepay = objPreMgr.GetPFLoanAdjustmentForPayrollPreparation(ddlMonth.SelectedValue.ToString().Trim(), ddlFiscalYearPF.SelectedValue.Trim());
 
-        //// Arrear
-        //DataTable dtArrear = objPreMgr.GetPayrollArrearForPreparation(ddlMonth.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.Trim());
+        // Arrear
+        DataTable dtArrear = objPreMgr.GetPayrollArrearForPreparation(ddlMonth.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.Trim());
 
         DataRow[] foundPFLLRow;
         DataRow[] foundPFLRRow;
         DataRow[] foundPFLoanRow;
+        DataRow[] foundArrRows;
 
         decimal dclCLLAmount = 0;
         decimal dclCashPay = 0;
@@ -494,6 +496,10 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                     foundPFLRRow = dtPFLoanRepay.Select("EMPID='" + dEmpRow["EMPID"].ToString().Trim() + "'");
                     foundPFLoanRow = dtPFLoan.Select("EMPID='" + dEmpRow["EMPID"].ToString().Trim() + "'");
 
+                    foundPFLLRow = dtPFLoanLedger.Select("EMPID='" + dEmpRow["EMPID"].ToString().Trim() + "'");
+
+                    foundArrRows = dtArrear.Select("EMPID='" + dEmpRow["EMPID"].ToString().Trim() + "'");
+
                     dclEmpNetPayAmt = 0;
 
                     foreach (DataRow dSalPackRow in dtEmpSalPackDetls.Rows)
@@ -507,11 +513,25 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                          switch (dSalPackRow["SHEADID"].ToString())
                          {
                              case "1":// Basic
-                             case "2":// House Rent
-                             case "3":// Medical
-                             case "4":// Convenyance
+                                dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);
+                                if (foundArrRows.Length > 0)
+                                    dclSalHeadAmount = this.GetArrearHeadAmount(dtArrear, 16, dEmpRow["EMPID"].ToString().Trim());                               
+                                break;
+                            case "2":// House Rent
+                                dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);
+                                if (foundArrRows.Length > 0)
+                                    dclSalHeadAmount = this.GetArrearHeadAmount(dtArrear, 17, dEmpRow["EMPID"].ToString().Trim());
+                                break;
+                            case "3":// Medical
+                                dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);
+                                if (foundArrRows.Length > 0)
+                                    dclSalHeadAmount = this.GetArrearHeadAmount(dtArrear, 18, dEmpRow["EMPID"].ToString().Trim());
+                                break;
+                            case "4":// Convenyance
                              case "5":// Others Allowance
-                                 dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);
+
+
+                                dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);
                                  break;
                              case "6":// Arrear +
                              case "7":// Arrear -
@@ -2519,6 +2539,25 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
         }
     }
     #endregion
+
+    protected Decimal GetArrearHeadAmount(DataTable dt, Int32 inSheadID, string strEmpID)
+    {
+        if (dt.Rows.Count == 0)
+            return 0;
+
+        DataRow[] foundArrRows = dt.Select("EMPID='" + strEmpID + "' AND SHEADID=" + inSheadID);
+        decimal dclPayAmt = 0;
+        if (foundArrRows.Length > 0)
+        {
+            foreach (DataRow fRow in foundArrRows)
+            {
+                dclPayAmt = dclPayAmt + Common.RoundDecimal(fRow["PAYAMT"].ToString(), 0);
+            }
+            return dclPayAmt;
+        }
+        else
+            return 0;
+    }
     protected void grPayslipMst_SelectedIndexChanged(object sender, EventArgs e)
     {
 

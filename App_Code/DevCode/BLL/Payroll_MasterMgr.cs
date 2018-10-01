@@ -1040,6 +1040,11 @@ public class Payroll_MasterMgr
 
     public DataTable SelectSalaryPakDetls(Int32 SalPakId)
     {
+        if (objDC.ds.Tables["SalaryPakDetls"]!=null)
+        {
+            objDC.ds.Tables["SalaryPakDetls"].Rows.Clear();
+            objDC.ds.Tables["SalaryPakDetls"].Dispose();
+        }
         SqlCommand command = new SqlCommand("proc_Payroll_Select_SalaryPakDetls");
 
         SqlParameter p_SalPakId = command.Parameters.Add("SalPakId", SqlDbType.BigInt);

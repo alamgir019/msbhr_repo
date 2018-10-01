@@ -1295,6 +1295,24 @@ public class Payroll_PreparationManager
         objDC.CreateDT(cmd, "GetPFLoanAdjustmentForPayrollPreparation");
         return objDC.ds.Tables["GetPFLoanAdjustmentForPayrollPreparation"];
     }
+
+    public DataTable GetPayrollArrearForPreparation(string strMonth, string strFY)
+    {
+        string strSQL = " SELECT * FROM  PayrollArrear WHERE VMonth=@VMonth AND FiscalYrID=@FiscalYrID";
+
+        SqlCommand cmd = new SqlCommand(strSQL);
+        cmd.CommandType = CommandType.Text;
+
+        SqlParameter p_VMONTH = cmd.Parameters.Add("VMONTH", SqlDbType.BigInt);
+        p_VMONTH.Direction = ParameterDirection.Input;
+        p_VMONTH.Value = strMonth;
+
+        SqlParameter p_FISCALYRID = cmd.Parameters.Add("FISCALYRID", SqlDbType.BigInt);
+        p_FISCALYRID.Direction = ParameterDirection.Input;
+        p_FISCALYRID.Value = strFY;
+        
+        return objDC.CreateDT(cmd,"GetPayrollArrearForPreparation");
+    }
     #endregion
     public Payroll_PreparationManager()
 	{

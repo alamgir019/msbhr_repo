@@ -949,8 +949,8 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
                     + " LEFT OUTER JOIN GradeList G ON E.GradeId=G.GradeId"
                     + " INNER JOIN SalaryPakHisDetls SPH ON E.EmpId=SPH.EmpId "
                     + " INNER JOIN EmpSalaryIncrementLog ET ON E.EmpId=ET.EmpId "
-                    + " WHERE E.EmpStatus='A' AND E.IsPayrollStaff='Y' AND E.EmpId='E006045' " 
-                    + " AND SPH.LASTUPDATEDFROM='Increment' AND SPH.EffDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'";
+                    + " WHERE E.EmpStatus='A' AND E.IsPayrollStaff='Y' " // AND E.EmpId='E006043'
+                    + " AND SPH.LASTUPDATEDFROM='Increment' AND SPH.EffDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "' ORDER BY E.EmpId DESC";
                 break;
             case "6"://APA
                 strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContractEndDate,E.BasicSalary,E.SalPakId,J.DesigName AS JobTitle,G.GradeName,SPH.EffDate "
