@@ -2,13 +2,41 @@
     CodeFile="TrainingScheduleDtl.aspx.cs" Inherits="Training_TrainingScheduleDtl" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="MainContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script src="../JScripts/jquery-1.2.3.min.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-1.4.2.min.js"></script>
+    <%--<script src="../JScripts/jquery-1.2.3.min.js" type="text/javascript"></script>--%>
+    <script language="javascript" type="text/javascript" src="../JScripts/jquery-ui-1.8.1.min.js"></script>
     <script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js"></script>
     <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js"></script>
     <script language="javascript" type="text/javascript">
+        $(function () {
+            $(".CourseCordinator").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "employeelist.asmx/GetEmployee",
+                        data: "{ 'empname': '" + request.term + "' }",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: item.FullName
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                minLength: 2
+            });
+        });
         $(document).ready(function () {
             calculateDuration("");
         });
+
         function txtDuration_onclick() {
             calculateDuration("Please Enter Date");
         }
@@ -193,8 +221,9 @@
 
                                     </td>
                                     <td>
-                                        <asp:DropDownList ID="ddlCourseCordinator" runat="server" CssClass="textlevelleft"
-                                            Width="200px" ToolTip="Select Training Location"></asp:DropDownList>
+                                        <%--<asp:DropDownList ID="ddlCourseCordinator" runat="server" CssClass="textlevelleft"
+                                            Width="200px" ToolTip="Select Training Location"></asp:DropDownList>--%>
+                                <asp:TextBox ID="txtCourseCordinator" class="CourseCordinator textlevelleft" runat="server" Width="200px"></asp:TextBox>
 
                                     </td>
                                     <td class="textlevel">

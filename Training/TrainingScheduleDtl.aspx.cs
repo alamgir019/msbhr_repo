@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-
+using System.Text.RegularExpressions;
 
 public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
 {
@@ -40,7 +40,7 @@ public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
             //Common.FillDropDownList(objTblmast.SelectClinic(), ddlLocation, "ClinicName", "ClinicId", true);
             Common.FillDropDownList(objTrMgr.SelectTrainingVenue("A"), ddlVenue, "VenueName", "VenueId", true);
             Common.FillDropDownList(objSOFMgr.SelectProjectList(0), ddlFundedby, "ProjectName", "ProjectId", true);
-            Common.FillDropDownList(objEmp.SelectEmpNameWithID("A"), ddlCourseCordinator, "EmpName", "EmpID", true);
+            //Common.FillDropDownList(objEmp.SelectEmpNameWithID("A"), ddlCourseCordinator, "EmpName", "EmpID", true);
         }
     }
     protected void EntryMode(bool IsUpdate)
@@ -209,7 +209,9 @@ public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
 
         nRow["Duration"] = txtDuration.Text.Trim();
         nRow["NoofPerson"] = txtNoOfPerson.Text.Trim();
-        nRow["CoordinatorName"] = ddlCourseCordinator.SelectedValue.ToString();
+        var match = Regex.Match(txtCourseCordinator.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
+        string empid = match.Groups[match.Groups.Count - 1].Value;
+        nRow["CoordinatorName"] = empid;
         nRow["Residential"] = ddlResidential.SelectedValue.ToString().Trim();
       
         if (cmdType == "I")
@@ -356,7 +358,7 @@ public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
                 txtEndDate.Text = grList.DataKeys[_gridView.SelectedIndex].Values[6].ToString();
                 txtDuration.Text = grList.DataKeys[_gridView.SelectedIndex].Values[7].ToString();
                 txtNoOfPerson.Text = grList.DataKeys[_gridView.SelectedIndex].Values[8].ToString();
-                ddlCourseCordinator.SelectedValue = grList.DataKeys[_gridView.SelectedIndex].Values[9].ToString();               
+                txtCourseCordinator.Text = grList.DataKeys[_gridView.SelectedIndex].Values[9].ToString();               
                 ddlResidential.SelectedValue = grList.DataKeys[_gridView.SelectedIndex].Values[11].ToString();
                 if (grList.DataKeys[_gridView.SelectedIndex].Values[13].ToString() == "Y")
                     chkInActive.Checked = false;
