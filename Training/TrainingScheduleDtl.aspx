@@ -91,7 +91,7 @@
                 Training Schedule</div>
             <div style="margin: 2px; float: left; padding-right: 3px;">
                 <a href="../Default.aspx">
-                    <img src="../Images/close_icon.gif" /></a></div>
+                    <img alt="close" src="../Images/close_icon.gif" /></a></div>
         </div>
         <!--Div for group-->
         <cc1:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Width="100%"
@@ -293,31 +293,30 @@
                             EmptyDataText="No Record Found" Font-Size="9px" Width="99%" 
                             OnRowCommand="grDtlsList_RowCommand" 
                             onselectedindexchanged="grDtlsList_SelectedIndexChanged">
-<AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
-<Columns>
-<asp:ButtonField CommandName="DoubleClick" HeaderText="Edit" Text="Edit">
-<ItemStyle CssClass="ItemStylecss" Width="10%" />
-</asp:ButtonField>
-<asp:ButtonField CommandName="Delete" HeaderText="Delete" Text="Delete">
-<ItemStyle CssClass="ItemStylecss" Width="10%" />
-</asp:ButtonField>
-<asp:BoundField DataField="ProjectName" HeaderText="Funded by">
-<ItemStyle CssClass="ItemStylecssCenter" Width="20%"></ItemStyle>
-</asp:BoundField>
-<asp:BoundField DataField="ParticipantNo" HeaderText="Participant No">
-<ItemStyle CssClass="ItemStylecssCenter" Width="20%"></ItemStyle>
-</asp:BoundField>
-</Columns>
+                            <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
+                            <Columns>
+                            <asp:ButtonField CommandName="DoubleClick" HeaderText="Edit" Text="Edit">
+                            <ItemStyle CssClass="ItemStylecss" Width="10%" />
+                            </asp:ButtonField>
+                            <asp:ButtonField CommandName="Delete" HeaderText="Delete" Text="Delete">
+                            <ItemStyle CssClass="ItemStylecss" Width="10%" />
+                            </asp:ButtonField>
+                            <asp:BoundField DataField="ProjectName" HeaderText="Funded by">
+                            <ItemStyle CssClass="ItemStylecssCenter" Width="20%"></ItemStyle>
+                            </asp:BoundField>
+                            <asp:BoundField DataField="ParticipantNo" HeaderText="Participant No">
+                            <ItemStyle CssClass="ItemStylecssCenter" Width="20%"></ItemStyle>
+                            </asp:BoundField>
+                            </Columns>
 
-<HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
+                            <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
 
-<SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True"></SelectedRowStyle>
-</asp:GridView>
-
+                            <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True"></SelectedRowStyle>
+                        </asp:GridView>
                         <!--Grid view Code Ends-->
                     </div>
                 
-</ContentTemplate>            
+                </ContentTemplate>            
             </cc1:TabPanel>
             <cc1:TabPanel ID="TabPanel2" runat="server" HeaderText="TabPanel1" Width="860px" Height="430px">
                 <HeaderTemplate>
@@ -387,5 +386,4 @@
             </div>
         </div>
     </div>
-    </table>
 </asp:Content>
