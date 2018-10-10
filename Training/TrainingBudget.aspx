@@ -281,6 +281,18 @@
 
                 </table>
             </fieldset>
+             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" runat="server" FilterType="Numbers"
+                         TargetControlID="txtNoOfPerson" Enabled="True">
+                     </cc1:FilteredTextBoxExtender>
+             <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" runat="server" FilterType="Numbers"
+                         TargetControlID="txtParticipantNo" Enabled="True">
+                     </cc1:FilteredTextBoxExtender>
+            <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender3" runat="server" FilterType="Custom, Numbers" 
+                         ValidChars="0123456789." TargetControlID="txtUnitCost" Enabled="True">
+            </cc1:FilteredTextBoxExtender>
+            <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender4" runat="server" FilterType="Numbers"
+                  TargetControlID="txtDaysNo" Enabled="True">
+            </cc1:FilteredTextBoxExtender>
             <br />
             
             <fieldset>
@@ -298,12 +310,12 @@
                                 ToolTip="Select Budget Type" AutoPostBack="True">
                         </asp:DropDownList></td>
                          <td><asp:Label ID="Label9" runat="server" CssClass="textlevel" Text="Unit Cost :"></asp:Label></td>
-                     <td><asp:TextBox ID="txtUnitCost" runat="server" onkeydown = "return (!(event.keyCode>=65) && event.keyCode!=32);" MaxLength="9" Width="60px"></asp:TextBox></td>
+                     <td><asp:TextBox ID="txtUnitCost" runat="server" MaxLength="9" Width="60px"></asp:TextBox></td>
                      <td><asp:Label ID="Label15" runat="server" CssClass="textlevel" Text="Participant Number :"></asp:Label></td>
-                        <td><asp:TextBox ID="txtParticipantNo" onkeydown = "return (!(event.keyCode>=65) && event.keyCode!=32);" MaxLength="9" runat="server" Width="60px" ></asp:TextBox></td>
+                        <td><asp:TextBox ID="txtParticipantNo" MaxLength="9" runat="server" Width="60px" ></asp:TextBox></td>
 
                         <td><asp:Label ID="Label10" runat="server" CssClass="textlevel" Text="Number of Days :"></asp:Label></td>
-                     <td><asp:TextBox ID="txtDaysNo" runat="server" Width="60px" onkeydown = "return (!(event.keyCode>=65) && event.keyCode!=32);" MaxLength="9"></asp:TextBox></td>
+                     <td><asp:TextBox ID="txtDaysNo" runat="server" Width="60px" MaxLength="9"></asp:TextBox></td>
                      
                        <td>
                          <asp:Button ID="btnAdd" runat="server" Text="Add" Width="40px" 
@@ -376,24 +388,12 @@
                 <tr>
                     <td>
                         <asp:TextBox ID="txtPreparedBy" class="PreparedBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
-                        <%--<asp:DropDownList ID="ddlPreparedBy" runat="server" CssClass="textlevelleft" Width="200px"
-                            ToolTip="Select Prepared By" OnSelectedIndexChanged="ddlPreparedBy_SelectedIndexChanged"
-                            AutoPostBack="True">
-                        </asp:DropDownList>--%>
                     </td>
                     <td>
                         <asp:TextBox ID="txtReviewedBy" class="ReviewedBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
-                        <%--<asp:DropDownList ID="ddlReviewedBy" runat="server" CssClass="textlevelleft" Width="200px"
-                            ToolTip="Select Reviewed By" OnSelectedIndexChanged="ddlReviewedBy_SelectedIndexChanged"
-                            AutoPostBack="True">
-                        </asp:DropDownList>--%>
                     </td>
                     <td>
                         <asp:TextBox ID="txtRecommend1" class="Recommend1 textlevelleft" runat="server" Width="200px"></asp:TextBox>
-                        <%--<asp:DropDownList ID="ddlRecommend1" runat="server" CssClass="textlevelleft" Width="200px"
-                            ToolTip="Select Recommend By" OnSelectedIndexChanged="ddlRecommend1_SelectedIndexChanged"
-                            AutoPostBack="True">
-                        </asp:DropDownList>--%>
                     </td>
                 </tr>
                 <tr>
@@ -462,24 +462,12 @@
                 <tr>
                     <td>
                         <asp:TextBox ID="txtRecommend2" class="Recommend2 textlevelleft" runat="server" Width="200px"></asp:TextBox>
-                        <%--<asp:DropDownList ID="ddlRecommend2" runat="server" CssClass="textlevelleft" Width="200px"
-                            ToolTip="Select Recommend By" OnSelectedIndexChanged="ddlRecommend2_SelectedIndexChanged"
-                            AutoPostBack="True">
-                        </asp:DropDownList>--%>
                     </td>
                     <td>
                         <asp:TextBox ID="txtRecommend3" class="Recommend3 textlevelleft" runat="server" Width="200px"></asp:TextBox>
-                        <%--<asp:DropDownList ID="ddlRecommend3" runat="server" CssClass="textlevelleft" Width="200px"
-                            ToolTip="Select Recommend By" OnSelectedIndexChanged="ddlRecommend3_SelectedIndexChanged"
-                            AutoPostBack="True">
-                        </asp:DropDownList>--%>
                     </td>
                     <td>
                         <asp:TextBox ID="txtApprovedBy" class="ApprovedBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
-                        <%--<asp:DropDownList ID="ddlApprovedBy" runat="server" CssClass="textlevelleft" Width="200px"
-                            ToolTip="Select Approved By" OnSelectedIndexChanged="ddlApprovedBy_SelectedIndexChanged"
-                            AutoPostBack="True">
-                        </asp:DropDownList>--%>
                     </td>
                 </tr>
                 <tr>

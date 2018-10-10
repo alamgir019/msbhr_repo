@@ -24,7 +24,7 @@ public partial class Attendance_AdjustAttendance : System.Web.UI.Page
         {
             Common.FillDropDownList(objAttnMgr.GetData("0"), ddlShift, "PolicyName", "AttnPolicyId", true);
            // Common.FillDropDownListWithAll(objMasMgr.SelectDepartment(0), ddlSearchValue, "DeptName", "DeptId");
-            Common.FillDropDownListWithAll(objMasMgr.SelectSalaryLocation(0), ddlLocation, "SalLocName", "SalLocId");
+            Common.FillDropDownListWithAll(objMasMgr.SelectClinic("Y"), ddlLocation, "ClinicName", "ClinicId");
            // Common.FillDropDownListWithAll(objMasMgr.SelectEmpType(0,"Y"), ddlEmpType, "TypeName", "EmpTypeID");  
             string alertScript = "javascript: SearchByChanged();";
             ScriptManager.RegisterStartupScript(this, this.GetType(), "alertScript", alertScript, true);

@@ -204,8 +204,8 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
             grEmployee.DataSource = null;
             grEmployee.DataBind();
 
-            DataTable dtBonusRecord = objBonMgr.GetBonusAllowanceData(ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(),
-            ddlFiscalYear.SelectedValue.Trim(), "14", ddlReligion.SelectedValue.Trim(),ddlFestival.SelectedValue.Trim() );
+            DataTable dtBonusRecord = new DataTable();// objBonMgr.GetBonusAllowanceData(ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(),
+            //ddlFiscalYear.SelectedValue.Trim(), "14", ddlReligion.SelectedValue.Trim(),ddlFestival.SelectedValue.Trim() );
 
             if (dtBonusRecord.Rows.Count > 0)
             {

@@ -183,7 +183,7 @@
                             <fieldset>
                                 <legend>Previous Year Leave History</legend>
                                 <div id="empLeaveProfiFrame">
-                                    <asp:GridView ID="grPreYrLeaveDet" runat="server" AutoGenerateColumns="False" DataKeyNames="LvAppID,LTypeID,LTypeTitle,AppDate,LeaveStart,LeaveEnd,LDurInDays,AppStatus,LTReason,AddrAtLeave,PhoneNo,AppType,InsertedBy,InsertedDate"
+                                    <asp:GridView ID="grPreYrLeaveDet" runat="server" AutoGenerateColumns="False" DataKeyNames="LvAppID,LTypeID,LTypeTitle,AppDate,LeaveStart,LeaveEnd,LDurInDays,AppStatus,LTReason,AddrAtLeave,PhoneNo,InsertedBy,InsertedDate"
                                         EmptyDataText="No Record Found" OnSelectedIndexChanged="grLeaveDet_SelectedIndexChanged"
                                         Font="9px" Width="100%" OnRowCommand="grLeaveDet_RowCommand">
                                         <Columns>

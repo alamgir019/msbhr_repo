@@ -705,7 +705,18 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                    // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
                     break;
                 }
-           
+            case "AITMD":            
+                {
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "T"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
+                    dtSalDivision = objPayMgr.SelectClinic();
+                    grSalDivision.DataSource = dtSalDivision;
+                    grSalDivision.DataBind();
+                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                    // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                    break;
+                }
+
             case "ITC":
             case "ITA":
                 {
@@ -970,7 +981,6 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                             dtJoiningDate.ToString("dd") + " " + dtJoiningDate.ToString("MMMM") + " " + dtJoiningDate.ToString("yyyy") + "." +
                             strHeShe + " is a " + dt1.Rows[0]["TypeName"].ToString() + " employee of the organization. As per our service rule/terms of employment his date of retirement in N/A." +
                             strHeShe + " is working in our clinic division/department as a " + dt1.Rows[0]["JobTitleName"] + ".");
-
                         if (dt1.Rows[0]["Gender"].ToString() == "M")
                             strGender = "His ";
                         else
@@ -1137,9 +1147,6 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 fileName = Session["USERID"].ToString() + "_" + "Yearly PF Contribution" + ".pdf";
                 this.ExPortReport(ReportDoc, fileName);
                 break;
-
-
-
             case "PFLL":
                 Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
                 Session["FisYear"] = ddlFisYear.SelectedValue.ToString();              
@@ -1153,9 +1160,6 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 fileName = Session["USERID"].ToString() + "_" + "PF Loan Ledger" + ".pdf";
                 this.ExPortReport(ReportDoc, fileName);
                 break;
-
-
-
             case "YPFLD":
                 Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
                 Session["RptType"] = tvReports.SelectedValue.ToString();
@@ -1204,6 +1208,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     //this.DivEmpLoad();    
                     Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
                     Session["RptType"] = tvReports.SelectedValue.ToString();
+                    Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
                     Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
                     Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
                     Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
@@ -1212,12 +1217,13 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
 
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptMonthWsITDeduct.rpt");
                     ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "AITMD", Session["EmpTypeId"].ToString());
+                    MyDataTable = objPayRptMgr.Get_TaxDedMonthWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), Session["EmpTypeId"].ToString());
 
                     ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Staff Salary Tax Deduction for The Fiscal Year -" + Session["FisYearText"].ToString());
+                    ReportDoc.SetParameterValue("P_Header", "Staff Salary Month Wise Tax Deduction for The Fiscal Year -" + Session["FisYearText"].ToString() + " Upto Month " + Common.retMonthName(Session["VMonth"].ToString()));
+                    ReportDoc.SetParameterValue("P_Month", Session["VMonth"].ToString());
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
-                    fileName = Session["USERID"].ToString() + "_" + "Staff Salary Tax Deduction" + ".pdf";
+                    fileName = Session["USERID"].ToString() + "_" + "Staff Salary Month Wise Tax Deduction" + ".pdf";
                     this.ExPortReport(ReportDoc, fileName);
                     break;
                 }

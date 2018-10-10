@@ -207,8 +207,7 @@
 
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtNoOfPerson" runat="server" Width="200px" onkeydown="return (!(event.keyCode>=65) && event.keyCode!=32);"
-                                            MaxLength="3"></asp:TextBox>
+                                        <asp:TextBox ID="txtNoOfPerson" runat="server" Width="200px" MaxLength="3"></asp:TextBox>
 
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="*"
                                             ControlToValidate="txtNoOfPerson"></asp:RequiredFieldValidator>
@@ -221,8 +220,6 @@
 
                                     </td>
                                     <td>
-                                        <%--<asp:DropDownList ID="ddlCourseCordinator" runat="server" CssClass="textlevelleft"
-                                            Width="200px" ToolTip="Select Training Location"></asp:DropDownList>--%>
                                 <asp:TextBox ID="txtCourseCordinator" class="CourseCordinator textlevelleft" runat="server" Width="200px"></asp:TextBox>
 
                                     </td>
@@ -284,6 +281,12 @@
                             </table>
                         </fieldset>
                     </div>
+                    <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" runat="server" FilterType="Numbers"
+                         TargetControlID="txtNoOfPerson" Enabled="True">
+                     </cc1:FilteredTextBoxExtender>
+                     <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" runat="server" FilterType="Numbers"
+                         TargetControlID="txtPartNo" Enabled="True">
+                     </cc1:FilteredTextBoxExtender>
                     <div class="GridFormat1">
                         <!--Grid view Code starts-->
                         <asp:GridView ID="grDtlsList" runat="server" DataKeyNames="FundedBy" AutoGenerateColumns="False"

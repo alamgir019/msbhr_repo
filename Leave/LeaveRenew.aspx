@@ -29,7 +29,7 @@
                 </table>
                 <div id="empSearchResult">
                     <strong>Employee Search Result </strong>
-                    <asp:GridView ID="grEmployee" runat="server" AutoGenerateColumns="False" DataKeyNames="EmpId,DeptId,SbuId,LocID,DivisionID,DesgId"
+                    <asp:GridView ID="grEmployee" runat="server" AutoGenerateColumns="False" DataKeyNames="EmpId,DeptId,ClinicID,DivisionID,DesigId"
                         EmptyDataText="No Record Found" Font-Size="9px">
                         <HeaderStyle BackColor="#B3CDE4" Font-Bold="True" />
                         <SelectedRowStyle BackColor="#D1DDF1" CssClass="ListHeader" Font-Bold="True" ForeColor="#333333" />
@@ -56,10 +56,10 @@
                             <asp:BoundField DataField="DeptName" HeaderText="Team">
                                 <ItemStyle CssClass="ItemStylecss" Width="12%" />
                             </asp:BoundField>
-                            <asp:BoundField DataField="SBUName" HeaderText="Program">
+                            <asp:BoundField DataField="ClinicName" HeaderText="Clinic">
                                 <ItemStyle CssClass="ItemStylecss" Width="12%" />
                             </asp:BoundField>
-                            <asp:BoundField DataField="LocationName" HeaderText="Location">
+                            <asp:BoundField DataField="JoiningDate" HeaderText="Joining Date">
                                 <ItemStyle CssClass="ItemStylecss" Width="12%" />
                             </asp:BoundField>
                             <asp:BoundField DataField="DivisionName" HeaderText="Office">

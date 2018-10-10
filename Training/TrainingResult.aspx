@@ -300,13 +300,13 @@
                                         <asp:Label ID="Label3" runat="server" CssClass="textlevel" Text="Pre-Test :"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtPreTest" runat="server" MaxLength="3" Width="100px" onkeydown="return (!(event.keyCode>=65) && event.keyCode!=32);"></asp:TextBox>
+                                        <asp:TextBox ID="txtPreTest" runat="server" MaxLength="3" Width="100px"></asp:TextBox>
                                     </td>
                                     <td>
                                         <asp:Label ID="Label4" runat="server" CssClass="textlevel" Text="Post-Test :"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtPostTest" runat="server" MaxLength="3" Width="100px" onkeydown="return (!(event.keyCode>=65) && event.keyCode!=32);"></asp:TextBox>
+                                        <asp:TextBox ID="txtPostTest" runat="server" MaxLength="3" Width="100px"></asp:TextBox>
                                     </td>
                                 </tr>
                                 <tr>
@@ -314,13 +314,13 @@
                                         <asp:Label ID="Label7" runat="server" CssClass="textlevel" Text="Practical test :"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtPracticalTest" MaxLength="3" runat="server" Width="100px" onkeydown="return (!(event.keyCode>=65) && event.keyCode!=32);"></asp:TextBox>
+                                        <asp:TextBox ID="txtPracticalTest" MaxLength="3" runat="server" Width="100px"></asp:TextBox>
                                     </td>
                                     <td>
                                         <asp:Label ID="Label8" runat="server" CssClass="textlevel" Text="Viva :"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtViva" runat="server" MaxLength="3" Width="100px" onkeydown="return (!(event.keyCode>=65) && event.keyCode!=32);"></asp:TextBox>
+                                        <asp:TextBox ID="txtViva" runat="server" MaxLength="3" Width="100px"></asp:TextBox>
                                     </td>
                                 </tr>
                                 <tr>
@@ -328,7 +328,7 @@
                                         <asp:Label ID="Label9" runat="server" CssClass="textlevel" Text="Overall :"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtOverall" MaxLength="3" runat="server" Width="100px" onkeydown="return (!(event.keyCode>=65) && event.keyCode!=32);"
+                                        <asp:TextBox ID="txtOverall" MaxLength="3" runat="server" Width="100px"
                                             onclick="txtOverall_onclick()"></asp:TextBox>
                                     </td>
                                     <td class="textlevel">
@@ -358,6 +358,18 @@
                                 </tr>
                             </table>
                         </fieldset>
+                        <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" runat="server" FilterType="Numbers"
+                         TargetControlID="txtPreTest" Enabled="True">
+                     </cc1:FilteredTextBoxExtender>
+                        <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" runat="server" FilterType="Numbers"
+                         TargetControlID="txtPostTest" Enabled="True">
+                     </cc1:FilteredTextBoxExtender>
+                        <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender3" runat="server" FilterType="Numbers"
+                         TargetControlID="txtPracticalTest" Enabled="True">
+                     </cc1:FilteredTextBoxExtender>
+                        <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender4" runat="server" FilterType="Numbers"
+                         TargetControlID="txtViva" Enabled="True">
+                     </cc1:FilteredTextBoxExtender>
                     </div>
                     <div class="GridFormat1">
                         <asp:GridView ID="grList" runat="server" DataKeyNames="TraineeId,TraineeName,PreTest,PostTest,PracticalTest,Viva,Overall,Remark,FundedBy"

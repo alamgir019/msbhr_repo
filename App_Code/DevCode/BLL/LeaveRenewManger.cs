@@ -333,23 +333,18 @@ public class LeaveRenewManger
     {
         string strCond = "";
         if (LPakId != "-1")
-            strCond = "AND E.LPakID=@LPakID";
+            strCond = "AND E.LeavePakId=@LPakID";
         else
             strCond = "";
 
-        string strSql = "SELECT E.EmpId,E.FullName,E.DeptId,DP.DeptName,E.SectionID,E.DesgId,J.JobTitle,"
-            + " E.CardNo,E.WeekEndID,E.AttnPolicyID,E.SupervisorId,E.JoiningDate,E.ConfirmDueDate,"
-            + " E.EmpTypeStatus,E.EmpSubTypeStatus,E.Status,E.BankAccNo,E.IsRoaster,E.LocID,L.PostingPlaceName,"
-            + " E.SbuId,S.SBUName,E.DivisionID,DV.DivisionName,E.GradeId,E.SubGradeId,E.LPakID,et.TypeName,Lp.LPackName"
-            + " FROM EmpInfo E INNER JOIN DeptList DP ON E.DeptId=DP.DeptId"
-            + " LEFT OUTER JOIN DivisionList DV ON E.DivisionID=DV.DivisionID"
-            + " LEFT OUTER JOIN SBUList S ON E.SbuId=S.SBUID"
-            + " LEFT OUTER JOIN GradeList G ON E.GradeId=G.GradeID"
-            + " LEFT OUTER JOIN JobTitle J ON E.DesgId=J.JbTlId"
-            + " LEFT OUTER JOIN LocationList L ON E.LocID=L.LocationID"
-            + " LEFT OUTER JOIN EmpTypeList et ON E.EmpTypeId=et.EmpTypeId"
-            + " LEFT OUTER JOIN LeavePakMst lp ON E.LeavePakId=lp.LPakId"
-            + " WHERE E.IsDeleted='N'AND E.STATUS='A'" + strCond;
+        string strSql = "SELECT E.EmpId,E.FullName,E.DeptId,DP.DeptName,E.DesigId,J.DesigName AS JobTitle,L.ClinicName,"
+            + " E.CardNo,E.WeekEndID,E.AttnPolicyID,E.SupervisorId,E.JoiningDate,E.ConfirmationDate,"
+            + " E.EmpStatus,E.BankAccNo,E.IsRoaster,E.DivisionID,E.ClinicID,DV.DivisionName,E.GradeId,"
+            + " E.LeavePakId,et.TypeName,Lp.LPackName FROM EmpInfo E INNER JOIN DepartmentList DP ON E.DeptId=DP.DeptId"
+            + " LEFT OUTER JOIN DivisionList DV ON E.DivisionID=DV.DivisionID LEFT OUTER JOIN GradeList G ON E.GradeId=G.GradeID"
+            + " LEFT OUTER JOIN Designation J ON E.DesigId=J.DesigId LEFT OUTER JOIN ClinicList L ON E.ClinicID=L.ClinicID"
+            + " LEFT OUTER JOIN EmpTypeList et ON E.EmpTypeId=et.EmpTypeId LEFT OUTER JOIN LeavePakMst lp ON E.LeavePakId=lp.LeavePakId"
+            + " WHERE E.IsDeleted='N' AND E.EmpSTATUS='A'" + strCond;
 
         SqlCommand cmd = new SqlCommand(strSql);
         //cmd2.CommandType = CommandType.StoredProcedure;

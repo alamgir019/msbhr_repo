@@ -30,7 +30,6 @@ public partial class Payroll_Loan_MonthlyPFUpdate : System.Web.UI.Page
         }
     }
 
-
     protected DataTable GeneratePayrollReport(string strGenFor, string strGenValue, string strMonth, string strYear, string strBank, string strSalType)
     {
         string strEmpID = "";
@@ -148,7 +147,7 @@ public partial class Payroll_Loan_MonthlyPFUpdate : System.Web.UI.Page
             lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() + " PF Ledger Prepared Successfully.";
         }
         else
-            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() + " PF Ledger Aleady Prepared.";
+            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() + " PF Ledger Already Prepared.";
 
     }
     protected void btnUpdatePFLoan_Click(object sender, EventArgs e)

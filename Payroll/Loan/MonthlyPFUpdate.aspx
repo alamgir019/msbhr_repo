@@ -15,7 +15,7 @@
     <div id="PayrollConfigInner">
         <div style="background-color:#EFF3FB;margin-top:20px;">
             <fieldset>
-                This process will update Loan, Deduction, Interest, PF Adjustment, Cashpay of salary file. The process will alos check
+                This process will update Loan, Deduction, Interest, PF Adjustment, Cashpay of salary file. The process will also check
                 the last PF payment and calculate its interest.
             </fieldset>
         </div>

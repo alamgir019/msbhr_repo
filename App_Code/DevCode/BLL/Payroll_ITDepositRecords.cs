@@ -21,21 +21,21 @@ public class Payroll_ITDepositRecords
         int i = 0;
         SqlCommand[] command = new SqlCommand[grv.Rows.Count + 1];
         long lnTransID = Convert.ToInt64(Common.getMaxId("ITDEPOSITRECORDS", "TRANSID"));
-        // Delete existing Records
-        command[i] = new SqlCommand("Proc_Payroll_Delete_ITDepositRecords");
-        command[i].CommandType = CommandType.StoredProcedure;
+        //// Delete existing Records
+        //command[i] = new SqlCommand("Proc_Payroll_Delete_ITDepositRecords");
+        //command[i].CommandType = CommandType.StoredProcedure;
 
-        SqlParameter p_VMONTH = command[i].Parameters.Add("VMONTH", SqlDbType.BigInt);
-        p_VMONTH.Direction = ParameterDirection.Input;
-        p_VMONTH.Value = strMonth;
+        //SqlParameter p_VMONTH = command[i].Parameters.Add("VMONTH", SqlDbType.BigInt);
+        //p_VMONTH.Direction = ParameterDirection.Input;
+        //p_VMONTH.Value = strMonth;
 
-        SqlParameter p_VYEAR = command[i].Parameters.Add("VYEAR", SqlDbType.BigInt);
-        p_VYEAR.Direction = ParameterDirection.Input;
-        p_VYEAR.Value = strYear;
+        //SqlParameter p_VYEAR = command[i].Parameters.Add("VYEAR", SqlDbType.BigInt);
+        //p_VYEAR.Direction = ParameterDirection.Input;
+        //p_VYEAR.Value = strYear;
 
-        SqlParameter p_FISCALYRID = command[i].Parameters.Add("TaxFiscalYrId", SqlDbType.BigInt);
-        p_FISCALYRID.Direction = ParameterDirection.Input;
-        p_FISCALYRID.Value = strFinYear;
+        //SqlParameter p_FISCALYRID = command[i].Parameters.Add("TaxFiscalYrId", SqlDbType.BigInt);
+        //p_FISCALYRID.Direction = ParameterDirection.Input;
+        //p_FISCALYRID.Value = strFinYear;
 
 
         // Insert Data

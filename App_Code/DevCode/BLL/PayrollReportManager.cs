@@ -2282,6 +2282,36 @@ public class PayrollReportManager
         return objDC.ds.Tables["dtAnnualReport"];
     }
 
+    // Get_AnnualReport
+    public DataTable Get_TaxDedMonthWise(string VMonth, string FisYear, string SalDiv, string EmpID,  string sEmpTypeID)
+    {
+        SqlCommand cmd = new SqlCommand("proc_Payroll_Rpt_TaxDedMonthWise");
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        SqlParameter p_VMonth = cmd.Parameters.Add("VMonth", SqlDbType.BigInt);
+        p_VMonth.Direction = ParameterDirection.Input;
+        p_VMonth.Value = Convert.ToInt32(VMonth);
+
+        SqlParameter p_Year = cmd.Parameters.Add("FisYear", SqlDbType.BigInt);
+        p_Year.Direction = ParameterDirection.Input;
+        p_Year.Value = Convert.ToInt32(FisYear);
+
+        SqlParameter p_SalDiv = cmd.Parameters.Add("SalDiv", SqlDbType.Char);
+        p_SalDiv.Direction = ParameterDirection.Input;
+        p_SalDiv.Value = SalDiv;
+
+        SqlParameter p_EmpID = cmd.Parameters.Add("EmpID", SqlDbType.Char);
+        p_EmpID.Direction = ParameterDirection.Input;
+        p_EmpID.Value = EmpID;
+              
+        SqlParameter p_EType = cmd.Parameters.Add("EmpTypeID", SqlDbType.BigInt);
+        p_EType.Direction = ParameterDirection.Input;
+        p_EType.Value = Convert.ToInt32(sEmpTypeID);
+
+        objDC.CreateDSFromProc(cmd, "dtTaxDedMonthWise");
+        return objDC.ds.Tables["dtTaxDedMonthWise"];
+    }
+
     // Computation of Income Tax
     public DataTable Get_ITComputation(string FisYear, string VMonth, string EmpID)
     {

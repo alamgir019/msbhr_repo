@@ -79,14 +79,11 @@
                     Training Plan Setup
                 </HeaderTemplate>
                 <ContentTemplate>
-                    <!--Div for group-->
                     <div class="MsgBox">
-                        <!--Div for msg-->
                         <asp:Label ID="lblMsg" runat="server"></asp:Label>
                     </div>
                     <div class="officeSetupInner">
                         <fieldset>
-                            <!--Div for Controls-->
                             <asp:HiddenField ID="hfId" runat="server" />
                             <asp:HiddenField ID="hfIsUpdate" runat="server" />
                             <table>
@@ -115,8 +112,7 @@
                                         <asp:CheckBox ID="chkInActive" runat="server" CssClass="textlevelleft" Text="Make Inactive" />
                                     </td>
                                     <td>
-                                        &nbsp;
-                                    </td>
+                                        &nbsp;&nbsp;</td>
                                 </tr>
                                 <tr>
                                     <td class="textlevel">
@@ -138,16 +134,13 @@
                                         <asp:Label ID="Label4" runat="server" CssClass="textlevel" Text="Total Participant No.:"></asp:Label>
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtNoofParticipant" runat="server" MaxLength="3" onkeydown="return (!(event.keyCode&gt;=65) &amp;&amp; event.keyCode!=32);"></asp:TextBox>
+                                        <asp:TextBox ID="txtNoofParticipant" runat="server" MaxLength="3"></asp:TextBox>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="textlevel">
                                         Course Coordinator :</td>
                                     <td>
-                                       <%-- <asp:DropDownList ID="ddlCourseCoordinator" runat="server" CssClass="textlevelleft"
-                                            Width="200px" ToolTip="Select Training Nmae">
-                                        </asp:DropDownList>--%>
                                         <asp:TextBox ID="txtCourseCoordinator" class="CourseCoordinator textlevelleft" runat="server" Width="200px"></asp:TextBox>
                                     </td>
                                     <td>
@@ -165,12 +158,14 @@
                                         <asp:DropDownList ID="ddlParticipantLevel" runat="server" CssClass="textlevelleft"
                                             ToolTip="Select Training Nmae" Width="200px">
                                         </asp:DropDownList>
-                                        &nbsp;
-                                    </td>
+                                        &nbsp;&nbsp;</td>
                                 </tr>
                             </table>
                         </fieldset>
                     </div>
+                     <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" runat="server" FilterType="Numbers"
+                         TargetControlID="txtNoofParticipant" Enabled="True">
+                     </cc1:FilteredTextBoxExtender>
                     <div class="GridFormat1" style="height: 100px;">
                         <table>
                             <tr>
@@ -178,9 +173,6 @@
                                     <asp:Label ID="Label9" runat="server" CssClass="textlevel" Text="Respective Resource :"></asp:Label>
                                 </td>
                                 <td>
-                                    <%--<asp:DropDownList ID="ddlRespectiveResource" runat="server" CssClass="textlevelleft"
-                                        Width="200px" ToolTip="Select Training Nmae">
-                                    </asp:DropDownList>--%>
                                         <asp:TextBox ID="txtRespectiveResource" class="RespectiveResource textlevelleft" runat="server" Width="200px"></asp:TextBox>
                                 </td>
                                 <td>
@@ -190,7 +182,6 @@
                             </tr>
                         </table>
                         <div style="height: 100px;">
-                            <!--Grid view Code starts-->
                             <asp:GridView ID="grList" runat="server" DataKeyNames="RespectiveResourceId,RespectiveResourceName"
                                 AutoGenerateColumns="False" EmptyDataText="No Record Found" Font-Size="9px" Width="99%"
                                 OnRowCommand="grList_RowCommand" OnRowDeleting="grList_RowDeleting">
@@ -213,7 +204,7 @@
                                     </asp:BoundField>
                                 </Columns>
                             </asp:GridView>
-                            <!--Grid view Code Ends-->
+                            <!--Grid view Code starts-->
                         </div>
                     </div>
                     <div class="GridFormat1" style="height: 100px;">
