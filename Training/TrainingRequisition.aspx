@@ -253,7 +253,7 @@
                                 </asp:DropDownList>--%>
                             </td>
                             <td>
-                                <asp:Label ID="Label8" runat="server" CssClass="textlevel" Text="Recomanded By :"></asp:Label>
+                                <asp:Label ID="Label8" runat="server" CssClass="textlevel" Text="Recommended By :"></asp:Label>
                             </td>
                             <td>
                                 <asp:TextBox ID="txtRecomandedBy" class="RecomandedBy textlevelleft" runat="server" Width="200px"></asp:TextBox>
