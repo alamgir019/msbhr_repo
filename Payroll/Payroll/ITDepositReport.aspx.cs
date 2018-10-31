@@ -38,7 +38,7 @@ public partial class Payroll_Payroll_ITDepositReport : System.Web.UI.Page
     protected void IniReportDataTable(int inCol)
     {
         dtReport = new DataTable();
-        for (int i = 0; i < inCol; i++)
+        for (int i = 0; i < inCol+1; i++)
         {
             dtReport.Columns.Add(i.ToString());
         }
@@ -70,8 +70,9 @@ public partial class Payroll_Payroll_ITDepositReport : System.Web.UI.Page
         {
             DataRow nRow = dtReport.NewRow();
             nRow[0] = inSL.ToString();
-            nRow[1] = dEmpRow["FULLNAME"].ToString().Trim();
-            i = 2;
+            nRow[1] = dEmpRow["EmpId"].ToString().Trim();
+            nRow[2] = dEmpRow["FULLNAME"].ToString().Trim();
+            i = 3;
             decTotal = 0;
             foreach (DataRow dDateRow in dtDate.Rows)
             {
@@ -100,11 +101,14 @@ public partial class Payroll_Payroll_ITDepositReport : System.Web.UI.Page
             grEmployee.HeaderRow.Cells[0].Text = "SL#";
             grEmployee.HeaderRow.Cells[0].HorizontalAlign = HorizontalAlign.Left;
             grEmployee.HeaderRow.Cells[0].VerticalAlign = VerticalAlign.Top;
-            grEmployee.HeaderRow.Cells[1].Text = "IT Challan Date and No" + "<br><br>" + "Employee Name";
+            grEmployee.HeaderRow.Cells[1].Text = "IT Challan Date and No" + "<br><br>" + "Employee Id";
             grEmployee.HeaderRow.Cells[1].HorizontalAlign = HorizontalAlign.Left;
-            for (i = 2; i < dtReport.Columns.Count - 1; i++)
+            grEmployee.HeaderRow.Cells[2].Text = "Employee Name";
+            grEmployee.HeaderRow.Cells[2].HorizontalAlign = HorizontalAlign.Left;
+            grEmployee.HeaderRow.Cells[2].VerticalAlign = VerticalAlign.Bottom;
+            for (i = 3; i < dtReport.Columns.Count - 1; i++)
             {
-                grEmployee.HeaderRow.Cells[i].Text = Common.DisplayDate(dtDate.Rows[i - 2]["CHALLANDATE"].ToString().Trim()) + "<br><br>" + dtDate.Rows[i - 2]["CHALLANNO"].ToString().Trim();
+                grEmployee.HeaderRow.Cells[i].Text = Common.DisplayDate(dtDate.Rows[i - 3]["CHALLANDATE"].ToString().Trim()) + "<br><br>" + dtDate.Rows[i - 3]["CHALLANNO"].ToString().Trim();
                 grEmployee.HeaderRow.Cells[i].HorizontalAlign = HorizontalAlign.Right;
             }
             grEmployee.HeaderRow.Cells[dtReport.Columns.Count - 1].Text = "Total";
@@ -117,7 +121,7 @@ public partial class Payroll_Payroll_ITDepositReport : System.Web.UI.Page
         int j = 0;
         grEmployee.FooterRow.Cells[1].Text = "Total :";
         grEmployee.FooterRow.Cells[1].HorizontalAlign = HorizontalAlign.Left;
-        for (i = 2; i < dtReport.Columns.Count; i++)
+        for (i = 3; i < dtReport.Columns.Count; i++)
         {
             dclFooterTotal = 0;
             for (j = 0; j < grEmployee.Rows.Count; j++)

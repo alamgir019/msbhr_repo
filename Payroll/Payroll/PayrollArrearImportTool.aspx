@@ -73,7 +73,7 @@
                             </tr>
                             <tr>
                                 <td class="textlevelleft">
-                                    <asp:Label ID="lblJoiningMonth" runat="server" Text="Joining Month"></asp:Label></td>
+                                    <asp:Label ID="lblJoiningMonth" runat="server" Text="Increment Month"></asp:Label></td>
                                 <td>
                                     <asp:DropDownList ID="ddlJoiningMonth" runat="server">
                                     </asp:DropDownList></td>

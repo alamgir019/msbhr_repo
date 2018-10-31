@@ -114,7 +114,7 @@ public partial class Back_Office_EmpHRInfo : System.Web.UI.Page
                         if (arinfo.Length == 3)
                         {
                             iBirthYear = Convert.ToInt16(arinfo[2]);
-                            iBirthYear = iBirthYear + 60;
+                            iBirthYear = iBirthYear + 65;
 
                             strRetirementDate = iBirthYear + "/" + arinfo[1] + "/" + arinfo[0];
                             arinfo = null;

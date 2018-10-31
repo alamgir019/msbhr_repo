@@ -582,6 +582,18 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
+            case "PFLL":
+                {
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptPFLoanLedger.rpt");
+                    ReportDoc.Load(ReportPath);
+                    MyDataTable = objPayRptMgr.GetPFLoanLedgerData(Session["VMonth"].ToString(), Session["FisYear"].ToString(), "M");
+                    ReportDoc.SetDataSource(MyDataTable);
+                    ReportDoc.SetParameterValue("pMonthName", Common.ReturnFullMonthName(Session["VMonth"].ToString()));
+                   
+                    CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+                    break;
+                }
             #endregion
             #region Final Payment
             case "FP":
@@ -1057,6 +1069,8 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", "Individual Employee's PF Contribution");
                     CRV.ReportSource = ReportDoc;
+
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }        
            

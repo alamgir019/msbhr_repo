@@ -204,7 +204,7 @@ public class Common
                 inDiff = 10;
                 break;
             case 10:
-                inDiff = 9;
+                inDiff =  9;
                 break;
             case 11:
                 inDiff = 8;

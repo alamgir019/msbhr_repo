@@ -37,7 +37,7 @@ function CheckBoxListSelect(cbControl, state)
                     <tr>
                         <td class="textlevel">
                             Select 
-                            Cost Center :</td>
+                            Company :</td>
                         <td style="">
                             <asp:DropDownList ID="ddlGenerateValue" runat="server" CssClass="textlevelleft" Width="270px">
                             </asp:DropDownList></td>
@@ -70,7 +70,7 @@ function CheckBoxListSelect(cbControl, state)
                     All</a>
                 <div style="width: 99.99%;">
                     <asp:GridView ID="grEmployee" runat="server" EmptyDataText="No Record Found" Font-Size="9px"
-                        Width="98%" AutoGenerateColumns="False" DataKeyNames="EMPID,SalLocId" OnRowCommand="grEmployee_RowCommand"
+                        Width="98%" AutoGenerateColumns="False" DataKeyNames="EMPID,SalLocId,DivisionId" OnRowCommand="grEmployee_RowCommand"
                         ShowFooter="true">
                         <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
                         <FooterStyle BackColor="#B3CDE4" Font-Bold="True"></FooterStyle>

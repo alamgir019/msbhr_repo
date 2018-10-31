@@ -56,7 +56,7 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
         txtPurpose.Text = ""; 
         ddlMonth.Enabled = true;
         txtCode.Text = txtEmpCode.Text.Trim();
-        txtTransID.Text = Common.getMaxIdVar("EMPPFLOANMST", "TRANSID", 7);
+        txtTransID.Text = Common.getMaxId("EMPPFLOANMST", "TRANSID");
         txtReqAmount.Text = "0";
         txtLoanAmount.Text = "0";
         txtApproveDate.Text = "";
@@ -79,6 +79,7 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
         Decimal dclNetCU = 0;
         Decimal dclMaxCuWithdraw = 0;
         Decimal dclNetCULoan = 0;
+       txtLoanNo.Text  = Common.getMaxId("EmpPFLoanMst", "LoanNo");
         if (dtEmpInfo.Rows.Count > 0)
         {
             foreach (DataRow row in dtEmpInfo.Rows)
@@ -152,11 +153,12 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
         {
             case ("DoubleClick"):
                 hfIsUpdate.Value = "Y";
-                txtPFCode.Text = grLoan.DataKeys[_gridView.SelectedIndex].Values[8].ToString().Trim();
+               
                 txtTransID.Text = grLoan.SelectedRow.Cells[1].Text.Trim();
+                txtLoanNo.Text = grLoan.DataKeys[_gridView.SelectedIndex].Values[13].ToString().Trim();
                 txtTransDate.Text = grLoan.SelectedRow.Cells[2].Text.Trim();
-                txtRecomdBy.Text = grLoan.SelectedRow.Cells[11].Text.Trim();
-                txtPurpose.Text = grLoan.SelectedRow.Cells[12].Text.Trim();
+                txtRecomdBy.Text = Common.CheckNullString(grLoan.SelectedRow.Cells[11].Text.Trim());
+                txtPurpose.Text = Common.CheckNullString(grLoan.SelectedRow.Cells[12].Text.Trim());
                 ddlMonth.SelectedValue = grLoan.DataKeys[_gridView.SelectedIndex].Values[2].ToString().Trim();
                 txtReqAmount.Text = grLoan.DataKeys[_gridView.SelectedIndex].Values[9].ToString().Trim();
                 txtLoanAmount.Text = grLoan.SelectedRow.Cells[5].Text.Trim();
@@ -207,7 +209,7 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
         string strID = "";
         string strRecDate = "";
         string strChequeDate = "";
-
+       
         if (string.IsNullOrEmpty(txtRecDate.Text.Trim()) == false)
             strRecDate = Common.ReturnDate(txtRecDate.Text.Trim());
 
@@ -223,6 +225,7 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
             dRow["TRANSID"] = strID;
             dRow["TRANSDATE"] = Common.ReturnDate(txtTransDate.Text);
             dRow["EMPID"] = txtEmpCode.Text.Trim();
+            dRow["LOANNO"] = txtLoanNo.Text.Trim() ;
             //dRow["PFCODE"] = txtPFCode.Text.Trim();
             dRow["RECOMMENDBY"] = txtRecomdBy.Text.Trim();
             dRow["PURPOSE"] = txtPurpose.Text.Trim();
@@ -230,13 +233,15 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
             dRow["FISCALYRID"] = ddlFiscalYear.SelectedValue;
             dRow["REQLOANAMT"] = Convert.ToDecimal(txtReqAmount.Text);
             dRow["LOANAMT"] = Convert.ToDecimal(txtLoanAmount.Text);
-            dRow["APPLOANDATE"] = Common.ReturnDate(txtApproveDate.Text);
+            dRow["ISSUEDATE"] = Common.ReturnDate(txtApproveDate.Text);
             dRow["LOANRATE"] = txtLoanRate.Text;
             dRow["INSTALLMENT"] = ddlInsMonth.SelectedValue;
-            dRow["INSDATE"] = Common.ReturnDate(txtInsStartDate.Text);
+            dRow["INSDATE"] = Common.ReturnDate(txtApproveDate.Text);
             dRow["LOANRATE"] = txtLoanRate.Text;
             dRow["MONTHLYINTEREST"] = txtInterest.Text;
             dRow["MONTHLYREPAY"] = txtRepay.Text;
+            dRow["TOTALREPAY"] = txtTotalRepay.Text;
+            dRow["TOTALINTEREST"] = txtTotalInt.Text;            
             dRow["RECEIVEAMT"] = txtRecTk.Text;
             dRow["RECEIVEDATE"] = strRecDate;
             dRow["CHEQUENUMER"] = txtChequeNumber.Text;
@@ -302,5 +307,10 @@ public partial class Payroll_Loan_PFLoan : System.Web.UI.Page
         this.EntryMode(false);
         this.FillEmpInfo(txtEmpCode.Text.Trim());
         TabContainer1.ActiveTabIndex = 0;
+    }
+
+    protected void ddlInsMonth_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
     }
 }

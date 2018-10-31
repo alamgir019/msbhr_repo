@@ -28,7 +28,7 @@ public partial class Payroll_Payroll_ITDepositRecords : System.Web.UI.Page
             ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
             ddlYear.SelectedValue = Convert.ToString(DateTime.Today.Year);
             Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0, "T"), ddlFinYear, "FISCALYRTITLE", "FISCALYRID", false);
-            Common.FillDropDownList_All(objMastMg.SelectClinic("Y"), ddlGenerateValue);
+            Common.FillDropDownList_All(objMastMg.SelectDivision(0), ddlGenerateValue);
         }
     }
 

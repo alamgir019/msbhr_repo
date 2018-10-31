@@ -510,7 +510,8 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                             IsIrregular = true;
                         
                          dclSalHeadAmount = 0;
-                         switch (dSalPackRow["SHEADID"].ToString())
+                        foundBfRow = dtBenefits.Select("EMPID='" + dEmpRow["EMPID"].ToString().Trim() + "' AND SHEADID='" + dSalPackRow["SHEADID"].ToString().Trim() + "'");
+                        switch (dSalPackRow["SHEADID"].ToString())
                          {
                              case "1":// Basic
                                 dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);
@@ -536,7 +537,7 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                              case "6":// Arrear +
                              case "7":// Arrear -
                                  //Get Benefits data
-                                 foundBfRow = dtBenefits.Select("EMPID='" + dEmpRow["EMPID"].ToString().Trim() + "' AND SHEADID='" + dSalPackRow["SHEADID"].ToString().Trim() + "'");
+                                 
                                  if (foundBfRow.Length > 0)
                                  {
                                      dclSalHeadAmount = Convert.ToDecimal(foundBfRow[0]["PAYAMT"].ToString());
@@ -546,8 +547,12 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                                      dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);                                 
                                  break;
                              case "9"://LWOP
-                                 dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);
-                                 break;
+                                      //dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);
+                                if (foundBfRow.Length > 0)
+                                {
+                                    dclSalHeadAmount = Convert.ToDecimal(foundBfRow[0]["PAYAMT"].ToString());
+                                }
+                                break;
                              case "10"://Additional Responsibility                                 
                                  foundAddResponeRow = dtAddResAllow.Select("EMPID='" + dEmpRow["EMPID"].ToString().Trim() + "'");
                                  if (foundAddResponeRow.Length > 0)

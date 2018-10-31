@@ -21,22 +21,25 @@ public class Payroll_ITDepositRecords
         int i = 0;
         SqlCommand[] command = new SqlCommand[grv.Rows.Count + 1];
         long lnTransID = Convert.ToInt64(Common.getMaxId("ITDEPOSITRECORDS", "TRANSID"));
-        //// Delete existing Records
-        //command[i] = new SqlCommand("Proc_Payroll_Delete_ITDepositRecords");
-        //command[i].CommandType = CommandType.StoredProcedure;
+        // Delete existing Records
+        command[i] = new SqlCommand("Proc_Payroll_Delete_ITDepositRecords");
+        command[i].CommandType = CommandType.StoredProcedure;
 
-        //SqlParameter p_VMONTH = command[i].Parameters.Add("VMONTH", SqlDbType.BigInt);
-        //p_VMONTH.Direction = ParameterDirection.Input;
-        //p_VMONTH.Value = strMonth;
+        SqlParameter p_VMONTH = command[i].Parameters.Add("VMONTH", SqlDbType.BigInt);
+        p_VMONTH.Direction = ParameterDirection.Input;
+        p_VMONTH.Value = strMonth;
 
-        //SqlParameter p_VYEAR = command[i].Parameters.Add("VYEAR", SqlDbType.BigInt);
-        //p_VYEAR.Direction = ParameterDirection.Input;
-        //p_VYEAR.Value = strYear;
+        SqlParameter p_VYEAR = command[i].Parameters.Add("VYEAR", SqlDbType.BigInt);
+        p_VYEAR.Direction = ParameterDirection.Input;
+        p_VYEAR.Value = strYear;
 
-        //SqlParameter p_FISCALYRID = command[i].Parameters.Add("TaxFiscalYrId", SqlDbType.BigInt);
-        //p_FISCALYRID.Direction = ParameterDirection.Input;
-        //p_FISCALYRID.Value = strFinYear;
+        SqlParameter p_FISCALYRID = command[i].Parameters.Add("TaxFiscalYrId", SqlDbType.BigInt);
+        p_FISCALYRID.Direction = ParameterDirection.Input;
+        p_FISCALYRID.Value = strFinYear;
 
+        SqlParameter p_DivisionId = command[i].Parameters.Add("DivisionId", SqlDbType.BigInt);
+        p_DivisionId.Direction = ParameterDirection.Input;
+        p_DivisionId.Value = strGrp;
 
         // Insert Data
         i++;
@@ -53,9 +56,9 @@ public class Payroll_ITDepositRecords
             p_EMPID.Direction = ParameterDirection.Input;
             p_EMPID.Value = gRow.Cells[1].Text.Trim();
 
-            SqlParameter p_DIVISIONID = command[i].Parameters.Add("SalLocId", SqlDbType.BigInt);
-            p_DIVISIONID.Direction = ParameterDirection.Input;
-            p_DIVISIONID.Value = grv.DataKeys[gRow.DataItemIndex].Values[1].ToString().Trim();
+            SqlParameter p_SalLocId = command[i].Parameters.Add("SalLocId", SqlDbType.BigInt);
+            p_SalLocId.Direction = ParameterDirection.Input;
+            p_SalLocId.Value = grv.DataKeys[gRow.DataItemIndex].Values[1].ToString().Trim();
 
             SqlParameter p_VMONTH1 = command[i].Parameters.Add("VMONTH", SqlDbType.BigInt);
             p_VMONTH1.Direction = ParameterDirection.Input;
@@ -68,6 +71,10 @@ public class Payroll_ITDepositRecords
             SqlParameter p_FISCALYRID1 = command[i].Parameters.Add("TaxFiscalYrId", SqlDbType.BigInt);
             p_FISCALYRID1.Direction = ParameterDirection.Input;
             p_FISCALYRID1.Value = strFinYear;
+
+            p_DivisionId = command[i].Parameters.Add("DivisionId", SqlDbType.BigInt);
+            p_DivisionId.Direction = ParameterDirection.Input;
+            p_DivisionId.Value = grv.DataKeys[gRow.DataItemIndex].Values[2].ToString().Trim();
 
             SqlParameter p_SHEADID = command[i].Parameters.Add("SHEADID", SqlDbType.BigInt);
             p_SHEADID.Direction = ParameterDirection.Input;
@@ -596,21 +603,17 @@ public class Payroll_ITDepositRecords
             objDC.ds.Tables["GetExistingData"].Rows.Clear();
             objDC.ds.Tables["GetExistingData"].Dispose();
         }
-        string strSQL = "";
+        string strSQL = "-1";
         //string strSQL = "SELECT DISTINCT CHALLANNO,BANKNAME,CHALLANDATE FROM ITDEPOSITRECORDS WHERE EmpGrpID=@EmpGrpID AND VMONTH=@VMONTH AND VYEAR=@VYEAR AND FISCALYRID=@FISCALYRID";
         if (strSQL != "")
             strSQL = "SELECT DISTINCT ITD.CHALLANNO,ITD.BANKNAME,ITD.CHALLANDATE FROM ITDEPOSITRECORDS ITD, EmpInfo E WHERE ITD.EmpId=E.EmpId"
-                + " AND ITD.PostingDivId=@PostingDivId AND ITD.VMONTH=@VMONTH AND ITD.VYEAR=@VYEAR AND ITD.TAXFISCALYRID=@TAXFISCALYRID";
+                + " AND ITD.DivisionId=@DivisionId AND ITD.VMONTH=@VMONTH AND ITD.VYEAR=@VYEAR AND ITD.TAXFISCALYRID=@TAXFISCALYRID";
         else
             strSQL = "SELECT DISTINCT ITD.CHALLANNO,ITD.BANKNAME,ITD.CHALLANDATE FROM ITDEPOSITRECORDS ITD, EmpInfo E WHERE ITD.EmpId=E.EmpId"
                 + " AND ITD.VMONTH=@VMONTH AND ITD.VYEAR=@VYEAR AND ITD.TAXFISCALYRID=@TAXFISCALYRID";
 
         SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;
-
-        SqlParameter p_DIVISIONID = cmd.Parameters.Add("PostingDivId", SqlDbType.BigInt);
-        p_DIVISIONID.Direction = ParameterDirection.Input;
-        p_DIVISIONID.Value = strDiv;
 
         SqlParameter p_VMONTH = cmd.Parameters.Add("VMONTH", SqlDbType.BigInt);
         p_VMONTH.Direction = ParameterDirection.Input;
@@ -623,6 +626,10 @@ public class Payroll_ITDepositRecords
         SqlParameter p_FISCALYRID = cmd.Parameters.Add("TAXFISCALYRID", SqlDbType.BigInt);
         p_FISCALYRID.Direction = ParameterDirection.Input;
         p_FISCALYRID.Value = strFinYear;
+
+        SqlParameter p_DIVISIONID = cmd.Parameters.Add("DivisionId", SqlDbType.BigInt);
+        p_DIVISIONID.Direction = ParameterDirection.Input;
+        p_DIVISIONID.Value = strDiv;
 
         objDC.CreateDT(cmd, "GetExistingData");
         return objDC.ds.Tables["GetExistingData"];

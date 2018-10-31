@@ -44,8 +44,7 @@
                                 <asp:TreeNode Text="Employees Disciplinary Action " Value="EDA"></asp:TreeNode>
                                 <asp:TreeNode Text="Confirmation List " Value="CL"></asp:TreeNode>
                                 <asp:TreeNode Text="Employee Education Information(Details) " Value="EEID"></asp:TreeNode>
-                                <asp:TreeNode Text="Employee Education Information(In Brief) " Value="EEIIB"></asp:TreeNode>
-                                <asp:TreeNode Text="Employee TDY Information" Value="ETDYI"></asp:TreeNode>
+                                <asp:TreeNode Text="Employee Education Information(In Brief) " Value="EEIIB"></asp:TreeNode>                                
                                 <asp:TreeNode Text="Employee Nominee Information" Value="ENI"></asp:TreeNode>
                                 <asp:TreeNode Text="Employee Joining Info" Value="EJF"></asp:TreeNode>
                                 <asp:TreeNode Text="Long Service Awardee Employee List" Value="LSAE"></asp:TreeNode>

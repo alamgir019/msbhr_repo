@@ -785,8 +785,7 @@
                                                             <td>
                                                                 <asp:RadioButtonList ID="rbtTax" runat="server" Font-Names="Tahoma" Font-Size="11px"
                                                                     ForeColor="Blue" RepeatDirection="Horizontal">
-                                                                    <asp:ListItem Selected="True" Value="1">With Tax</asp:ListItem>
-                                                                    <asp:ListItem Value="0">Without Tax</asp:ListItem>
+                                                                    <asp:ListItem Selected="True" Value="1">With Tax</asp:ListItem>                                                                    
                                                                 </asp:RadioButtonList>
                                                             </td>
                                                         </tr>

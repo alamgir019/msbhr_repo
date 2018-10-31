@@ -977,9 +977,9 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                             strHeShe = " She";
                         }
                         ReportDoc.SetParameterValue("P_Body", "This is to certify that " + strGender + dt1.Rows[0]["FullName"] + ", " + dt1.Rows[0]["JobTitleName"] + " of " +
-                            dt1.Rows[0]["DivisionName"].ToString() + "," + dt1.Rows[0]["SectorName"].ToString() + " has been working in this organization since " +
-                            dtJoiningDate.ToString("dd") + " " + dtJoiningDate.ToString("MMMM") + " " + dtJoiningDate.ToString("yyyy") + "." +
-                            strHeShe + " is a " + dt1.Rows[0]["TypeName"].ToString() + " employee of the organization. As per our service rule/terms of employment his date of retirement in N/A." +
+                            dt1.Rows[0]["DivisionName"].ToString() + ", " + dt1.Rows[0]["SectorName"].ToString() + " has been working in this organization since " +
+                            dtJoiningDate.ToString("dd") + " " + dtJoiningDate.ToString("MMMM") + " " + dtJoiningDate.ToString("yyyy") + ". " +
+                            strHeShe + " is a " + dt1.Rows[0]["TypeName"].ToString() + " employee of the organization. As per our service rule/terms of employment his date of retirement in N/A. " +
                             strHeShe + " is working in our clinic division/department as a " + dt1.Rows[0]["JobTitleName"] + ".");
                         if (dt1.Rows[0]["Gender"].ToString() == "M")
                             strGender = "His ";

@@ -34,12 +34,12 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
             Common.FillMonthList(ddlJoiningMonth);
             Common.FillMonthList(ddlMonthSearch);
             Common.FillYearList(10,ddlYear);
-            ddlArrearMonth.SelectedValue = Convert.ToString(DateTime.Today.Month-1);
-            ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month-1);
-            ddlMonthSearch.SelectedValue = Convert.ToString(DateTime.Today.Month-1);
+            ddlArrearMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
+            ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
+            ddlMonthSearch.SelectedValue = Convert.ToString(DateTime.Today.Month);
             ddlYear.SelectedValue = Convert.ToString(DateTime.Today.Year);
 
-            ddlJoiningMonth.SelectedValue = Convert.ToString(DateTime.Today.Month-1);
+            ddlJoiningMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
 
             Common.FillDropDownList(objPayMstMgr.SelectFiscalYear(0, "F"), ddlFiscalYr, "FISCALYRTITLE", "FISCALYRID", false);
             Common.FillDropDownList(objPayMstMgr.SelectFiscalYear(0, "F"), ddlFiscalYrSearch, "FISCALYRTITLE", "FISCALYRID", false);
@@ -330,8 +330,9 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
         //else
         //{
             decMonthlyAmount = dclPayAmt;
-            decUnitDayAmnt = decMonthlyAmount / 30;
-            decPayAmnt = decUnitDayAmnt * dclDaysDur;
+        //decUnitDayAmnt = decMonthlyAmount / 30;
+        decUnitDayAmnt = decMonthlyAmount / Convert.ToDouble(Common.GetMonthDay(ddlJoiningMonth.SelectedValue, ddlYear.SelectedValue));
+        decPayAmnt = decUnitDayAmnt * dclDaysDur;
         //}
         if (strArrearCase == "1")
         {
@@ -530,9 +531,9 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
                                 {
                                     ts = dtTo - dtFrom;
                                     inMonthDays = Common.GetMonthDay(dtFrom);
-                                    if (inMonthDays == 31)
-                                        iDaysDur = ts.Days;
-                                    else
+                                    //if (inMonthDays == 31)
+                                    //    iDaysDur = ts.Days;
+                                    //else
                                         iDaysDur = ts.Days + 1;
                                     if ((dtFrom.Day == 1) && dtTo.Day == inMonthDays)
                                     {
@@ -658,7 +659,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
         //foreach (GridViewRow gRow in grArrrearDetails.Rows)
         //{
         DataRow[] foundRows = dtArrearDtls.Select("EmpId='" + dtSalary.Rows[0]["EmpId"].ToString().Trim() + "'");
-
+        dblTotDurs = Common.GetMonthDay(ddlJoiningMonth.SelectedValue, ddlYear.SelectedValue);
 
         foreach (DataRow dDtlsRow in foundRows)
         {
@@ -674,19 +675,19 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
         if (dblBasicAmt > 0)
         {
             this.AddScheduleData(dtSalary.Rows[0]["EmpId"].ToString().Trim(), strFullName, strJoinDate,
-                     "1", "Basic", dtFrom.Month.ToString(), dblBasicAmt, "30", dblTotDurs, dtFrom.ToString(), dtTo.ToString());
+                     "1", "Basic", dtFrom.Month.ToString(), dblBasicAmt, ddlYear.SelectedValue.ToString(), dblTotDurs, dtFrom.ToString(), dtTo.ToString());
             dblBasicAmt = 0;
         }
         if (dblHRAmt > 0)
         {
             this.AddScheduleData(dtSalary.Rows[0]["EmpId"].ToString().Trim(), strFullName, strJoinDate,
-                     "2", "House Rent", dtFrom.Month.ToString(), dblHRAmt, "30", dblTotDurs, dtFrom.ToString(), dtTo.ToString());
+                     "2", "House Rent", dtFrom.Month.ToString(), dblHRAmt, ddlYear.SelectedValue.ToString(), dblTotDurs, dtFrom.ToString(), dtTo.ToString());
             dblHRAmt = 0;
         }
         if (dblMedAmt > 0)
         {
             this.AddScheduleData(dtSalary.Rows[0]["EmpId"].ToString().Trim(), strFullName, strJoinDate,
-                     "3", "Medical", dtFrom.Month.ToString(), dblMedAmt, "30", dblTotDurs, dtFrom.ToString(), dtTo.ToString());
+                     "3", "Medical", dtFrom.Month.ToString(), dblMedAmt, ddlYear.SelectedValue.ToString(), dblTotDurs, dtFrom.ToString(), dtTo.ToString());
             dblMedAmt = 0;
         }
 

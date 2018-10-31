@@ -83,7 +83,7 @@ public partial class EIS_NomineeDeath : System.Web.UI.Page
 
     private void OpenRecord()
     {
-        dtMNominee = objEmpMgr.SelectNominee( txtEmpID.Text.Trim(),"D");
+        dtMNominee = objEmpMgr.SelectNominee( txtEmpID.Text.Trim(),"Y");
         grNominee.DataSource = dtMNominee;
         grNominee.DataBind();
 

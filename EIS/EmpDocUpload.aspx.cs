@@ -18,16 +18,31 @@ public partial class EIS_EmpDocUpload : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-           // BindGridviewData();
+            // BindGridviewData();
+            txtEmpID.Text = Session["EMPID"].ToString().ToUpper().Trim();
+            this.EmpUploadedDocument();
         }
     }
 
     private void EmpUploadedDocument()
     {
-        DataSet ds = utm.SelectEmpDoc(txtEmpID.Text.Trim());
-        gvDetails.DataSource = ds.Tables[0];
-        gvDetails.DataBind();
-        DataTable dtEmpInfo = ds.Tables[1];
+        DataSet ds = new DataSet();
+        DataTable dtEmpInfo = new DataTable();
+        if (Session["ISADMIN"].ToString() == "N")
+        {
+            txtEmpID.ReadOnly = true;
+            ds = utm.SelectEmpDoc(txtEmpID.Text.Trim());
+            gvDetails.DataSource = ds.Tables[0];
+            gvDetails.DataBind();
+            dtEmpInfo = ds.Tables[1];
+        }
+        else
+        {
+            ds = utm.SelectEmpDoc(txtEmpID.Text.Trim());
+            gvDetails.DataSource = ds.Tables[0];
+            gvDetails.DataBind();
+            dtEmpInfo = ds.Tables[1];
+        }
         if (dtEmpInfo.Rows.Count == 0)
         {
             lblMsg.Text = "Invalid Employee No.";
@@ -42,7 +57,7 @@ public partial class EIS_EmpDocUpload : System.Web.UI.Page
                 lblDesignation.Text = dRow["DesigName"].ToString().Trim();
                 lblSector.Text = dRow["ProjectName"].ToString().Trim();
                 lblDept.Text = dRow["DeptName"].ToString().Trim();
-            }           
+            }
         }
     }
     protected void imgBtnSearch_Click(object sender, ImageClickEventArgs e)

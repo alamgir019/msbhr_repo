@@ -519,7 +519,7 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             for (int r = 0; r < dtRefSlot.Rows.Count; r++)
             {
                 //Commit at 2018.10.04
-                if (Convert.ToDecimal(gRow.Cells[16].Text)+ dclYPF <= Convert.ToDecimal(dtRefSlot.Rows[r]["Slot"]))
+                if (Convert.ToDecimal(gRow.Cells[16].Text) + dclYPF <= Convert.ToDecimal(dtRefSlot.Rows[r]["Slot"]))
                 ////if (Convert.ToDecimal(gRow.Cells[16].Text) <= Convert.ToDecimal(dtRefSlot.Rows[r]["Slot"]))
                 {
                     dclSlot = Convert.ToDecimal(dtRefSlot.Rows[r]["Slot"]);
@@ -650,9 +650,9 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             {
                 if (ddlMonth.SelectedValue.Trim() == "7")
                     inMon = inMon;
-                ////inMon = inMon + 1;
+                //inMon = inMon + 1;
                 ////inMon = inMon; //Open below link from August Month                   
-                  
+
                 dclMonthlyTax = (dclActTax - dclITDepo) / inMon;
                 dclMonthlyTax = Math.Round(dclMonthlyTax, 0);
                 if (dclMonthlyTax > 0)

@@ -83,7 +83,7 @@ public partial class EIS_NomineeMedical : System.Web.UI.Page
 
     private void OpenRecord()
     {
-        dtNominee = objEmpMgr.SelectNominee(txtEmpID.Text.Trim(), "M");
+        dtNominee = objEmpMgr.SelectNominee(txtEmpID.Text.Trim(), "Y");
         grNominee.DataSource = dtNominee;
         grNominee.DataBind();
 

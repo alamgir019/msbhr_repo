@@ -192,7 +192,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         lblSalaryMonth.Text = Common.ReturnFullMonthName(DateTime.Now.Month.ToString());
         
         lblSalaryDays.Text =   Common.CalculateTotalDays("01/"+ DateTime.Now.Month+"/"+ DateTime.Now.Year, lblSeprateDate.Text.Trim());
-        txtSeperateMonthSal.Text =Convert.ToString(Math.Round(Convert.ToDecimal(txtTotalPay.Text) / 30 * Convert.ToDecimal(lblSalaryDays.Text), 0));
+        txtSeperateMonthSal.Text =Convert.ToString(Math.Round(Convert.ToDecimal(txtTotalPay.Text) / Common.GetMonthDay(Convert.ToInt32(strMonth), strYear) * Convert.ToDecimal(lblSalaryDays.Text), 0));
 
         dtEmpPayroll.Rows.Clear();
         dtEmpPayroll.Dispose();
@@ -357,6 +357,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         nRow["FinalPayId"] = Common.RoundDecimal(hfId.Value, 0);
         nRow["EmpID"] = txtEmpID.Text.Trim();
         nRow["TotServiceYr"] = lblServiceYr.Text.Trim() == "" ? "0" : lblServiceYr.Text.Trim();
+        nRow["BasicPay"] = txtBasicPay.Text.Trim() == "" ? "0" : txtBasicPay.Text.Trim();
         nRow["TotalPay"] = txtTotalPay.Text.Trim() == "" ? "0" : txtTotalPay.Text.Trim();
         nRow["ELBalance"] = lblLeave.Text.Trim() == "" ? "0" : lblLeave.Text.Trim();
         nRow["LeaveEncash"] = txtLeaveEncash.Text.Trim() == "" ? "0" : txtLeaveEncash.Text.Trim();
