@@ -10,7 +10,7 @@ using System.Data;
 public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
 {
     DataTable dtEmpInfo = new DataTable();
-    DataTable dtTempDuty = new DataTable();
+    //DataTable dtTempDuty = new DataTable();
 
     MasterTablesManager objMasMgr = new MasterTablesManager();
     EmpInfoManager objEmpInfoMgr = new EmpInfoManager();
@@ -145,7 +145,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
 
         //EL Balance
         DataTable dtLv = new DataTable();
-        dtLv = objLvMgr.SelectEmpLeaveProfileHistory(txtEmpID.Text.Trim(), "2017-01-01", "2017-12-31");
+        dtLv = objLvMgr.SelectEmpLeaveProfileHistory(txtEmpID.Text.Trim(), "2018-01-01", "2018-12-31");
         DataRow[] foundELRows;
         foundELRows = dtLv.Select("LTypeId=2");
         if (foundELRows.Length > 0)
@@ -169,7 +169,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         if (strMonth == "1")
             strYear = Convert.ToString(Convert.ToInt32(strYear) - 1);
 
-        DataTable dtEmpPayroll = objPayAppMgr.GetPayrollApprovedDataForDisbursement("E", txtEmpID.Text.Trim(), strMonth, strYear, "");
+        DataTable dtEmpPayroll = objPayAppMgr.GetPayrollApprovedDataForDisbursement("E", txtEmpID.Text.Trim(), strPrevMonth, strYear, "");
 
         if (dtEmpPayroll.Rows.Count > 0)
             txtLastMonthSalary.Text = "0";
@@ -189,9 +189,9 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         txtGratuity.Text = Convert.ToString(Math.Round(Convert.ToDecimal(txtBasicPay.Text) * Convert.ToDecimal(Common.ReturnZeroForNull(lblGratuityYr.Text))));
 
 
-        lblSalaryMonth.Text = Common.ReturnFullMonthName(DateTime.Now.Month.ToString());
+        lblSalaryMonth.Text = Common.ReturnFullMonthName(strMonth);
         
-        lblSalaryDays.Text =   Common.CalculateTotalDays("01/"+ DateTime.Now.Month+"/"+ DateTime.Now.Year, lblSeprateDate.Text.Trim());
+        lblSalaryDays.Text =   Common.CalculateTotalDays("01/"+ strMonth + "/"+ strYear, lblSeprateDate.Text.Trim());
         txtSeperateMonthSal.Text =Convert.ToString(Math.Round(Convert.ToDecimal(txtTotalPay.Text) / Common.GetMonthDay(Convert.ToInt32(strMonth), strYear) * Convert.ToDecimal(lblSalaryDays.Text), 0));
 
         dtEmpPayroll.Rows.Clear();
@@ -206,7 +206,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
     protected void btnCalculateNet_Click(object sender, EventArgs e)
     {
         decimal dclAddtion = 0, dclDeduction = 0, dclNetPay = 0;
-        dclAddtion = Convert.ToDecimal(txtTotalPay.Text) + Convert.ToDecimal(Common.ReturnZeroForNull(txtLeaveEncash.Text)) + Convert.ToDecimal(Common.ReturnZeroForNull(txtPF.Text))
+        dclAddtion = Convert.ToDecimal(Common.ReturnZeroForNull(txtLeaveEncash.Text)) + Convert.ToDecimal(Common.ReturnZeroForNull(txtPF.Text))
             + Convert.ToDecimal(Common.ReturnZeroForNull(txtGratuity.Text)) + Convert.ToDecimal(Common.ReturnZeroForNull(txtSeperateMonthSal.Text));
 
         dclDeduction = Convert.ToDecimal(Common.ReturnZeroForNull(txtTripAdvPay.Text)) + Convert.ToDecimal(Common.ReturnZeroForNull(txtAlreadyPay.Text)) + Convert.ToDecimal(Common.ReturnZeroForNull(txtOtherPay.Text))
@@ -372,6 +372,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         nRow["Other"] = txtOther.Text.Trim() == "" ? "0" : txtOther.Text.Trim();
         nRow["NetPay"] = txtNetPay.Text.Trim() == "" ? "0" : txtNetPay.Text.Trim();
         nRow["SeparateDate"] = Common.ReturnDate(lblSeprateDate.Text.Trim());
+        nRow["SeparateDay"] = lblSalaryDays.Text.Trim() == "" ? "0" : lblSalaryDays.Text.Trim();
         nRow["ProcessDate"] = Common.ReturnDate(txtProcessDate.Text.Trim());      
         nRow["Remarks"] = txtRemarks.Text.ToString().Trim();
         nRow["PayStatus"] = "P";
