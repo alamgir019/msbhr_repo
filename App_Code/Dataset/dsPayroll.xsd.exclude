@@ -1,19 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="DataSet" targetNamespace="http://tempuri.org/DataSet.xsd" xmlns:mstns="http://tempuri.org/DataSet.xsd" xmlns="http://tempuri.org/DataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+<xs:schema id="dsPayroll" targetNamespace="http://tempuri.org/dsPayroll.xsd" xmlns:mstns="http://tempuri.org/dsPayroll.xsd" xmlns="http://tempuri.org/dsPayroll.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
-      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="1" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="MSB_HRConnectionString1" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="MSB_HRConnectionString1 (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.MSB_HRConnectionString1.ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="MSB_HRConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="MSB_HRConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.MSB_HRConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="MSB_HRConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="MSB_HRConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.MSB_HRConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables />
         <Sources />
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="DataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DataSet" msprop:Generator_DataSetName="DataSet">
+  <xs:element name="dsPayroll" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="dsPayroll" msprop:Generator_UserDSName="dsPayroll">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="IncPolicyList" msprop:Generator_TableClassName="IncPolicyListDataTable" msprop:Generator_TableVarName="tableIncPolicyList" msprop:Generator_TablePropName="IncPolicyList" msprop:Generator_RowDeletingName="IncPolicyListRowDeleting" msprop:Generator_RowChangingName="IncPolicyListRowChanging" msprop:Generator_RowEvHandlerName="IncPolicyListRowChangeEventHandler" msprop:Generator_RowDeletedName="IncPolicyListRowDeleted" msprop:Generator_UserTableName="IncPolicyList" msprop:Generator_RowChangedName="IncPolicyListRowChanged" msprop:Generator_RowEvArgName="IncPolicyListRowChangeEvent" msprop:Generator_RowClassName="IncPolicyListRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="IncPolicyId" msprop:Generator_ColumnVarNameInTable="columnIncPolicyId" msprop:Generator_ColumnPropNameInRow="IncPolicyId" msprop:Generator_ColumnPropNameInTable="IncPolicyIdColumn" msprop:Generator_UserColumnName="IncPolicyId" type="xs:decimal" />
+              <xs:element name="IncPolicyName" msprop:Generator_ColumnVarNameInTable="columnIncPolicyName" msprop:Generator_ColumnPropNameInRow="IncPolicyName" msprop:Generator_ColumnPropNameInTable="IncPolicyNameColumn" msprop:Generator_UserColumnName="IncPolicyName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="StartMonth" msprop:Generator_ColumnVarNameInTable="columnStartMonth" msprop:Generator_ColumnPropNameInRow="StartMonth" msprop:Generator_ColumnPropNameInTable="StartMonthColumn" msprop:Generator_UserColumnName="StartMonth" type="xs:decimal" />
+              <xs:element name="EndMonth" msprop:Generator_ColumnVarNameInTable="columnEndMonth" msprop:Generator_ColumnPropNameInRow="EndMonth" msprop:Generator_ColumnPropNameInTable="EndMonthColumn" msprop:Generator_UserColumnName="EndMonth" type="xs:decimal" />
+              <xs:element name="IncPercent" msprop:Generator_ColumnVarNameInTable="columnIncPercent" msprop:Generator_ColumnPropNameInRow="IncPercent" msprop:Generator_ColumnPropNameInTable="IncPercentColumn" msprop:Generator_UserColumnName="IncPercent" type="xs:decimal" />
+              <xs:element name="IsActive" msprop:Generator_ColumnVarNameInTable="columnIsActive" msprop:Generator_ColumnPropNameInRow="IsActive" msprop:Generator_ColumnPropNameInTable="IsActiveColumn" msprop:Generator_UserColumnName="IsActive" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="IsDeleted" msprop:Generator_ColumnVarNameInTable="columnIsDeleted" msprop:Generator_ColumnPropNameInRow="IsDeleted" msprop:Generator_ColumnPropNameInTable="IsDeletedColumn" msprop:Generator_UserColumnName="IsDeleted" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InsertedBy" msprop:Generator_ColumnVarNameInTable="columnInsertedBy" msprop:Generator_ColumnPropNameInRow="InsertedBy" msprop:Generator_ColumnPropNameInTable="InsertedByColumn" msprop:Generator_UserColumnName="InsertedBy" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InsertedDate" msprop:Generator_ColumnVarNameInTable="columnInsertedDate" msprop:Generator_ColumnPropNameInRow="InsertedDate" msprop:Generator_ColumnPropNameInTable="InsertedDateColumn" msprop:Generator_UserColumnName="InsertedDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="UpdatedBy" msprop:Generator_ColumnVarNameInTable="columnUpdatedBy" msprop:Generator_ColumnPropNameInRow="UpdatedBy" msprop:Generator_ColumnPropNameInTable="UpdatedByColumn" msprop:Generator_UserColumnName="UpdatedBy" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UpdatedDate" msprop:Generator_ColumnVarNameInTable="columnUpdatedDate" msprop:Generator_ColumnPropNameInRow="UpdatedDate" msprop:Generator_ColumnPropNameInTable="UpdatedDateColumn" msprop:Generator_UserColumnName="UpdatedDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="LastUpdatedFrom" msprop:Generator_ColumnVarNameInTable="columnLastUpdatedFrom" msprop:Generator_ColumnPropNameInRow="LastUpdatedFrom" msprop:Generator_ColumnPropNameInTable="LastUpdatedFromColumn" msprop:Generator_UserColumnName="LastUpdatedFrom" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="40" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
         <xs:element name="FinalPayment" msprop:Generator_TableClassName="FinalPaymentDataTable" msprop:Generator_TableVarName="tableFinalPayment" msprop:Generator_TablePropName="FinalPayment" msprop:Generator_RowDeletingName="FinalPaymentRowDeleting" msprop:Generator_RowChangingName="FinalPaymentRowChanging" msprop:Generator_RowEvHandlerName="FinalPaymentRowChangeEventHandler" msprop:Generator_RowDeletedName="FinalPaymentRowDeleted" msprop:Generator_UserTableName="FinalPayment" msprop:Generator_RowChangedName="FinalPaymentRowChanged" msprop:Generator_RowEvArgName="FinalPaymentRowChangeEvent" msprop:Generator_RowClassName="FinalPaymentRow">
           <xs:complexType>
             <xs:sequence>
@@ -41,7 +96,6 @@
               <xs:element name="Other" msprop:Generator_ColumnVarNameInTable="columnOther" msprop:Generator_ColumnPropNameInRow="Other" msprop:Generator_ColumnPropNameInTable="OtherColumn" msprop:Generator_UserColumnName="Other" type="xs:decimal" minOccurs="0" />
               <xs:element name="NetPay" msprop:Generator_ColumnVarNameInTable="columnNetPay" msprop:Generator_ColumnPropNameInRow="NetPay" msprop:Generator_ColumnPropNameInTable="NetPayColumn" msprop:Generator_UserColumnName="NetPay" type="xs:decimal" minOccurs="0" />
               <xs:element name="SeparateDate" msprop:Generator_ColumnVarNameInTable="columnSeparateDate" msprop:Generator_ColumnPropNameInRow="SeparateDate" msprop:Generator_ColumnPropNameInTable="SeparateDateColumn" msprop:Generator_UserColumnName="SeparateDate" type="xs:dateTime" minOccurs="0" />
-              <xs:element name="SeparateDay" msprop:Generator_ColumnVarNameInTable="columnSeparateDay" msprop:Generator_ColumnPropNameInRow="SeparateDay" msprop:Generator_ColumnPropNameInTable="SeparateDayColumn" msprop:Generator_UserColumnName="SeparateDay" type="xs:decimal" minOccurs="0" />
               <xs:element name="ProcessDate" msprop:Generator_ColumnVarNameInTable="columnProcessDate" msprop:Generator_ColumnPropNameInRow="ProcessDate" msprop:Generator_ColumnPropNameInTable="ProcessDateColumn" msprop:Generator_UserColumnName="ProcessDate" type="xs:dateTime" minOccurs="0" />
               <xs:element name="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" msprop:Generator_UserColumnName="Remarks" minOccurs="0">
                 <xs:simpleType>
@@ -95,6 +149,10 @@
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:IncPolicyList" />
+      <xs:field xpath="mstns:IncPolicyId" />
+    </xs:unique>
+    <xs:unique name="FinalPayment_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:FinalPayment" />
       <xs:field xpath="mstns:FinalPayId" />
     </xs:unique>
