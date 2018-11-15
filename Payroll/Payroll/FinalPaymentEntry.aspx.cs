@@ -33,6 +33,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
     {
         if (string.IsNullOrEmpty(txtEmpID.Text.Trim()) == false)
         {
+            this.ClearControls();
             this.FillEmpInfo(txtEmpID.Text.Trim());
             this.OpenRecord();
            // this.EntryMode(false);
@@ -42,8 +43,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
     private void FillEmpInfo(string EmpId)
     {
        
-        dtEmpInfo = objEmpInfoMgr.SelectEmpInfoWithAwardLength(txtEmpID.Text.Trim());
-        
+        dtEmpInfo = objEmpInfoMgr.SelectEmpInfoWithAwardLength(txtEmpID.Text.Trim());        
 
         if (dtEmpInfo.Rows.Count > 0)
         {
@@ -144,13 +144,15 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         dtSalPakDtls.Dispose();
 
         //EL Balance
+        decimal dclELBalance = 0;
         DataTable dtLv = new DataTable();
         dtLv = objLvMgr.SelectEmpLeaveProfileHistory(txtEmpID.Text.Trim(), "2018-01-01", "2018-12-31");
         DataRow[] foundELRows;
         foundELRows = dtLv.Select("LTypeId=2");
         if (foundELRows.Length > 0)
         {
-            lblLeave.Text = foundELRows[0]["LEntitled"].ToString();
+            dclELBalance = (Convert.ToDecimal(foundELRows[0]["LCarryOverd"].ToString()) + Convert.ToDecimal(foundELRows[0]["LEntitled"].ToString())) - Convert.ToDecimal(foundELRows[0]["LeaveEnjoyed"].ToString());
+            lblLeave.Text = dclELBalance.ToString() ;
             decimal dclLvEncash;
 
             dclLvEncash = Math.Round( ((Convert.ToDecimal(txtBasicPay.ToolTip)) / 30)* Convert.ToDecimal(lblLeave.Text),0) ;
@@ -195,12 +197,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         txtSeperateMonthSal.Text =Convert.ToString(Math.Round(Convert.ToDecimal(txtTotalPay.Text) / Common.GetMonthDay(Convert.ToInt32(strMonth), strYear) * Convert.ToDecimal(lblSalaryDays.Text), 0));
 
         dtEmpPayroll.Rows.Clear();
-        dtEmpPayroll.Dispose();
-
-        dtPF.Rows.Clear();
-        dtPF.Dispose();
-
-
+        dtEmpPayroll.Dispose();     
     }
 
     protected void btnCalculateNet_Click(object sender, EventArgs e)

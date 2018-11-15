@@ -2089,7 +2089,7 @@ public class PayrollReportManager
     //    return objDC.ds.Tables["dtFaynalPaymentList"];
     //}
 
-    public DataSet Get_Rpt_FaynalPaymentList(string VMonth, string FisYear, string EmpID, DataSet dsRpt)
+    public DataSet Get_Rpt_FaynalPaymentList(string VMonth, string VYear, string FisYear, string EmpID, DataSet dsRpt)
     //public DataTable Get_Rpt_FaynalPaymentList(string VMonth, string FisYear, string EmpID)
     {
         SqlCommand cmd = new SqlCommand("proc_Rpt_FaynalPaymentList");
@@ -2099,7 +2099,11 @@ public class PayrollReportManager
         p_VMonth.Direction = ParameterDirection.Input;
         p_VMonth.Value = Convert.ToInt32(VMonth);
 
-        SqlParameter p_FisYear = cmd.Parameters.Add("VYear", SqlDbType.BigInt);
+        SqlParameter p_VYear = cmd.Parameters.Add("VYear", SqlDbType.BigInt);
+        p_VYear.Direction = ParameterDirection.Input;
+        p_VYear.Value = Convert.ToInt32(VYear);
+
+        SqlParameter p_FisYear = cmd.Parameters.Add("FiscalYrID", SqlDbType.BigInt);
         p_FisYear.Direction = ParameterDirection.Input;
         p_FisYear.Value = Convert.ToInt32(FisYear);
 

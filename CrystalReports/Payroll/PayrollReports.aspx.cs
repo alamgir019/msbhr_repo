@@ -303,6 +303,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
 
             case "SSS":
             case "SSSum":
+            case "SSL":
                 {
                     PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
                     Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
@@ -566,7 +567,8 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "FP":
             case "FPL":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
                     break;
                 }
             case "FPDL":
@@ -1041,6 +1043,29 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     fileName = Session["USERID"].ToString() + "_" + "SalSheetSummery" + ".pdf";
+
+                    this.ExPortReport(ReportDoc, fileName);
+                    break;
+                }
+            case "SSL":
+                {
+                    string FisYear = ddlFisYear.SelectedValue.ToString();
+                    string VMonth = ddlMonthFrm.SelectedValue.ToString();
+                    string VYear = ddlYear.SelectedValue.ToString();
+                    string Type = ddlReportBy.SelectedValue.ToString();
+                    string SalDiv = ddlDivision.SelectedValue.ToString();
+                    string EmpTypeId = ddlEmpType.SelectedValue.ToString();
+                    string REPORTID = tvReports.SelectedNode.Value;
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalaryList.rpt");
+                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(VMonth, FisYear, SalDiv);
+                    ReportDoc.Load(ReportPath);
+                    ReportDoc.SetDataSource(MyDataTable);
+                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + VMonth + "/" + VYear));
+                    ReportDoc.SetParameterValue("P_Header", "Staff List for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
+
+                    ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                    fileName = Session["USERID"].ToString() + "_" + "StaffSalaryList" + ".pdf";
 
                     this.ExPortReport(ReportDoc, fileName);
                     break;
@@ -1707,11 +1732,12 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "FP":
                 Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
                 Session["VYear"] = ddlYear.SelectedValue.ToString();
+                Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
                 Session["EmpID"] = txtEmpCode.Text.ToString() == "" ? "" : txtEmpCode.Text.ToString();
                 Session["REPORTID"] = tvReports.SelectedNode.Value;
 
                 DataSet ds = new DataSet();
-                ds = objPayRptMgr.Get_Rpt_FaynalPaymentList(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["EmpID"].ToString(), ds);
+                ds = objPayRptMgr.Get_Rpt_FaynalPaymentList(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["FisYear"].ToString(),  Session["EmpID"].ToString(), ds);
 
                 DataTable tableA = ds.Tables[0].Copy();
                 DataTable tableB = ds.Tables[1].Copy();
