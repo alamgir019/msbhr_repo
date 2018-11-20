@@ -278,7 +278,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
         Common.FillMonthList(ddlMonthFrm);
         DateTime now = DateTime.Now;
         ddlMonthFrm.SelectedValue = Convert.ToInt32(now.Month).ToString();
-        
+
         switch (tvReports.SelectedValue)
         {
             case "ESPS":
@@ -287,10 +287,10 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
                     Common.FillDropDownList_All(MasMgr.SelectDesignation(0), this.ddlDesig);
                     break;
-                } 
+                }
             case "BSFF":
                 {
-                    PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0","0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                    PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
                     //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
                     break;
@@ -309,14 +309,14 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
                     break;
                 }
-            case "ESI":          
+            case "ESI":
                 {
                     PanelVisibilityMst("0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     break;
                 }
-            case "SCH":         
+            case "SCH":
                 {
-                    PanelVisibilityMst("0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");                   
+                    PanelVisibilityMst("0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     //Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);                   
                     //Common.FillDropDownList_All(MasMgr.SelectDepartmentddl(0), ddlDept);
                     //Common.FillDropDownList_All(MasMgr.SelectGrade(0), ddlGrade);
@@ -325,7 +325,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 }
             case "SEC":
                 {
-                    PanelVisibilityMst("0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");                   
+                    PanelVisibilityMst("0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     break;
                 }
             case "YPFC":
@@ -369,7 +369,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
                     break;
                 }
-           
+
             case "SSS2":
                 {
                     PanelVisibilityMst("1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
@@ -415,16 +415,16 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     grPostDivision.DataBind();
                     DataTable dtSalSource = objPayMgr.SelectSalSource(0);
                     gvSalSource.DataSource = dtSalSource;
-                    gvSalSource.DataBind();                   
+                    gvSalSource.DataBind();
                     this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
                     break;
                 }
             case "PRLW":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0","1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectClinic ();
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    dtSalDivision = objPayMgr.SelectClinic();
                     grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();                    
+                    grSalDivision.DataBind();
                     break;
                 }
             case "NSWSD":
@@ -448,7 +448,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     //Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType, false);
                     break;
                 }
-           
+
             case "SSS01":
                 {
                     PanelVisibilityMst("1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
@@ -456,7 +456,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     grSalDivision.DataSource = dtSalDivision;
                     grSalDivision.DataBind();
                     break;
-                }    
+                }
             case "SSSOF":
                 {
                     PanelVisibilityMst("1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
@@ -468,7 +468,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "SRDTL":
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                   // Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType, false);
+                    // Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType, false);
                     break;
                 }
             case "SR":
@@ -477,7 +477,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     //Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType, false);
                     break;
                 }
-           
+
             case "AV":
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
@@ -493,10 +493,10 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     dtSalDivision = objPayMgr.SelectClinic();
                     grSalDivision.DataSource = dtSalDivision;
                     grSalDivision.DataBind();
-                   // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                    // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
                     break;
                 }
-          
+
             case "PRECC":
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
@@ -518,7 +518,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                   // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                    // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
                     break;
                 }
             case "MBB":
@@ -545,7 +545,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     ddlSubLoc.Items.Clear();
-                    Common.FillMonthList_All(ddlMonthFrm); 
+                    Common.FillMonthList_All(ddlMonthFrm);
                     Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
                     this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
@@ -556,7 +556,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     ddlSubLoc.Items.Clear();
-                    Common.FillMonthList_All(ddlMonthFrm); 
+                    Common.FillMonthList_All(ddlMonthFrm);
                     Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
                     this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
@@ -642,7 +642,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0");
                     break;
                 }
-           
+
             case "OTC":
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
@@ -651,7 +651,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Common.FillDropDownList_All(MasMgr.SelectDesignation(0), this.ddlDesig);
                     //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
                     break;
-                }    
+                }
             #region PF
             case "IPFC":
                 {
@@ -674,7 +674,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     //this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
                     break;
                 }
-           
+
             case "AI":
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
@@ -689,7 +689,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                  
+
                     //this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
                     break;
                 }
@@ -704,10 +704,10 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     grSalDivision.DataSource = dtSalDivision;
                     grSalDivision.DataBind();
                     this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                   // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                    // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
                     break;
                 }
-            case "AITMD":            
+            case "AITMD":
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "T"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
@@ -718,7 +718,12 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
                     break;
                 }
-
+            case "STD":
+                {
+                    PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
+                    break;
+                }
             case "ITC":
             case "ITA":
                 {
@@ -865,7 +870,6 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     string REPORTID = tvReports.SelectedNode.Value;
                     string EmpTypeId = ddlEmpType.SelectedValue.ToString();
                     string SalType = rdbSalaryType.SelectedValue.Trim();
-
 
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptBankStatement.rpt");
                     MyDataTable = objPayRptMgr.Get_Rpt_BankStatement(FisYear, VMonth, VYear, DivisionId, EmpTypeId,SalType);
@@ -1306,6 +1310,52 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Session["REPORTID"] = tvReports.SelectedNode.Value;
 
                    
+                    break;
+                }
+            case "STD":
+                {
+                    string FisYear = ddlFisYear.SelectedValue.ToString();
+                    string VMonth = ddlMonthFrm.SelectedValue.ToString();
+                    string VYear = ddlYear.SelectedValue.ToString();
+                    string Type = ddlReportBy.SelectedValue.ToString();
+                    string SalDiv = ddlDivision.SelectedValue.ToString();
+                    string EmpTypeId = ddlEmpType.SelectedValue.ToString();
+                    string REPORTID = tvReports.SelectedNode.Value;
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptITDedStatementList.rpt");
+                    DataTable dtTax= objPayRptMgr.Get_Salary_SheetEmpWise(VMonth, FisYear, SalDiv);
+
+                    DataRow[] foundRow = dtTax.Select("[15]<>0");
+                    //MyDataTable.Rows.Clear();
+                    DataRow dr;
+                    if (foundRow.Length > 0)
+                    {
+                        MyDataTable.Columns.Add("EmpId");
+                        MyDataTable.Columns.Add("Fullname");
+                        MyDataTable.Columns.Add("JobTitleName");
+                        MyDataTable.Columns.Add("ClinicName");
+                        MyDataTable.Columns.Add("15");
+                        foreach (DataRow dRow in foundRow)
+                        {
+                            dr = MyDataTable.NewRow();
+                            dr["EmpId"] = dRow["EmpId"].ToString();
+                            dr["Fullname"] = dRow["Fullname"].ToString();
+                            dr["JobTitleName"] = dRow["JobTitleName"].ToString();
+                            dr["ClinicName"] = dRow["ClinicName"].ToString();
+                            dr["15"] = Convert.ToString(-Convert.ToDecimal(dRow["15"]));
+
+                            MyDataTable.Rows.Add(dr);
+                        }
+                    }
+                    ReportDoc.Load(ReportPath);
+                    ReportDoc.SetDataSource(MyDataTable);
+                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + VMonth + "/" + VYear));
+                    ReportDoc.SetParameterValue("P_Header", "Statement of Tax Deduction at Source From Salary for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
+
+                    ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Portrait;
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                    fileName = Session["USERID"].ToString() + "_" + "StatementofTaxDeductionList" + ".pdf";
+
+                    this.ExPortReport(ReportDoc, fileName);
                     break;
                 }
             case "SRR":

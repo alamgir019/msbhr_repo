@@ -29,7 +29,7 @@
                                     <asp:TreeNode Text="Salary Sheet" Value="SSS"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Sheet Summary" Value="SSSum"></asp:TreeNode>    
                                     <asp:TreeNode Text="Salary Charging" Value="PRLW"></asp:TreeNode>     
-                                     <asp:TreeNode Text="Staff Salary List" Value="SSL"></asp:TreeNode>                                
+                                    <asp:TreeNode Text="Staff Salary List" Value="SSL"></asp:TreeNode>                                
                                 </asp:TreeNode>
                                 <asp:TreeNode Text="Provident Fund" Value="PF">
                                     <asp:TreeNode Text="Monthly PF Contribution" Value="MPFC"></asp:TreeNode>
@@ -56,6 +56,7 @@
                                     <asp:TreeNode Text="Yearly Income Tax" Value="AITD"></asp:TreeNode>
                                     <asp:TreeNode Text="Month Wise Income Tax" Value="AITMD"></asp:TreeNode>
                                     <asp:TreeNode Text="Tax Certificate" Value="TC"></asp:TreeNode>
+                                    <asp:TreeNode Text="Statement of Tax Deduction" Value="STD"></asp:TreeNode>
                                   </asp:TreeNode>
                                  <asp:TreeNode Text="Salary Reconciliation" Value="SR">
                                 <asp:TreeNode Text="Salary Reconciliation Report" Value="SRR"></asp:TreeNode>

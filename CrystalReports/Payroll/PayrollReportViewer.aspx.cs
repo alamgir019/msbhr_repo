@@ -599,7 +599,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
             case "FP":
                 {
                     DataSet ds = new DataSet();
-                    ds = objPayRptMgr.Get_Rpt_FaynalPaymentList(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["EmpID"].ToString(), ds);
+                    ds = objPayRptMgr.Get_Rpt_FaynalPaymentList(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["VYear"].ToString(), Session["EmpID"].ToString(), ds);
 
                     DataTable tableA = ds.Tables[0].Copy();
                     DataTable tableB = ds.Tables[1].Copy();
