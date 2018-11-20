@@ -1571,14 +1571,21 @@ left join TrVenue ven on ts.VenueId=ven.VenueId where tr.IsDeleted='N'";
     {
         if (strOtherTrainId.Equals("A")) //fullname from EmpInfo where EmpId
         {
-            string strSQL = @"select ot.OtherTrainId,ot.TrainId,tl.TrainName+' ['+convert(varchar(5),ot.TrainId)+']' as TrainName,convert(varchar(10),ot.StartDate,103) as StartDate,convert(varchar(10),ot.EndDate,103) as EndDate,ot.Duration,ot.OrganizedBy,ei.fullname+' ['+ot.OrganizedBy+']' as OrganizedByName,ot.Remarks,ot.IsCertificate,ot.IsActive 
-                                from TrOtherTrain ot left join TrTrainingList tl on tl.TrainId=ot.TrainId left join EmpInfo ei on ei.EmpId=ot.OrganizedBy where ot.IsDeleted='N'";
+            string strSQL = @"select ot.OtherTrainId,ot.TrainId,tl.TrainName+' ['+convert(varchar(5),ot.TrainId)+']' 
+            as TrainName,convert(varchar(10),ot.StartDate,103) as StartDate,convert(varchar(10),ot.EndDate,103) as EndDate,
+            ot.Duration,ot.OrganizedBy,ei.fullname+' ['+ot.OrganizedBy+']' as OrganizedByName,ot.Location,ot.Venue,
+            ot.Remarks,ot.IsCertificate,ot.IsActive from TrOtherTrain ot left join TrTrainingList tl on 
+            tl.TrainId=ot.TrainId left join EmpInfo ei on ei.EmpId=ot.OrganizedBy where ot.IsDeleted='N'";
             return objDC.CreateDT(strSQL, "TrOtherTrain");
         }
         else
         {
-            string strSQL = @"select ot.OtherTrainId,ot.TrainId,tl.TrainName+' ['+convert(varchar(5),ot.TrainId)+']' as TrainName,convert(varchar(10),ot.StartDate,103) as StartDate,convert(varchar(10),ot.EndDate,103) as EndDate,ot.Duration,ot.OrganizedBy,ei.fullname+' ['+ot.OrganizedBy+']' as OrganizedByName,ot.Remarks,ot.IsCertificate,ot.IsActive 
-                                from TrOtherTrain ot left join TrTrainingList tl on tl.TrainId=ot.TrainId left join EmpInfo ei on ei.EmpId=ot.OrganizedBy where ot.OtherTrainId=@OtherTrainId and ot.IsDeleted='N' ";
+            string strSQL = @"select ot.OtherTrainId,ot.TrainId,tl.TrainName+' ['+convert(varchar(5),ot.TrainId)+']' 
+            as TrainName,convert(varchar(10),ot.StartDate,103) as StartDate,convert(varchar(10),ot.EndDate,103) as EndDate,
+            ot.Duration,ot.OrganizedBy,ei.fullname+' ['+ot.OrganizedBy+']' as OrganizedByName,ot.Location,ot.Venue,
+            ot.Remarks,ot.IsCertificate,ot.IsActive from TrOtherTrain ot left join TrTrainingList tl on 
+            tl.TrainId=ot.TrainId left join EmpInfo ei on ei.EmpId=ot.OrganizedBy where ot.OtherTrainId=@OtherTrainId 
+            and ot.IsDeleted='N' ";
             SqlCommand cmd = new SqlCommand(strSQL);
             cmd.CommandType = CommandType.Text;
             SqlParameter p_OtherTrainId = cmd.Parameters.Add("OtherTrainId", SqlDbType.BigInt);

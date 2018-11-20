@@ -1,11 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterBTMS.master" AutoEventWireup="true" CodeFile="OtherTraining.aspx.cs" Inherits="Training_OtherTraining" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="MainContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-<script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js">
-    //Date Time Picker script
-    </script>
-    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js">
-    </script>
+<script language="javascript" type="text/javascript" src="../JScripts/datetimepicker.js"></script>
+    <script language="javascript" type="text/javascript" src="../JScripts/Confirmation.js"></script>
     <div class="empTrainForm">
         <div id="formhead1">
             <div style="width: 96%; float: left;">
@@ -84,6 +81,13 @@
                             <asp:CheckBox ID="chkCertificate" runat="server" CssClass="textlevelleft" Text="Certificate" />
                     </td>
                     </tr>
+                    
+                    <tr>
+                        <td><asp:Label ID="Label8" runat="server" CssClass="textlevel" Text="Location :"></asp:Label></td>
+                        <td><asp:TextBox ID="txtLocation" runat="server" Width="200px" ></asp:TextBox></td> 
+                        <td><asp:Label ID="Label9" runat="server" CssClass="textlevel" Text="Venue :"></asp:Label></td>
+                        <td><asp:TextBox ID="txtVenue" runat="server" Width="200px" ></asp:TextBox></td>                        
+                    </tr>
                     <tr>
                       <td><asp:Label ID="Label4" runat="server" CssClass="textlevel" Text="Remarks :"></asp:Label></td>
                      <td><asp:TextBox ID="txtRemarks" runat="server" Width="200px" TextMode="MultiLine" MaxLength="100"></asp:TextBox></td>
@@ -97,17 +101,15 @@
             <br />
             <fieldset>
               <table>
-
-                    <tr>
-                     <td> <asp:Label ID="Label7" runat="server" CssClass="textlevel" Text="Participant Name :"></asp:Label></td>
-                     <td><asp:TextBox runat="server" Width="200px" ID="txtPName"></asp:TextBox>
-</td>
-                         <td><asp:Label ID="Label23" runat="server" CssClass="textlevel" Text="Designation :"></asp:Label></td>
-                     <td><asp:TextBox ID="txtDesignation" runat="server" Width="200px"></asp:TextBox></td>  
-                     <td><asp:Button ID="btnAdd" runat="server" Text="Add" Width="60px" 
-                          OnClick="btnAdd_Click"  CausesValidation="False" /> </td>             
-                    </tr>
-                </table>
+                <tr>
+                    <td> <asp:Label ID="Label7" runat="server" CssClass="textlevel" Text="Participant Name :"></asp:Label></td>
+                    <td><asp:TextBox runat="server" Width="200px" ID="txtPName"></asp:TextBox></td>
+                        <td><asp:Label ID="Label23" runat="server" CssClass="textlevel" Text="Designation :"></asp:Label></td>
+                    <td><asp:TextBox ID="txtDesignation" runat="server" Width="200px"></asp:TextBox></td>  
+                    <td><asp:Button ID="btnAdd" runat="server" Text="Add" Width="60px" 
+                        OnClick="btnAdd_Click"  CausesValidation="False" /> </td>             
+                </tr>
+            </table>
             </fieldset>
         </div>
         <div class="GridFormat1">
@@ -127,11 +129,11 @@
                         <ItemStyle CssClass="ItemStylecss" Width="10%" />
                     </asp:ButtonField>
                     <asp:BoundField DataField="ParticipantName" HeaderText="Employee Name">
-                        <ItemStyle CssClass="ItemStylecss" Width="80%"></ItemStyle>
+                        <ItemStyle CssClass="ItemStylecss" Width="20%"></ItemStyle>
                     </asp:BoundField>
                     <asp:BoundField DataField="Designation" HeaderText="Designation">
-                        <ItemStyle CssClass="ItemStylecssCenter" Width="10%"></ItemStyle>
-                    </asp:BoundField>                   
+                        <ItemStyle CssClass="ItemStylecssCenter" Width="20%"></ItemStyle>
+                    </asp:BoundField>                
                 </Columns>
             </asp:GridView>
             <!--Grid view Code Ends-->
@@ -159,7 +161,7 @@
         <div class="GridFormat3">
             <!--Grid view Code starts-->
 
-            <asp:GridView ID="grOtherTraining" runat="server" DataKeyNames="OtherTrainId,TrainId,TrainName,StartDate,EndDate,Duration,OrganizedBy,OrganizedByName,Remarks,IsCertificate,IsActive" AutoGenerateColumns="False"
+            <asp:GridView ID="grOtherTraining" runat="server" DataKeyNames="OtherTrainId,TrainId,TrainName,StartDate,EndDate,Duration,OrganizedBy,OrganizedByName,Remarks,IsCertificate,IsActive,Location,Venue" AutoGenerateColumns="False"
                 EmptyDataText="No Record Found" Font-Size="9px" Width="99%" OnRowCommand="grOtherTraining_RowCommand" >
                 <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
                 <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True">
@@ -167,32 +169,38 @@
                 <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
                 <Columns>
                     <asp:ButtonField CommandName="DoubleClick" HeaderText="Edit" Text="Edit">
-                        <ItemStyle CssClass="ItemStylecss" Width="10%" />
+                        <ItemStyle CssClass="ItemStylecss" Width="5%" />
                     </asp:ButtonField>
                 
                     <asp:BoundField DataField="TrainName" HeaderText="Training Name">
-                        <ItemStyle CssClass="ItemStylecss" Width="20%"></ItemStyle>
+                        <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
                     </asp:BoundField>
                     <asp:BoundField DataField="StartDate" HeaderText="Start Date">
-                        <ItemStyle CssClass="ItemStylecss" Width="40%"></ItemStyle>
+                        <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
                     </asp:BoundField>
                     <asp:BoundField DataField="EndDate" HeaderText="End Date">
-                        <ItemStyle CssClass="ItemStylecss" Width="60%"></ItemStyle>
+                        <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
                     </asp:BoundField>  
                     <asp:BoundField DataField="Duration" HeaderText="Duration">
-                        <ItemStyle CssClass="ItemStylecss" Width="50%"></ItemStyle>
+                        <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
                     </asp:BoundField>  
+                    <asp:BoundField DataField="Location" HeaderText="Location">
+                        <ItemStyle CssClass="ItemStylecssCenter" Width="10%"></ItemStyle>
+                    </asp:BoundField>   
+                    <asp:BoundField DataField="Venue" HeaderText="Venue">
+                        <ItemStyle CssClass="ItemStylecssCenter" Width="10%"></ItemStyle>
+                    </asp:BoundField>     
                     <asp:BoundField DataField="OrganizedByName" HeaderText="Organized By">
-                        <ItemStyle CssClass="ItemStylecss" Width="30%"></ItemStyle>
+                        <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
                     </asp:BoundField>    
                     <asp:BoundField DataField="Remarks" HeaderText="Remarks">
-                        <ItemStyle CssClass="ItemStylecss" Width="50%"></ItemStyle>
+                        <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
                     </asp:BoundField>   
                     <asp:BoundField DataField="IsCertificate" HeaderText="Is Certificate">
-                        <ItemStyle CssClass="ItemStylecss" Width="50%"></ItemStyle>
+                        <ItemStyle CssClass="ItemStylecss" Width="5%"></ItemStyle>
                     </asp:BoundField>    
                     <asp:BoundField DataField="IsActive" HeaderText="Is Active">
-                        <ItemStyle CssClass="ItemStylecssCenter" Width="30%"></ItemStyle>
+                        <ItemStyle CssClass="ItemStylecssCenter" Width="5%"></ItemStyle>
                     </asp:BoundField>             
                 </Columns>
             </asp:GridView>
