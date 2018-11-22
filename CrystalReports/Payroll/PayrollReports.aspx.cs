@@ -427,6 +427,11 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     grSalDivision.DataBind();
                     break;
                 }
+            case "CWSC":
+                {
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");                   
+                    break;
+                }
             case "NSWSD":
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
@@ -1636,6 +1641,27 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     string PostDist = Session["PostDist"].ToString();
                     string EmpID = Session["EmpID"].ToString();
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptPayrollRprLocWise.rpt");
+                    ReportDoc.Load(ReportPath);
+                    MyDataTable = objPayRptMgr.Get_Rpt_PayrollReportLocWise(VMonth, VYear, SalDiv, PostDist, EmpID);
+                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + VMonth + "/" + VYear));
+                    ReportDoc.SetDataSource(MyDataTable);
+                    ReportDoc.SetParameterValue("P_Header", "Payroll for the Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                    fileName = Session["USERID"].ToString() + "_" + "SalSheetSummery" + ".pdf";
+
+                    this.ExPortReport(ReportDoc, fileName);
+                    break;
+                }
+            case "CWSC":
+                {
+                    this.SalLocDivEmpLoad();
+                    string VMonth = ddlMonthFrm.SelectedValue.ToString();
+                    string VYear = ddlYear.SelectedValue.ToString();
+                    string REPORTID = tvReports.SelectedNode.Value;
+                    string SalDiv = Session["SalDiv"].ToString();
+                    string PostDist = Session["PostDist"].ToString();
+                    string EmpID = Session["EmpID"].ToString();
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptComWsSalaryCharging.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Rpt_PayrollReportLocWise(VMonth, VYear, SalDiv, PostDist, EmpID);
                     DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + VMonth + "/" + VYear));

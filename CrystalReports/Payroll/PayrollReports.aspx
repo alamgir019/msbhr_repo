@@ -29,7 +29,8 @@
                                     <asp:TreeNode Text="Salary Sheet" Value="SSS"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Sheet Summary" Value="SSSum"></asp:TreeNode>    
                                     <asp:TreeNode Text="Salary Charging" Value="PRLW"></asp:TreeNode>     
-                                    <asp:TreeNode Text="Staff Salary List" Value="SSL"></asp:TreeNode>                                
+                                    <asp:TreeNode Text="Staff Salary List" Value="SSL"></asp:TreeNode>
+                                    <asp:TreeNode Text="Company Wise Salary Charging" Value="CWSC"></asp:TreeNode>                                   
                                 </asp:TreeNode>
                                 <asp:TreeNode Text="Provident Fund" Value="PF">
                                     <asp:TreeNode Text="Monthly PF Contribution" Value="MPFC"></asp:TreeNode>
