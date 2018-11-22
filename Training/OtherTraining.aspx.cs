@@ -90,6 +90,16 @@ public partial class Training_OtherTraining : System.Web.UI.Page
                         lblMsg.Text = "Please enter participant name.";
                         return false;
                     }
+                    else if (string.IsNullOrEmpty(txtLocation.Text.Trim()) == true)
+                    {
+                        lblMsg.Text = "Please enter location name.";
+                        return false;
+                    }
+                    else if (string.IsNullOrEmpty(txtVenue.Text.Trim()) == true)
+                    {
+                        lblMsg.Text = "Please enter venue name.";
+                        return false;
+                    }
 
                     break;
             }
@@ -129,7 +139,10 @@ public partial class Training_OtherTraining : System.Web.UI.Page
         nRow["Duration"] = Common.RoundDecimal(txtDuration.Text.Trim(),0);
         nRow["OrganizedBy"] = ddlOrganizedBy.SelectedValue.ToString().Trim();
 
-        nRow["Remarks"] = txtRemarks.Text.ToString().Trim();       
+        nRow["Remarks"] = txtRemarks.Text.ToString().Trim();
+
+        nRow["Location"] = txtLocation.Text.ToString().Trim();
+        nRow["Venue"] = txtVenue.Text.ToString().Trim();
 
         if (cmdType == "I")
         {
@@ -305,6 +318,8 @@ public partial class Training_OtherTraining : System.Web.UI.Page
                     txtStrDate.Text = grOtherTraining.DataKeys[_gridView.SelectedIndex].Values[3].ToString().Trim();
                     txtEndDate.Text = grOtherTraining.DataKeys[_gridView.SelectedIndex].Values[4].ToString().Trim();
                     txtDuration.Text = grOtherTraining.DataKeys[_gridView.SelectedIndex].Values[5].ToString().Trim();
+                    txtLocation.Text = grOtherTraining.DataKeys[_gridView.SelectedIndex].Values[11].ToString().Trim();
+                    txtVenue.Text = grOtherTraining.DataKeys[_gridView.SelectedIndex].Values[12].ToString().Trim();
                     ddlOrganizedBy.SelectedValue = grOtherTraining.DataKeys[_gridView.SelectedIndex].Values[6].ToString().Trim();
                     txtRemarks.Text = grOtherTraining.DataKeys[_gridView.SelectedIndex].Values[8].ToString();
 
