@@ -1659,6 +1659,35 @@ public class PayrollReportManager
         return objDC.ds.Tables["dtPayrollReportLocWise"];
     }
 
+    public DataTable Get_Rpt_CompWsSalaryCharging(string P_Month, string P_Year, string SalSubLoc, string PostDist, string EmpID)
+    {
+        SqlCommand cmd = new SqlCommand("Proc_Payroll_Rpt_CompWsSalaryCharging");
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        SqlParameter p_P_VMonth = cmd.Parameters.Add("P_VMonth", SqlDbType.Char);
+        p_P_VMonth.Direction = ParameterDirection.Input;
+        p_P_VMonth.Value = Convert.ToInt16(P_Month);
+
+        SqlParameter SP_VYear = cmd.Parameters.Add("P_VYear", SqlDbType.Char);
+        SP_VYear.Direction = ParameterDirection.Input;
+        SP_VYear.Value = P_Year;
+
+        SqlParameter p_SalSubLoc = cmd.Parameters.Add("SalSubLocId", SqlDbType.Char);
+        p_SalSubLoc.Direction = ParameterDirection.Input;
+        p_SalSubLoc.Value = SalSubLoc;
+
+        SqlParameter p_PostDist = cmd.Parameters.Add("PostDistId", SqlDbType.Char);
+        p_PostDist.Direction = ParameterDirection.Input;
+        p_PostDist.Value = PostDist;
+
+        SqlParameter p_EmpID = cmd.Parameters.Add("EmpID", SqlDbType.Char);
+        p_EmpID.Direction = ParameterDirection.Input;
+        p_EmpID.Value = EmpID;
+
+        objDC.CreateDSFromProc(cmd, "dtCompWsSalaryCharging");
+        return objDC.ds.Tables["dtCompWsSalaryCharging"];
+    }
+
     public DataTable Get_Rpt_PayrollReportEmpCurrCharging(string P_Month, string P_Year, string SalSubLoc, string PostDist, string EmpID)
     {
         SqlCommand cmd = new SqlCommand("Proc_Payroll_Rpt_EmpCurrCharging");
