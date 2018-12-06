@@ -24,7 +24,7 @@
                             <asp:TreeNode Text="Payroll Report List" Value="RL">
                                 <asp:TreeNode Text="Salary" Value="SR">
                                     <asp:TreeNode Text="Salary Payslip" Value="ESPS"></asp:TreeNode>
-                                    <asp:TreeNode Text="Bank Advice " Value="BSFF"></asp:TreeNode>
+                                    <asp:TreeNode Text="Bank Advice" Value="BSFF"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Certificate" Value="SC"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Sheet" Value="SSS"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Sheet Summary" Value="SSSum"></asp:TreeNode> 
@@ -188,17 +188,16 @@
                                     </tr>
                                     <tr>
                                         <td style="width: 431px">
-                                            <asp:Panel ID="PBranch" runat="server" BorderStyle="Solid" BorderColor="DarkGray"
-                                                BorderWidth="1px" Width="420px">
+                                            <asp:Panel ID="PCompany" runat="server" BorderStyle="Solid" BorderColor="DarkGray" BorderWidth="1px"
+                                                Width="420px">
                                                 <table>
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <asp:Label ID="Label1" runat="server" Text="Cost Center :" Width="100px" CssClass="textlevel"></asp:Label>
+                                                                <asp:Label ID="lblDiv" runat="server" Text="Company :" Width="100px" CssClass="textlevel"></asp:Label>
                                                             </td>
                                                             <td colspan="2">
-                                                                <asp:DropDownList ID="ddlDivision" runat="server" Width="250px" AutoPostBack="True"
-                                                                    CssClass="textlevelleft">
+                                                                <asp:DropDownList ID="ddlCompany" runat="server" Width="250px" AutoPostBack="True" CssClass="textlevelleft">
                                                                 </asp:DropDownList>
                                                             </td>
                                                         </tr>
@@ -209,16 +208,17 @@
                                     </tr>
                                     <tr>
                                         <td style="width: 431px">
-                                            <asp:Panel ID="PDiv" runat="server" BorderStyle="Solid" BorderColor="DarkGray" BorderWidth="1px"
-                                                Width="420px">
+                                            <asp:Panel ID="PBranch" runat="server" BorderStyle="Solid" BorderColor="DarkGray"
+                                                BorderWidth="1px" Width="420px">
                                                 <table>
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <asp:Label ID="lblDiv" runat="server" Text="Team :" Width="100px" CssClass="textlevel"></asp:Label>
+                                                                <asp:Label ID="Label1" runat="server" Text="Cost Center :" Width="100px" CssClass="textlevel"></asp:Label>
                                                             </td>
                                                             <td colspan="2">
-                                                                <asp:DropDownList ID="ddlSUB" runat="server" Width="250px" AutoPostBack="True" CssClass="textlevelleft">
+                                                                <asp:DropDownList ID="ddlClinic" runat="server" Width="250px" AutoPostBack="True"
+                                                                    CssClass="textlevelleft">
                                                                 </asp:DropDownList>
                                                             </td>
                                                         </tr>
@@ -227,6 +227,7 @@
                                             </asp:Panel>
                                         </td>
                                     </tr>
+                                    
                                     <tr>
                                         <td>
                                             <asp:Panel ID="P_Sector" runat="server" BorderStyle="Solid" BorderColor="DarkGray"

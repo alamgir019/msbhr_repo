@@ -34,25 +34,25 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            PanelVisibilityMst("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0","0");
+            PanelVisibilityMst("0", "0","0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0","0");
             Common.FillYearList(5, ddlYear);
             DateTime now = DateTime.Now;
             ddlYear.SelectedValue = Convert.ToInt32(now.Year).ToString();
-            Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
+            Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlClinic);
             Common.FillDropDownList_All(MasMgr.SelectDepartmentddl(0), ddlDept);
             Common.FillDropDownList_All(MasMgr.SelectGrade(0), ddlGrade);
             Common.FillDropDownList_All(MasMgr.SelectEmpType(0, "Y"), ddlEmpType);
         }
     }           
   
+    //protected void Bind_ddlDivision()
+    //{
+    //    Common.FillDropDownList_All(MasMgr.SelectDivision(0), ddlDivision);
+    //}
+
     protected void Bind_ddlDivision()
     {
-        Common.FillDropDownList_All(MasMgr.SelectDivision(0), ddlDivision);
-    }
-
-    protected void Bind_ddlSBU()
-    {
-        Common.FillDropDownList_All(MasMgr.SelectClinic("Y"), ddlSUB);
+        Common.FillDropDownList_All(MasMgr.SelectDivision(0), ddlCompany);
     }
 
     protected void Bind_ddlDept()
@@ -62,7 +62,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
 
     protected void ddlDivision_SelectedIndexChanged(object sender, EventArgs e)
     {
-        this.Bind_ddlDivision();        
+        //this.Bind_ddlDivision();        
     }
     
     protected void ddlReportBy_SelectedIndexChanged(object sender, EventArgs e)
@@ -96,7 +96,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
         }
     }
 
-    private void PanelVisibilityMst(string sSearchBy, string sBranch, string sDiv, string sDept, string sDate, string sShow, string sPostingDist,
+    private void PanelVisibilityMst(string sSearchBy, string sBranch, string sCompany, string sDiv, string sDept, string sDate, string sShow, string sPostingDist,
         string sClosed, string PFisY, string PMonthFrom, string PMonTo, string PYear, string P_GridSalSubLoc, string PSalaryLocation, string PSalarySubLocation, string gvPost,
         string P_GridEmpList, string P_SCEl, string P_AV, string P_GridPostDist, string P_PayType, string P_EmpId, string PGrade, string PDesig,
         string PSalHead, string PSector, string Religion, string Fastival, string SalSource, string sQuarter, string sRptType, string sPTax,string sEmpType,
@@ -111,10 +111,11 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             PBranch.Visible = true;
         else
             PBranch.Visible = false;
-        if (sDiv == "1")
-            PDiv.Visible = true;
+        if (sCompany == "1")
+            PCompany.Visible = true;
         else
-            PDiv.Visible = false;
+            PCompany.Visible = false;
+       
         if (sDept == "1")
             PDept.Visible = true;
         else
@@ -273,7 +274,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
     {
         txtEmpCode.Text = ""; 
         PSearchBy.Enabled = true;
-        this.PanelVisibilityMst("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+        this.PanelVisibilityMst("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
         Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "FA"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
         Common.FillMonthList(ddlMonthFrm);
         DateTime now = DateTime.Now;
@@ -281,23 +282,24 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
 
         switch (tvReports.SelectedValue)
         {
+            #region Salary
             case "ESPS":
                 {
-                    PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
+                    PanelVisibilityMst("0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlClinic);
                     Common.FillDropDownList_All(MasMgr.SelectDesignation(0), this.ddlDesig);
                     break;
                 }
             case "BSFF":
                 {
-                    PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
+                    PanelVisibilityMst("0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlClinic);
                     //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
                     break;
                 }
             case "SC":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0");
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0");
                     break;
                 }
 
@@ -305,123 +307,13 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "SSSum":
             case "SSL":
                 {
-                    PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
-                    break;
-                }
-            case "ESI":
-                {
-                    PanelVisibilityMst("0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    break;
-                }
-            case "SCH":
-                {
-                    PanelVisibilityMst("0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    //Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);                   
-                    //Common.FillDropDownList_All(MasMgr.SelectDepartmentddl(0), ddlDept);
-                    //Common.FillDropDownList_All(MasMgr.SelectGrade(0), ddlGrade);
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0, "Y"), ddlEmpType);
-                    break;
-                }
-            case "SEC":
-                {
-                    PanelVisibilityMst("0", "1", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    break;
-                }
-            case "YPFC":
-            case "YPFB":
-            case "YPFLD":
-                {
-                    PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "SS":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectClinic();
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0, "Y"), ddlEmpType);
-                    break;
-                }
-            case "SalSum":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
-                    this.AddAllinDDL(ddlSubLoc);
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "SSSEW":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectClinic();
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-
-                    DataTable dtSalSource = objPayMgr.SelectSalSource(0);
-                    gvSalSource.DataSource = dtSalSource;
-                    gvSalSource.DataBind();
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-
-            case "SSS2":
-                {
-                    PanelVisibilityMst("1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    break;
-                }
-            case "ER":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-
-                    DataTable dtPostDiv = objPayMgr.SelectPostDist();
-                    grPostDivision.DataSource = dtPostDiv;
-                    grPostDivision.DataBind();
-
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                    break;
-                }
-            case "PBWC":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectClinic();
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    DataTable dtPostDiv = objPayMgr.SelectPostDist();
-                    grPostDivision.DataSource = dtPostDiv;
-                    grPostDivision.DataBind();
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                    break;
-                }
-            case "SSWSD":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    DataTable dtPostDiv = MasMgr.SelectDistrict(0);
-                    grPostDivision.DataSource = dtPostDiv;
-                    grPostDivision.DataBind();
-                    DataTable dtSalSource = objPayMgr.SelectSalSource(0);
-                    gvSalSource.DataSource = dtSalSource;
-                    gvSalSource.DataBind();
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                    PanelVisibilityMst("0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlClinic);
                     break;
                 }
             case "PRLW":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
                     dtSalDivision = objPayMgr.SelectClinic();
                     grSalDivision.DataSource = dtSalDivision;
                     grSalDivision.DataBind();
@@ -429,161 +321,77 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 }
             case "CWSC":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");                   
-                    break;
-                }
-            case "NSWSD":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    break;
-                }
-            case "ADR":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    Common.FillDropDownList(objPayMgr.SelectSalaryHeadCategoryWise(""), ddlSalHead, "HEADNAME", "SHEADID", true, "Select");
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "SRR":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    //Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType, false);
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
                     break;
                 }
 
-            case "SSS01":
+            #endregion
+            #region PF
+            case "MPFC":
                 {
-                    PanelVisibilityMst("1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    break;
-                }
-            case "SSSOF":
-                {
-                    PanelVisibilityMst("1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    break;
-                }
-            case "SRDTL":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    // Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType, false);
-                    break;
-                }
-            case "SR":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    //Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType, false);
-                    break;
-                }
-
-            case "AV":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "BV":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
                     dtSalDivision = objPayMgr.SelectClinic();
                     grSalDivision.DataSource = dtSalDivision;
                     grSalDivision.DataBind();
-                    // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                    //this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
                     break;
                 }
+            case "YPFC":
+            case "YPFB":
+            case "YPFLD":
+                {
+                    PanelVisibilityMst("0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
+                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlClinic);
+                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                    break;
+                }
+            case "PFLL":
+                {
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
 
-            case "PRECC":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectSalDivision(0);
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    DataTable dtPostDiv = objPayMgr.SelectPostDist();
-                    grPostDivision.DataSource = dtPostDiv;
-                    grPostDivision.DataBind();
-                    break;
-                }
-            case "ARA":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    break;
-                }
-            #region Medical
-            case "MR":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                    // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "MBB":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    ddlSubLoc.Items.Clear();
-                    Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
-                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "MBR":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    ddlSubLoc.Items.Clear();
-                    Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
-                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "MMRR":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    ddlSubLoc.Items.Clear();
-                    Common.FillMonthList_All(ddlMonthFrm);
-                    Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
-                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "MHRR":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    ddlSubLoc.Items.Clear();
-                    Common.FillMonthList_All(ddlMonthFrm);
-                    Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
-                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                    //this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
                     break;
                 }
             #endregion
+            #region Final Payment
             case "FP":
             case "FPL":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
                     break;
                 }
-            case "FPDL":
+            #endregion
+            #region Employee Information
+            case "ESI":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    PanelVisibilityMst("0", "1", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     break;
                 }
+            case "SEC":
+                {
+                    PanelVisibilityMst("0", "1", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                    break;
+                }
+            case "SCH":
+                {
+                    PanelVisibilityMst("0", "1", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                    //Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);                   
+                    //Common.FillDropDownList_All(MasMgr.SelectDepartmentddl(0), ddlDept);
+                    //Common.FillDropDownList_All(MasMgr.SelectGrade(0), ddlGrade);
+                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0, "Y"), ddlEmpType);
+                    break;
+                }
+
+            #endregion
+            #region Bonus
             case "BST":
                 {
-                    PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "0", "0");
+                    PanelVisibilityMst("0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "0", "0");
                     Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlLocation);
                     //this.AddAllinDDL(ddlSubLoc);
                     //Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType,false);
@@ -594,116 +402,15 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 }
             case "BSTSum":
                 {
-                    PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
-                    break;
-                }
-            case "EBPS":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
-                    ddlLocation.SelectedIndex = 0;
-                    this.AddAllinDDL(ddlSubLoc);
-                    Common.FillDropDownList(MasMgr.SelectReligionList(0), ddlReligion, true);
-                    Common.FillDropDownList(MasMgr.SelectRelagionFestivalList(0), ddlFestival, true);
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "FBS":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0");
-                    Common.FillDropDownList(MasMgr.SelectRelagionFestivalList(0), ddlFestival, true);
-                    break;
-                }
-            case "FBSW":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "1", "0", "0", "0");
-                    DataTable dtSalSource1 = objPayMgr.SelectSalSource(0);
-                    gvSalSource.DataSource = dtSalSource1;
-                    gvSalSource.DataBind();
-                    Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
-                    Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
-                    Common.FillDropDownList(MasMgr.SelectRelagionFestivalList(0), ddlFestival, true);
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "BSR":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "0", "0");
-                    Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
-                    this.AddAllinDDL(ddlSubLoc);
-                    Common.FillDropDownList(MasMgr.SelectReligionList(0), ddlReligion, true);
-                    Common.FillDropDownList(MasMgr.SelectRelagionFestivalList(0), ddlFestival, true);
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "SBSR":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0");
-                    break;
-                }
-            case "SBR":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0");
-                    break;
-                }
-
-            case "OTC":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
-                    this.AddAllinDDL(ddlSubLoc);
-                    Common.FillDropDownList_All(MasMgr.SelectDesignation(0), this.ddlDesig);
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            #region PF
-            case "IPFC":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    Common.FillDropDownList_All(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear);
-                    dtSalDivision = objPayMgr.SelectClinic();
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "MPFC":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                    dtSalDivision = objPayMgr.SelectClinic();
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    //this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                    break;
-                }
-
-            case "AI":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                    dtSalDivision = objPayMgr.SelectClinic();
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                    //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
-                    break;
-                }
-            case "PFLL":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-
-                    //this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                    PanelVisibilityMst("0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlClinic);
                     break;
                 }
             #endregion
             #region Tax
-            case "AITD":
-            case "TDR":
+            case "AITD":            
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "T"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
                     dtSalDivision = objPayMgr.SelectClinic();
                     grSalDivision.DataSource = dtSalDivision;
@@ -714,7 +421,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 }
             case "AITMD":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "T"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
                     dtSalDivision = objPayMgr.SelectClinic();
                     grSalDivision.DataSource = dtSalDivision;
@@ -723,27 +430,9 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
                     break;
                 }
-            case "STD":
-                {
-                    PanelVisibilityMst("0", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlDivision);
-                    break;
-                }
-            case "ITC":
-            case "ITA":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "T"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
-                    dtSalDivision = objPayMgr.SelectClinic();
-                    grSalDivision.DataSource = dtSalDivision;
-                    grSalDivision.DataBind();
-                    this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
-                    break;
-                }
-
             case "TC":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "1");
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "1");
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "T"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
                     Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
                     this.AddAllinDDL(ddlSubLoc);
@@ -753,45 +442,390 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
 
                     break;
                 }
+            case "STD":
+                {
+                    PanelVisibilityMst("0", "1", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlClinic);
+                    Common.FillDropDownList_All(MasMgr.SelectDivision(), this.ddlCompany);
+                    break;
+                }
+
             #endregion
-            case "IR":
+            #region Salary Reconcil
+            case "SRR":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0");
-                    Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
-                    Common.FillMonthList_All(ddlMonthFrm);
-                    this.AddAllinDDL(ddlSubLoc);
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                    //Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType, false);
                     break;
                 }
-            case "CPIL":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "1", "0", "0", "1", "0", "1", "", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0");
-                    Common.FillDropDownList_All(MasMgr.SelectLocation(0), ddlPostingDist);
-                    break;
-                }
+                #endregion
+                #region Commit
+                //case "ITC":
+                //case "ITA":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "T"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
+                //        dtSalDivision = objPayMgr.SelectClinic();
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                //        break;
+                //    }
+                //case "SS":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectClinic();
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0, "Y"), ddlEmpType);
+                //        break;
+                //    }
+                //case "SalSum":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
+                //        this.AddAllinDDL(ddlSubLoc);
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //case "SSSEW":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectClinic();
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
 
-            case "AVL": 
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
-                   
-                    break;
-                }
+                //        DataTable dtSalSource = objPayMgr.SelectSalSource(0);
+                //        gvSalSource.DataSource = dtSalSource;
+                //        gvSalSource.DataBind();
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
 
-            case "MBP":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
-                    break;
-                }
-            case "NGOBSR":
-                {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0");
+                //case "SSS2":
+                //    {
+                //        PanelVisibilityMst("1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectSalDivision(0);
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        break;
+                //    }
+                //case "ER":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectSalDivision(0);
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
 
-                    DataTable dtSalSource = objPayMgr.SelectSalSource(0);
-                    gvSalSource.DataSource = dtSalSource;
-                    gvSalSource.DataBind();
+                //        DataTable dtPostDiv = objPayMgr.SelectPostDist();
+                //        grPostDivision.DataSource = dtPostDiv;
+                //        grPostDivision.DataBind();
 
-                    break;
-                }
+                //        this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                //        break;
+                //    }
+                //case "TDR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "T"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
+                //        dtSalDivision = objPayMgr.SelectClinic();
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                //        // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //case "PBWC":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectClinic();
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        DataTable dtPostDiv = objPayMgr.SelectPostDist();
+                //        grPostDivision.DataSource = dtPostDiv;
+                //        grPostDivision.DataBind();
+                //        this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                //        break;
+                //    }
+                //case "SSWSD":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectSalDivision(0);
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        DataTable dtPostDiv = MasMgr.SelectDistrict(0);
+                //        grPostDivision.DataSource = dtPostDiv;
+                //        grPostDivision.DataBind();
+                //        DataTable dtSalSource = objPayMgr.SelectSalSource(0);
+                //        gvSalSource.DataSource = dtSalSource;
+                //        gvSalSource.DataBind();
+                //        this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                //        break;
+                //    }
 
+                //case "NSWSD":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectSalDivision(0);
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        break;
+                //    }
+                //case "ADR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        Common.FillDropDownList(objPayMgr.SelectSalaryHeadCategoryWise(""), ddlSalHead, "HEADNAME", "SHEADID", true, "Select");
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+
+
+                //case "SSS01":
+                //    {
+                //        PanelVisibilityMst("1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectSalDivision(0);
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        break;
+                //    }
+                //case "SSSOF":
+                //    {
+                //        PanelVisibilityMst("1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectSalDivision(0);
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        break;
+                //    }
+                //case "SRDTL":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        // Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType, false);
+                //        break;
+                //    }
+                //case "SR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        //Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType, false);
+                //        break;
+                //    }
+
+                //case "AV":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "1", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectSalDivision(0);
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //case "BV":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectClinic();
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+
+                //case "PRECC":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "1", "0", "0", "1", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectSalDivision(0);
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        DataTable dtPostDiv = objPayMgr.SelectPostDist();
+                //        grPostDivision.DataSource = dtPostDiv;
+                //        grPostDivision.DataBind();
+                //        break;
+                //    }
+                //case "ARA":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        break;
+                //    }
+                //#region Medical
+                //case "MR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
+                //        // Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //case "MBB":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        ddlSubLoc.Items.Clear();
+                //        Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
+                //        Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
+                //        this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //case "MBR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        ddlSubLoc.Items.Clear();
+                //        Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
+                //        Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
+                //        this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //case "MMRR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        ddlSubLoc.Items.Clear();
+                //        Common.FillMonthList_All(ddlMonthFrm);
+                //        Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
+                //        Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
+                //        this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //case "MHRR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        ddlSubLoc.Items.Clear();
+                //        Common.FillMonthList_All(ddlMonthFrm);
+                //        Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
+                //        Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "M"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
+                //        this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //#endregion
+
+                //case "FPDL":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        break;
+                //    }
+
+                //case "EBPS":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
+                //        ddlLocation.SelectedIndex = 0;
+                //        this.AddAllinDDL(ddlSubLoc);
+                //        Common.FillDropDownList(MasMgr.SelectReligionList(0), ddlReligion, true);
+                //        Common.FillDropDownList(MasMgr.SelectRelagionFestivalList(0), ddlFestival, true);
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //case "FBS":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        Common.FillDropDownList(MasMgr.SelectRelagionFestivalList(0), ddlFestival, true);
+                //        break;
+                //    }
+                //case "FBSW":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "1", "0", "0", "0");
+                //        DataTable dtSalSource1 = objPayMgr.SelectSalSource(0);
+                //        gvSalSource.DataSource = dtSalSource1;
+                //        gvSalSource.DataBind();
+                //        Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
+                //        Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlSubLoc);
+                //        Common.FillDropDownList(MasMgr.SelectRelagionFestivalList(0), ddlFestival, true);
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //case "BSR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
+                //        this.AddAllinDDL(ddlSubLoc);
+                //        Common.FillDropDownList(MasMgr.SelectReligionList(0), ddlReligion, true);
+                //        Common.FillDropDownList(MasMgr.SelectRelagionFestivalList(0), ddlFestival, true);
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //case "SBSR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0");
+                //        break;
+                //    }
+                //case "SBR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0");
+                //        break;
+                //    }
+
+                //case "OTC":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
+                //        this.AddAllinDDL(ddlSubLoc);
+                //        Common.FillDropDownList_All(MasMgr.SelectDesignation(0), this.ddlDesig);
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+                //#region PF
+                //case "IPFC":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        Common.FillDropDownList_All(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear);
+                //        dtSalDivision = objPayMgr.SelectClinic();
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+
+
+                //case "AI":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                //        dtSalDivision = objPayMgr.SelectClinic();
+                //        grSalDivision.DataSource = dtSalDivision;
+                //        grSalDivision.DataBind();
+                //        this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
+                //        //Common.FillDropDownList_All(MasMgr.SelectEmpType(0,"Y"), ddlEmpType);
+                //        break;
+                //    }
+
+                //#endregion
+
+                //case "IR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "1", "1", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0");
+                //        Common.FillDropDownList_All(objPayMgr.GetLocationData(), this.ddlLocation);
+                //        Common.FillMonthList_All(ddlMonthFrm);
+                //        this.AddAllinDDL(ddlSubLoc);
+                //        break;
+                //    }
+                //case "CPIL":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "1", "0", "0", "1", "0", "1", "", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0");
+                //        Common.FillDropDownList_All(MasMgr.SelectLocation(0), ddlPostingDist);
+                //        break;
+                //    }
+
+                //case "AVL": 
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+
+                //        break;
+                //    }
+
+                //case "MBP":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                //        break;
+                //    }
+                //case "NGOBSR":
+                //    {
+                //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0");
+
+                //        DataTable dtSalSource = objPayMgr.SelectSalSource(0);
+                //        gvSalSource.DataSource = dtSalSource;
+                //        gvSalSource.DataBind();
+
+                //        break;
+                //    }
+                #endregion
         }
         this.chkSalarySource.Checked=false;
         this.chkSelectEmp.Checked=false;
@@ -843,7 +877,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "ESPS":
                 {
                     //Session["ReportFormat"] = "pdf";
-                    string SalDiv = ddlDivision.SelectedValue.ToString();
+                    string SalDiv = ddlClinic.SelectedValue.ToString();
                     string FisYearText = ddlFisYear.SelectedItem.Text.ToString();
                     string FisYear = ddlFisYear.SelectedValue.ToString();
                     string VMonth = ddlMonthFrm.SelectedValue.ToString();
@@ -868,7 +902,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 }
             case "BSFF":
                 {
-                    string DivisionId = ddlDivision.SelectedValue.ToString();
+                    string DivisionId = ddlClinic.SelectedValue.ToString();
                     string FisYear = ddlFisYear.SelectedValue.ToString();
                     string VMonth = ddlMonthFrm.SelectedValue.ToString();
                     string VYear = ddlYear.SelectedValue.ToString();
@@ -1012,7 +1046,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     string VMonth = ddlMonthFrm.SelectedValue.ToString();
                     string VYear = ddlYear.SelectedValue.ToString();
                     string Type = ddlReportBy.SelectedValue.ToString();
-                    string SalDiv = ddlDivision.SelectedValue.ToString();
+                    string SalDiv = ddlClinic.SelectedValue.ToString();
                     string EmpTypeId = ddlEmpType.SelectedValue.ToString();
                     string REPORTID = tvReports.SelectedNode.Value;
 
@@ -1037,7 +1071,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     string VMonth = ddlMonthFrm.SelectedValue.ToString();
                     string VYear = ddlYear.SelectedValue.ToString();
                     string Type = ddlReportBy.SelectedValue.ToString();
-                    string SalDiv = ddlDivision.SelectedValue.ToString();
+                    string SalDiv = ddlClinic.SelectedValue.ToString();
                     string EmpTypeId = ddlEmpType.SelectedValue.ToString();
                     string REPORTID = tvReports.SelectedNode.Value;
 
@@ -1062,7 +1096,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     string VMonth = ddlMonthFrm.SelectedValue.ToString();
                     string VYear = ddlYear.SelectedValue.ToString();
                     string Type = ddlReportBy.SelectedValue.ToString();
-                    string SalDiv = ddlDivision.SelectedValue.ToString();
+                    string SalDiv = ddlClinic.SelectedValue.ToString();
                     string EmpTypeId = ddlEmpType.SelectedValue.ToString();
                     string REPORTID = tvReports.SelectedNode.Value;
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalaryList.rpt");
@@ -1090,7 +1124,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     //string EmpTypeID = ddlEmpType.SelectedValue;
 
                     Session["DeptId"] = ddlDept.SelectedValue;
-                    Session["ClinicId"] = ddlDivision.SelectedValue;
+                    Session["ClinicId"] = ddlClinic.SelectedValue;
                     Session["GradeId"] = ddlGrade.SelectedValue.ToString();
                     Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
                     Session["EmpTypeID"] = ddlEmpType.SelectedValue;
@@ -1111,7 +1145,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     string strEmpType = radBtnListEmp.SelectedValue.Trim().ToString();
                     string EmpStatus = strEmpType;
                     string DeptId = ddlDept.SelectedValue;
-                    string ClinicId = ddlDivision.SelectedValue;
+                    string ClinicId = ddlClinic.SelectedValue;
                     string GradeId = ddlGrade.SelectedValue.ToString();
                     string EmpId = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
                     string EmpTypeID = ddlEmpType.SelectedValue;
@@ -1142,7 +1176,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     break;
                 }
             case "YPFC":
-                Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
                 Session["RptType"] = tvReports.SelectedValue.ToString();
                 Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
                 Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
@@ -1164,7 +1198,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
 
             case "YPFB":
                 //this.DivEmpLoad();    
-                Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
                 Session["RptType"] = tvReports.SelectedValue.ToString();
                 Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
                 Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
@@ -1195,7 +1229,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 this.ExPortReport(ReportDoc, fileName);
                 break;
             case "YPFLD":
-                Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
                 Session["RptType"] = tvReports.SelectedValue.ToString();
                 Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
                 Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
@@ -1218,7 +1252,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "AITD":
                 {
                     //this.DivEmpLoad();    
-                    Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
                     Session["RptType"] = tvReports.SelectedValue.ToString();
                     Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
                     Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
@@ -1240,7 +1274,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "AITMD":
                 {
                     //this.DivEmpLoad();    
-                    Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
                     Session["RptType"] = tvReports.SelectedValue.ToString();
                     Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
                     Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
@@ -1306,7 +1340,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "TDR":
                 {
                     //this.DivEmpLoad();    
-                    Session["SalDiv"] = ddlDivision.SelectedValue.ToString();  
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();  
                     Session["RptType"] = tvReports.SelectedValue.ToString();
                     Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
                     Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
@@ -1319,41 +1353,20 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 }
             case "STD":
                 {
-                    string FisYear = ddlFisYear.SelectedValue.ToString();
-                    string VMonth = ddlMonthFrm.SelectedValue.ToString();
-                    string VYear = ddlYear.SelectedValue.ToString();
+                    Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
+                    Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
+                    Session["VYear"] = ddlYear.SelectedValue.ToString();
                     string Type = ddlReportBy.SelectedValue.ToString();
-                    string SalDiv = ddlDivision.SelectedValue.ToString();
-                    string EmpTypeId = ddlEmpType.SelectedValue.ToString();
-                    string REPORTID = tvReports.SelectedNode.Value;
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
+                    Session["Company"] = ddlCompany.SelectedValue.ToString();
+                    Session["EmpTypeId"] = ddlEmpType.SelectedValue.ToString();
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptITDedStatementList.rpt");
-                    DataTable dtTax= objPayRptMgr.Get_Salary_SheetEmpWise(VMonth, FisYear, SalDiv);
-
-                    DataRow[] foundRow = dtTax.Select("[15]<>0");
-                    //MyDataTable.Rows.Clear();
-                    DataRow dr;
-                    if (foundRow.Length > 0)
-                    {
-                        MyDataTable.Columns.Add("EmpId");
-                        MyDataTable.Columns.Add("Fullname");
-                        MyDataTable.Columns.Add("JobTitleName");
-                        MyDataTable.Columns.Add("ClinicName");
-                        MyDataTable.Columns.Add("15");
-                        foreach (DataRow dRow in foundRow)
-                        {
-                            dr = MyDataTable.NewRow();
-                            dr["EmpId"] = dRow["EmpId"].ToString();
-                            dr["Fullname"] = dRow["Fullname"].ToString();
-                            dr["JobTitleName"] = dRow["JobTitleName"].ToString();
-                            dr["ClinicName"] = dRow["ClinicName"].ToString();
-                            dr["15"] = Convert.ToString(-Convert.ToDecimal(dRow["15"]));
-
-                            MyDataTable.Rows.Add(dr);
-                        }
-                    }
+                    MyDataTable = objPayRptMgr.Get_ITDedStatement(Session["VMonth"].ToString() , Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["Company"].ToString());
+                                       
                     ReportDoc.Load(ReportPath);
                     ReportDoc.SetDataSource(MyDataTable);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + VMonth + "/" + VYear));
+                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"]));
                     ReportDoc.SetParameterValue("P_Header", "Statement of Tax Deduction at Source From Salary for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
 
                     ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Portrait;
@@ -1853,7 +1866,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     string FisYear = ddlFisYear.SelectedValue.ToString();
                     string VMonth = ddlMonthFrm.SelectedValue.ToString();
-                    string Division = ddlDivision.SelectedValue.ToString();
+                    string Division = ddlClinic.SelectedValue.ToString();
                     string Religion = ddlReligion.SelectedValue.ToString();
                     string Festival = ddlFestival.SelectedValue.Trim();
                     string FestivalName = ddlFestival.SelectedValue.Trim() == "-1" ? " " : this.ddlFestival.SelectedItem.Text.ToString();
@@ -1877,7 +1890,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     string VMonth = ddlMonthFrm.SelectedValue.ToString();
                     string VYear = ddlYear.SelectedValue.ToString();
                     string Type = ddlReportBy.SelectedValue.ToString();
-                    string SalDiv = ddlDivision.SelectedValue.ToString();
+                    string SalDiv = ddlClinic.SelectedValue.ToString();
                     string EmpTypeId = ddlEmpType.SelectedValue.ToString();
                     string REPORTID = tvReports.SelectedNode.Value;
 
@@ -2092,7 +2105,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     //Session["ReportFormat"] = "excel";
 
 
-                    Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
                     Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
                     Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
                     Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
@@ -2105,7 +2118,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 }
             case "BSFF":
                 {
-                    Session["DivisionId"] = ddlDivision.SelectedValue.ToString();
+                    Session["DivisionId"] = ddlClinic.SelectedValue.ToString();
                     Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
                     Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
                     Session["VYear"] = ddlYear.SelectedValue.ToString();
@@ -2237,7 +2250,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
                     Session["VYear"] = ddlYear.SelectedValue.ToString();
                     Session["Type"] = ddlReportBy.SelectedValue.ToString();
-                    Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
                     Session["EmpTypeId"] = ddlEmpType.SelectedValue.ToString();
                     Session["REPORTID"] = tvReports.SelectedNode.Value;
 
@@ -2261,7 +2274,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
                     Session["VYear"] = ddlYear.SelectedValue.ToString();
                     Session["Type"] = ddlReportBy.SelectedValue.ToString();
-                    Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
                     Session["EmpTypeId"] = ddlEmpType.SelectedValue.ToString();
                     Session["REPORTID"] = tvReports.SelectedNode.Value;
 
@@ -2286,7 +2299,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
                     Session["VYear"] = ddlYear.SelectedValue.ToString();
                     Session["Type"] = ddlReportBy.SelectedValue.ToString();
-                    Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
                     Session["EmpTypeID"] = ddlEmpType.SelectedValue.ToString();
                     Session["REPORTID"] = tvReports.SelectedNode.Value;                    
                     break;
@@ -2294,7 +2307,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "ESI":
                 {
                     Session["DeptId"] = ddlDept.SelectedValue;
-                    Session["ClinicId"] = ddlDivision.SelectedValue;
+                    Session["ClinicId"] = ddlClinic.SelectedValue;
                     Session["GradeId"] = ddlGrade.SelectedValue.ToString();
                     Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
                     Session["EmpTypeID"] = ddlEmpType.SelectedValue;
@@ -2326,7 +2339,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     string strEmpType = radBtnListEmp.SelectedValue.Trim().ToString();
                     Session["EmpStatus"] = strEmpType;
                     Session["DeptId"] = ddlDept.SelectedValue;
-                    Session["ClinicId"] = ddlDivision.SelectedValue;
+                    Session["ClinicId"] = ddlClinic.SelectedValue;
                     Session["GradeId"] = ddlGrade.SelectedValue.ToString();
                     Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
                     Session["EmpTypeID"] = ddlEmpType.SelectedValue;
@@ -2365,7 +2378,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "TDR":
                 {
                     //this.DivEmpLoad();    
-                    Session["SalDiv"] = ddlDivision.SelectedValue.ToString();
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
                     Session["RptType"] = tvReports.SelectedValue.ToString();
                     Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
                     Session["FisYear"] = ddlFisYear.SelectedValue.ToString();

@@ -321,8 +321,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
     }
 
     private void ClearControls()
-    {
-        txtEmpID.Text = "";
+    {       
         txtBasicPay.Text = "";
         txtTotalPay.Text = "";
         txtLeaveEncash.Text = "";
