@@ -307,8 +307,9 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             case "SSSum":
             case "SSL":
                 {
-                    PanelVisibilityMst("0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    PanelVisibilityMst("0", "1", "1", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
                     Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlClinic);
+                    Common.FillDropDownList_All(MasMgr.SelectDivision(), this.ddlCompany);
                     break;
                 }
             case "PRLW":
@@ -1051,7 +1052,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     string REPORTID = tvReports.SelectedNode.Value;
 
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalSheetSummeryEmpWise.rpt");
-                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(VMonth,FisYear,SalDiv);
+                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(VMonth,FisYear,SalDiv,"-1");
                     ReportDoc.Load(ReportPath);
                     ReportDoc.SetDataSource(MyDataTable);
                     DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + VMonth + "/" + VYear));
@@ -1092,18 +1093,19 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 }
             case "SSL":
                 {
-                    string FisYear = ddlFisYear.SelectedValue.ToString();
-                    string VMonth = ddlMonthFrm.SelectedValue.ToString();
-                    string VYear = ddlYear.SelectedValue.ToString();
+                    Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
+                    Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
+                    Session["VYear"] = ddlYear.SelectedValue.ToString();
                     string Type = ddlReportBy.SelectedValue.ToString();
-                    string SalDiv = ddlClinic.SelectedValue.ToString();
-                    string EmpTypeId = ddlEmpType.SelectedValue.ToString();
-                    string REPORTID = tvReports.SelectedNode.Value;
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
+                    Session["Company"] = ddlCompany.SelectedValue.ToString();
+                    Session["EmpTypeId"] = ddlEmpType.SelectedValue.ToString();
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalaryList.rpt");
-                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(VMonth, FisYear, SalDiv);
+                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["Company"].ToString());
                     ReportDoc.Load(ReportPath);
                     ReportDoc.SetDataSource(MyDataTable);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + VMonth + "/" + VYear));
+                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString()  + "/" + Session["VYear"].ToString() ));
                     ReportDoc.SetParameterValue("P_Header", "Staff List for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
 
                     ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Landscape;

@@ -1100,7 +1100,7 @@ public class PayrollReportManager
         objDC.CreateDSFromProc(cmd, "GetPRSalReconParam");
         return objDC.ds.Tables["GetPRSalReconParam"];
     }
-    public DataTable Get_Salary_SheetEmpWise(string fdate, string FisYear, string SalDivision)
+    public DataTable Get_Salary_SheetEmpWise(string fdate, string FisYear, string SalDivision, string strCompany)
     {
         SqlCommand cmd = new SqlCommand("proc_Rpt_SalarySheetEmpWs");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -1113,9 +1113,13 @@ public class PayrollReportManager
         p_FisYear.Direction = ParameterDirection.Input;
         p_FisYear.Value = FisYear;
 
-        SqlParameter p_SalSubLocId = cmd.Parameters.Add("p_SalSubLocId", SqlDbType.Char);
+        SqlParameter p_SalSubLocId = cmd.Parameters.Add("ClinicId", SqlDbType.BigInt);
         p_SalSubLocId.Direction = ParameterDirection.Input;
         p_SalSubLocId.Value = SalDivision;
+
+        SqlParameter p_DivisionId = cmd.Parameters.Add("DivisionId", SqlDbType.BigInt);
+        p_DivisionId.Direction = ParameterDirection.Input;
+        p_DivisionId.Value = strCompany;
 
         objDC.CreateDSFromProc(cmd, "GetSalarySheetEmpWs");
         return objDC.ds.Tables["GetSalarySheetEmpWs"];

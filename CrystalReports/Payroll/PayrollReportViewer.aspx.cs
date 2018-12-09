@@ -226,7 +226,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
             case "SSS":                
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalSheetSummeryEmpWise.rpt");
                     ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString());
+                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString(),"-1");
                     ReportDoc.SetDataSource(MyDataTable);                    
                     ReportDoc.SetParameterValue("P_Header", "Salary Sheet for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
