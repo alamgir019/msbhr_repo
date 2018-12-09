@@ -511,7 +511,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                 break;
             case "STD":
                 ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptITDedStatementList.rpt");
-                DataTable dtTax = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString());
+                DataTable dtTax = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["Company"].ToString());
 
                 DataRow[] foundRow = dtTax.Select("[15]<>0");
                 //MyDataTable.Rows.Clear();
