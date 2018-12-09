@@ -247,7 +247,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     break;                
             case "SSL":                
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalaryList.rpt");
-                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString());
+                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["Company"].ToString());
                     ReportDoc.Load(ReportPath);
                     ReportDoc.SetDataSource(MyDataTable);                    
                     ReportDoc.SetParameterValue("P_Header", "Staff List for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
