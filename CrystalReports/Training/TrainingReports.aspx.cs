@@ -25,7 +25,7 @@ public partial class CrystalReports_Training_TrainingReports : System.Web.UI.Pag
             Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "FA"), ddlFiscalYr, "FISCALYRTITLE", "FISCALYRID", false);
             Common.FillDropDownList_All(objMasMgr.SelectDepartment(0), ddlProgDept);
             Common.FillDropDownList_All(objMasMgr.SelectClinic("Y"), ddlSalLoc);
-            Common.FillDropDownList_All(objEmp.SelectEmpNameWithID("A"), ddlEmployeeName);
+            Common.FillIdNameDropDownList(objEmp.SelectEmpNameWithID("A"), ddlEmployeeName, "EMPNAME", "EMPID",true);
 
             ddlFiscalYr.SelectedIndex = 0;
             this.PanelVisibilityMst("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0","0","0");
@@ -38,6 +38,11 @@ public partial class CrystalReports_Training_TrainingReports : System.Web.UI.Pag
         switch (tvReports.SelectedValue)
         {
             case "ETD":
+                {
+                    PanelVisibilityMst("0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "0");
+                    break;
+                }
+            case "OTD":
                 {
                     PanelVisibilityMst("0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0");
                     break;
@@ -203,6 +208,15 @@ public partial class CrystalReports_Training_TrainingReports : System.Web.UI.Pag
                     Session["TrainingID"] = ddlTrainingName.SelectedValue.ToString();
                     Session["FromDate"] = txtFromDate.Text.Trim();
                     Session["ToDate"] = txtToDate.Text.Trim();
+                    Session["EmpId"] = ddlEmployeeName.SelectedValue.Trim();
+                    break;
+                }
+            case "OTD":
+                {
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;
+                    Session["TrainingID"] = ddlTrainingName.SelectedValue.ToString();
+                    Session["FromDate"] = txtFromDate.Text.Trim();
+                    Session["ToDate"] = txtToDate.Text.Trim();
                     break;
                 }
             case "TSI":
@@ -227,8 +241,8 @@ public partial class CrystalReports_Training_TrainingReports : System.Web.UI.Pag
                 {
                     Session["REPORTID"] = tvReports.SelectedNode.Value;
                     Session["SalLocId"] = ddlSalLoc.SelectedValue.ToString().Trim();
-                    Session["EmployeeName"] = ddlEmployeeName.SelectedValue.ToString().Trim();
-                    Session["EmpId"]= ddlEmployeeName.SelectedItem.ToString();
+                    Session["EmployeeName"] = ddlEmployeeName.SelectedItem.ToString();
+                    Session["EmpId"]= ddlEmployeeName.SelectedValue.ToString().Trim();
                     Session["TrainingID"] = ddlTrainingName.SelectedValue.ToString().Trim();
                     break;
                 }

@@ -27,6 +27,7 @@
                         <Nodes>
                             <asp:TreeNode Text="Report List" Value="RL">
                                 <asp:TreeNode Text="Training Report" Value="ETD"></asp:TreeNode>
+                                <asp:TreeNode Text="Other Training Report" Value="OTD"></asp:TreeNode>
                                 <asp:TreeNode Text="Schedule Report" Value="TSI"></asp:TreeNode>
                                 <asp:TreeNode Text="Clinic/Dept. Wise Training Report" Value="DTR"></asp:TreeNode>
                                 <asp:TreeNode Text="Employee Training Need Assessment" Value="EER"></asp:TreeNode>

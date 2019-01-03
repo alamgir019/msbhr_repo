@@ -68,7 +68,36 @@ public class ReportManager
         return objDC.ds.Tables["tblTimeSheet"];
     }
 
-    public DataTable Get_TimeSheetReportForAbsent(string strEmpId, string strMonth, string strYear, string strStatus)
+    public DataTable GetOtherTrainingDetails(string TrainingID, string FromDate, string ToDate)
+    {
+        SqlCommand command = new SqlCommand("proc_Get_OtherTrainingDetails");
+
+        SqlParameter p_TrainingID = command.Parameters.Add("TrainingId", SqlDbType.Int);
+        p_TrainingID.Direction = ParameterDirection.Input;
+        p_TrainingID.Value = Convert.ToInt32(TrainingID);
+        
+        if (string.IsNullOrEmpty(FromDate) == true)
+        {
+            FromDate = "01-01-1900";
+        }
+
+        SqlParameter p_FromDate = command.Parameters.Add("StartDate", SqlDbType.DateTime);
+        p_FromDate.Direction = ParameterDirection.Input;
+        p_FromDate.Value = Common.ReturnDate(FromDate);
+
+        if (string.IsNullOrEmpty(ToDate) == true)
+        {
+            ToDate = "01-01-2200";
+        }
+        SqlParameter p_ToDate = command.Parameters.Add("ToDate", SqlDbType.DateTime);
+        p_ToDate.Direction = ParameterDirection.Input;
+        p_ToDate.Value = Common.ReturnDate(ToDate);
+
+        objDC.CreateDSFromProc(command, "tblOtherTrainingDetails");
+        return objDC.ds.Tables["tblOtherTrainingDetails"];
+    }
+
+public DataTable Get_TimeSheetReportForAbsent(string strEmpId, string strMonth, string strYear, string strStatus)
     {
         if (objDC.ds.Tables["tblTimeSheetReportForAbsent"] != null)
         {
@@ -1639,7 +1668,7 @@ public class ReportManager
         return objDC.ds.Tables["tblTrainingScheduleDetails"];
     }
 
-    public DataTable GetEmployeeTrainingDetails(string TrainingID, string FromDate, string ToDate)
+    public DataTable GetEmployeeTrainingDetails(string empId, string TrainingID, string FromDate, string ToDate)
     {
 
         SqlCommand command = new SqlCommand("proc_Get_EmployeeTrainingDetails");
@@ -1647,6 +1676,10 @@ public class ReportManager
         SqlParameter p_TrainingID = command.Parameters.Add("TrainingId", SqlDbType.Int);
         p_TrainingID.Direction = ParameterDirection.Input;
         p_TrainingID.Value = Convert.ToInt32(TrainingID);
+
+        SqlParameter p_EmpID = command.Parameters.Add("EmpId", SqlDbType.Char);
+        p_EmpID.Direction = ParameterDirection.Input;
+        p_EmpID.Value = empId;
 
         if (string.IsNullOrEmpty(FromDate) == true)
         {
