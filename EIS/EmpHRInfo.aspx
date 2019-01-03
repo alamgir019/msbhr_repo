@@ -43,7 +43,7 @@
                                 <asp:Label runat="server" ID="lblid" Text="Emp ID :"></asp:Label>
                             </td>
                             <td>
-                                <asp:TextBox ID="txtEmpID" runat="server" Width="80px">
+                                <asp:TextBox ID="txtEmpID" runat="server" Width="80px" onkeyup="ToUpper(this)">
                                 </asp:TextBox>
                                 <asp:Button ID="cmdFind" runat="server" OnClick="cmdFind_Click" Text="Find" Width="54px"
                                     CausesValidation="False" />
@@ -657,7 +657,7 @@
                                     </td>
                                     <td>
                                         <asp:DropDownList ID="ddlAttndPolicy" runat="server" Width="90px" CssClass="textlevelleft"
-                                            Visible="True">
+                                            Visible="True" Enabled="False">
                                         </asp:DropDownList>
                                     </td>
                                     <td>

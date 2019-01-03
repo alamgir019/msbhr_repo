@@ -69,20 +69,42 @@ public class LeaveRenewManger
     //Actual Code
     public void UpdateLeaveProfile(GridView grEmployee, string strLPakId)
     {
-        SqlCommand cmd = new SqlCommand("Leave_renew");
-        cmd.CommandType = CommandType.StoredProcedure;
+        SqlCommand[] cmd = new SqlCommand[grEmployee.Rows.Count];
+        int i = 0;
+        foreach (GridViewRow gRow in grEmployee.Rows)
+        {
+            CheckBox chBox = new CheckBox();
+            chBox = (CheckBox)gRow.Cells[0].FindControl("chkBox");
+            if (chBox.Checked == true)
+            {
+                cmd[i] = new SqlCommand("Leave_renew");
+                cmd[i].CommandType = CommandType.StoredProcedure;
+
+                SqlParameter p_EmpId = cmd[i].Parameters.Add("ProfileEmpId", SqlDbType.Char);
+                p_EmpId.Direction = ParameterDirection.Input;
+                p_EmpId.Value = gRow.Cells[2].Text.Trim();
+
+                SqlParameter p_LPakId = cmd[i].Parameters.Add("LPakId", SqlDbType.BigInt);
+                p_LPakId.Direction = ParameterDirection.Input;
+                p_LPakId.Value = strLPakId;
+            }
+            i++;
+        }
+        //SqlCommand cmd = new SqlCommand("Leave_renew");
+        //int i = 0;
+        //cmd.CommandType = CommandType.StoredProcedure;
 
         //SqlParameter p_EmpId = cmd[i].Parameters.Add("ProfileEmpId", SqlDbType.Char);
         //p_EmpId.Direction = ParameterDirection.Input;
-        //p_EmpId.Value = gRow.Cells[2].Text.Trim();
+        //p_EmpId.Value = grEmployee.Cells[2].Text.Trim();
 
-        SqlParameter p_LPakId = cmd.Parameters.Add("LeavePakId", SqlDbType.BigInt);
-        p_LPakId.Direction = ParameterDirection.Input;
-        p_LPakId.Value = strLPakId;
+        //SqlParameter p_LPakId = cmd.Parameters.Add("LeavePakId", SqlDbType.BigInt);
+        //p_LPakId.Direction = ParameterDirection.Input;
+        //p_LPakId.Value = strLPakId;
 
         try
         {
-            objDC.ExecuteQuery(cmd);
+            objDC.MakeTransaction(cmd);
         }
         catch (Exception ex)
         {
@@ -94,7 +116,170 @@ public class LeaveRenewManger
         }
     }
 
-    public void UpdateLeaveEntitlement(string UserId)
+    //public void UpdateLeaveEntitlement(GridView grEmployee, string UserId, string strLPakId)
+    //{
+    //    try
+    //    {
+    //        int i = 0;
+    //        DataTable dtLeavePeriod = new DataTable();
+    //        DataTable dtLevProfile = new DataTable();
+    //        DataTable dtLevPakMst = new DataTable();
+
+    //        int LeaveAvail = 0;
+    //        int LEntitled = 0;
+    //        decimal tempValue = 0;
+    //        string IsLeaveOnJoinDate = "";
+
+    //        DateTime JoinYear;
+    //        DateTime CurrYear = DateTime.Now;
+    //        clsEmpLeaveProfile objEmpLevPro = new clsEmpLeaveProfile();
+
+    //        if (dtLeavePeriod.Rows.Count == 0)
+    //        {
+    //            dtLeavePeriod = SelectLeavePeriod(strLPakId);
+    //        }
+
+    //        dtLevProfile = SelectEmpLeaveProfile(strLPakId);
+
+    //        SqlCommand[] cmd = new SqlCommand[dtLevProfile.Rows.Count];
+
+    //        if (dtLevProfile.Rows.Count > 0)
+    //        {
+    //            IsLeaveOnJoinDate = dtLevProfile.Rows[0]["IsLCalOnJoinDate"].ToString();
+    //        }
+
+    //        if (dtLevProfile.Rows.Count > 0)
+    //        {
+    //            foreach (DataRow LTRow in dtLevProfile.Rows)
+    //            {
+    //                DataRow[] foundRows;
+    //                string strExpr = "";
+    //                strExpr = "LTypeId='" + LTRow["LTypeId"].ToString().Trim() + "'";
+
+    //                foundRows = dtLevProfile.Select(strExpr);
+    //                if (foundRows.Length > 0)//data found in profile so update it with new entitled amount
+    //                {
+    //                    if (IsLeaveOnJoinDate == "Y")
+    //                    {
+    //                        LeaveAvail = 0;
+    //                        if (LTRow["MaxLAmt"].ToString() != "0")
+    //                        {
+    //                            ////if ((LTRow["LAbbrName"].ToString().Trim() != "EL") && (LTRow["LAbbrName"].ToString().Trim() != "SL"))// All Leave Entitled Except Annual Leave
+    //                            ////{
+    //                            ////    LEntitled = Convert.ToInt32(LTRow["MaxLAmt"]);
+    //                            ////}
+    //                            ////else// "EL or SL"
+    //                            ////{
+    //                            foreach (DataRow dRow in dtLeavePeriod.Rows)
+    //                            {
+    //                                CurrYear = Convert.ToDateTime(dRow["LeaveStartPeriod"]);
+    //                                }
+    //                                CurrYear = CurrYear.AddYears(-1);
+
+    //                                if (LTRow["JoiningDate"].ToString() == "")
+    //                                {
+    //                                    JoinYear = CurrYear;
+    //                                }
+    //                                else
+    //                                {
+    //                                    JoinYear = Convert.ToDateTime(LTRow["JoiningDate"].ToString());
+    //                                }
+    //                                //if (JoinYear > CurrYear.AddYears(1))
+    //                                //{
+    //                                //    ////LEntitled = 0;
+    //                                //}
+    //                                //else 
+
+    //                                if (JoinYear > CurrYear && (JoinYear < CurrYear.AddYears(1)))
+    //                                {
+    //                                    TimeSpan DateDiff = JoinYear - CurrYear;
+    //                                    string strTotDay = ReturnTotalDay(DateDiff.ToString());
+    //                                    tempValue = (Convert.ToDecimal(LTRow["MaxLAmt"]) / 365);
+    //                                    tempValue = (tempValue * (365 - Convert.ToInt32(strTotDay)));
+    //                                    LeaveAvail = Convert.ToInt32(tempValue);
+    //                                    LEntitled = LeaveAvail;
+    //                                }
+    //                                else
+    //                                    LEntitled = Convert.ToInt32(LTRow["MaxLAmt"]);
+    //                            ////}
+    //                        }
+    //                        else
+    //                            LEntitled = Convert.ToInt32(LTRow["MaxLAmt"]);
+    //                    }
+    //                    else
+    //                    {
+    //                        LEntitled = Convert.ToInt32(LTRow["MaxLAmt"]);
+    //                    }
+    //                    objEmpLevPro = new clsEmpLeaveProfile(LTRow["EmpId"].ToString(), LTRow["LTypeId"].ToString().Trim(), LEntitled.ToString(),
+    //                        UserId, Common.SetDateTime(DateTime.Now.ToString()));
+
+    //                    cmd[i] = InsertIntoEmpLevPro(objEmpLevPro, "Y", "N");
+    //                    i++;
+    //                }
+    //            }
+    //        }
+
+    //        dtLevProfile.Rows.Clear();
+    //        i++;
+    //        objDC.MakeTransaction(cmd);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw (ex);
+    //    }
+
+    //    //try
+    //    //{
+    //    //    int i = 0;
+    //    //    DataTable dtLevProfile = new DataTable();
+    //    //    int LEntitled = 0;
+    //    //    clsEmpLeaveProfile objEmpLevPro = new clsEmpLeaveProfile();
+
+    //    //    SqlCommand[] cmd = new SqlCommand[(grEmployee.Rows.Count*2) + 1];
+
+    //    //    foreach (GridViewRow gRow in grEmployee.Rows)
+    //    //    {
+    //    //        CheckBox chBox = new CheckBox();
+    //    //        chBox = (CheckBox)gRow.Cells[0].FindControl("chkBox");
+    //    //        if (chBox.Checked == true)
+    //    //        {
+    //    //            dtLevProfile = SelectEmpLeaveProfile(strLPakId, gRow.Cells[2].Text.Trim());
+    //    //            if (dtLevProfile.Rows.Count > 0)
+    //    //            {
+    //    //                //AL
+    //    //                LEntitled = Convert.ToInt32(dtLevProfile.Rows[0]["MaxLAmt"]);
+
+    //    //                objEmpLevPro = new clsEmpLeaveProfile(dtLevProfile.Rows[0]["EmpId"].ToString(), dtLevProfile.Rows[0]["LTypeId"].ToString().Trim(), LEntitled.ToString(),
+    //    //                    UserId, Common.SetDateTime(DateTime.Now.ToString()));
+
+    //    //                cmd[i] = InsertIntoEmpLevPro(objEmpLevPro, "Y", "N");
+    //    //                i++;
+
+    //    //                //SL
+    //    //                LEntitled = Convert.ToInt32(dtLevProfile.Rows[0]["MaxLAmt"]);
+
+    //    //                objEmpLevPro = new clsEmpLeaveProfile(dtLevProfile.Rows[0]["EmpId"].ToString(), dtLevProfile.Rows[1]["LTypeId"].ToString().Trim(), LEntitled.ToString(),
+    //    //                    UserId, Common.SetDateTime(DateTime.Now.ToString()));
+
+    //    //                cmd[i] = InsertIntoEmpLevPro(objEmpLevPro, "Y", "N");
+    //    //                i++;
+    //    //            }
+    //    //        }
+    //    //        dtLevProfile.Rows.Clear();
+    //    //    }
+
+    //    //    cmd[i] = UpdateLeavePeriod(strLPakId);
+    //    //    i++;
+
+    //    //    objDC.MakeTransaction(cmd);
+    //    //}
+    //    //catch (Exception ex)
+    //    //{
+    //    //    throw (ex);
+    //    //}
+    //}
+
+    public void UpdateLeaveEntitlement(GridView grEmployee, string UserId, string strLPakId)
     {
         try
         {
@@ -110,14 +295,14 @@ public class LeaveRenewManger
 
             DateTime JoinYear;
             DateTime CurrYear = DateTime.Now;
-            clsEmpLeaveProfile objEmpLevPro = new clsEmpLeaveProfile();            
+            clsEmpLeaveProfile objEmpLevPro = new clsEmpLeaveProfile();
 
             if (dtLeavePeriod.Rows.Count == 0)
             {
-                dtLeavePeriod = SelectLeavePeriod();
+                dtLeavePeriod = SelectLeavePeriod(strLPakId);
             }
 
-            dtLevProfile = SelectEmpLeaveProfile();
+            dtLevProfile = SelectEmpLeaveProfile(strLPakId);
 
             SqlCommand[] cmd = new SqlCommand[dtLevProfile.Rows.Count];
 
@@ -142,18 +327,18 @@ public class LeaveRenewManger
                             LeaveAvail = 0;
                             if (LTRow["MaxLAmt"].ToString() != "0")
                             {
-                                if (LTRow["LAbbrName"].ToString().Trim() != "AL")// All Leave Entitled Except Annual Leave
-                                {
-                                    LEntitled = Convert.ToInt32(LTRow["MaxLAmt"]);
-                                }                                
-                                else// "AL"
-                                {
+                                //if (LTRow["LAbbrName"].ToString().Trim() != "AL")// All Leave Entitled Except Annual Leave
+                                //{
+                                //    LEntitled = Convert.ToInt32(LTRow["MaxLAmt"]);
+                                //}
+                                //else// "AL"
+                                //{
                                     foreach (DataRow dRow in dtLeavePeriod.Rows)
                                     {
                                         CurrYear = Convert.ToDateTime(dRow["LeaveStartPeriod"]);
                                     }
-                                    CurrYear = CurrYear.AddYears(-1);
-                                    
+                                    //CurrYear = CurrYear.AddYears(-1);
+
                                     if (LTRow["JoiningDate"].ToString() == "")
                                     {
                                         JoinYear = CurrYear;
@@ -178,9 +363,9 @@ public class LeaveRenewManger
                                     else
                                         LEntitled = Convert.ToInt32(LTRow["MaxLAmt"]);
                                 }
-                            }
-                            else
-                                LEntitled = Convert.ToInt32(LTRow["MaxLAmt"]);
+                            //}
+                            //else
+                            //    LEntitled = Convert.ToInt32(LTRow["MaxLAmt"]);
                         }
                         else
                         {
@@ -193,8 +378,8 @@ public class LeaveRenewManger
                         i++;
                     }
                 }
-            }            
-            
+            }
+
             dtLevProfile.Rows.Clear();
             i++;
             objDC.MakeTransaction(cmd);
@@ -249,6 +434,26 @@ public class LeaveRenewManger
     }
 
 
+    private SqlCommand UpdateLeavePeriod(string strLPakId)
+    {
+        try
+        {
+            string strSQL = "UPDATE LeavePeriod SET LeaveStartPeriod= DATEADD(m, 12, LeaveStartPeriod),LeaveEndPeriod = DATEADD(m, 12, LeaveEndPeriod)"
+                + " WHERE LeavePakId=" + strLPakId;
+
+            SqlCommand command = new SqlCommand(strSQL);
+
+            SqlParameter p_LPakId = command.Parameters.Add("LPakId", SqlDbType.BigInt);
+            p_LPakId.Direction = ParameterDirection.Input;
+            p_LPakId.Value = strLPakId;
+
+            return command;
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+    }
     public void UpdateMedicalProfile(GridView grEmployee, string strLPakId)
     {
         SqlCommand cmd = new SqlCommand("Leave_renew");
@@ -275,25 +480,42 @@ public class LeaveRenewManger
             cmd = null;
         }
     }
-    public SqlCommand InsertLeaveTypeHistory()
+    //public SqlCommand InsertLeaveTypeHistory()
+    //{
+    //    string strTransId = Common.getMaxId("LeaveTypeHisList", "TransId");
+    //    string strSQL = "INSERT INTO LeaveTypeHisList SELECT " + strTransId + ",LTypeID, LTypeTitle, LeaveDesc,LAbbrName, LMunit," +
+    //        "LNature,LeaveTTL,CarryToNextYear,NumberofDaysInCashAble,MaxDaysAllowablePerYear,MinValidationPeriodInMonth,MaxTotalAllowable,"+
+    //        "MaximumAllowed,MinimumAllowed,FiscalYrId,IsActive,IsDeleted,InsertedBy,InsertedDate,UpdatedBy,UpdatedDate";
+
+    //    SqlCommand command = new SqlCommand(strSQL);
+
+    //    return command;
+    //}
+
+    public DataTable SelectEmpLeaveProfile(string strLPakId)
     {
-        string strTransId = Common.getMaxId("LeaveTypeHisList", "TransId");
-        string strSQL = "INSERT INTO LeaveTypeHisList SELECT " + strTransId + ",LTypeID, LTypeTitle, LeaveDesc,LAbbrName, LMunit," +
-            "LNature,LeaveTTL,CarryToNextYear,NumberofDaysInCashAble,MaxDaysAllowablePerYear,MinValidationPeriodInMonth,MaxTotalAllowable,"+
-            "MaximumAllowed,MinimumAllowed,FiscalYrId,IsActive,IsDeleted,InsertedBy,InsertedDate,UpdatedBy,UpdatedDate";
+        if (objDC.ds.Tables["dtEmpLeaveProfile"] != null)
+        {
+            objDC.ds.Tables["dtEmpLeaveProfile"].Rows.Clear();
+            objDC.ds.Tables["dtEmpLeaveProfile"].Dispose();
+        }
+        SqlCommand cmd = new SqlCommand("proc_4_Select_EmpLeaveProfile");
+        cmd.CommandType = CommandType.StoredProcedure;
 
-        SqlCommand command = new SqlCommand(strSQL);
+        SqlParameter p_LPakId = cmd.Parameters.Add("LPakId", SqlDbType.BigInt);
+        p_LPakId.Direction = ParameterDirection.Input;
+        p_LPakId.Value = Convert.ToInt32(strLPakId);
 
-        return command;
-    }
+        //SqlParameter p_EmpID = cmd.Parameters.Add("EmpID", SqlDbType.Char);
+        //p_EmpID.Direction = ParameterDirection.Input;
+        //p_EmpID.Value = strEmpId;
 
-    public DataTable SelectEmpLeaveProfile()
-    {
-        SqlCommand cmd3 = new SqlCommand("proc_4_Select_EmpLeaveProfile");
-        cmd3.CommandType = CommandType.StoredProcedure;
+        //SqlParameter p_LTypeId = cmd.Parameters.Add("LTypeId", SqlDbType.BigInt);
+        //p_LTypeId.Direction = ParameterDirection.Input;
+        //p_LTypeId.Value = strLTypeId;
 
-        objDC.CreateDSFromProc(cmd3, "EmpLeaveProfile");
-        return objDC.ds.Tables["EmpLeaveProfile"];
+        objDC.CreateDSFromProc(cmd, "dtEmpLeaveProfile");
+        return objDC.ds.Tables["dtEmpLeaveProfile"];
     }
 
     public string ReturnTotalDay(string Day)
@@ -309,10 +531,14 @@ public class LeaveRenewManger
         return strDay;
     }
 
-    public DataTable SelectLeavePeriod()
+    public DataTable SelectLeavePeriod(string LPakId)
     {
         SqlCommand cmd4 = new SqlCommand("Sel_Leave_period");
         cmd4.CommandType = CommandType.StoredProcedure;
+
+        SqlParameter p_LPakId = cmd4.Parameters.Add("LPakId", SqlDbType.BigInt);
+        p_LPakId.Direction = ParameterDirection.Input;
+        p_LPakId.Value = LPakId;
 
         objDC.CreateDSFromProc(cmd4, "Leaveperiod");
         return objDC.ds.Tables["Leaveperiod"];
@@ -333,7 +559,8 @@ public class LeaveRenewManger
     {
         string strCond = "";
         if (LPakId != "-1")
-            strCond = "AND E.LeavePakId=@LPakID";
+            strCond = "AND E.LeavePakId=@LPakID AND E.ClinicID=168";
+        //strCond = "AND E.LeavePakId=@LPakID AND E.ClinicID=168 AND E.Empid='E000333'";
         else
             strCond = "";
 

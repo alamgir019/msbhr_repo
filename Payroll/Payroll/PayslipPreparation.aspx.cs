@@ -531,7 +531,6 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                             case "4":// Convenyance
                              case "5":// Others Allowance
 
-
                                 dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);
                                  break;
                              case "6":// Arrear +
@@ -544,8 +543,10 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                                  }
                                  break;
                              case "8":// PF                                 
-                                     dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);                                 
-                                 break;
+                                     dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);
+                                if (foundArrRows.Length > 0)
+                                    dclSalHeadAmount = this.GetArrearHeadAmount(dtArrear, 11, dEmpRow["EMPID"].ToString().Trim());
+                                break;
                              case "9"://LWOP
                                       //dclSalHeadAmount = Common.RoundDecimal(dSalPackRow["TOTAMNT"].ToString(), 0);
                                 if (foundBfRow.Length > 0)

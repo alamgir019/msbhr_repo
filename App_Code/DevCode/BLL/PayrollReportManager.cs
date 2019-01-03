@@ -1113,13 +1113,13 @@ public class PayrollReportManager
         p_FisYear.Direction = ParameterDirection.Input;
         p_FisYear.Value = FisYear;
 
-        SqlParameter p_SalSubLocId = cmd.Parameters.Add("ClinicId", SqlDbType.BigInt);
-        p_SalSubLocId.Direction = ParameterDirection.Input;
-        p_SalSubLocId.Value = SalDivision;
-
         SqlParameter p_DivisionId = cmd.Parameters.Add("DivisionId", SqlDbType.BigInt);
         p_DivisionId.Direction = ParameterDirection.Input;
         p_DivisionId.Value = strCompany;
+
+        SqlParameter p_SalSubLocId = cmd.Parameters.Add("ClinicId", SqlDbType.BigInt);
+        p_SalSubLocId.Direction = ParameterDirection.Input;
+        p_SalSubLocId.Value = SalDivision;     
 
         objDC.CreateDSFromProc(cmd, "GetSalarySheetEmpWs");
         return objDC.ds.Tables["GetSalarySheetEmpWs"];

@@ -35,6 +35,7 @@
                                 <td>
                                     <asp:DropDownList ID="ddlArrearCase" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlArrearCase_SelectedIndexChanged">
                                         <asp:ListItem Value="-1">Select</asp:ListItem>
+                                        <asp:ListItem Value="1">Confirmation</asp:ListItem>
                                         <asp:ListItem Value="4">Promotion</asp:ListItem>
                                         <asp:ListItem Value="5">Salary Increment</asp:ListItem>
                                     </asp:DropDownList>

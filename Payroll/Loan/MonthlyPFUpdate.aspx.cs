@@ -148,8 +148,8 @@ public partial class Payroll_Loan_MonthlyPFUpdate : System.Web.UI.Page
         }
         else
             lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() + " PF Ledger Already Prepared.";
-
     }
+
     protected void btnUpdatePFLoan_Click(object sender, EventArgs e)
     {
         if (objLoanMgr.IsCurrentMonthLedgerExist(ddlMonth.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.Trim(), "PF", "LOAN") == false)
@@ -164,7 +164,8 @@ public partial class Payroll_Loan_MonthlyPFUpdate : System.Web.UI.Page
     }
     protected void btnDelete_Click(object sender, EventArgs e)
     {
-        objLoanMgr.DeleteLedgerData(ddlMonth.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.Trim(), "PF", "PF");
+        DataTable dtPFLedger = objLoanMgr.GetPFLedger(ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.ToString());
+        objLoanMgr.DeletePFLedgerData(dtPFLedger,ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.Trim(), "PF", "PF", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()));
         lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() + " PF Ledger Deleted Successfully.";
     }
     protected void btnDeleteLoan_Click(object sender, EventArgs e)

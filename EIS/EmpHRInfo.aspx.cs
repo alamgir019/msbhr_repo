@@ -44,6 +44,7 @@ public partial class Back_Office_EmpHRInfo : System.Web.UI.Page
             Common.FillDropDownList_Nil(objMasMgr.SelectLeavePakMst(0), ddlLeavePackage);
             Common.FillDropDownList_Nil(objMasMgr.SelectWeekendPolicy(0), ddlWeekend);
             Common.FillDropDownList_Nil(objMasMgr.SelectAttendancePolicy(0), ddlAttndPolicy);
+            
             Common.FillDropDownList_Nil(objMasMgr.SelectAction(0, "S"), ddlSepType);
             Common.FillDropDownList_Nil(objSalaryManager.SelectSalaryPackage(0), ddlSalaryPak);
             Common.FillDropDownList_Nil(objPayOptMgr.GetMonthlyPayrollCycleData(), ddlMPC);
@@ -185,8 +186,8 @@ public partial class Back_Office_EmpHRInfo : System.Web.UI.Page
                     ddlRegion.SelectedValue = Common.RetrieveddL(ddlRegion, dRow["RegionId"].ToString(), "99999");
                     //ddlUnit.SelectedValue = Common.RetrieveddL(ddlUnit, dRow["UnitId"].ToString(), "99999");
                     ddlWeekend.SelectedValue = Common.RetrieveddL(ddlWeekend, dRow["WeekendId"].ToString(), "99999");
-                    ddlAttndPolicy.SelectedValue = Common.RetrieveddL(ddlWeekend, dRow["AttnPolicyID"].ToString(), "99999");
-
+                    ddlAttndPolicy.SelectedValue = Common.RetrieveddL(ddlAttndPolicy, dRow["AttnPolicyID"].ToString(), "99999");
+                    ddlAttndPolicy.SelectedIndex = 1;
                     chkIsChildEdu.Checked = dRow["IsChildEduAllow"].ToString() == "Y" ? true : false;
                     chkIsMedicalEntitle.Checked = dRow["IsMedicalEntmnt"].ToString() == "Y" ? true : false;
                     chkIsOTEntitle.Checked = dRow["IsOTEntmnt"].ToString() == "Y" ? true : false;
@@ -535,7 +536,8 @@ public partial class Back_Office_EmpHRInfo : System.Web.UI.Page
             grEmpAction.DataSource = null;
             grEmpAction.DataBind();
             ddlMPC.SelectedIndex = 1;
-        }        
+        }
+        //ddlAttndPolicy.SelectedIndex = 1;
     }
 
     private void GetViewPermission()

@@ -907,32 +907,32 @@ protected SqlCommand InsertVariableDetailsData(string strVID,string strMonth, st
 
         switch (strArrearCase)
         {
-            case "1"://Fractional Joining
-                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalPakId,J.JobTitle,G.GradeName"
-                    + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
-                    + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
-                    + " WHERE E.Status='A' AND IsPayrollStaff='Y' AND E.JoiningDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'"
-                    + " AND E.PayEmpId NOT IN (SELECT PM.EmpId FROM PayslipMst PM WHERE E.PayEmpId=PM.EmpId"
-                    + " AND PM.VMonth>=" + strMonth + " AND PM.VYear=" + strYear + ")";
+            case "1"://Confirmation            
+                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContractEndDate,E.BasicSalary,E.SalPakId  AS SalaryPakId,J.DesigName AS JobTitle,G.GradeName,SPH.EffDate "
+                    + " FROM EmpInfo E LEFT OUTER JOIN Designation J ON E.DesigId=J.DesigId"
+                    + " LEFT OUTER  JOIN GradeList G ON E.GradeId=G.GradeId"
+                    + " INNER JOIN SalaryPakHisDetls SPH ON E.EmpId=SPH.EmpId "                 
+                    + " WHERE E.EmpStatus='A' AND E.IsPayrollStaff='Y'"
+                    + " AND SPH.LASTUPDATEDFROM='Confirmation' AND SPH.EffDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'";
                 break;
-            case "2"://Previous Months Joining              
-                strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalPakId,J.JobTitle,G.GradeName"
-                    + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
-                    + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
-                    + " WHERE E.Status='A' AND IsPayrollStaff='Y'  AND E.JoiningDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'"
-                    + " AND E.PayEmpId NOT IN (SELECT PM.EmpId FROM PayslipMst PM WHERE E.PayEmpId=PM.EmpId"
-                    + " AND PM.VMonth>=" + strMonth + " AND PM.VYear=" + strYear + ")";
-                break;
-            case "3"://LWOP
-                strSQL = "SELECT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalPakId,J.JobTitle,G.GradeName,SUM(LD.Duration) AS Duration"
-                    + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
-                    + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
-                    + " INNER JOIN LeavAppMst LM ON E.EmpId=LM.EmpId "
-                    + " INNER JOIN LeavAppDets LD ON LM.LvAppId=LD.LvAppId WHERE E.Status='A' AND E.IsPayrollStaff='Y' "
-                    + " AND LM.AppStatus='A' AND LD.LType=5 AND LD.LeaveStart BETWEEN '" + strFromDate + "' AND '" + strToDate + "'"
-                    + " AND LD.LeaveEnd BETWEEN '" + strFromDate + "' AND '" + strToDate + "'"
-                    + " GROUP BY E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalaryPakId,J.JobTitle,G.GradeName";
-                break;
+            //case "2"://Previous Months Joining              
+            //    strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalPakId,J.JobTitle,G.GradeName"
+            //        + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
+            //        + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
+            //        + " WHERE E.Status='A' AND IsPayrollStaff='Y'  AND E.JoiningDate BETWEEN '" + strFromDate + "' AND '" + strToDate + "'"
+            //        + " AND E.PayEmpId NOT IN (SELECT PM.EmpId FROM PayslipMst PM WHERE E.PayEmpId=PM.EmpId"
+            //        + " AND PM.VMonth>=" + strMonth + " AND PM.VYear=" + strYear + ")";
+            //    break;
+            //case "3"://LWOP
+            //    strSQL = "SELECT E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalPakId,J.JobTitle,G.GradeName,SUM(LD.Duration) AS Duration"
+            //        + " FROM EmpInfo E INNER JOIN JobTitle J ON E.DesgId=J.JbTlId"
+            //        + " INNER JOIN GradeList G ON E.GradeId=G.GradeId"
+            //        + " INNER JOIN LeavAppMst LM ON E.EmpId=LM.EmpId "
+            //        + " INNER JOIN LeavAppDets LD ON LM.LvAppId=LD.LvAppId WHERE E.Status='A' AND E.IsPayrollStaff='Y' "
+            //        + " AND LM.AppStatus='A' AND LD.LType=5 AND LD.LeaveStart BETWEEN '" + strFromDate + "' AND '" + strToDate + "'"
+            //        + " AND LD.LeaveEnd BETWEEN '" + strFromDate + "' AND '" + strToDate + "'"
+            //        + " GROUP BY E.EmpId,E.FullName,E.JoiningDate,E.ContExpDate,E.BasicSal,E.SalaryPakId,J.JobTitle,G.GradeName";
+            //    break;
             case "4"://Promotion
                 strSQL = "SELECT DISTINCT E.EmpId,E.FullName,E.JoiningDate,E.ContractEndDate,E.BasicSalary,E.SalPakId  AS SalaryPakId,J.DesigName AS JobTitle,G.GradeName,SPH.EffDate "
                     + " FROM EmpInfo E LEFT OUTER JOIN Designation J ON E.DesigId=J.DesigId"

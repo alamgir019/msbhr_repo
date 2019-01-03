@@ -163,9 +163,9 @@ public partial class Leave_LeaveRenew : System.Web.UI.Page
         {
             //Leave Renew
             objLvRenewMgr.UpdateLeaveProfile(grEmployee, ddlLeavePak.SelectedValue.ToString());
-            objLvRenewMgr.UpdateLeaveEntitlement(Session["USERID"].ToString());
+            objLvRenewMgr.UpdateLeaveEntitlement(grEmployee,Session["USERID"].ToString(), ddlLeavePak.SelectedValue.ToString());
 
-            objLvRenewMgr.InsertLeaveTypeHistory();
+            //objLvRenewMgr.InsertLeaveTypeHistory();
 
             dtLv = objLvRenewMgr.SelectOldLeavePeriod(ddlLeavePak.SelectedValue.ToString());
             btnStart.Enabled = false;
@@ -178,7 +178,7 @@ public partial class Leave_LeaveRenew : System.Web.UI.Page
             this.formatGridview2();
 
             //Medical Renew
-            objLvRenewMgr.UpdateMedicalProfile(grEmployee, ddlLeavePak.SelectedValue.ToString());
+            //objLvRenewMgr.UpdateMedicalProfile(grEmployee, ddlLeavePak.SelectedValue.ToString());
         }
         catch (Exception ex)
         {

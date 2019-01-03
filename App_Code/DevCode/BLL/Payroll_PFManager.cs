@@ -222,6 +222,51 @@ public class Payroll_PFManager
         return cmd;
     }
 
+    public SqlCommand GetCommandOfInsertProvidentFundBF(string strLedgerID, string strEmpID,  string strFiscalYear,
+        string strEmpContri, string strCompContri, string strTotalContri, string strInsBy, string strInsDate, string strIsUpdate)
+    {
+        SqlCommand cmd = new SqlCommand("Proc_Payroll_Insert_ProvidentFundBF");
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        SqlParameter p_LEDGERID = cmd.Parameters.Add("PFBFID", SqlDbType.BigInt);
+        p_LEDGERID.Direction = ParameterDirection.Input;
+        p_LEDGERID.Value = strLedgerID;
+
+        SqlParameter p_EmpID = cmd.Parameters.Add("EMPID", SqlDbType.Char);
+        p_EmpID.Direction = ParameterDirection.Input;
+        p_EmpID.Value = strEmpID;
+
+        SqlParameter p_FISCALYRID = cmd.Parameters.Add("PFFISCALYRID", SqlDbType.BigInt);
+        p_FISCALYRID.Direction = ParameterDirection.Input;
+        p_FISCALYRID.Value = strFiscalYear;
+
+        SqlParameter p_EmpContribution = cmd.Parameters.Add("EmpContribution", SqlDbType.Decimal );
+        p_EmpContribution.Direction = ParameterDirection.Input;
+        p_EmpContribution.Value = strEmpContri;
+
+        SqlParameter p_CompContribution = cmd.Parameters.Add("CompContribution", SqlDbType.Decimal);
+        p_CompContribution.Direction = ParameterDirection.Input;
+        p_CompContribution.Value = strCompContri;
+
+        SqlParameter p_TotalContribution = cmd.Parameters.Add("TotalContribution", SqlDbType.Decimal);
+        p_TotalContribution.Direction = ParameterDirection.Input;
+        p_TotalContribution.Value = strTotalContri;
+     
+        SqlParameter p_INSERTEDBY = cmd.Parameters.Add("INSERTEDBY", SqlDbType.VarChar);
+        p_INSERTEDBY.Direction = ParameterDirection.Input;
+        p_INSERTEDBY.Value = strInsBy;
+
+        SqlParameter p_INSERTEDDATE = cmd.Parameters.Add("INSERTEDDATE", SqlDbType.DateTime);
+        p_INSERTEDDATE.Direction = ParameterDirection.Input;
+        p_INSERTEDDATE.Value = strInsDate;
+
+        SqlParameter p_ISUPDATE = cmd.Parameters.Add("ISUPDATE", SqlDbType.Char);
+        p_ISUPDATE.Direction = ParameterDirection.Input;
+        p_ISUPDATE.Value = strIsUpdate;
+
+        return cmd;
+    }
+
     public SqlCommand GetCommandOfInsertGratuityLedger(string strLedgerID, string strEmpID, string strMonth, string strYear, string strFiscalYear,
         string strOPGR, string strOPInt, string strOPTotal, string strCMGR, string strCMInt, string strCMTotal,
         string strCPDate, string strCPAmount, string strCUGR, string strCUInt, string strCUTotal,
@@ -397,6 +442,28 @@ public class Payroll_PFManager
 
         objDC.CreateDSFromProc(command, "GetPFLedgerData");
         return objDC.ds.Tables["GetPFLedgerData"];
+    }
+
+    public DataTable GetProvidentFundBF(string strFiscalYr, string strEmpID)
+    {
+        string strSQL = "";
+        if (strEmpID == "")
+            strSQL = "Select * from ProvidentFundBF BF WHERE PFFiscalYrID= @PFFiscalYrID  order by empid";
+        else
+            strSQL = "Select * from ProvidentFundBF BF WHERE PFFiscalYrID= @PFFiscalYrID AND EmpID=@EmpID order by empid";
+        
+        SqlCommand command = new SqlCommand(strSQL);
+        
+        command.CommandType = CommandType.Text;
+        SqlParameter p_FISCALYRID = command.Parameters.Add("PFFISCALYRID", SqlDbType.BigInt);
+        p_FISCALYRID.Direction = ParameterDirection.Input;
+        p_FISCALYRID.Value = strFiscalYr;
+
+        SqlParameter p_EmpID = command.Parameters.Add("EMPID", SqlDbType.Char);
+        p_EmpID.Direction = ParameterDirection.Input;
+        p_EmpID.Value = strEmpID;
+       
+        return objDC.CreateDT(command,"GetProvidentFundBF");
     }
 
     public DataTable GetGratuityLedgerData(string strFiscalYr, string strMonth, string strYear, string strEmpID)

@@ -3422,7 +3422,7 @@ public class EmpInfoManager
             }
             i++;
 
-            command[i] = InsertSalaryPakHisDetls(strSalPackId, strEmpId, strEntryDate,strInsBy, strInsDate, "Confirmation");
+            command[i] = InsertSalaryPakHisDetls(strSalPackId, strEmpId, strConfirmDate, strInsBy, strInsDate, "Confirmation");
         }
 
         foreach (SqlCommand cmdTemp in cmd1)

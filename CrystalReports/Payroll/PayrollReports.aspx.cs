@@ -1042,20 +1042,21 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     break;
                 }
             case "SSS":
-                {
-                    string FisYear = ddlFisYear.SelectedValue.ToString();
-                    string VMonth = ddlMonthFrm.SelectedValue.ToString();
-                    string VYear = ddlYear.SelectedValue.ToString();
+                {                 
+                    Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
+                    Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
+                    Session["VYear"] = ddlYear.SelectedValue.ToString();
                     string Type = ddlReportBy.SelectedValue.ToString();
-                    string SalDiv = ddlClinic.SelectedValue.ToString();
-                    string EmpTypeId = ddlEmpType.SelectedValue.ToString();
-                    string REPORTID = tvReports.SelectedNode.Value;
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
+                    Session["Company"] = ddlCompany.SelectedValue.ToString();
+                    Session["EmpTypeId"] = ddlEmpType.SelectedValue.ToString();
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;
 
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalSheetSummeryEmpWise.rpt");
-                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(VMonth,FisYear,SalDiv,"-1");
+                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["Company"].ToString() );
                     ReportDoc.Load(ReportPath);
                     ReportDoc.SetDataSource(MyDataTable);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + VMonth + "/" + VYear));
+                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"] + "/" + Session["VYear"]));
                     ReportDoc.SetParameterValue("P_Header", "Salary Sheet for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
 
                     ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Landscape;

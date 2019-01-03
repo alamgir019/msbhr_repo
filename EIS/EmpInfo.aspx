@@ -55,7 +55,7 @@
                                         Emp Id :
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtEmpID" runat="server" MaxLength="20" Width="80px"></asp:TextBox>
+                                        <asp:TextBox ID="txtEmpID" runat="server" MaxLength="20" Width="80px" onkeyup="ToUpper(this)"></asp:TextBox>
                                         &nbsp;<asp:Button ID="cmdFind" runat="server" OnClick="cmdFind_Click" Text="Find"
                                             Width="83px" CausesValidation="False" />
                                     </td>
