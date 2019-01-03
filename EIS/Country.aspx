@@ -10,7 +10,7 @@
                 Country Setup</div>
             <div style="margin: 2px; float: left; padding-right: 3px;">
                 <a href="../Default.aspx">
-                    <img src="../Images/close_icon.gif" /></a></div>
+                    <img alt="close" src="../Images/close_icon.gif" /></a></div>
         </div>
         <!--Div for group-->
         <div class="MsgBox">
