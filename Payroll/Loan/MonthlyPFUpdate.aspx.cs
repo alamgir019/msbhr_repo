@@ -160,7 +160,7 @@ public partial class Payroll_Loan_MonthlyPFUpdate : System.Web.UI.Page
             lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() +  " PF Loan Ledger Prepared Successfully.";
         }
         else
-            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() +  " PF Loan Ledger Already Prepared.";
+            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() +  " PF Loan Ledger has Already Prepared.";
     }
     protected void btnDelete_Click(object sender, EventArgs e)
     {
