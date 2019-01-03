@@ -1100,7 +1100,7 @@ public class PayrollReportManager
         objDC.CreateDSFromProc(cmd, "GetPRSalReconParam");
         return objDC.ds.Tables["GetPRSalReconParam"];
     }
-    public DataTable Get_Salary_SheetEmpWise(string fdate, string FisYear, string SalDivision)
+    public DataTable Get_Salary_SheetEmpWise(string fdate, string FisYear, string SalDivision, string strCompany)
     {
         SqlCommand cmd = new SqlCommand("proc_Rpt_SalarySheetEmpWs");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -1113,9 +1113,13 @@ public class PayrollReportManager
         p_FisYear.Direction = ParameterDirection.Input;
         p_FisYear.Value = FisYear;
 
-        SqlParameter p_SalSubLocId = cmd.Parameters.Add("p_SalSubLocId", SqlDbType.Char);
+        SqlParameter p_SalSubLocId = cmd.Parameters.Add("ClinicId", SqlDbType.BigInt);
         p_SalSubLocId.Direction = ParameterDirection.Input;
         p_SalSubLocId.Value = SalDivision;
+
+        SqlParameter p_DivisionId = cmd.Parameters.Add("DivisionId", SqlDbType.BigInt);
+        p_DivisionId.Direction = ParameterDirection.Input;
+        p_DivisionId.Value = strCompany;
 
         objDC.CreateDSFromProc(cmd, "GetSalarySheetEmpWs");
         return objDC.ds.Tables["GetSalarySheetEmpWs"];
@@ -1657,6 +1661,35 @@ public class PayrollReportManager
 
         objDC.CreateDSFromProc(cmd, "dtPayrollReportLocWise");
         return objDC.ds.Tables["dtPayrollReportLocWise"];
+    }
+
+    public DataTable Get_Rpt_CompWsSalaryCharging(string P_Month, string P_Year, string SalSubLoc, string PostDist, string EmpID)
+    {
+        SqlCommand cmd = new SqlCommand("Proc_Payroll_Rpt_CompWsSalaryCharging");
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        SqlParameter p_P_VMonth = cmd.Parameters.Add("P_VMonth", SqlDbType.Char);
+        p_P_VMonth.Direction = ParameterDirection.Input;
+        p_P_VMonth.Value = Convert.ToInt16(P_Month);
+
+        SqlParameter SP_VYear = cmd.Parameters.Add("P_VYear", SqlDbType.Char);
+        SP_VYear.Direction = ParameterDirection.Input;
+        SP_VYear.Value = P_Year;
+
+        SqlParameter p_SalSubLoc = cmd.Parameters.Add("SalSubLocId", SqlDbType.Char);
+        p_SalSubLoc.Direction = ParameterDirection.Input;
+        p_SalSubLoc.Value = SalSubLoc;
+
+        SqlParameter p_PostDist = cmd.Parameters.Add("PostDistId", SqlDbType.Char);
+        p_PostDist.Direction = ParameterDirection.Input;
+        p_PostDist.Value = PostDist;
+
+        SqlParameter p_EmpID = cmd.Parameters.Add("EmpID", SqlDbType.Char);
+        p_EmpID.Direction = ParameterDirection.Input;
+        p_EmpID.Value = EmpID;
+
+        objDC.CreateDSFromProc(cmd, "dtCompWsSalaryCharging");
+        return objDC.ds.Tables["dtCompWsSalaryCharging"];
     }
 
     public DataTable Get_Rpt_PayrollReportEmpCurrCharging(string P_Month, string P_Year, string SalSubLoc, string PostDist, string EmpID)
@@ -2953,5 +2986,30 @@ public class PayrollReportManager
         p_SalSubLocId.Value = SalSubLocId;
 
         return objDC.Get_Rpt_SalReconDetails(cmd);
+    }
+
+    public DataTable Get_ITDedStatement(string fdate, string FisYear, string SalDivision,string strCompany)
+    {
+        SqlCommand cmd = new SqlCommand("proc_Rpt_ITDedStatement");
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        SqlParameter p_VMONTH = cmd.Parameters.Add("VMonth", SqlDbType.BigInt);
+        p_VMONTH.Direction = ParameterDirection.Input;
+        p_VMONTH.Value = fdate;
+
+        SqlParameter p_FisYear = cmd.Parameters.Add("FisYear", SqlDbType.BigInt);
+        p_FisYear.Direction = ParameterDirection.Input;
+        p_FisYear.Value = FisYear;
+
+        SqlParameter p_SalSubLocId = cmd.Parameters.Add("ClinicId", SqlDbType.BigInt);
+        p_SalSubLocId.Direction = ParameterDirection.Input;
+        p_SalSubLocId.Value = SalDivision;
+
+         SqlParameter p_DivisionId = cmd.Parameters.Add("DivisionId", SqlDbType.BigInt);
+        p_DivisionId.Direction = ParameterDirection.Input;
+        p_DivisionId.Value = strCompany;
+
+        objDC.CreateDSFromProc(cmd, "GetITDedStatement");
+        return objDC.ds.Tables["GetITDedStatement"];
     }
 }

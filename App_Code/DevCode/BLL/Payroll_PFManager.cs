@@ -723,8 +723,8 @@ public class Payroll_PFManager
 
     public DataTable SelectEmpWisePFBF(string strEmpId)
     {
-        string strSQL = "SELECT PFFiscalYrId,SUM(ISNULL(CarryForward,0)+TotalContribution+TotalInterest) AS TotalPF FROM ProvidentFundBF WHERE EmpId=@EmpId"
-            + " GROUP BY(PFFiscalYrId) HAVING MAX(PFFiscalYrId)>=1 ORDER BY PFFiscalYrId DESC";
+        string strSQL = "SELECT TotalContribution AS TotalPF FROM ProvidentFundBF WHERE EmpId=@EmpId"
+            + " ORDER BY PFFiscalYrId DESC";
 
         SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;

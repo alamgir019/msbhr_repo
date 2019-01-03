@@ -47,8 +47,8 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
     {
         MyDataTable = new DataTable();
         ReportDoc = new ReportDocument();
-
-       // dsMainShftReport dsMSR = new dsMainShftReport();
+        DateTime now= Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+        // dsMainShftReport dsMSR = new dsMainShftReport();
 
         switch (Session["REPORTID"].ToString())
         {
@@ -71,14 +71,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("P_Header", "Salary/Wages for the month of-- " + Common.ReturnFullMonthName(Session["VMonth"].ToString())+", " + Session["VYear"].ToString());
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
-                    //if (string.Equals( Session["ReportFormat"].ToString(),"excel"))
-                    //{
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
-                    //}
-                    //else if (string.Equals(Session["ReportFormat"].ToString(), "pdf"))
-                    //{
-                    //    ReportDoc.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "ReortDetails");
-                    //}
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Salary_Payslip");
                     break;
                 }
             case "BSFF":
@@ -86,7 +79,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptBankStatement.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Rpt_BankStatement(Session["FisYear"].ToString(), Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["DivisionId"].ToString(), Session["EmpTypeId"].ToString(), Session["SalType"].ToString ());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     ReportDoc.SetDataSource(MyDataTable);
                     //ReportDoc.SetParameterValue("P_Header", "Bank Statement for the Month of - " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
@@ -94,10 +87,10 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("p_Year",  Session["VYear"].ToString());
                     ReportDoc.SetParameterValue("p_SalaryType", Session["SalType"].ToString());                    
                     CRV.ReportSource = ReportDoc;
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Bank_Advice");
                     break;
                 }
-                #region Salary Certificate
+    
             case "SC":
                 {
                     string rptType = Session["rptType"].ToString();
@@ -119,40 +112,40 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                         ReportDoc.Load(ReportPath);
                     }
                     MyDataTable = objPayRptMgr.Get_PaySleepWithTax(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["EmpID"].ToString());//, Session["SectorId"].ToString(), Session["PostingDistId"].ToString()
-                    DateTime now = System.DateTime.Now;
-                    DataTable dt1 = (DataTable)MyDataTable;
-                    if (dt1.Rows.Count > 0)
+                    //DateTime now = System.DateTime.Now;
+                    DataTable dtSC = (DataTable)MyDataTable;
+                    if (dtSC.Rows.Count > 0)
                     {
-                        string EmpTypeID = (dt1.Rows[0]["EmpTypeID"]).ToString();
-                        ReportDoc.SetParameterValue("P_Name", dt1.Rows[0]["FullName"]);
+                        string EmpTypeID = (dtSC.Rows[0]["EmpTypeID"]).ToString();
+                        ReportDoc.SetParameterValue("P_Name", dtSC.Rows[0]["FullName"]);
                         //CRV.ReportSource = ReportDoc;
-                        ReportDoc.SetParameterValue("P_Desig", dt1.Rows[0]["DesigName"]);
+                        ReportDoc.SetParameterValue("P_Desig", dtSC.Rows[0]["DesigName"]);
                         //CRV.ReportSource = ReportDoc;
-                        ReportDoc.SetParameterValue("P_Basic", String.Format("{0:0,0}", dt1.Rows[0]["P_Basic"]));
+                        ReportDoc.SetParameterValue("P_Basic", String.Format("{0:0,0}", dtSC.Rows[0]["P_Basic"]));
                         //CRV.ReportSource = ReportDoc;
-                        ReportDoc.SetParameterValue("P_HouseRent", String.Format("{0:0,0}", dt1.Rows[0]["P_HouseRent"]));
+                        ReportDoc.SetParameterValue("P_HouseRent", String.Format("{0:0,0}", dtSC.Rows[0]["P_HouseRent"]));
                         //CRV.ReportSource = ReportDoc;
-                        ReportDoc.SetParameterValue("P_Medical", String.Format("{0:0,0}", dt1.Rows[0]["P_Medical"]));
+                        ReportDoc.SetParameterValue("P_Medical", String.Format("{0:0,0}", dtSC.Rows[0]["P_Medical"]));
                         //CRV.ReportSource = ReportDoc;
-                        ReportDoc.SetParameterValue("P_Other", String.Format("{0:0,0}", dt1.Rows[0]["P_Other"]));
+                        ReportDoc.SetParameterValue("P_Other", String.Format("{0:0,0}", dtSC.Rows[0]["P_Other"]));
                         //CRV.ReportSource = ReportDoc;
-                        ReportDoc.SetParameterValue("P_Gross", String.Format("{0:0,0}", dt1.Rows[0]["P_Gross"]));
+                        ReportDoc.SetParameterValue("P_Gross", String.Format("{0:0,0}", dtSC.Rows[0]["P_Gross"]));
                         //CRV.ReportSource = ReportDoc;
-                        ReportDoc.SetParameterValue("P_PF", String.Format("{0:0,0}", (EmpTypeID == "2" ? 0 : dt1.Rows[0]["P_PF"])));
+                        ReportDoc.SetParameterValue("P_PF", String.Format("{0:0,0}", (EmpTypeID == "2" ? 0 : dtSC.Rows[0]["P_PF"])));
                         //CRV.ReportSource = ReportDoc;
-                        ReportDoc.SetParameterValue("P_TotalLoan", String.Format("{0:0,0}", (EmpTypeID == "2" ? 0 : dt1.Rows[0]["P_TotalLoan"])));
+                        ReportDoc.SetParameterValue("P_TotalLoan", String.Format("{0:0,0}", (EmpTypeID == "2" ? 0 : dtSC.Rows[0]["P_TotalLoan"])));
                         //CRV.ReportSource = ReportDoc;
 
-                        //dclFestivalBonus = Math.Round(Convert.ToDecimal(dt1.Rows[0]["P_Basic"]) / 6, 0);
+                        //dclFestivalBonus = Math.Round(Convert.ToDecimal(dtSC.Rows[0]["P_Basic"]) / 6, 0);
 
 
-                        //dclFestivalBonus = Math.Round((EmpTypeID == "2" ? 0 : Convert.ToDecimal(dt1.Rows[0]["P_Basic"])) / 6, 0);
-                        dclPF = Math.Round((EmpTypeID == "2" ? 0 : Convert.ToDecimal(dt1.Rows[0]["P_PF"])));
+                        //dclFestivalBonus = Math.Round((EmpTypeID == "2" ? 0 : Convert.ToDecimal(dtSC.Rows[0]["P_Basic"])) / 6, 0);
+                        dclPF = Math.Round((EmpTypeID == "2" ? 0 : Convert.ToDecimal(dtSC.Rows[0]["P_PF"])));
                         ReportDoc.SetParameterValue("P_FBonus", String.Format("{0:0,0}", dclFestivalBonus));
                         //CRV.ReportSource = ReportDoc;
 
                         //Joining Date to Current Date Calculation
-                        DateTime dtJoiningDate = Convert.ToDateTime(dt1.Rows[0]["JoiningDate"]);
+                        DateTime dtJoiningDate = Convert.ToDateTime(dtSC.Rows[0]["JoiningDate"]);
                         DateTime dtCurrDate = Convert.ToDateTime(DateTime.Now);
 
                         DateTime dtFrom = new DateTime();
@@ -176,26 +169,26 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
 
                         iTotDay = Math.Round(Convert.ToDouble(Dur.Days), 0) + 1;
                         //if (iTotDay >= 365)
-                        //    dclGratuity = Math.Round((EmpTypeID == "2" ? 0 : (Convert.ToDecimal(dt1.Rows[0]["P_Basic"]) / 12)), 0);
+                        //    dclGratuity = Math.Round((EmpTypeID == "2" ? 0 : (Convert.ToDecimal(dtSC.Rows[0]["P_Basic"]) / 12)), 0);
                         //else
                         //    dclGratuity = 0;
 
                         ReportDoc.SetParameterValue("P_Gratuaty", String.Format("{0:0,0}", dclGratuity));
                         //CRV.ReportSource = ReportDoc;
 
-                        dclGrandTotal = Convert.ToDecimal(dt1.Rows[0]["P_Gross"])  + dclFestivalBonus + dclGratuity;
+                        dclGrandTotal = Convert.ToDecimal(dtSC.Rows[0]["P_Gross"])  + dclFestivalBonus + dclGratuity;
                         ReportDoc.SetParameterValue("P_GrandTotal", String.Format("{0:0,0}", dclGrandTotal));
                         //CRV.ReportSource = ReportDoc;
 
                         if (rptType == "1")
                         {
-                            ReportDoc.SetParameterValue("P_IT", String.Format("{0:0,0}", dt1.Rows[0]["P_IT"]));
+                            ReportDoc.SetParameterValue("P_IT", String.Format("{0:0,0}", dtSC.Rows[0]["P_IT"]));
                             //CRV.ReportSource = ReportDoc;
-                            dclNetPay = dclGrandTotal - Convert.ToDecimal(dt1.Rows[0]["P_IT"]) - (dclPF * 2) - Math.Round((EmpTypeID == "2" ? 0 : Convert.ToDecimal(dt1.Rows[0]["P_TotalLoan"])));
+                            dclNetPay = dclGrandTotal - Convert.ToDecimal(dtSC.Rows[0]["P_IT"]) - (dclPF * 2) - Math.Round((EmpTypeID == "2" ? 0 : Convert.ToDecimal(dtSC.Rows[0]["P_TotalLoan"])));
                             ReportDoc.SetParameterValue("P_NetPay", String.Format("{0:0,0}", dclNetPay));
                             //CRV.ReportSource = ReportDoc;
                         }
-                        strGender = dt1.Rows[0]["Gender"].ToString();
+                        strGender = dtSC.Rows[0]["Gender"].ToString();
                         if (strGender == "M")
                         {
                             strGender = "Mr. ";
@@ -206,13 +199,13 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                             strGender = "Ms. ";
                             strHeShe = " She";
                         }
-                        ReportDoc.SetParameterValue("P_Body", "This is to certify that " + strGender + dt1.Rows[0]["FullName"] + ", " + dt1.Rows[0]["JobTitleName"] + " of " +
-                            dt1.Rows[0]["DivisionName"].ToString() + "," + dt1.Rows[0]["SectorName"].ToString() + " has been working in this organization since " +
+                        ReportDoc.SetParameterValue("P_Body", "This is to certify that " + strGender + dtSC.Rows[0]["FullName"] + ", " + dtSC.Rows[0]["JobTitleName"] + " of " +
+                            dtSC.Rows[0]["DivisionName"].ToString() + "," + dtSC.Rows[0]["SectorName"].ToString() + " has been working in this organization since " +
                             dtJoiningDate.ToString("dd") + " "+ dtJoiningDate.ToString("MMMM") + " " + dtJoiningDate.ToString("yyyy") + "." +
-                            strHeShe + " is a "  + dt1.Rows[0]["TypeName"].ToString()  + " employee of the organization. As per our service rule/terms of employment his date of retirement in N/A." +
-                            strHeShe + " is working in our clinic division/department as a " + dt1.Rows[0]["JobTitleName"] +".") ;
+                            strHeShe + " is a "  + dtSC.Rows[0]["TypeName"].ToString()  + " employee of the organization. As per our service rule/terms of employment his date of retirement in N/A." +
+                            strHeShe + " is working in our clinic division/department as a " + dtSC.Rows[0]["JobTitleName"] +".") ;
 
-                        if (dt1.Rows[0]["Gender"].ToString() == "M")
+                        if (dtSC.Rows[0]["Gender"].ToString() == "M")
                             strGender = "His ";
                         else
                             strGender = "Her ";
@@ -225,47 +218,176 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                         //CRV.ReportSource = ReportDoc;
                     }
                     CRV.ReportSource = ReportDoc;
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.Excel, Response, true, "ReortDetails");
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.Excel, Response, true, "Salary_Certificate");
                     break;
                 }
-                #endregion
-            //Salary Sheet Summery Emp Wise
-            case "SSS":
-                {
 
+            //Salary Sheet Summery Emp Wise
+            case "SSS":                
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalSheetSummeryEmpWise.rpt");
                     ReportDoc.Load(ReportPath);
-//                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["EmpID"].ToString(), Session["FisYear"].ToString(), Session["EmpTypeId"].ToString());
-                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString());
-                    ReportDoc.SetDataSource(MyDataTable);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString(),"-1");
+                    ReportDoc.SetDataSource(MyDataTable);                    
                     ReportDoc.SetParameterValue("P_Header", "Salary Sheet for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
-
                     ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
-                    break;
-                }
-            case "SSSum":
-                {
-
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Salary_Sheet");
+                    break;                
+            case "SSSum":                
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalSheetSummery.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Salary_SheetSummary(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString());
-
-                    ReportDoc.SetDataSource(MyDataTable);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    ReportDoc.SetDataSource(MyDataTable);                    
                     ReportDoc.SetParameterValue("P_Header", "Salary Sheet Summary for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
-
                     ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Salary_Sheet_Summary");
+                    break;                
+            case "SSL":                
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalaryList.rpt");
+                    MyDataTable = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["Company"].ToString());
+                    ReportDoc.Load(ReportPath);
+                    ReportDoc.SetDataSource(MyDataTable);                    
+                    ReportDoc.SetParameterValue("P_Header", "Staff List for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
+                    ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Staff_Salary_List");
+                    break;               
+            case "PRLW":                
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptPayrollRprLocWise.rpt");
+                    ReportDoc.Load(ReportPath);
+                    MyDataTable = objPayRptMgr.Get_Rpt_PayrollReportLocWise(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString(), Session["PostDist"].ToString(), Session["EmpID"].ToString());
+                    now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    ReportDoc.SetDataSource(MyDataTable);
+                    ReportDoc.SetParameterValue("P_Header", "Payroll for the Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                    CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Salary_Charging");
+                    break;               
+            case "CWSC":
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptComWsSalaryCharging.rpt");
+                ReportDoc.Load(ReportPath);
+                MyDataTable = objPayRptMgr.Get_Rpt_CompWsSalaryCharging(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString(), Session["PostDist"].ToString(), Session["EmpID"].ToString());
+                now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                ReportDoc.SetDataSource(MyDataTable);
+                ReportDoc.SetParameterValue("P_Header", "Salary Charging for the Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Company_Wise_Salary_Charging");
+                break;
+            #endregion
+
+            #region PF
+            case "MPFC":
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptMonthlyPFContribution.rpt");
+                ReportDoc.Load(ReportPath);
+                MyDataTable = objPayRptMgr.Get_MonthlyPFContribution(Session["FisYear"].ToString(), Session["VMonth"].ToString(), Session["FisYearP"].ToString(),
+                        Session["VMonthP"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString());
+                ReportDoc.SetDataSource(MyDataTable);
+                ReportDoc.SetParameterValue("P_Header", "Monthly PF Contribution For The Month of  - " + Common.ReturnFullMonthName(Session["VMonth"].ToString()) + " Fiscal Year -" + Session["FisYearText"].ToString());
+                ReportDoc.SetParameterValue("P_Month", Common.ReturnFullMonthName(Session["VMonthP"].ToString()));
+                ReportDoc.SetParameterValue("C_Month", Common.ReturnFullMonthName(Session["VMonth"].ToString()));
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                CRV.ReportSource = ReportDoc;
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Monthly_PF_Contribution");
+                break;
+            case "YPFC":
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFContribution.rpt");
+                ReportDoc.Load(ReportPath);
+                MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFC", Session["EmpTypeId"].ToString()); //Session["YearlyType"].ToString()
+                ReportDoc.SetDataSource(MyDataTable);
+                ReportDoc.SetParameterValue("P_Header", "Yearly PF Contribution For The Fiscal Year " + Session["FisYearText"].ToString());
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                CRV.ReportSource = ReportDoc;
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Yearly_PF_Contribution");
+                break;
+            case "YPFB":
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFBalance.rpt");
+                ReportDoc.Load(ReportPath);
+                MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFC", Session["EmpTypeId"].ToString()); //Session["YearlyType"].ToString()
+                ReportDoc.SetDataSource(MyDataTable);
+                ReportDoc.SetParameterValue("P_Header", "Yearly PF Contribution For The Fiscal Year " + Session["FisYearText"].ToString());
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                CRV.ReportSource = ReportDoc;
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Yearly_PF_Balance");
+                break;
+            case "YPFLD":
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFLoanDeduct.rpt");
+                ReportDoc.Load(ReportPath);
+                MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFLD", Session["EmpTypeId"].ToString());
+                ReportDoc.SetDataSource(MyDataTable);
+                ReportDoc.SetParameterValue("P_Header", "PF Loan Deduction For The Fiscal Year " + Session["FisYearText"].ToString());
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                CRV.ReportSource = ReportDoc;
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "PF_Loan_Deduction");
+                break;
+            case "PFLL":
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptPFLoanLedger.rpt");
+                ReportDoc.Load(ReportPath);
+                MyDataTable = objPayRptMgr.GetPFLoanLedgerData(Session["VMonth"].ToString(), Session["FisYear"].ToString(), "M");
+                ReportDoc.SetDataSource(MyDataTable);
+                ReportDoc.SetParameterValue("pMonthName", Common.ReturnFullMonthName(Session["VMonth"].ToString()));
+                CRV.ReportSource = ReportDoc;
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "PF_Loan_Ledger");
+                break;
+            #endregion
+                
+            #region Final Payment
+            case "FP":
+                {
+                    //DataSet ds = new DataSet();
+                    //ds = objPayRptMgr.Get_Rpt_FaynalPaymentList(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["VYear"].ToString(), Session["EmpID"].ToString(), ds);
+
+                    //DataTable tableA = ds.Tables[0].Copy();
+                    //DataTable tableB = ds.Tables[1].Copy();
+                    //DataSet dso2 = new DataSet();
+
+                    //tableA.TableName = "dtFaynalPaymentList";
+                    //dso2.Tables.Add(tableA);
+                    //tableB.TableName = "dtYearlyPFContribution";
+                    //dso2.Tables.Add(tableB);
+
+                    //ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptFinalPayment.rpt");
+                    //ReportDoc.Load(ReportPath);
+
+                    //ReportDoc.SetDataSource(dso2);
+                    DataSet ds = new DataSet();
+                    ds = objPayRptMgr.Get_Rpt_FaynalPaymentList(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["FisYear"].ToString(), Session["EmpID"].ToString(), ds);
+
+                    DataTable tableA = ds.Tables[0].Copy();
+                    DataTable tableB = ds.Tables[1].Copy();
+                    DataSet dso2 = new DataSet();
+
+                    tableA.TableName = "dtFaynalPaymentList";
+                    dso2.Tables.Add(tableA);
+                    tableB.TableName = "dtYearlyPFContribution";
+                    dso2.Tables.Add(tableB);
+
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptFinalPayment.rpt");
+                    ReportDoc.Load(ReportPath);
+
+                    ReportDoc.SetDataSource(dso2);
+                    CRV.ReportSource = ReportDoc;
+
                     ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
-            case "ESI":               
-                ReportPath = Server.MapPath("~/CrystalReports/Employee/rptEmpSalaryInfo.rpt");               
+            case "FPDL":
+                {
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptFaynalPaymentList.rpt");
+                    ReportDoc.Load(ReportPath);
+                    MyDataTable = objPayRptMgr.Get_Rpt_FaynalPaymentDueList(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["EmpID"].ToString());
+                    ReportDoc.SetDataSource(MyDataTable);
+                    ReportDoc.SetParameterValue("P_Header", "Final Payment Due List");
+                    CRV.ReportSource = ReportDoc;
+                    break;
+                }
+            #endregion
+
+            #region Employee Information
+            case "ESI":
+                ReportPath = Server.MapPath("~/CrystalReports/Employee/rptEmpSalaryInfo.rpt");
                 ReportDoc.Load(ReportPath);
                 MyDataTable = rptManager.GetEmpSalaryInfo(Session["EmpId"].ToString(), Session["GradeId"].ToString(), Session["ClinicId"].ToString(), Session["DeptId"].ToString(), Session["EmpTypeID"].ToString());
                 ReportDoc.SetDataSource(MyDataTable);
@@ -274,6 +396,8 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                 CRV.ReportSource = ReportDoc;
                 ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                 break;
+
+
             case "SEC":
                 ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptEmpSalaryExceptionCase.rpt");
                 ReportDoc.Load(ReportPath);
@@ -294,20 +418,149 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                 CRV.ReportSource = ReportDoc;
                 ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                 break;
-            //Salary Statement
-            case "SS":
+            #endregion
+
+            #region Bonus
+            case "BST":
                 {
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptdtBonusStatFastival.rpt");
+                    ReportDoc.Load(ReportPath);
+                    MyDataTable = objPayRptMgr.Get_BonusStatementFastival(Session["FisYear"].ToString(), Session["VMonth"].ToString(),
+                        Session["SalLoc"].ToString(), Session["Religion"].ToString(), Session["Festival"].ToString(), Session["EmpTypeId"].ToString());
+                    ReportDoc.SetDataSource(MyDataTable);
+                    ReportDoc.SetParameterValue("P_Header", "Bonus Statement For the Festival of " + Session["FestivalName"].ToString() + "  For The Month - " + Common.ReturnFullMonthName(Session["VMonth"].ToString()));
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                    CRV.ReportSource = ReportDoc;
+
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+                    break;
+                }
+            case "BSTSum":
+                {
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptBonusSummery.rpt");
+                    ReportDoc.Load(ReportPath);
+                    MyDataTable = objPayRptMgr.Get_BonusSummary(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString());
+
+                    ReportDoc.SetDataSource(MyDataTable);
+                    //now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    ReportDoc.SetParameterValue("P_Header", "Bonus Statement Summary for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
+
+
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+                    break;
+                }
+            #endregion
+
+            #region Tax
+            case "AITD":                
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyITDeduct.rpt");
+                    ReportDoc.Load(ReportPath);
+                    MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "AITD", Session["EmpTypeId"].ToString());
+
+                    ReportDoc.SetDataSource(MyDataTable);
+                    ReportDoc.SetParameterValue("P_Header", "Staff Salary Tax Deduction for The Fiscal Year -" + Session["FisYearText"].ToString());
+                   
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+                CRV.ReportSource = ReportDoc;
+                break;
+            case "AITMD":
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptMonthWsITDeduct.rpt");
+                ReportDoc.Load(ReportPath);
+                MyDataTable = objPayRptMgr.Get_TaxDedMonthWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), Session["EmpTypeId"].ToString());
+
+                ReportDoc.SetDataSource(MyDataTable);
+                ReportDoc.SetParameterValue("P_Header", "Staff Salary Month Wise Tax Deduction for The Fiscal Year -" + Session["FisYearText"].ToString() + " Upto Month " + Common.retMonthName(Session["VMonth"].ToString()));
+                ReportDoc.SetParameterValue("P_Month", Session["VMonth"].ToString());
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+                CRV.ReportSource = ReportDoc;
+                break;
+            case "TC":               
+                    dsITStatement ds01 = new dsITStatement();
+                    ds01.Tables.Remove("dtEMPINFO");
+                    ds01.Tables.Remove("dtITDEPOSITRECORDS");
+
+                    DataSet ItStatementds = new DataSet();
+
+                    ItStatementds = objPayRptMgr.Get_Rpt_ITStatement(Session["FisYear"].ToString(), Session["EmpTypeId"].ToString(), Session["EmpID"].ToString(), Session["SalLocId"].ToString(), Session["SalSubLocId"].ToString());
+
+                    DataTable destinationTable = CopyDataTable(ItStatementds.Tables[0], ItStatementds.Tables[0].Rows.Count);
+                    destinationTable.TableName = "dtEMPINFO";
+                    ds01.Tables.Add(destinationTable.Copy());
+
+                    DataTable destinationTable1 = CopyDataTable(ItStatementds.Tables[1], ItStatementds.Tables[1].Rows.Count);
+                    destinationTable1.TableName = "dtITDEPOSITRECORDS";
+                    ds01.Tables.Add(destinationTable1.Copy());
+
+
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptITStatement.rpt");
+                    ReportDoc.Load(ReportPath);
+
+                    ReportDoc.SetDataSource(ds01);
+
+                    ReportDoc.SetParameterValue("P_Header", "Annual salary certificate and advance tax deduction for the financial year" + Session["FisYearTxt"].ToString());
+                    ReportDoc.SetParameterValue("P_FiscalYear", Session["FisYearTxt"].ToString());
+                    ReportDoc.SetParameterValue("P_AssessYear", Session["AssessYear"].ToString());
+
+                    
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+                CRV.ReportSource = ReportDoc;
+                break;
+            case "STD":
+                ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptITDedStatementList.rpt");
+                DataTable dtTax = objPayRptMgr.Get_Salary_SheetEmpWise(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["Company"].ToString());
+
+                DataRow[] foundRow = dtTax.Select("[15]<>0");
+                //MyDataTable.Rows.Clear();
+                DataRow dr;
+                if (foundRow.Length > 0)
+                {
+                    MyDataTable.Columns.Add("EmpId");
+                    MyDataTable.Columns.Add("Fullname");
+                    MyDataTable.Columns.Add("JobTitleName");
+                    MyDataTable.Columns.Add("ClinicName");
+                    MyDataTable.Columns.Add("15");
+                    foreach (DataRow dRow in foundRow)
+                    {
+                        dr = MyDataTable.NewRow();
+                        dr["EmpId"] = dRow["EmpId"].ToString();
+                        dr["Fullname"] = dRow["Fullname"].ToString();
+                        dr["JobTitleName"] = dRow["JobTitleName"].ToString();
+                        dr["ClinicName"] = dRow["ClinicName"].ToString();
+                        dr["15"] = Convert.ToString(-Convert.ToDecimal(dRow["15"]));
+
+                        MyDataTable.Rows.Add(dr);
+                    }
+                }
+                ReportDoc.Load(ReportPath);
+                ReportDoc.SetDataSource(MyDataTable);                
+                ReportDoc.SetParameterValue("P_Header", "Statement of Tax Deduction at Source From Salary for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
+
+                ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Portrait;
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+                CRV.ReportSource = ReportDoc;
+                break;
+            #endregion
+
+            //Salary Statement
+            case "SS":               
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalaryStatement.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_SalaryStatement(Session["FisYear"].ToString(), Session["VMonth"].ToString(), Session["VYear"].ToString(),
                         Session["EmpID"].ToString(), Session["SalDiv"].ToString(), Session["SalType"].ToString(),Session["EmpTypeId"].ToString());
                     ReportDoc.SetDataSource(MyDataTable);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));                    
+                    now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));                    
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     ReportDoc.SetParameterValue("RptHeader", "Salary Statement for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
-                    CRV.ReportSource = ReportDoc;
-                    break;
-                }           
+                    
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+                CRV.ReportSource = ReportDoc;
+                break;                         
             //Salary Summary Reports on Regular Staff
             case "SalSum":
                 {
@@ -316,28 +569,30 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     MyDataTable = objPayRptMgr.Get_SalaryStatementSummery(Session["FisYear"].ToString(), Session["VMonth"].ToString(), Session["VYear"].ToString(),
                         Session["SalLoc"].ToString(),Session["SalType"].ToString(), Session["EmpTypeId"].ToString());
                     ReportDoc.SetDataSource(MyDataTable);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    
                     ReportDoc.SetParameterValue("RptHeader", "Salary For The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             //Salary Sheet
-            case "SSSEW":
-                {
-                    string usdRate = objPayrollMgr.SelectUSDRate(Session["VMonth"].ToString(), Session["VYear"].ToString());
-                           usdRate = usdRate == "" ? Session["USDRATE"].ToString() : usdRate;
+            //case "SSSEW":
+            //    {
+            //        string usdRate = objPayrollMgr.SelectUSDRate(Session["VMonth"].ToString(), Session["VYear"].ToString());
+            //               usdRate = usdRate == "" ? Session["USDRATE"].ToString() : usdRate;
 
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalarySSourandEmpWise.rpt");
-                    ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_SalarySSourandEmpWise(Session["FisYear"].ToString(), Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString(),
-                        Session["EmpID"].ToString(), Session["SalSourceID"].ToString(),Session["EmpTypeId"].ToString(), usdRate);
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Salary Sheet for The Month of " + Common.ReturnFullMonthName(Session["VMonth"].ToString()) + ", "+ Session["VYear"].ToString());
-                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
-                    CRV.ReportSource = ReportDoc;
-                    break;
-                }
+            //        ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalarySSourandEmpWise.rpt");
+            //        ReportDoc.Load(ReportPath);
+            //        MyDataTable = objPayRptMgr.Get_SalarySSourandEmpWise(Session["FisYear"].ToString(), Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString(),
+            //            Session["EmpID"].ToString(), Session["SalSourceID"].ToString(),Session["EmpTypeId"].ToString(), usdRate);
+            //        ReportDoc.SetDataSource(MyDataTable);
+            //        ReportDoc.SetParameterValue("P_Header", "Salary Sheet for The Month of " + Common.ReturnFullMonthName(Session["VMonth"].ToString()) + ", "+ Session["VYear"].ToString());
+            //        ReportDoc.SetParameterValue("ComLogo", LogoPath);
+            //        CRV.ReportSource = ReportDoc;
+            //        ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+            //        break;
+            //    }
            
             //Salary Statement
             case "SSS01":
@@ -355,35 +610,25 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                         MyDataTable = objPayRptMgr.Get_Salary_SheetSummary01(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()), Session["FisYear"].ToString(), Session["SalDiv"].ToString());
                     }
                     ReportDoc.SetDataSource(MyDataTable);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     ReportDoc.SetParameterValue("P_Header", "Salary Sheet Summary for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
-                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
-                    CRV.ReportSource = ReportDoc;
-                    break;
-                }
-            case "PRLW":
-                {
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptPayrollRprLocWise.rpt");
-                    ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_Rpt_PayrollReportLocWise(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString(), Session["PostDist"].ToString(), Session["EmpID"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Payroll for the Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
                     ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
+           
             case "ER":
                 {
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptEffortReport.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Rpt_EffortReport(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString(), Session["PostDist"].ToString(), Session["EmpID"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", "Effort Report for the Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             case "PBWC":
@@ -391,11 +636,12 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptBasicWiseCharging.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Rpt_PayrollBasicWChargiong(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString(), Session["PostDist"].ToString(), Session["EmpID"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", "Payroll for the Month of - " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             case "SSWSD":
@@ -403,25 +649,25 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalSourWSalDist.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Rpt_SalarySourceWiseSalDisReport(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString(), Session["PostDist"].ToString(), Session["EmpID"].ToString(), Session["SalSourceID"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", " Grant wise Salary Distribution for the Month of - " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
-                }
-            
-
+                }           
             case "NSWSD":
                 {
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalSourceWsNetSalDist.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Rpt_NetSalarySourceWiseSalDisReport(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", " Grant wise Net Salary Distribution for the Month of - " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             case "ADR":
@@ -430,12 +676,13 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Rpt_AddDeductMonthRpt(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalHead"].ToString(), Session["EmpTypeId"].ToString());
 
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", "Add/Deduction Report for the Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     ReportDoc.SetParameterValue("SHEAD", Session["SalHeadText"].ToString());
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             
@@ -448,11 +695,12 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                        Session["EmpID"].ToString(), Session["SalDiv"].ToString());
 
                     ReportDoc.SetDataSource(MyDataTable);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
 
                     ReportDoc.SetParameterValue("P_Header", "Salary Statement for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             //Salary Reconciliation 1
@@ -461,7 +709,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptSalReconDetail.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Salary_ReconDetail(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()),Session["EmpTypeId"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     DateTime nowpre = now.AddMonths(-1);
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("RptHeader", "Salary Reconciliation Statement for The Month of " + now.ToString("MMMM") + "," + now.ToString("yyyy"));
@@ -471,6 +719,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("PMHead", "Previous Month: " + nowpre.ToString("MMMM") + ", " + nowpre.ToString("yyyy"));
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             //Salary Reconcilation Statement
@@ -480,7 +729,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.Load(ReportPath);
                     DataSet ds = new DataSet();
                     ds = objPayRptMgr.Get_Salary_ReconAll(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()), Session["EmpTypeId"].ToString(), ds);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     DateTime nowpre = now.AddMonths(-1);
                     ReportDoc.SetDataSource(ds.Tables[0]);
                     ReportDoc.OpenSubreport("rptSReconSub.rpt").SetDataSource(ds.Tables[1]);
@@ -494,11 +743,11 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.SetParameterValue("DfferMonth", "Diff (" + now.ToString("MMMM") + "-" + nowpre.ToString("MMMM") + ")");
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
                 }
             //Salary Reconcilation 2
-            case "SRR":
-                {
+            case "SRR":               
                     string usdRate = objPayrollMgr.SelectUSDRate(Session["VMonth"].ToString(), Session["VYear"].ToString());
                     usdRate = usdRate == "" ? Session["USDRATE"].ToString() : usdRate;
 
@@ -508,7 +757,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     DataTable dt1 = objPayRptMgr.Get_Salary_Reconcilation_Param(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()), Session["EmpTypeId"].ToString());
                     //PassParamValue(dt1);
                     ReportDoc.SetDataSource(MyDataTable);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));// Convert.ToDateTime(Session["FromDate"].ToString());
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));// Convert.ToDateTime(Session["FromDate"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
                         ReportDoc.SetParameterValue("NewJoindeEmpID", Common.ReturnZeroForNull(dt1.Rows[0]["NJEmpID"].ToString()));
@@ -522,112 +771,11 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     }
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     CRV.ReportSource = ReportDoc;
+                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
                     break;
-                }
+
+
             
-            #endregion
-            #region Salary Certificate
-            
-            #endregion
-            #region PF
-            case "MPFC":
-                {
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptMonthlyPFContribution.rpt");
-                    ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_MonthlyPFContribution(Session["FisYear"].ToString(), Session["VMonth"].ToString(), Session["FisYearP"].ToString(),
-                            Session["VMonthP"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString());
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Monthly PF Contribution For The Month of  - " + Common.ReturnFullMonthName(Session["VMonth"].ToString()) + " Fiscal Year -" + Session["FisYearText"].ToString());
-                    ReportDoc.SetParameterValue("P_Month", Common.ReturnFullMonthName(Session["VMonthP"].ToString()));
-                    ReportDoc.SetParameterValue("C_Month", Common.ReturnFullMonthName(Session["VMonth"].ToString()));
-                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
-                    CRV.ReportSource = ReportDoc;
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
-                    break;
-                }
-            case "YPFC":          
-                {
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFContribution.rpt");
-                    ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFC", Session["EmpTypeId"].ToString()); //Session["YearlyType"].ToString()
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Yearly PF Contribution For The Fiscal Year " + Session["FisYearText"].ToString());
-                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
-                    CRV.ReportSource = ReportDoc;
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
-                    break;
-                }           
-            case "YPFB":
-                {
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFBalance.rpt");
-                    ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFC", Session["EmpTypeId"].ToString()); //Session["YearlyType"].ToString()
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Yearly PF Contribution For The Fiscal Year " + Session["FisYearText"].ToString());
-                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
-                    CRV.ReportSource = ReportDoc;
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
-                    break;
-                }
-           
-            case "YPFLD":
-                {
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFLoanDeduct.rpt");
-                    ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFLD", Session["EmpTypeId"].ToString());
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "PF Loan Deduction For The Fiscal Year " + Session["FisYearText"].ToString());
-                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
-                    CRV.ReportSource = ReportDoc;
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
-                    break;
-                }
-            case "PFLL":
-                {
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptPFLoanLedger.rpt");
-                    ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.GetPFLoanLedgerData(Session["VMonth"].ToString(), Session["FisYear"].ToString(), "M");
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("pMonthName", Common.ReturnFullMonthName(Session["VMonth"].ToString()));
-                   
-                    CRV.ReportSource = ReportDoc;
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
-                    break;
-                }
-            #endregion
-            #region Final Payment
-            case "FP":
-                {
-                    DataSet ds = new DataSet();
-                    ds = objPayRptMgr.Get_Rpt_FaynalPaymentList(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["VYear"].ToString(), Session["EmpID"].ToString(), ds);
-
-                    DataTable tableA = ds.Tables[0].Copy();
-                    DataTable tableB = ds.Tables[1].Copy();
-                    DataSet dso2 = new DataSet();
-
-                    tableA.TableName = "dtFaynalPaymentList";
-                    dso2.Tables.Add(tableA);
-                    tableB.TableName = "dtYearlyPFContribution";
-                    dso2.Tables.Add(tableB);
-
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptFinalPayment.rpt");
-                    ReportDoc.Load(ReportPath);
-
-                    ReportDoc.SetDataSource(dso2);
-                    CRV.ReportSource = ReportDoc;
-                    break;
-                }
-            case "FPDL":
-                {
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptFaynalPaymentList.rpt");
-                    ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_Rpt_FaynalPaymentDueList(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["EmpID"].ToString());
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Final Payment Due List");
-                    CRV.ReportSource = ReportDoc;
-                    break;
-                }
-            #endregion
             #region Voucher
             case "AV":
                 {
@@ -641,7 +789,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
 
                     MyDataTable = objPayRptMgr.Get_CD_Voucher(Session["FisYear"].ToString(), Session["VMonth"].ToString(), Session["VYear"].ToString(),
                                 Session["BankAccNo"].ToString(), SalHead, Session["SalDiv"].ToString(), DEAColl, AccNo, vouType, Session["EmpTypeId"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));                   
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));                   
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Head", vouHead + " " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     CRV.ReportSource = ReportDoc;
@@ -654,7 +802,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     AccNo = "4011";
                     MyDataTable = objPayRptMgr.Get_Bonus_Voucher(Session["FisYear"].ToString(), Session["VMonth"].ToString(), Session["Festival"].ToString(),
                                 Session["SalDiv"].ToString(),AccNo,Session["EmpTypeId"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Head", "Bonus Voucher For The Month - " + Common.ReturnFullMonthName(Session["VMonth"].ToString()));
                     CRV.ReportSource = ReportDoc;
@@ -667,7 +815,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptEmpCurrCharging.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Rpt_PayrollReportEmpCurrCharging(Session["VMonth"].ToString(), Session["VYear"].ToString(), Session["SalDiv"].ToString(), Session["PostDist"].ToString(), Session["EmpID"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", "Payroll Peport Employee Current Charging for the Month of - " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
                     CRV.ReportSource = ReportDoc;
@@ -678,7 +826,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptAddRequirementAllow.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Rpt_AddRequirementAllow(Session["VMonth"].ToString(), Session["VYear"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", " Additional Requirement Allowance " + now.ToString("MMMM") + " of " + now.ToString("yyyy"));
                     CRV.ReportSource = ReportDoc;
@@ -690,7 +838,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Rpt_EmpPromotionHistory(Session["SalDiv"].ToString(), Session["VMonth"].ToString(), Session["VYear"].ToString(),
                         Session["Grade"].ToString(), Session["Desig"].ToString(), Session["FDate"].ToString(), Session["TDate"].ToString(), Session["EmpID"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", " Employee Promotion History ");
                     CRV.ReportSource = ReportDoc;
@@ -702,7 +850,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_Rpt_EmpTransferReport(Session["SalDiv"].ToString(), Session["VMonth"].ToString(), Session["VYear"].ToString(),
                         Session["Grade"].ToString(), Session["Desig"].ToString(), Session["FDate"].ToString(), Session["TDate"].ToString(), Session["EmpID"].ToString());
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", "Employee Transfer Report");
                     CRV.ReportSource = ReportDoc;
@@ -715,7 +863,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     MyDataTable = objPayRptMgr.Get_Rpt_EmpChangeStatusReport(Session["SalDiv"].ToString(), Session["VMonth"].ToString(), Session["VYear"].ToString(),
                         Session["Grade"].ToString(), Session["Desig"].ToString(), Session["FDate"].ToString(), Session["TDate"].ToString(), Session["EmpID"].ToString());
 
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+                    //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", "Employee Change Status Report");
                     CRV.ReportSource = ReportDoc;
@@ -944,21 +1092,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     break;
                 }
             #endregion
-            #region Bonus
-            case "BST":
-                {
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptdtBonusStatFastival.rpt");
-                    ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_BonusStatementFastival(Session["FisYear"].ToString(), Session["VMonth"].ToString(),
-                        Session["SalLoc"].ToString(),  Session["Religion"].ToString(), Session["Festival"].ToString(), Session["EmpTypeId"].ToString());
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Bonus Statement For the Festival of " + Session["FestivalName"].ToString() + "  For The Month - " + Common.ReturnFullMonthName(Session["VMonth"].ToString()));
-                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
-                    CRV.ReportSource = ReportDoc;
-
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
-                    break;
-                }
+           
             case "EBPS":
                 {
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptBonusPaySlipAll.rpt");
@@ -992,31 +1126,31 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     CRV.ReportSource = ReportDoc;
                     break;
                 }
-            case "FBSW":
-                {
-                    DateTime dtCurrDate = DateTime.Now;
-                    string strYear = dtCurrDate.Year.ToString();
+            //case "FBSW":
+            //    {
+            //        DateTime dtCurrDate = DateTime.Now;
+            //        string strYear = dtCurrDate.Year.ToString();
 
-                    string usdRate = objPayrollMgr.SelectUSDRate(Session["VMonth"].ToString(), strYear);
-                    usdRate = usdRate == "" ? Session["USDRATE"].ToString() : usdRate;
+            //        string usdRate = objPayrollMgr.SelectUSDRate(Session["VMonth"].ToString(), strYear);
+            //        usdRate = usdRate == "" ? Session["USDRATE"].ToString() : usdRate;
 
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptEmpBonusCharging.rpt");
-                    ReportDoc.Load(ReportPath);
+            //        ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptEmpBonusCharging.rpt");
+            //        ReportDoc.Load(ReportPath);
 
-                    MyDataTable = objPayRptMgr.Get_Rpt_FestivalBonusCharging(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalLoc"].ToString(),
-                            Session["SalSubLoc"].ToString(), Session["EmpID"].ToString(), Session["Festival"].ToString(), Session["SalSourceID"].ToString(), usdRate,Session["EmpTypeId"].ToString());
+            //        MyDataTable = objPayRptMgr.Get_Rpt_FestivalBonusCharging(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalLoc"].ToString(),
+            //                Session["SalSubLoc"].ToString(), Session["EmpID"].ToString(), Session["Festival"].ToString(), Session["SalSourceID"].ToString(), usdRate,Session["EmpTypeId"].ToString());
 
-                    string year = Session["Year"].ToString();
-                    int strlength = year.Length;
+            //        string year = Session["Year"].ToString();
+            //        int strlength = year.Length;
 
-                    string year01 = year.Substring(strlength - 4);
-                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + year01));                   
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Festival Bonus for " + Session["FestivalName"].ToString() + " the Month of - " + now.ToString("MMMM") + "," + now.ToString("yyyy"));
-                    CRV.ReportSource = ReportDoc;
-                    ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
-                    break;
-                }
+            //        string year01 = year.Substring(strlength - 4);
+            //        //DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + year01));                   
+            //        ReportDoc.SetDataSource(MyDataTable);
+            //        ReportDoc.SetParameterValue("P_Header", "Festival Bonus for " + Session["FestivalName"].ToString() + " the Month of - " + now.ToString("MMMM") + "," + now.ToString("yyyy"));
+            //        CRV.ReportSource = ReportDoc;
+            //        ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+            //        break;
+                //}
             case "BSR":
                 {
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptBonusStatReport.rpt");
@@ -1028,7 +1162,6 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     CRV.ReportSource = ReportDoc;
                     break;
                 }
-                #endregion
             #region Gratuity
             case "SBSR":
                 {
@@ -1089,18 +1222,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     break;
                 }
             #endregion
-            #region Tax
-            case "AITD":
-                {
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyITDeduct.rpt");
-                    ReportDoc.Load(ReportPath);
-                    MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "AITD", Session["EmpTypeId"].ToString());
-
-                    ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Staff Salary Tax Deduction for The Fiscal Year -" + Session["FisYearText"].ToString());
-                    CRV.ReportSource = ReportDoc;
-                    break;
-                }
+           
             case "TDR":
                 {
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptTaxDeduction.rpt");
@@ -1145,40 +1267,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                     break;
                 }
 
-            case "TC":
-                {
-                    dsITStatement ds01 = new dsITStatement();
-                    ds01.Tables.Remove("dtEMPINFO");
-                    ds01.Tables.Remove("dtITDEPOSITRECORDS");
-
-                    DataSet ItStatementds = new DataSet();
-
-                    ItStatementds = objPayRptMgr.Get_Rpt_ITStatement(Session["FisYear"].ToString(), Session["EmpTypeId"].ToString(), Session["EmpID"].ToString(), Session["SalLocId"].ToString(), Session["SalSubLocId"].ToString());
-
-                    DataTable destinationTable = CopyDataTable(ItStatementds.Tables[0], ItStatementds.Tables[0].Rows.Count);
-                    destinationTable.TableName = "dtEMPINFO";
-                    ds01.Tables.Add(destinationTable.Copy());
-
-                    DataTable destinationTable1 = CopyDataTable(ItStatementds.Tables[1], ItStatementds.Tables[1].Rows.Count);
-                    destinationTable1.TableName = "dtITDEPOSITRECORDS";
-                    ds01.Tables.Add(destinationTable1.Copy());
-
-
-                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptITStatement.rpt");
-                    ReportDoc.Load(ReportPath);
-
-                    ReportDoc.SetDataSource(ds01);
-
-                    ReportDoc.SetParameterValue("P_Header", "Annual salary certificate and advance tax deduction for the financial year" + Session["FisYearTxt"].ToString());
-                    ReportDoc.SetParameterValue("P_FiscalYear", Session["FisYearTxt"].ToString());
-                    ReportDoc.SetParameterValue("P_AssessYear", Session["AssessYear"].ToString());
-
-                    CRV.ReportSource = ReportDoc;
-
-                    break;
-                }
-				
-            #endregion
+            
             #region Increment/COLA
             case "CPIL":
                 {
