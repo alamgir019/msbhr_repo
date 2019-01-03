@@ -1632,6 +1632,7 @@ public DataTable Get_TimeSheetReportForAbsent(string strEmpId, string strMonth, 
         {
             ToDate="01-01-2200";
         }
+
         SqlParameter p_ToDate = command.Parameters.Add("ToDate", SqlDbType.DateTime);
         p_ToDate.Direction = ParameterDirection.Input;
         p_ToDate.Value = Common.ReturnDate(ToDate);
