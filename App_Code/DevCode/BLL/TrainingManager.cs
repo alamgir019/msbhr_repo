@@ -1423,8 +1423,8 @@ public class TrainingManager
     }
     public DataTable SelectTrainingPlanDtlsList(string strTrainingPlanId)
     {
-        string strSQL = @"select tp.RespectiveResource as RespectiveResourceId,ei.FullName+' ['+tp.RespectiveResource+']' as RespectiveResourceName from 
-                             TrTrainingPlanDtls tp left join EmpInfo ei on tp.RespectiveResource=ei.EmpId where tp.TrainingPlanId=@TrainingPlanId;";
+        string strSQL = @"select tp.RespectiveResource as RespectiveResourceId,case when tp.RespectiveResource is NULL then tp.ExternalResource else ei.FullName+' ['+tp.RespectiveResource+']' end as RespectiveResourceName from 
+                             TrTrainingPlanDtls tp left join EmpInfo ei on tp.RespectiveResource=ei.EmpId where tp.TrainingPlanId=@TrainingPlanId";
 
         SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;

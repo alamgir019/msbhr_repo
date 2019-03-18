@@ -33,14 +33,10 @@ public partial class Training_TrainingScheduleDtl : System.Web.UI.Page
             this.EntryMode(false);
             this.OpenRecord();
             this.CreateTable();
-            //Common.FillDropDownList_Nil(objEmpMgr.SelectTrainingList("0"), ddlTrName);
             Common.FillDropDownList(objTrMgr.SelectTrainingList("0"), ddlTrName, "TrainName", "TrainId", true);
-            //Common.FillDropDownList_Nil(objEmpMgr.SelectLocation("0"), ddlLocation);
             Common.FillDropDownList(objTrMgr.SelectLocation("0"), ddlLocation, "SalLocName", "SalLocId", true);
-            //Common.FillDropDownList(objTblmast.SelectClinic(), ddlLocation, "ClinicName", "ClinicId", true);
             Common.FillDropDownList(objTrMgr.SelectTrainingVenue("A"), ddlVenue, "VenueName", "VenueId", true);
             Common.FillDropDownList(objSOFMgr.SelectProjectList(0), ddlFundedby, "ProjectName", "ProjectId", true);
-            //Common.FillDropDownList(objEmp.SelectEmpNameWithID("A"), ddlCourseCordinator, "EmpName", "EmpID", true);
         }
     }
     protected void EntryMode(bool IsUpdate)

@@ -91,7 +91,6 @@ public partial class Appraisal_ConfirmAppraisal : System.Web.UI.Page
                 lblJoiningDate.Text = dRow["JoiningDate"].ToString().Trim();
                 
                 lblSuperId.Text = dRow["SupervisorId"].ToString().Trim();
-                //lblSuperName.Text = objEmpMgr.GetSupervisorName(dRow["SupervisorId"].ToString().Trim());
             }
             
             OpenRecordAppraisalMst();

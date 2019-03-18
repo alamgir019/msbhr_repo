@@ -21,21 +21,13 @@ public partial class Training_TrainingPlan : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            //hfIsUpdate.Value = "N";
-           // dtList.Rows.Clear();
-            //dtList.Dispose();
            
             lblMsg.Text = "";
             this.EntryMode(false);
             this.OpenRecord();
             this.CreateTable();
             this.CreateTableLevel();
-            //DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
             Common.FillDropDownList(objTrMgr.SelectTrainingList("0"), ddlTrainingName, "TrainName", "TrainId", true);
-            //Common.FillDropDownList_Nil(objTrMgr.SelectTrainingList("0"), ddlTrainingName);
-            //Common.FillDropDownList(dtEmp, ddlCourseCoordinator, "EmpName", "EmpID", true);
-            //Common.FillDropDownList_Nil(dtEmp, ddlRespectiveResource);
-            //Common.FillDropDownList(dtEmp, ddlRespectiveResource, "EmpName", "EmpID", true);
             Common.FillDropDownList(objTrMgr.SelectTrainingVenue("A"), ddlVenue, "VenueName", "VenueId", true);
             Common.FillDropDownList(objEmp.GetEmpDesignation("A"), ddlParticipantLevel, "DesigName", "DesigId", true);
             Common.FillDropDownList(objSOFMgr.SelectProjectList(0), ddlFundedby, "ProjectName", "ProjectId", true);
@@ -197,8 +189,15 @@ public partial class Training_TrainingPlan : System.Web.UI.Page
             DataRow nRowdtl = dtDtl.NewRow();
             nRowdtl["TrainingPlanDtlId"] = DtlId;
             nRowdtl["TrainingPlanId"] = Common.RoundDecimal(hfId.Value, 0);
-            nRowdtl["RespectiveResource"] = row["RespectiveResourceId"].ToString().Trim();
-           
+            if (row["RespectiveResourceId"].ToString().Trim()!="-1")
+            {
+                nRowdtl["RespectiveResource"] = row["RespectiveResourceId"].ToString().Trim();
+            }
+            else
+            {
+                nRowdtl["ExternalResource"] = row["RespectiveResourceName"].ToString().Trim();
+            }
+
             nRowdtl["InsertedBy"] = Session["USERID"].ToString().Trim();
             nRowdtl["InsertedDate"] = DateTime.Now;
 
@@ -368,7 +367,16 @@ public partial class Training_TrainingPlan : System.Web.UI.Page
                
                 {
                     personTable = ViewState["dt"] as DataTable;
-                    DataRow[] drr = personTable.Select("RespectiveResourceId='" + grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim() + "'");
+                    string resource =  grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString().Trim();
+                    DataRow[] drr = null;
+                    if (string.IsNullOrEmpty(resource))
+                    {
+                        drr = personTable.Select("RespectiveResourceId is null");
+                    }
+                    else
+                    {
+                        drr = personTable.Select("RespectiveResourceId = '"+resource+"'");
+                    }
                     for (int i = 0; i < drr.Length; i++)
                     {
                         drr[i].Delete();
@@ -394,15 +402,24 @@ public partial class Training_TrainingPlan : System.Web.UI.Page
         DataTable dt = ViewState["dt"] as DataTable;
         var match = Regex.Match(txtRespectiveResource.Text.Trim(), "(^(\\w+(.)*\\s)+\\[)*(\\w+)");
         string empid = match.Groups[match.Groups.Count - 1].Value;
-        DataRow[] drr = dt.Select("RespectiveResourceId='" + empid + "'");
-        for (int i = 0; i < drr.Length; i++)
+        DataTable dtEmp = objEmp.SelectEmpNameWithID("A",empid);
+        if (dtEmp.Rows.Count == 0)
         {
-            drr[i].Delete();
+            dt.Rows.Add("-1", txtRespectiveResource.Text.Trim());
         }
-        dt.AcceptChanges();
-        var matchName = Regex.Match(txtRespectiveResource.Text.Trim(), "^(\\w+(.)*\\s)+[^\\[]");
-        string empName = match.Groups[match.Groups.Count - 3].Value;
-        dt.Rows.Add(empid, empName);
+        else
+        {
+            DataRow[] drr = dt.Select("RespectiveResourceId='" + empid + "'");
+            for (int i = 0; i < drr.Length; i++)
+            {
+                drr[i].Delete();
+            }
+            dt.AcceptChanges();
+            var matchName = Regex.Match(txtRespectiveResource.Text.Trim(), "^(\\w+(.)*\\s)+[^\\[]");
+            string empName = match.Groups[match.Groups.Count - 3].Value;
+            dt.Rows.Add(empid, empName);
+        }
+
         grList.DataSource = dt;
         grList.DataBind();
 
