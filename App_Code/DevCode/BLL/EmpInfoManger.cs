@@ -1150,7 +1150,7 @@ public class EmpInfoManager
         return objDC.ds.Tables["SupervisorEmp"];
     }
 
-    public DataTable SelectEmpNameWithID(string strStatus)
+   public DataTable SelectEmpNameWithID(string strStatus,string empId="-1")
     {
         string strSQL = "SELECT  FULLNAME + ' [' + EMPID + ']' AS EMPNAME,EMPID,dg.DesigName,dl.DeptName" +
             " from EmpInfo ei left join Designation dg on ei.DesigId=dg.DesigId "+
@@ -1159,13 +1159,13 @@ public class EmpInfoManager
         {
             strSQL += " AND ei.EmpStatus='" + strStatus+"'";
         }
+        if (empId!="-1")
+        {
+            strSQL += " and ei.EMPID='" + empId + "'";
+        }
         strSQL+= " ORDER BY ei.EMPID";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
-
-        //SqlParameter p_STATUS = command.Parameters.Add("STATUS", SqlDbType.Char);
-        //p_STATUS.Direction = ParameterDirection.Input;
-        //p_STATUS.Value = strStatus;
 
         objDC.CreateDT(command, "SelectEmpNameWithID");
         return objDC.ds.Tables["SelectEmpNameWithID"];
