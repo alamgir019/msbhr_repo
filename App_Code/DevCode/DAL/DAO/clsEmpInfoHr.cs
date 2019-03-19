@@ -89,4 +89,6 @@ public class clsEmpInfoHr
     public string Asset { get; set; }
     public string RegionId { get; set; }
     public string TaxRegionId { get; set; }
+    public string IncrementDate { get; set; }
+    public string IsConfirmed { get; set; }
 }

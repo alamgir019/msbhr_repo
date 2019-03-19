@@ -165,7 +165,6 @@ public partial class EIS_HRAction_Confirmation : System.Web.UI.Page
 
         if (string.IsNullOrEmpty(txtConfirmDate.Text.Trim()) == false)
             strConfirmDate = Common.ReturnDate(txtConfirmDate.Text.Trim());
-
         
             DataTable dtBfPlc = objOptMgr.SelectPayrollBenefitsPolicyData("0", "1");
             DataRow[] foundPlcRow;

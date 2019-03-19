@@ -340,8 +340,7 @@ public class Payroll_LoanAppManager
 
 
     public void InsertPFLoanAdjustmentData(string strTransID, string strTransDate, string strEmpID, string strMonth, string strYear,
-        string strFinYear, string strType,
-        string strAmount, string strRemark,
+        string strFinYear, string strType,string strAmount, string strPrincDue, string strIntDue,string strRemark,
         string strIsUpdate, string strInsBy, string strInsDate)
     {
         SqlCommand[] cmd = new SqlCommand[2];
@@ -380,6 +379,13 @@ public class Payroll_LoanAppManager
         p_ADJAMOUNT.Direction = ParameterDirection.Input;
         p_ADJAMOUNT.Value = strAmount;
 
+        SqlParameter p_PrincDue = cmd[0].Parameters.Add("PRINCIPALDUE", SqlDbType.Decimal);
+        p_PrincDue.Direction = ParameterDirection.Input;
+        p_PrincDue.Value = strPrincDue;
+
+        SqlParameter p_IntDue = cmd[0].Parameters.Add("INTDUE", SqlDbType.Decimal);
+        p_IntDue.Direction = ParameterDirection.Input;
+        p_IntDue.Value = strIntDue;
 
         SqlParameter p_REMARK = cmd[0].Parameters.Add("REMARK", SqlDbType.VarChar);
         p_REMARK.Direction = ParameterDirection.Input;
@@ -592,6 +598,8 @@ public class Payroll_LoanAppManager
         decimal decLMTotalRepay = 0;
         decimal decLMTotalInterest = 0;
 
+        decimal decTotalInterest = 0;
+
         Int32 iLoanNo=0;
         int iInstNo;
         DataRow[] fPayRows;
@@ -687,12 +695,9 @@ public class Payroll_LoanAppManager
             p_CMLOANAMT.Direction = ParameterDirection.Input;
             p_CMLOANAMT.Value = strCMLoanAmt;
 
-            SqlParameter p_CMINTS = cmd[i].Parameters.Add("CMINTS", SqlDbType.Decimal);
-            p_CMINTS.Direction = ParameterDirection.Input;
-            p_CMINTS.Value = strCMInts;
-            
-            // Current Month Loan Adjustment
-            foundRowsCurrentMonthLoanAdj = dtLoanAdjustment.Select("EMPID='" + dRow["EMPID"].ToString().Trim() + "'");
+          
+                // Current Month Loan Adjustment
+                foundRowsCurrentMonthLoanAdj = dtLoanAdjustment.Select("EMPID='" + dRow["EMPID"].ToString().Trim() + "'");
             if (foundRowsCurrentMonthLoanAdj.Length > 0)
             {
                 decCash = Common.RoundDecimal(foundRowsCurrentMonthLoanAdj[0]["ADJAMOUNT"].ToString().Trim(), 0);
@@ -742,7 +747,15 @@ public class Payroll_LoanAppManager
             p_CLLOAN.Direction = ParameterDirection.Input;
             p_CLLOAN.Value = Convert.ToDecimal(strOpLoan) + Convert.ToDecimal(strCMLoanAmt) - decCash - decMonRepay;
 
+            SqlParameter p_CMINTS = cmd[i].Parameters.Add("CMINTS", SqlDbType.Decimal);
+            p_CMINTS.Direction = ParameterDirection.Input;
+            if (Convert.ToDecimal(p_CLLOAN.Value) != 0)
+                p_CMINTS.Value = strCMInts;
+            else
+                p_CMINTS.Value = 0;
+
             // Current Month Interest
+          
             SqlParameter p_CMINTEREST = cmd[i].Parameters.Add("CMINTEREST", SqlDbType.Decimal);
             p_CMINTEREST.Direction = ParameterDirection.Input;
             if (fPayRows.Length > 0)
@@ -757,6 +770,15 @@ public class Payroll_LoanAppManager
             // Total Interest
             SqlParameter p_TOTALINTEREST = cmd[i].Parameters.Add("TOTALINTEREST", SqlDbType.Decimal);
             p_TOTALINTEREST.Direction = ParameterDirection.Input;
+            if (foundRowsCurrentMonthLoanAdj.Length > 0)
+                decTotalInterest = Common.RoundDecimal(foundRowsCurrentMonthLoanAdj[0]["INTDUE"].ToString().Trim(), 0);
+            else
+                decTotalInterest =Convert.ToDecimal(cmd[i].Parameters.Add("TOTALINTEREST", SqlDbType.Decimal));
+
+            p_TOTALINTEREST.Value = decTotalInterest.ToString();
+
+          
+
             if (fPayRows.Length > 0)
             {
                 p_TOTALINTEREST.Value = decLMTotalInterest + Math.Abs(Common.RoundDecimal(fPayRows[0]["PFINT"].ToString().Trim(), 0));
@@ -765,6 +787,8 @@ public class Payroll_LoanAppManager
             {
                 p_TOTALINTEREST.Value = decLMTotalInterest;
             }
+
+
 
             SqlParameter p_LOANNO = cmd[i].Parameters.Add("LOANNO", SqlDbType.BigInt);
             p_LOANNO.Direction = ParameterDirection.Input;
@@ -969,6 +993,20 @@ public class Payroll_LoanAppManager
 
         objDC.CreateDSFromProc(cmd, "getEmpLoanSummary");
         return objDC.ds.Tables["getEmpLoanSummary"];
+    }
+
+    public DataTable getPFLoanLedger(string strEmpID)
+    {
+        string strSQL = "select PL.*,EP.TOTALREPAY  from PFLOANLEDGER PL,EmpPFLoanMst EP WHERE PL.EmpId=EP.EmpId AND PL.LoanNo=EP.LOANNO AND EP.empid='" + strEmpID + "'"
+            + " and cast(PL.TRANSID AS NUMERIC)= (select max(cast(TRANSID as NUMERIC)) from PFLOANLEDGER where empid = '" + strEmpID + "')";
+        SqlCommand cmd = new SqlCommand(strSQL);
+        cmd.CommandType = CommandType.Text;
+
+        SqlParameter p_EMPID = cmd.Parameters.Add("EMPID", SqlDbType.Char);
+        p_EMPID.Direction = ParameterDirection.Input;
+        p_EMPID.Value = strEmpID;
+
+        return objDC.CreateDT(cmd, "getPFLoanLedger"); ;
     }
 
     public DataTable getEmpPFLedger(string strEmpID)
@@ -1327,9 +1365,9 @@ public class Payroll_LoanAppManager
         else
             strFY = strFinYear;
 
-        string strSQL = "SELECT EMPID AS EMPID FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID1"// AND EMPID IN('E001348')"
+        string strSQL = "SELECT EMPID AS EMPID FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID1"// AND EMPID IN('E000333','E004348')"
                        + " UNION ALL "
-                       + " SELECT EMPID AS EMPID FROM EmpPFLoanMst WHERE LOANMONTH=@LOANMONTH AND FISCALYRID=@FISCALYRID2"// AND EMPID IN('E001348')"
+                       + " SELECT EMPID AS EMPID FROM EmpPFLoanMst WHERE LOANMONTH=@LOANMONTH AND FISCALYRID=@FISCALYRID2"//  AND EMPID IN('E000333','E004348')"
                        + " ORDER BY EMPID";
         SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;
@@ -1880,6 +1918,19 @@ public class Payroll_LoanAppManager
         objDC.ExecuteQuery(cmd);
     }
 
+
+    public void DeletePFLoanAdjustedData(string strTransID)
+    {
+        string strSQL = "DELETE FROM PFLOANADJUSTMENT WHERE TransId=" + strTransID;
+        SqlCommand cmd = new SqlCommand(strSQL);
+        cmd.CommandType = CommandType.Text;
+
+        SqlParameter p_TRANSID = cmd.Parameters.Add("TRANSID", SqlDbType.BigInt);
+        p_TRANSID.Direction = ParameterDirection.Input;
+        p_TRANSID.Value = strTransID;
+
+        objDC.ExecuteQuery(cmd);
+    }
 
     #endregion
 

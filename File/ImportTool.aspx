@@ -344,7 +344,7 @@
                         Text="Upload BankAccNo" onclick="btnUploadBankAccNo_Click" BorderColor="White"/> 
                 </td>
                 <td style="width: 3px">
-                    <asp:Button ID="btnUpdateBankAccNo" runat="server" Text="Update BankAccNo" 
+                    <asp:Button ID="btnUpdateBankAccNo" runat="server" Text="Update IncDate" 
                         OnClick="btnUpdateBankAccNo_Click" BorderColor="White" />
                 </td>
                 <td style="width: 3px">

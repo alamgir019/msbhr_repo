@@ -93,10 +93,12 @@ public partial class Back_Office_EmpHRInfo : System.Web.UI.Page
                     txtEmpFullName.ToolTip = Common.DisplayDate(dRow["DOB"].ToString().Trim());
                     txtBankAccNo.Text = dRow["BankAccNo"].ToString().Trim();
                     txtBasicSalary.Text = dRow["BasicSalary"].ToString().Trim();
+                    chkIsConfirmed.Checked = dRow["IsConfirmed"].ToString() == "Y" ? true : false;
                     txtGrossSalary.Text = dRow["GrossSalary"].ToString().Trim();
                     txtConfirmDate.Text = string.IsNullOrEmpty(dRow["ConfirmationDate"].ToString()) == false ? Common.DisplayDate(dRow["ConfirmationDate"].ToString()) : "";
                     txtContractExpDate.Text = string.IsNullOrEmpty(dRow["ContractEndDate"].ToString()) == false ? Common.DisplayDate(dRow["ContractEndDate"].ToString()) : "";
                     txtContractInterval.Text = dRow["ContractInterval"].ToString().Trim();
+                    txtLastIncDate.Text = string.IsNullOrEmpty(dRow["IncrementDate"].ToString()) == false ? Common.DisplayDate(dRow["IncrementDate"].ToString()) : "";
                     txtContractPurpose.Text = dRow["ContractPurpose"].ToString().Trim();
                     txtDateInGrade.Text = string.IsNullOrEmpty(dRow["DateInGrade"].ToString()) == false ? Common.DisplayDate(dRow["DateInGrade"].ToString()) : "";
                     txtDateInPosition.Text = string.IsNullOrEmpty(dRow["DateInPosition"].ToString()) == false ? Common.DisplayDate(dRow["DateInPosition"].ToString()) : "";
@@ -353,6 +355,7 @@ public partial class Back_Office_EmpHRInfo : System.Web.UI.Page
         string strRetirementDate = "";
         string strServiceStart = "";
         string strServiceEnd = "";
+        string strIncDate = "";
 
         if (string.IsNullOrEmpty(txtJoiningDate.Text.Trim()) == false)
             strJoinDate = Common.ReturnDate(txtJoiningDate.Text.Trim());
@@ -378,12 +381,16 @@ public partial class Back_Office_EmpHRInfo : System.Web.UI.Page
         if (string.IsNullOrEmpty(txtRetirementDate.Text.Trim()) == false)
             strRetirementDate = Common.ReturnDate(txtRetirementDate.Text.Trim());
 
+        if (string.IsNullOrEmpty(txtLastIncDate.Text.Trim()) == false)
+            strIncDate = Common.ReturnDate(txtLastIncDate.Text.Trim());
+
         clsEmpInfoHr obj = new clsEmpInfoHr();
         obj.ActionDate = txtActionDate.Text.Trim();
         obj.ActionName = txtActionName.Text.Trim();
         obj.BankAccNo = txtBankAccNo.Text.Trim();
         obj.BankCode = ddlBankName.SelectedValue.ToString();
         obj.BasicSalary = txtBasicSalary.Text.Trim();
+        
         obj.GrossSalary = txtGrossSalary.Text.Trim();
         obj.ConfirmationDate = strConfirmDate;
         obj.ContractEndDate = strContractExpDate;
@@ -480,6 +487,8 @@ public partial class Back_Office_EmpHRInfo : System.Web.UI.Page
         obj.InsertedBy = Session["USERID"].ToString();
         obj.InsertedDate = Common.SetDateTime(DateTime.Now.ToString());
         obj.TaxRegionId = ddlTaxRegion.SelectedValue.ToString();
+        obj.IncrementDate = strIncDate;
+        obj.IsConfirmed = chkIsConfirmed.Checked == true ? "Y" : "N";
         return obj;
     }
 

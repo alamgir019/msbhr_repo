@@ -665,6 +665,15 @@ public class EmpInfoManager
         if (clEmp.TaxRegionId != "99999")
             p_TaxRegionId.Value = clEmp.TaxRegionId;
 
+        SqlParameter p_IncrementDate = cmd[0].Parameters.Add("IncrementDate", DBNull.Value);
+        p_IncrementDate.Direction = ParameterDirection.Input;
+        p_IncrementDate.IsNullable = true;
+        if (clEmp.IncrementDate != "")
+            p_IncrementDate.Value =clEmp.IncrementDate;
+
+        SqlParameter p_IsConfirmed = cmd[0].Parameters.Add("IsConfirmed", SqlDbType.Char);
+        p_IsConfirmed.Direction = ParameterDirection.Input;
+        p_IsConfirmed.Value = clEmp.IsConfirmed;
         #endregion
 
         //if (clEmp.IsMedicalEntmnt == "Y")
@@ -1034,7 +1043,7 @@ public class EmpInfoManager
 
     #endregion
 
-    # region To get the Emp
+    # region To get the Supervisor Wise Emp
     // Edited By Amit For Dynamic Menu Load
     public DataTable GetSuperVisiorWiseEmp(string strEmpID, string strDivID)
     {
@@ -1141,7 +1150,7 @@ public class EmpInfoManager
         return objDC.ds.Tables["SupervisorEmp"];
     }
 
-    public DataTable SelectEmpNameWithID(string strStatus,string empId="-1")
+    public DataTable SelectEmpNameWithID(string strStatus)
     {
         string strSQL = "SELECT  FULLNAME + ' [' + EMPID + ']' AS EMPNAME,EMPID,dg.DesigName,dl.DeptName" +
             " from EmpInfo ei left join Designation dg on ei.DesigId=dg.DesigId "+
@@ -1150,13 +1159,13 @@ public class EmpInfoManager
         {
             strSQL += " AND ei.EmpStatus='" + strStatus+"'";
         }
-        if (empId!="-1")
-        {
-            strSQL += " and ei.EMPID='" + empId + "'";
-        }
         strSQL+= " ORDER BY ei.EMPID";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
+
+        //SqlParameter p_STATUS = command.Parameters.Add("STATUS", SqlDbType.Char);
+        //p_STATUS.Direction = ParameterDirection.Input;
+        //p_STATUS.Value = strStatus;
 
         objDC.CreateDT(command, "SelectEmpNameWithID");
         return objDC.ds.Tables["SelectEmpNameWithID"];
@@ -1215,7 +1224,24 @@ public class EmpInfoManager
         objDC.CreateDT(command, "SelectEmpNameWithIDForIT");
         return objDC.ds.Tables["SelectEmpNameWithIDForIT"];
     }
-    
+
+    //public DataTable SelectEmpPayslipPersonalInfo(string strEmpID)
+    //{
+    //    string strSQL = "SELECT E.EmpId,E.FullName AS FULLNAME,J.JobTitleName,LL.PostingPlaceName " +
+    //                    "FROM EmpInfo E,JobTitle J,PostingPlaceList LL " +
+    //                    "WHERE E.JobTitleId=J.JobTitleId AND E.PostingPlaceId=LL.PostingPlaceId AND EMPID=@EMPID";
+
+    //    SqlCommand command = new SqlCommand(strSQL);
+    //    command.CommandType = CommandType.Text;
+
+    //    SqlParameter p_EMPID = command.Parameters.Add("EMPID", SqlDbType.Char);
+    //    p_EMPID.Direction = ParameterDirection.Input;
+    //    p_EMPID.Value = strEmpID;
+
+    //    objDC.CreateDT(command, "SelectEmpPayslipPersonalInfo");
+    //    return objDC.ds.Tables["SelectEmpPayslipPersonalInfo"];
+    //}
+
     public DataTable SelectEmpPayslipPersonalInfo(string strEmpID)
     {
         string strSQL = "SELECT E.EmpId,E.FullName AS FULLNAME,J.LocCatName,e.BankAccNo,Desi.DesigName,pd.DivisionName," +
@@ -1827,7 +1853,287 @@ public class EmpInfoManager
             command = null;
         }
     }
-    
+
+    //public void InsertEmpTransitionLogUpdateEmpInfo(clsEmpTransition objEmpTransition, string strActionName, string strPreDivId, string strPreSBUId, string strPreLocID, string strPreDeptId,
+    //            string strPreDesgId, string strPreGradeId, string strPreGradeLevelId, string strBasicSal, string strTransAmt, string strIsUpdate, string strSalPackId, DataTable dtSalPackUpdate)
+    //{
+    //    DBConnector objDC = new DBConnector();
+    //    SqlCommand[] command = new SqlCommand[4 + dtSalPackUpdate.Rows.Count];
+    //    command[0] = new SqlCommand("proc_Insert_EmpTransitionLog");
+    //    command[0].CommandType = CommandType.StoredProcedure;
+
+    //    SqlParameter p_EmpID = command[0].Parameters.Add("EmpID", SqlDbType.Char);
+    //    p_EmpID.Direction = ParameterDirection.Input;
+    //    p_EmpID.Value = objEmpTransition.EmpID;
+
+    //    SqlParameter p_TransitionId = command[0].Parameters.Add("TransitionId", SqlDbType.BigInt);
+    //    p_TransitionId.Direction = ParameterDirection.Input;
+    //    p_TransitionId.Value = objEmpTransition.TransitionId;
+
+    //    SqlParameter p_TransitionType = command[0].Parameters.Add("TransitionType", SqlDbType.Char);
+    //    p_TransitionType.Direction = ParameterDirection.Input;
+    //    p_TransitionType.Value = objEmpTransition.TransitionType;
+
+    //    SqlParameter p_DivisionID = command[0].Parameters.Add("DivisionID", SqlDbType.BigInt);
+    //    p_DivisionID.Direction = ParameterDirection.Input;
+    //    p_DivisionID.Value = strPreDivId;
+
+    //    SqlParameter p_SbuId = command[0].Parameters.Add("SbuId", SqlDbType.BigInt);
+    //    p_SbuId.Direction = ParameterDirection.Input;
+    //    p_SbuId.Value = strPreSBUId;
+
+    //    SqlParameter p_LocID = command[0].Parameters.Add("LocID", SqlDbType.BigInt);
+    //    p_LocID.Direction = ParameterDirection.Input;
+    //    p_LocID.Value = strPreLocID;
+
+    //    SqlParameter p_DeptId = command[0].Parameters.Add("DeptId", SqlDbType.BigInt);
+    //    p_DeptId.Direction = ParameterDirection.Input;
+    //    p_DeptId.Value = strPreDeptId;
+
+    //    SqlParameter p_DesgId = command[0].Parameters.Add("DesgId", SqlDbType.BigInt);
+    //    p_DesgId.Direction = ParameterDirection.Input;
+    //    p_DesgId.Value = strPreDesgId;
+
+    //    SqlParameter p_GradeId = command[0].Parameters.Add("GradeId", SqlDbType.BigInt);
+    //    p_GradeId.Direction = ParameterDirection.Input;
+    //    p_GradeId.Value = strPreGradeId;
+
+    //    SqlParameter p_GradeLevelId = command[0].Parameters.Add("GradeLevelId", SqlDbType.BigInt);
+    //    p_GradeLevelId.Direction = ParameterDirection.Input;
+    //    p_GradeLevelId.Value = strPreGradeLevelId;
+
+    //    SqlParameter p_ActionId = command[0].Parameters.Add("ActionId", SqlDbType.BigInt);
+    //    p_ActionId.Direction = ParameterDirection.Input;
+    //    p_ActionId.Value = objEmpTransition.ActionId;
+
+    //    SqlParameter p_EffDate = command[0].Parameters.Add("EffDate", DBNull.Value);
+    //    p_EffDate.Direction = ParameterDirection.Input;
+    //    p_EffDate.IsNullable = true;
+    //    if (objEmpTransition.EffDate != "")
+    //        p_EffDate.Value = objEmpTransition.EffDate;
+
+    //    SqlParameter p_BasicSal = command[0].Parameters.Add("BasicSal", DBNull.Value);
+    //    p_BasicSal.Direction = ParameterDirection.Input;
+    //    p_BasicSal.IsNullable = true;
+    //    if (strBasicSal != "")
+    //        p_BasicSal.Value = strBasicSal;
+
+    //    SqlParameter p_Transportation = command[0].Parameters.Add("Transportation", DBNull.Value);
+    //    p_Transportation.Direction = ParameterDirection.Input;
+    //    p_Transportation.IsNullable = true;
+    //    if (strTransAmt != "")
+    //        p_Transportation.Value = strTransAmt;
+
+    //    SqlParameter p_SubDesigID = command[0].Parameters.Add("SubDesigID", DBNull.Value);
+    //    p_SubDesigID.Direction = ParameterDirection.Input;
+    //    p_SubDesigID.IsNullable = true;
+    //    if (objEmpTransition.SubDesigId != "")
+    //        p_SubDesigID.Value = objEmpTransition.SubDesigId;
+
+    //    SqlParameter p_ContExpDate = command[0].Parameters.Add("ContExpDate", DBNull.Value);
+    //    p_ContExpDate.Direction = ParameterDirection.Input;
+    //    p_ContExpDate.IsNullable = true;
+    //    if (objEmpTransition.ContactExpDate != "")
+    //        p_ContExpDate.Value = objEmpTransition.ContactExpDate;
+
+    //    SqlParameter p_PostindDate = command[0].Parameters.Add("PostindDate", DBNull.Value);
+    //    p_PostindDate.Direction = ParameterDirection.Input;
+    //    p_PostindDate.IsNullable = true;
+    //    if (objEmpTransition.PostingDate != "")
+    //        p_PostindDate.Value = objEmpTransition.PostingDate;
+
+    //    SqlParameter p_DateInPosition = command[0].Parameters.Add("DateInPosition", DBNull.Value);
+    //    p_DateInPosition.Direction = ParameterDirection.Input;
+    //    p_DateInPosition.IsNullable = true;
+    //    if (objEmpTransition.DateInPosition != "")
+    //        p_DateInPosition.Value = objEmpTransition.DateInPosition;
+
+    //    SqlParameter p_GradeEffDate = command[0].Parameters.Add("GradeEffDate", DBNull.Value);
+    //    p_GradeEffDate.Direction = ParameterDirection.Input;
+    //    p_GradeEffDate.IsNullable = true;
+    //    if (objEmpTransition.GradeEffDate != "")
+    //        p_GradeEffDate.Value = objEmpTransition.GradeEffDate;
+
+    //    SqlParameter p_GradelevelDate = command[0].Parameters.Add("GradelevelDate", DBNull.Value);
+    //    p_GradelevelDate.Direction = ParameterDirection.Input;
+    //    p_GradelevelDate.IsNullable = true;
+    //    if (objEmpTransition.GradeLevelDate != "")
+    //        p_GradelevelDate.Value = objEmpTransition.GradeLevelDate;
+
+    //    SqlParameter p_GRATUITYFROM = command[0].Parameters.Add("GRATUITYFROM", DBNull.Value);
+    //    p_GRATUITYFROM.Direction = ParameterDirection.Input;
+    //    p_GRATUITYFROM.IsNullable = true;
+    //    if (objEmpTransition.GRATUITYFROM != "")
+    //        p_GRATUITYFROM.Value = objEmpTransition.GRATUITYFROM;
+
+    //    SqlParameter p_InsertedBy = command[0].Parameters.Add("InsertedBy", SqlDbType.VarChar);
+    //    p_InsertedBy.Direction = ParameterDirection.Input;
+    //    p_InsertedBy.Value = objEmpTransition.InsertedBy;
+
+    //    SqlParameter p_InsertedDate = command[0].Parameters.Add("InsertedDate", SqlDbType.DateTime);
+    //    p_InsertedDate.Direction = ParameterDirection.Input;
+    //    p_InsertedDate.Value = objEmpTransition.InsertedDate;
+
+    //    SqlParameter p_IsUpdate = command[0].Parameters.Add("IsUpdate", SqlDbType.Char);
+    //    p_IsUpdate.Direction = ParameterDirection.Input;
+    //    p_IsUpdate.Value = strIsUpdate;
+
+    //    if (strIsUpdate == "N")
+    //    {
+    //        command[1] = InsertEmpInfoLog(objEmpTransition.EmpID);
+
+    //        command[2] = new SqlCommand("proc_Update_EmpInfoTransitionLog");
+    //        command[2].CommandType = CommandType.StoredProcedure;
+
+    //        SqlParameter p_EmpID1 = command[2].Parameters.Add("EmpID", SqlDbType.Char);
+    //        p_EmpID1.Direction = ParameterDirection.Input;
+    //        p_EmpID1.Value = objEmpTransition.EmpID;
+
+    //        SqlParameter p_DivisionID1 = command[2].Parameters.Add("DivisionID", SqlDbType.BigInt);
+    //        p_DivisionID1.Direction = ParameterDirection.Input;
+    //        p_DivisionID1.Value = objEmpTransition.DivisionID;
+
+    //        SqlParameter p_SbuId1 = command[2].Parameters.Add("SbuId", SqlDbType.BigInt);
+    //        p_SbuId1.Direction = ParameterDirection.Input;
+    //        p_SbuId1.Value = objEmpTransition.DeptId;
+
+    //        SqlParameter p_LocID1 = command[2].Parameters.Add("LocID", SqlDbType.BigInt);
+    //        p_LocID1.Direction = ParameterDirection.Input;
+    //        p_LocID1.Value = objEmpTransition.LocID;
+
+    //        SqlParameter p_DeptId1 = command[2].Parameters.Add("DeptId", SqlDbType.BigInt);
+    //        p_DeptId1.Direction = ParameterDirection.Input;
+    //        p_DeptId1.Value = objEmpTransition.SbuId;
+
+    //        SqlParameter p_DesgId1 = command[2].Parameters.Add("DesgId", SqlDbType.BigInt);
+    //        p_DesgId1.Direction = ParameterDirection.Input;
+    //        p_DesgId1.Value = objEmpTransition.DesgId;
+
+    //        SqlParameter p_GradeId1 = command[2].Parameters.Add("GradeId", SqlDbType.BigInt);
+    //        p_GradeId1.Direction = ParameterDirection.Input;
+    //        p_GradeId1.Value = objEmpTransition.GradeId;
+
+    //        SqlParameter p_GradeLevelId1 = command[2].Parameters.Add("GradeLevelId", SqlDbType.BigInt);
+    //        p_GradeLevelId1.Direction = ParameterDirection.Input;
+    //        p_GradeLevelId1.Value = objEmpTransition.GradeLevelId;
+
+    //        SqlParameter p_BasicSal1 = command[2].Parameters.Add("BasicSal", DBNull.Value);
+    //        p_BasicSal1.Direction = ParameterDirection.Input;
+    //        p_BasicSal1.IsNullable = true;
+    //        if (objEmpTransition.BasicSal != "")
+    //            p_BasicSal1.Value = objEmpTransition.BasicSal;
+
+    //        SqlParameter p_Transportation11 = command[2].Parameters.Add("Transportation", DBNull.Value);
+    //        p_Transportation11.Direction = ParameterDirection.Input;
+    //        p_Transportation11.IsNullable = true;
+    //        if (objEmpTransition.Transportation != "")
+    //            p_Transportation11.Value = objEmpTransition.Transportation;
+
+    //        SqlParameter p_SubDesigID2 = command[2].Parameters.Add("SubDesigID", DBNull.Value);
+    //        p_SubDesigID2.Direction = ParameterDirection.Input;
+    //        p_SubDesigID2.IsNullable = true;
+    //        if (objEmpTransition.SubDesigId != "")
+    //            p_SubDesigID2.Value = objEmpTransition.SubDesigId;
+
+    //        SqlParameter p_ContExpDate2 = command[2].Parameters.Add("ContExpDate", DBNull.Value);
+    //        p_ContExpDate2.Direction = ParameterDirection.Input;
+    //        p_ContExpDate2.IsNullable = true;
+    //        if (objEmpTransition.ContactExpDate != "")
+    //            p_ContExpDate2.Value = objEmpTransition.ContactExpDate;
+
+    //        SqlParameter p_PostindDate2 = command[2].Parameters.Add("PostindDate", DBNull.Value);
+    //        p_PostindDate2.Direction = ParameterDirection.Input;
+    //        p_PostindDate2.IsNullable = true;
+    //        if (objEmpTransition.PostingDate != "")
+    //            p_PostindDate2.Value = objEmpTransition.PostingDate;
+
+    //        SqlParameter p_DateInPosition2 = command[2].Parameters.Add("DateInPosition", DBNull.Value);
+    //        p_DateInPosition2.Direction = ParameterDirection.Input;
+    //        p_DateInPosition2.IsNullable = true;
+    //        if (objEmpTransition.DateInPosition != "")
+    //            p_DateInPosition2.Value = objEmpTransition.DateInPosition;
+
+    //        SqlParameter p_GradeEffDate2 = command[2].Parameters.Add("GradeEffDate", DBNull.Value);
+    //        p_GradeEffDate2.Direction = ParameterDirection.Input;
+    //        p_GradeEffDate2.IsNullable = true;
+    //        if (objEmpTransition.GradeEffDate != "")
+    //            p_GradeEffDate2.Value = objEmpTransition.GradeEffDate;
+
+    //        SqlParameter p_GradelevelDate2 = command[2].Parameters.Add("GradelevelDate", DBNull.Value);
+    //        p_GradelevelDate2.Direction = ParameterDirection.Input;
+    //        p_GradelevelDate2.IsNullable = true;
+    //        if (objEmpTransition.GradeLevelDate != "")
+    //            p_GradelevelDate2.Value = objEmpTransition.GradeLevelDate;
+
+    //        SqlParameter p_GratuityPaymentDate2 = command[2].Parameters.Add("GRATUITYFROM", DBNull.Value);
+    //        p_GratuityPaymentDate2.Direction = ParameterDirection.Input;
+    //        p_GratuityPaymentDate2.IsNullable = true;
+    //        if (objEmpTransition.GRATUITYFROM != "")
+    //            p_GratuityPaymentDate2.Value = objEmpTransition.GRATUITYFROM;
+
+    //        SqlParameter p_ActionId2 = command[2].Parameters.Add("ActionId", SqlDbType.BigInt);
+    //        p_ActionId2.Direction = ParameterDirection.Input;
+    //        p_ActionId2.Value = objEmpTransition.ActionId;
+
+    //        SqlParameter p_ActionDate = command[2].Parameters.Add("ActionDate", DBNull.Value);
+    //        p_ActionDate.Direction = ParameterDirection.Input;
+    //        p_ActionDate.IsNullable = true;
+    //        if (objEmpTransition.EffDate != "")
+    //            p_ActionDate.Value = objEmpTransition.EffDate;
+
+    //        SqlParameter p_InsertedBy2 = command[2].Parameters.Add("InsertedBy", SqlDbType.VarChar);
+    //        p_InsertedBy2.Direction = ParameterDirection.Input;
+    //        p_InsertedBy2.Value = objEmpTransition.InsertedBy;
+
+    //        SqlParameter p_InsertedDate2 = command[2].Parameters.Add("InsertedDate", SqlDbType.DateTime);
+    //        p_InsertedDate2.Direction = ParameterDirection.Input;
+    //        p_InsertedDate2.Value = objEmpTransition.InsertedDate;
+
+    //        command[3] = InsertEmpActionLog(objEmpTransition.EmpID, objEmpTransition.ActionId, strActionName, objEmpTransition.EffDate, objEmpTransition.InsertedBy, objEmpTransition.InsertedDate);
+
+    //        //Housing & PF & Transportation Allowance Update     
+    //        int i = 4;
+    //        if (dtSalPackUpdate.Rows.Count > 0)
+    //        {
+    //            foreach (SqlCommand cmdSal in this.GetSalPackDetUpdateCommand(dtSalPackUpdate, strSalPackId, objEmpTransition.InsertedBy, objEmpTransition.InsertedDate, "Transition"))
+    //            {
+    //                command[i] = cmdSal;
+    //                i++;
+    //            }
+    //        }
+    //    }
+
+    //    try
+    //    {
+    //        objDC.MakeTransaction(command);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw (ex);
+    //    }
+    //    finally
+    //    {
+    //        command = null;
+    //    }
+    //}
+
+    //public DataTable SelectEmpTransitionLog(Int32 TransitionId, string EmpID)
+    //{
+    //    SqlCommand command = new SqlCommand("proc_Select_EmpTransitionLog");
+
+    //    SqlParameter p_TransitionId = command.Parameters.Add("TransitionId", SqlDbType.BigInt);
+    //    p_TransitionId.Direction = ParameterDirection.Input;
+    //    p_TransitionId.Value = TransitionId;
+
+    //    SqlParameter p_EmpID = command.Parameters.Add("EmpID", SqlDbType.Char);
+    //    p_EmpID.Direction = ParameterDirection.Input;
+    //    p_EmpID.Value = EmpID;
+
+
+    //    objDC.CreateDSFromProc(command, "EmpTransitionLog");
+    //    return objDC.ds.Tables["EmpTransitionLog"];
+    //}
+
     public void InsertEmpSeparation(ClsEmpSeparation objEmp, string StrActionName, string strIsUpdate, string strIsDelete,
         string strSLYear, string strSLMonth, string strSLDay, string strTotdays, string strLPakId)
     {
@@ -1961,7 +2267,102 @@ public class EmpInfoManager
 
         return command;
     }
-    
+
+    //Insert or update employee confirmation information
+    //public void InsertConfirmation(string strConfirmId, string strEmpId, string strActionId, string strActionName,
+    //    string strLPakId, string strConfirmDate, string strInsertedBy, string strInsertedDate, string IsUpdate,
+    //    string IsDelete, string strSalPackId, DataTable dtSalPackUpdate)
+    //{
+    //    int i = 0;
+    //    SqlCommand[] cmd1 = new SqlCommand[1];
+
+    //    if (IsUpdate == "N")
+    //    {
+    //        //EmpLeaveProfileManager objLevProMgr = new EmpLeaveProfileManager();
+    //        //cmd1 = objLevProMgr.UpdateConfirmLevProfile(strEmpId, strLPakId, strConfirmDate, strInsertedBy);
+    //    }
+    //    SqlCommand[] command = new SqlCommand[cmd1.Length + 4 + dtSalPackUpdate.Rows.Count];
+
+    //    command[0] = new SqlCommand("proc_Insert_EmpConfirmationLog");
+    //    command[0].CommandType = CommandType.StoredProcedure;
+
+    //    SqlParameter p_ConfirmId = command[0].Parameters.Add("ConfirmId", SqlDbType.BigInt);
+    //    p_ConfirmId.Direction = ParameterDirection.Input;
+    //    p_ConfirmId.Value = strConfirmId;
+
+    //    SqlParameter p_EmpId = command[0].Parameters.Add("EmpId", SqlDbType.Char);
+    //    p_EmpId.Direction = ParameterDirection.Input;
+    //    p_EmpId.Value = strEmpId;
+
+    //    SqlParameter p_ActionId = command[0].Parameters.Add("ActionId", SqlDbType.BigInt);
+    //    p_ActionId.Direction = ParameterDirection.Input;
+    //    p_ActionId.Value = strActionId;
+
+    //    SqlParameter p_ConfirmDate = command[0].Parameters.Add("ConfirmDate", DBNull.Value);
+    //    p_ConfirmDate.Direction = ParameterDirection.Input;
+    //    p_ConfirmDate.IsNullable = true;
+    //    if (strConfirmDate != "")
+    //        p_ConfirmDate.Value = strConfirmDate;
+
+    //    SqlParameter p_InsertedBy = command[0].Parameters.Add("InsertedBy", SqlDbType.VarChar);
+    //    p_InsertedBy.Direction = ParameterDirection.Input;
+    //    p_InsertedBy.Value = strInsertedBy;
+
+    //    SqlParameter p_InsertedDate = command[0].Parameters.Add("InsertedDate", SqlDbType.DateTime);
+    //    p_InsertedDate.Direction = ParameterDirection.Input;
+    //    p_InsertedDate.Value = strInsertedDate;
+
+    //    SqlParameter p_IsUpdate = command[0].Parameters.Add("IsUpdate", SqlDbType.Char);
+    //    p_IsUpdate.Direction = ParameterDirection.Input;
+    //    p_IsUpdate.Value = IsUpdate;
+
+    //    SqlParameter p_IsDelete = command[0].Parameters.Add("IsDelete", SqlDbType.Char);
+    //    p_IsDelete.Direction = ParameterDirection.Input;
+    //    p_IsDelete.Value = IsDelete;
+
+    //    if (IsUpdate == "N")
+    //    {
+    //        //command[1] = InsertEmpInfoLog(strEmpId);
+
+    //        command[2] = UpdateEmpHRActionConf(strEmpId, strConfirmDate, strInsertedBy, strInsertedDate);
+
+    //        command[3] = InsertEmpActionLog(strEmpId, strActionId,  strConfirmDate, strInsertedBy, strInsertedDate);
+
+    //        i = 4;
+    //        foreach (SqlCommand cmdTemp in cmd1)
+    //        {
+    //            if (cmdTemp != null)
+    //            {
+    //                command[i] = cmdTemp;
+    //                i++;
+    //            }
+    //        }
+
+    //        //PF Allowance Update            
+    //        if (dtSalPackUpdate.Rows.Count > 0)
+    //        {
+    //            foreach (SqlCommand cmdSal in this.GetSalPackDetUpdateCommand(dtSalPackUpdate, strSalPackId, strInsertedBy, strInsertedDate, "Confirmation"))
+    //            {
+    //                command[i] = cmdSal;
+    //                i++;
+    //            }
+    //        }
+    //    }
+
+    //    try
+    //    {
+    //        objDC.MakeTransaction(command);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw (ex);
+    //    }
+    //    finally
+    //    {
+    //        command = null;
+    //    }
+    //}
+
     private SqlCommand UpdateEmpHRActionConf(string strEmpId, string strActionId, string strActionDate, string strEmpTypeId, string strNewGrossSalary, string strNewBasicSalary,
       string strConfirmationDate, string strInsertedBy, string strInsertedDate)
     {
@@ -2080,7 +2481,78 @@ public class EmpInfoManager
             throw (ex);
         }
     }
-    
+
+    //public DataTable SelectEmpSeparation(Int32 SeparationId, string EmpID)
+    //{
+    //    SqlCommand command = new SqlCommand("proc_Select_EmpSeparationLog");
+
+    //    SqlParameter p_SeparationId = command.Parameters.Add("SeparationId", SqlDbType.BigInt);
+    //    p_SeparationId.Direction = ParameterDirection.Input;
+    //    p_SeparationId.Value = SeparationId;
+
+    //    SqlParameter p_EmpId = command.Parameters.Add("EmpId", SqlDbType.Char);
+    //    p_EmpId.Direction = ParameterDirection.Input;
+    //    p_EmpId.Value = EmpID;
+
+    //    objDC.CreateDSFromProc(command, "EmpSeparationLog");
+    //    return objDC.ds.Tables["EmpSeparationLog"];
+    //}
+
+    //private SqlCommand UpdateEmpSalaryAmendment(string strEmpId, string strActionId, string strActionDate, string strBasicSal,
+    // string strInsertedBy, string strInsertedDate)
+    //{
+    //    string strSQL = "UPDATE EmpInfo SET ActionId=" + strActionId + ",ActionDate='" + strActionDate + "',BasicSal=" + strBasicSal + ", UpdatedBy='" + strInsertedBy
+    //        + "',UpdatedDate='" + strInsertedDate + "' WHERE EmpId='" + strEmpId + "'";
+
+    //    SqlCommand command = new SqlCommand(strSQL);
+
+    //    SqlParameter p_EmpId = command.Parameters.Add("EmpId", SqlDbType.Char);
+    //    p_EmpId.Direction = ParameterDirection.Input;
+    //    p_EmpId.Value = strEmpId;
+
+    //    SqlParameter p_ActionId = command.Parameters.Add("ActionId", SqlDbType.BigInt);
+    //    p_ActionId.Direction = ParameterDirection.Input;
+    //    p_ActionId.Value = strActionId;
+
+    //    SqlParameter p_ActionDate = command.Parameters.Add("ActionDate", DBNull.Value);
+    //    p_ActionDate.Direction = ParameterDirection.Input;
+    //    p_ActionDate.IsNullable = true;
+    //    if (strActionDate != "")
+    //        p_ActionDate.Value = strActionDate;
+
+    //    SqlParameter p_BasicSal = command.Parameters.Add("BasicSal", DBNull.Value);
+    //    p_BasicSal.Direction = ParameterDirection.Input;
+    //    p_BasicSal.IsNullable = true;
+    //    if (strBasicSal != "")
+    //        p_BasicSal.Value = strBasicSal;
+
+    //    SqlParameter p_InsertedBy = command.Parameters.Add("InsertedBy", SqlDbType.VarChar);
+    //    p_InsertedBy.Direction = ParameterDirection.Input;
+    //    p_InsertedBy.Value = strInsertedBy;
+
+    //    SqlParameter p_InsertedDate = command.Parameters.Add("InsertedDate", SqlDbType.DateTime);
+    //    p_InsertedDate.Direction = ParameterDirection.Input;
+    //    p_InsertedDate.Value = strInsertedDate;
+
+    //    return command;
+    //}
+
+    //public DataTable SelectEmpReHiredlogLog(Int32 ReHiredId, string EmpID)
+    //{
+    //    SqlCommand command = new SqlCommand("proc_Select_EmpReHiredLog");
+
+    //    SqlParameter p_ReHiredId = command.Parameters.Add("ReHiredId", SqlDbType.BigInt);
+    //    p_ReHiredId.Direction = ParameterDirection.Input;
+    //    p_ReHiredId.Value = ReHiredId;
+
+    //    SqlParameter p_EmpID = command.Parameters.Add("EmpID", SqlDbType.Char);
+    //    p_EmpID.Direction = ParameterDirection.Input;
+    //    p_EmpID.Value = EmpID;
+
+    //    objDC.CreateDSFromProc(command, "EmpReHiredLog");
+    //    return objDC.ds.Tables["EmpReHiredLog"];
+    //}
+
     public DataTable SelectEmpTempDuty(long TempDutyID, string EmpId)
     {
         SqlCommand command = new SqlCommand("proc_Select_EmpTempDutyAssignLog");
@@ -2216,14 +2688,13 @@ public class EmpInfoManager
         SqlParameter p_ReHiredId = command[0].Parameters.Add("ReHiredId", SqlDbType.BigInt);
         p_ReHiredId.Direction = ParameterDirection.Input;
         p_ReHiredId.Value = objReHired.ReHiredId;
+         
 
-        SqlParameter p_PayEmpID = command[0].Parameters.Add("PayEmpId", SqlDbType.Char);
-        p_PayEmpID.Direction = ParameterDirection.Input;
-        p_PayEmpID.Value = strPayEmpId;
-
-        SqlParameter p_ActionId = command[0].Parameters.Add("ActionId", SqlDbType.BigInt);
+        SqlParameter p_ActionId = command[0].Parameters.Add("ActionId", DBNull.Value);
         p_ActionId.Direction = ParameterDirection.Input;
-        p_ActionId.Value = objReHired.ActionId;
+        p_ActionId.IsNullable = true;
+        if (objReHired.ActionId != "")
+            p_ActionId.Value = objReHired.ActionId;        
 
         SqlParameter p_EffectiveDate = command[0].Parameters.Add("EffectiveDate", DBNull.Value);
         p_EffectiveDate.Direction = ParameterDirection.Input;
@@ -2247,9 +2718,10 @@ public class EmpInfoManager
         {
             //command[1] = InsertEmpInfoLog(objReHired.EmpID);
 
-            //command[2] = UpdateEmpHRActionReHiredStatus(objReHired.EmpID, strPayEmpId, objReHired.ActionId, objReHired.EffectiveDate, objReHired.InsertedBy, objReHired.InsertedDate);
+            command[2] = UpdateEmpHRActionReHiredStatus(objReHired.EmpID, strPayEmpId, objReHired.ActionId, objReHired.EffectiveDate, objReHired.InsertedBy, objReHired.InsertedDate);
 
-            command[3] = InsertEmpActionLog(objReHired.EmpID, objReHired.ActionId,  objReHired.EffectiveDate, objReHired.InsertedBy, objReHired.InsertedDate);
+            EmpLeaveProfileManager objLevProMgr = new EmpLeaveProfileManager();
+            //command[4] = objLevProMgr.InsertIntoEmpLevProfile(objReHired.EmpID, clEmp.LeavePakId, clEmp.JoiningDate, objReHired.InsertedBy, clEmp.EmpTypeID);
         }
 
         try
@@ -2265,12 +2737,57 @@ public class EmpInfoManager
             command = null;
         }
     }
-    
+
+    public DataTable SelectEmpReHiredlog(Int32 LogId, string EmpId)
+    {
+        String strSql = "SELECT * FROM EmpRehiredLog WHere EmpId='" + EmpId + "'";
+        SqlCommand cmd = new SqlCommand(strSql);
+        cmd.CommandType = CommandType.Text;
+
+        SqlParameter p_LogId = cmd.Parameters.Add("LogId", SqlDbType.BigInt);
+        p_LogId.Direction = ParameterDirection.Input;
+        p_LogId.Value = LogId;
+
+        SqlParameter p_EmpId = cmd.Parameters.Add("EmpId", SqlDbType.Char);
+        p_EmpId.Direction = ParameterDirection.Input;
+        p_EmpId.Value = EmpId;
+
+        return objDC.CreateDT(strSql, "EmpReHiredlog");
+    }
+    ////Insert into Employee Log File
+    //public SqlCommand InsertEmpInfoLog(string strEmpId)
+    //{
+    //    string strLogId = Common.getMaxId("EmpInfoLog", "LogId");
+    //    string strSQL = "INSERT INTO EmpInfoLog SELECT " + strLogId + ",EmpId, EmpFname, EmpMName, EmpLName," +
+    //        " FullName, BanglaName, FathersNm, MothersNm, PreCO, PreVill, PreUnion, PrePO, PrePostCode, PrePS," +
+    //        " PreUpazillaID, PreDistrictID, PreCountryID, PrePhone, PreMobile, PerCO, PerVill, PerUnion, PerPO," +
+    //        " PerPostCode, PerPS, PerUpazillaID, PerDistrictID, PerCountryID, PerPhone, PerMobile, DOB, Age, Sex," +
+    //        " BloodGroup, MaritalStatus, MarriageDate, SpuseName, SpouseOccup, Religion, Nationality, PassportNo," +
+    //        " PersMobile, PersEmail1, PersEmail2, Hobbies, MotherToung, AcomdType, LivingWith, FamiliAddInfo, SpecialNote," +
+    //        " PResponsibility, SResponsibility, ExtComm, IntComm, DeptId, SectionID, DesgId, CardNo, RouteId, WeekEndID," +
+    //        " AttnPolicyID, SalaryPakId, SalPakEffDate, BonusPakId, RecvAttBonus, LPakID, reportingTo, JoiningDate," +
+    //        " ConfirmDueDate, EmpTypeID, EmpTypeStatus, EmpSubTypeStatus, NextValuationDate, ValuationInterval, Status," +
+    //        " leavingDate, BankAccNo, ArearAmnt, IsRoaster, IsVisiRestricted, USERID, ISDELETED, InsertedBy, InsertedDate," +
+    //        " UpdatedBy, UpdatedDate, LastUpdatedFrom, LocID, SbuId, DivisionID, GroupId, OTNOTALLOWED, OTNOTALLOWEDDATE," +
+    //        " ISSEPERATED, SEPERATEDATE, SubGradeId, GradeId, EmpPhoto, EmpPicLoc, EmpAbbrName, TINNo, NationalCardId, PreAddress," +
+    //        " IsDeptHead, IsShiftInchr, PerUpazillaName, srcsbuid, GradeEffDate, SalPakClsDate, RetirementDate, IsPayRollStaff," +
+    //        " RenewalDate, PerLandPhone, ValidUnit, ValidDate, Cricle, Zone, EmperConPerson, EmperConNumber, SeparationType," +
+    //        " EmpPrefix, EmpSuffix, IsCountryDirector, OFFICEPHONE, IsArearPaid, IsUnderCostRecovery, SubDesigID, GradeLevelId," +
+    //        " IsRelativeExist, AppntLetterDate, PostindDate, DateInPosition, ContExpDate, ProbExtDate, PrevWorkDuration, Dependants," +
+    //        " NoOfChildren, ConfirmationDate, PerAddress, ProbationPeriod, JoinAs, BasicSal, Transportation, GradelevelDate, Remarks," +
+    //        " ActionId, ActionDate, BankCode, BranchCode, PlanAccLIne, MPCID, GRATUITYFROM, PayEmpID, ReverseName, AlterReportingTo," +
+    //        " PARLOCID, FundCode, IsConfirmed, IsStopIncrement, RecFieldAllow, RecTransportationAllow, IsIntStaff,PayDeptId,FiscalYRID,IsCarAssigned" +
+    //        " FROM EmpInfo WHERE EmpId='" + strEmpId + "'";
+
+    //    SqlCommand command = new SqlCommand(strSQL);
+
+    //    return command;
+    //}
 
     private SqlCommand UpdateEmpHRActionReHiredStatus(string strEmpId, string strPayEmpId, string strActionId, string strActionDate, string strInsertedBy, string strInsertedDate)
     {
-        string strSQL = "UPDATE EmpInfo SET PayEmpId='" + strPayEmpId + "', ActionId=" + strActionId + ",ActionDate='" + strActionDate + "',UpdatedBy='" + strInsertedBy
-            + "',UpdatedDate='" + strInsertedDate + "',Status='A' WHERE EmpId='" + strEmpId + "'";
+        string strSQL = "UPDATE EmpInfo SET SeparateTypeId=NULL,SeparateDate=NULL,ActionId=NULL,ActionDate=NULL,UpdatedBy='" + strInsertedBy
+            + "',UpdatedDate='" + strInsertedDate + "',EmpStatus='A' WHERE EmpId='" + strEmpId + "'";
 
         SqlCommand command = new SqlCommand(strSQL);
 
@@ -2278,20 +2795,15 @@ public class EmpInfoManager
         p_CourseId.Direction = ParameterDirection.Input;
         p_CourseId.Value = strEmpId;
 
+        //SqlParameter p_ActionId = command.Parameters.Add("ActionId", SqlDbType.BigInt);
+        //p_ActionId.Direction = ParameterDirection.Input;
+        //p_ActionId.Value = strActionId;
 
-        SqlParameter p_PayEmpId = command.Parameters.Add("PayEmpId", SqlDbType.Char);
-        p_PayEmpId.Direction = ParameterDirection.Input;
-        p_PayEmpId.Value = strPayEmpId;
-
-        SqlParameter p_ActionId = command.Parameters.Add("ActionId", SqlDbType.BigInt);
-        p_ActionId.Direction = ParameterDirection.Input;
-        p_ActionId.Value = strActionId;
-
-        SqlParameter p_ActionDate = command.Parameters.Add("ActionDate", DBNull.Value);
-        p_ActionDate.Direction = ParameterDirection.Input;
-        p_ActionDate.IsNullable = true;
-        if (strActionDate != "")
-            p_ActionDate.Value = strActionDate;
+        //SqlParameter p_ActionDate = command.Parameters.Add("ActionDate", DBNull.Value);
+        //p_ActionDate.Direction = ParameterDirection.Input;
+        //p_ActionDate.IsNullable = true;
+        //if (strActionDate != "")
+        //    p_ActionDate.Value = strActionDate;
 
         SqlParameter p_InsertedBy = command.Parameters.Add("InsertedBy", SqlDbType.VarChar);
         p_InsertedBy.Direction = ParameterDirection.Input;
@@ -2303,7 +2815,42 @@ public class EmpInfoManager
 
         return command;
     }
-    
+
+    ////Insert Employee ActionLog
+    //public SqlCommand InsertEmpActionLog(string strEmpId, string strActionId, string strActionName, string strActionDate, string strInsertedBy, string strInsertedDate)
+    //{
+    //    SqlCommand command = new SqlCommand("proc_Insert_EmpActionLog");
+    //    command.CommandType = CommandType.StoredProcedure;
+
+    //    SqlParameter p_LogId = command.Parameters.Add("LogId", SqlDbType.Char);
+    //    p_LogId.Direction = ParameterDirection.Input;
+    //    p_LogId.Value = Common.getMaxId("EmpActionLog", "LogId");
+
+    //    SqlParameter p_EmpID = command.Parameters.Add("EmpID", SqlDbType.Char);
+    //    p_EmpID.Direction = ParameterDirection.Input;
+    //    p_EmpID.Value = strEmpId;
+
+    //    SqlParameter p_ActionId = command.Parameters.Add("ActionId", SqlDbType.BigInt);
+    //    p_ActionId.Direction = ParameterDirection.Input;
+    //    p_ActionId.Value = strActionId;
+
+    //    SqlParameter p_ActionDate = command.Parameters.Add("ActionDate", DBNull.Value);
+    //    p_ActionDate.Direction = ParameterDirection.Input;
+    //    p_ActionDate.IsNullable = true;
+    //    if (strActionDate != "")
+    //        p_ActionDate.Value = strActionDate;
+
+    //    SqlParameter p_InsertedBy = command.Parameters.Add("InsertedBy", SqlDbType.VarChar);
+    //    p_InsertedBy.Direction = ParameterDirection.Input;
+    //    p_InsertedBy.Value = strInsertedBy;
+
+    //    SqlParameter p_InsertedDate = command.Parameters.Add("InsertedDate", SqlDbType.DateTime);
+    //    p_InsertedDate.Direction = ParameterDirection.Input;
+    //    p_InsertedDate.Value = strInsertedDate;
+
+    //    return command;
+    //}
+
     //Select Employee Gratuity Payment
     public DataTable SelectEmpGratuityPayment(Int32 LogId, string EmpId)
     {
@@ -4301,7 +4848,20 @@ public class EmpInfoManager
         }
     }
     #endregion
-    
+
+    #region Select Employment
+
+    public string GetSupervisorName(string strSuppId)
+    {
+        string strSQL = "SELECT FullName FROM EmpInfo WHERE EmpId='" + strSuppId + "'";
+
+        SqlCommand command = new SqlCommand(strSQL);
+        command.CommandType = CommandType.Text;
+
+        return objDC.GetScalarVal(command);
+    }
+    #endregion
+
     #region Education
     // Insert or Update  or Delete Data of Degree table  
     public void InsertDegree(clsCommonSetup clsCommon, string IsUpdate, string IsDelete)
@@ -5275,7 +5835,7 @@ public class EmpInfoManager
     public SqlCommand UpdateEmpHRBasicGross(string strEmpId, string strBasicSalary,string strGrossSalary,string strActionId,string strActionDate, string strInsertedBy, string strInsertedDate)
     {
         string strSQL = "UPDATE EmpInfo SET BasicSalary=" + strBasicSalary + ",GrossSalary=" + strGrossSalary + ",ActionId=" + strActionId + 
-            ",ActionDate='" + strActionDate + "',UpdatedBy='" + strInsertedBy + "',UpdatedDate='" + strInsertedDate + "' WHERE EmpId='" + strEmpId + "'";
+            ",ActionDate='" + strActionDate + "',IncrementDate='" + strActionDate + "',UpdatedBy='" + strInsertedBy + "',UpdatedDate='" + strInsertedDate + "' WHERE EmpId='" + strEmpId + "'";
 
         SqlCommand command = new SqlCommand(strSQL);
 
@@ -5300,6 +5860,12 @@ public class EmpInfoManager
         p_leavingDate.IsNullable = true;
         if (strActionDate != "")
             p_leavingDate.Value = strActionDate;
+
+        SqlParameter p_IncrementDate = command.Parameters.Add("IncrementDate", DBNull.Value);
+        p_IncrementDate.Direction = ParameterDirection.Input;
+        p_IncrementDate.IsNullable = true;
+        if (strActionDate != "")
+            p_IncrementDate.Value = strActionDate;
 
         SqlParameter p_InsertedBy = command.Parameters.Add("InsertedBy", SqlDbType.VarChar);
         p_InsertedBy.Direction = ParameterDirection.Input;
@@ -5390,8 +5956,10 @@ public class EmpInfoManager
     
     public DataTable SelectEmpForIncrement(string strClinicID)
     {
-        string strSQL = "SELECT E.EMPID,E.FULLNAME,E.EmpTypeId,E.BasicSalary,E.GrossSalary,D.DesigName,C.ClinicName FROM EMPINFO E,Designation D,ClinicList C" +
-            " WHERE E.DesigId=D.DesigId AND E.ClinicId=C.ClinicId AND E.ClinicId=@ClinicId ORDER BY EMPID";
+        string strSQL = "SELECT E.EMPID,E.FULLNAME,E.EmpTypeId,E.BasicSalary,E.GrossSalary,E.JoiningDate,E.IncrementDate,D.DesigName,C.ClinicName,ET.TypeName" +
+            " FROM EMPINFO E,Designation D,ClinicList C,EmpTypeList ET" +
+            " WHERE E.EmpStatus='A' AND E.DesigId=D.DesigId AND E.ClinicId=C.ClinicId AND E.EmpTypeId=ET.EmpTypeId AND E.ClinicId=@ClinicId" // AND E.EmpId IN('E006007','E006136')" 
+            + " ORDER BY EMPID";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
 

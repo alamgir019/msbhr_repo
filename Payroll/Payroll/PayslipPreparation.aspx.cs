@@ -644,21 +644,25 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                                      ////dclCLLAmount = Common.RoundDecimal(foundPFLLRow[0]["CLLOAN"].ToString().Trim(), 0);
                                      if (Common.RoundDecimal(foundPFLLRow[0]["CLLOAN"].ToString().Trim(), 0) > 0)
                                          dclCLLAmount = Common.RoundDecimal(foundPFLLRow[0]["CMINTEREST"].ToString().Trim(), 0);
-                                 }
+
+                                    dclSalHeadAmount = dclSalHeadAmount * -1;
+                                    dclSalHeadAmount = decimal.Round(dclSalHeadAmount, 0);
+                                }
                                 if (foundPFLRRow.Length > 0)
                                 {
                                     foreach (DataRow dCRow in foundPFLRRow)
                                     {
                                         if (dCRow["ADJTYPE"].ToString().Trim() == "Deduction")
                                         {
-                                            dclRepay = Common.RoundDecimal(dCRow["ADJAMOUNT"].ToString().Trim(), 0);
+                                            dclRepay = Common.RoundDecimal(dCRow["INTDUE"].ToString().Trim(), 0);
                                         }
                                         if (dCRow["ADJTYPE"].ToString().Trim() == "Cash Pay")
                                         {
-                                            dclCashPay = Common.RoundDecimal(dCRow["ADJAMOUNT"].ToString().Trim(), 0);
+                                            //dclCashPay = Common.RoundDecimal(dCRow["INTDUE"].ToString().Trim(), 0);
+                                            dclRepay = Common.RoundDecimal(dCRow["INTDUE"].ToString().Trim(), 0);
                                         }
                                     }
-                                    dclSalHeadAmount = dclCLLAmount - dclCashPay;
+                                    dclSalHeadAmount = dclRepay * -1;
                                 }
                                 else
                                 {
@@ -668,6 +672,9 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                                         dclSalHeadAmount = Common.RoundDecimal(foundPFLLRow[0]["CMINTEREST"].ToString().Trim(), 0);
                                     else
                                         dclSalHeadAmount = 0;
+
+                                    dclSalHeadAmount = dclSalHeadAmount * -1;
+                                    dclSalHeadAmount = decimal.Round(dclSalHeadAmount, 0);
                                 }
                                  ////   else
                                  ////{
@@ -680,8 +687,7 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                                  //{
                                  //    dclSalHeadAmount = dclSalHeadAmount * 13 / 100;
                                  //}
-                                 dclSalHeadAmount = dclSalHeadAmount * -1;
-                                 dclSalHeadAmount = decimal.Round(dclSalHeadAmount, 0);                                 
+                                                         
                                  break;
                              #endregion
                              case "14":// Festival Bonus 

@@ -1283,7 +1283,7 @@ public class Payroll_PreparationManager
     }
     public DataTable GetPFLoanAdjustmentForPayrollPreparation(string strMonth, string strFY)
     {
-        SqlCommand cmd = new SqlCommand("SELECT EMPID,ADJAMOUNT,ADJTYPE FROM PFLoanAdjustment WHERE ADJMONTH=@VMONTH AND FISCALYRID=@FISCALYRID");
+        SqlCommand cmd = new SqlCommand("SELECT EMPID,ADJAMOUNT,PRINCIPALDUE,INTDUE,ADJTYPE FROM PFLoanAdjustment WHERE ADJMONTH=@VMONTH AND FISCALYRID=@FISCALYRID");
         cmd.CommandType = CommandType.Text;
 
         SqlParameter p_LOANMONTH = cmd.Parameters.Add("VMONTH", SqlDbType.BigInt);

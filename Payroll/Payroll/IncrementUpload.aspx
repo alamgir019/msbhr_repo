@@ -6,6 +6,16 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script language="javascript" type="text/javascript" src="../../JScripts/Confirmation.js"></script>
     <script language="javascript" type="text/javascript" src="../../JScripts/datetimepicker.js"></script>
+    <script language="javascript" type="text/javascript">
+        function CheckBoxListSelect(cbControl, state) {
+            var chkBoxList = document.getElementById(cbControl);
+            var chkBoxCount = chkBoxList.getElementsByTagName("input");
+            for (var i = 0; i < chkBoxCount.length; i++) {
+                chkBoxCount[i].checked = state;
+            }
+            return false;
+        }
+    </script>
     <div id="PayrollConfigForm2" style="width: 90%;">
         <div id="formhead1">
             <div style="width: 98%; float: left;">
@@ -93,25 +103,25 @@
                                     <asp:Label ID="Label1" runat="server" Text="COLA"></asp:Label>
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtCOLA" Width="90%" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtCOLA" Width="90%" runat="server" Text="4"></asp:TextBox>
                                 </td>
                                 <td class="textlevel">
                                     <asp:Label ID="Label4" runat="server" Text="Group Performance"></asp:Label>
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtGrpPer" Width="90%" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtGrpPer" Width="90%" runat="server" Text="2"></asp:TextBox>
                                 </td>
                                 <td class="textlevel">
                                     <asp:Label ID="Label3" runat="server" Text="Inv. Performance"></asp:Label>
                                 </td> 
                                 <td>
-                                    <asp:TextBox ID="txtInvPer" Width="90%" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtInvPer" Width="90%" runat="server" Text="2"></asp:TextBox>
                                 </td>
                                 <td class="textlevel">
                                     <asp:Label ID="Label6" runat="server" Text="Action Date"></asp:Label>
                                 </td>
                                  <td>
-                                    <asp:TextBox ID="txtActionDate" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtActionDate" runat="server" Width="80px" ></asp:TextBox>
                                     <a href="javascript:NewCal('<%= txtActionDate.ClientID %>','ddmmyyyy')">
                                     <img alt="Pick a date" height="16" src="../../images/cal.gif" style="border: 0px;" width="16" /></a>
                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
@@ -123,9 +133,12 @@
                                 </td>
                             </tr>
                         </table>
+                         Select <a id="A1" href="#" onclick="javascript: CheckBoxListSelect ('<%= grIncrementList.ClientID %>',true)">
+                            All</a> | <a id="A2" href="#" onclick="javascript: CheckBoxListSelect ('<%= grIncrementList.ClientID %>',false)">
+                                None</a>
                         <fieldset style="margin-top: 10px;">
                             <legend>Increment List</legend>
-                            <div>
+                             <div id="empSearchResult">     
                                 <asp:GridView ID="grIncrementList" runat="server" Width="100%" Font-Size="9px" EmptyDataText="No Record Found"
                         AutoGenerateColumns="False" DataKeyNames="EmpTypeId">
                         <HeaderStyle BackColor="#B3CDE4" Font-Bold="True"></HeaderStyle>
@@ -133,16 +146,31 @@
                         </SelectedRowStyle>
                         <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>                                
                                     <Columns>
+                                         <asp:TemplateField HeaderText="Select">
+                                            <ItemStyle Width="3%" CssClass="ItemStylecss" />
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="ChkBox" runat="Server" Checked="true" />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                     <asp:BoundField DataField="EmpId" HeaderText="Emp ID">
                                         <itemstyle cssclass="ItemStylecss" width="5%"></itemstyle>
                                     </asp:BoundField>
                                     <asp:BoundField DataField="FullName" HeaderText="Name">
                                         <itemstyle cssclass="ItemStylecss" width="11%"></itemstyle>
                                     </asp:BoundField>
+                                         <asp:BoundField DataField="TypeName" HeaderText="Employee Type">
+                                        <itemstyle cssclass="ItemStylecss" width="11%"></itemstyle>
+                                    </asp:BoundField>
+                                         <asp:BoundField DataField="JoiningDate" HeaderText="Joining Date">
+                                        <itemstyle cssclass="ItemStylecss" width="11%"></itemstyle>
+                                    </asp:BoundField>
                                      <asp:BoundField DataField="DesigName" HeaderText="Designation">
                                         <itemstyle cssclass="ItemStylecss" width="11%"></itemstyle>
                                     </asp:BoundField>
                                      <asp:BoundField DataField="ClinicName" HeaderText="Clinic">
+                                        <itemstyle cssclass="ItemStylecss" width="11%"></itemstyle>
+                                    </asp:BoundField>
+                                        <asp:BoundField DataField="IncrementDate" HeaderText="Last Increment Date">
                                         <itemstyle cssclass="ItemStylecss" width="11%"></itemstyle>
                                     </asp:BoundField>
                                      <asp:BoundField DataField="BasicSalary" HeaderText="Basic Salary">
@@ -181,6 +209,10 @@
                             <div style="width: 100%; text-align: center;">
                                 <asp:Label ID="Label5" runat="server" Font-Bold="True" ForeColor="#006666"></asp:Label>
                             </div>
+                             <span style="color: #3366CC; font-size: 12px; font-family: Tahoma; font-weight: bold;">
+                                Total Head Count:
+                                <asp:Label ID="lblExistRecordCount" runat="server"></asp:Label>
+                            </span>
                         </fieldset>
                     </ContentTemplate>
                 </cc1:TabPanel>
@@ -190,7 +222,10 @@
             <div style="text-align: left; float: left">
                 <asp:Button ID="btnRefresh" runat="server" Text="Refresh" Width="70px" CausesValidation="False"
                     OnClick="btnRefresh_Click" />
+                 <asp:Button ID="btnExport" OnClick="btnExport_Click" runat="server" Font-Bold="true"
+                        Text="Export to Excel" CausesValidation="false" Height="30px" Width="120px"></asp:Button>
             </div>
+
             <div style="text-align: right; margin-right: 20px;">
                 <asp:Button ID="btnSave" runat="server" Text="Save" Width="70px" UseSubmitBehavior="False"
                     OnClick="btnSave_Click" />

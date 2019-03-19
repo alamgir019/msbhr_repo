@@ -72,6 +72,8 @@
                                                 height="16" alt="Pick a date" src="../images/cal.gif" width="16" /></a>
                                         <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ControlToValidate="txtStartDate"
                                             CssClass="validator" ErrorMessage="Invalid" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$"></asp:RegularExpressionValidator>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtStartDate"
+                                ErrorMessage="*"></asp:RequiredFieldValidator>
                                         &nbsp;
                                     </td>
                                     <td>
@@ -85,6 +87,8 @@
                                                 height="16" alt="Pick a date" src="../images/cal.gif" width="16" /></a>
                                         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEndDate"
                                             CssClass="validator" ErrorMessage="Invalid" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$"></asp:RegularExpressionValidator>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtEndDate"
+                                ErrorMessage="*"></asp:RequiredFieldValidator>
                                         &nbsp;
                                     </td>
                                 </tr>
@@ -133,7 +137,7 @@
                             <asp:Label ID="Label8" runat="server" Width="90px" CssClass="textlevel" Text="Increment After :"></asp:Label>
                         </td>
                         <td>
-                            <asp:TextBox ID="txtIncrementYear" runat="server" Width="100px"></asp:TextBox>
+                            <asp:TextBox ID="txtIncrementYear" runat="server" Width="100px" MaxLength="2"></asp:TextBox>
                             (Year)
                         </td>
                     </tr>
