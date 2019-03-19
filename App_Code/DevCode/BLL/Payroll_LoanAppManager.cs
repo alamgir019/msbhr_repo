@@ -788,8 +788,6 @@ public class Payroll_LoanAppManager
                 p_TOTALINTEREST.Value = decLMTotalInterest;
             }
 
-
-
             SqlParameter p_LOANNO = cmd[i].Parameters.Add("LOANNO", SqlDbType.BigInt);
             p_LOANNO.Direction = ParameterDirection.Input;
             p_LOANNO.Value = iLoanNo;
