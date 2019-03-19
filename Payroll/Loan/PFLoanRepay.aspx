@@ -45,16 +45,13 @@
                     </asp:BoundField>
                      <asp:BoundField DataField="BASICSAL" HeaderText="Basic Sal">
                       <ItemStyle CssClass="ItemStylecss" Width="12%"></ItemStyle>
-                    </asp:BoundField>                    
-                     <asp:BoundField DataField="NETPF" HeaderText="NetPF">
-                      <ItemStyle CssClass="ItemStylecss" Width="12%"></ItemStyle>
-                    </asp:BoundField>                    
+                    </asp:BoundField>                                                      
                     <asp:BoundField DataField="PFLoan" HeaderText="PFLoan">
                       <ItemStyle CssClass="ItemStylecss" Width="12%"></ItemStyle>
                     </asp:BoundField>
-                     <asp:BoundField DataField="ALLOWPFLOAN" HeaderText="Allowable Loan">
+                     <asp:BoundField DataField="ALLOWPFLOAN" HeaderText="Allowable Loan With Int.">
                       <ItemStyle CssClass="ItemStylecss" Width="12%"></ItemStyle>
-                    </asp:BoundField>
+                    </asp:BoundField>                       
                     </Columns>
                   </asp:GridView>
           </div>
@@ -103,8 +100,11 @@
                     <td class="textlevel">
                         Adjustment Month</td>
                     <td><asp:DropDownList ID="ddlMonth" runat="server" Width="105px"></asp:DropDownList></td>
-                    <td class="textlevel">FY</td>
-                    <td><asp:DropDownList ID="ddlFiscalYear" runat="server" Width="105px"></asp:DropDownList></td>
+                    <td class="textlevel">Adjustment Year</td>
+                    <td>
+                        <asp:DropDownList ID="ddlYear" runat="server" Width="105px">
+                        </asp:DropDownList>
+                    </td>
                 </tr>
                 <tr>
                     <td class="textlevel">
@@ -115,8 +115,10 @@
                             <asp:ListItem>Cash Pay</asp:ListItem>
                         </asp:DropDownList></td>
                     <td class="textlevel">
-                    </td>
+                        FY</td>
                     <td>
+                        <asp:DropDownList ID="ddlFiscalYear" runat="server" Width="105px">
+                        </asp:DropDownList>
                     </td>
                 </tr>
                 <tr>
@@ -126,6 +128,16 @@
                     <td class="textlevel"></td>
                     <td>
                         &nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="textlevel">Principal Due</td>
+                    <td>
+                        <asp:TextBox ID="txtPrincipalDue" runat="server" Width="100px"></asp:TextBox>
+                    </td>
+                    <td class="textlevel">Interest Due</td>
+                    <td>
+                        <asp:TextBox ID="txtInsDue" runat="server" Width="100px"></asp:TextBox>
+                    </td>
                 </tr>
             </table>
             <table>
@@ -180,6 +192,12 @@
                     <asp:BoundField DataField="ADJAMOUNT" HeaderText="Amount">
                       <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
                     </asp:BoundField>
+                    <asp:BoundField DataField="PRINCIPALDUE" HeaderText="Principal Due">
+                      <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
+                    </asp:BoundField>
+                    <asp:BoundField DataField="INTDUE" HeaderText="Interest Due">
+                      <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
+                    </asp:BoundField>
                     <asp:BoundField DataField="REMARK" HeaderText="Remark">
                       <ItemStyle CssClass="ItemStylecss" Width="10%"></ItemStyle>
                     </asp:BoundField>
@@ -196,8 +214,8 @@
           <asp:Button ID="btnRefresh" runat="server" Text="Refresh" Width="70px"  CausesValidation="False" OnClick="btnRefresh_Click"  />
         </div>
         <div style="text-align:right;">
-          <asp:Button ID="btnSave" runat="server" Text="Save" Width="70px"  UseSubmitBehavior="False" OnClick="btnSave_Click"   />
-          <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();"     />
+          <asp:Button ID="btnSave" runat="server" Text="Save" Width="70px"  UseSubmitBehavior="False" OnClick="btnSave_Click" style="height: 26px"   />
+          <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();" OnClick="btnDelete_Click"     />
         </div>
       </div>
      </div>

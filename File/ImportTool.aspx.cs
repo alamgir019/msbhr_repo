@@ -1227,7 +1227,8 @@ public partial class File_ImportTool : System.Web.UI.Page
     }
     protected void btnUploadBankAccNo_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\UploadFile\\MSB\\Tax Region Setup.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\BASESOFT\\MSB_IncrementDate.xls;Extended Properties=Excel 8.0";
+        //string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\SCBUploadTool\\EmpSuervisorInfo.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 
@@ -1260,8 +1261,8 @@ public partial class File_ImportTool : System.Web.UI.Page
     {
         foreach (GridViewRow gRow in grPayroll.Rows)
         {
-            if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[1].Text.Trim())) == false)
-                this.UpdateBankAccNo(gRow.Cells[0].Text.Trim(), Common.CheckNullString(gRow.Cells[1].Text.Trim()));
+            //if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[1].Text.Trim())) == false)
+                this.UpdateLastIncDate(gRow.Cells[0].Text.Trim(), Common.CheckNullString(gRow.Cells[1].Text.Trim()));
         }
         lblMsg.Text = "Record Updated Successfully";
     }
@@ -1279,6 +1280,25 @@ public partial class File_ImportTool : System.Web.UI.Page
         SqlParameter p_BasicSalary = command.Parameters.Add("TaxRegionId", SqlDbType.BigInt);
         p_BasicSalary.Direction = ParameterDirection.Input;
         p_BasicSalary.Value = TaxRegionId;
+
+        objDC.ExecuteQuery(command);
+    }
+
+    public void UpdateLastIncDate(string EmpId, string IncrementDate)
+    {
+        string strSQL = "UPDATE EmpInfo SET IncrementDate=@IncrementDate WHERE EmpId = @EmpId";
+        SqlCommand command = new SqlCommand(strSQL);
+        command.CommandType = CommandType.Text;
+
+        SqlParameter p_EmpId = command.Parameters.Add("EmpId", SqlDbType.VarChar);
+        p_EmpId.Direction = ParameterDirection.Input;
+        p_EmpId.Value = EmpId;
+
+        SqlParameter p_IncrementDate = command.Parameters.Add("IncrementDate", DBNull.Value);
+        p_IncrementDate.Direction = ParameterDirection.Input;
+        p_IncrementDate.IsNullable = true; 
+        if (IncrementDate != "")
+            p_IncrementDate.Value = Common.ReturnDate(IncrementDate);
 
         objDC.ExecuteQuery(command);
     }
@@ -2446,7 +2466,7 @@ public partial class File_ImportTool : System.Web.UI.Page
 
     protected void btnUploadInc_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Salary Inc Date.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Salary Inc Date_25.02.2019.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 

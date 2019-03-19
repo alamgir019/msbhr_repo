@@ -480,9 +480,13 @@
                         </tr>
                         <tr>
                             <td class="textlevel">
-                                    &nbsp;</td>
+                                    Last Increment Date:</td>
                             <td>
-                                    &nbsp;</td>
+                                    <asp:TextBox ID="txtLastIncDate" runat="server" Width="89px"></asp:TextBox>
+                                    <a href="javascript:NewCal('<%= txtLastIncDate.ClientID %>','ddmmyyyy')">
+                                    <img alt="Pick a date" height="16" src="../images/cal.gif" style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" width="16" /></a>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator11" runat="server" ControlToValidate="txtLastIncDate" CssClass="validator" ErrorMessage="Invalid" ValidationExpression="^(?=\d)(?:(?:31(?!.(?:0?[2469]|11))|(?:30|29)(?!.0?2)|29(?=.0?2.(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(?:\x20|$))|(?:2[0-8]|1\d|0?[1-9]))([-./])(?:1[012]|0?[1-9])\1(?:1[6-9]|[2-9]\d)?\d\d(?:(?=\x20\d)\x20|$))?(((0?[1-9]|1[012])(:[0-5]\d){0,2}(\x20[AP]M))|([01]\d|2[0-3])(:[0-5]\d){1,2})?$" Width="60px"></asp:RegularExpressionValidator>
+                            </td>
                                 <td>
                                     &nbsp;</td>
                             <td class="textlevel">
@@ -557,7 +561,9 @@
                                     &nbsp;
                                 </td>
                                 <td>
-                                    &nbsp;</td>
+                                <asp:CheckBox ID="chkIsConfirmed" runat="server" CssClass="textlevelleft" Text="Is Confirmed"
+                                    Width="127px" />
+                                </td>
                                 <td>
                                 </td>
                             </tr>

@@ -912,7 +912,7 @@ public class FileUploadManager
 
 
     public void InsertIncrementValue(GridView grEmp, string strMonth, string strYear,
-        string strIsActive, string strIsUpdate, string strInsBy, string strActionDate, string strRemarks, string strCola, string strGroupPer, string strInvPer)
+        string strIsActive, string strIsUpdate, string strInsBy, string strActionDate, string strRemarks)
     {
         int i = 0;
         int j = 0;
@@ -929,107 +929,117 @@ public class FileUploadManager
             strVID = Common.getMaxId("EmpSalaryIncrementLog", "LogId");
 
         strLogId = Common.getMaxId("EmpActionLog", "LogId");
-        for (i = 0; i < empCount; i++)
+        //for (i = 0; i < empCount; i++)
+        //{
+
+        foreach (GridViewRow gRow in grEmp.Rows)
         {
-            command[j] = new SqlCommand("proc_Insert_EmpSalaryIncrement");
-            command[j].CommandType = CommandType.StoredProcedure;
-
-            SqlParameter p_ConfirmId = command[j].Parameters.Add("LogId", SqlDbType.BigInt);
-            p_ConfirmId.Direction = ParameterDirection.Input;
-            p_ConfirmId.Value = strVID;
-
-            SqlParameter p_EmpId = command[j].Parameters.Add("EmpId", SqlDbType.Char);
-            p_EmpId.Direction = ParameterDirection.Input;
-            p_EmpId.Value = grEmp.Rows[i].Cells[0].Text.Trim();
-
-            SqlParameter p_ActionId = command[j].Parameters.Add("ActionId", SqlDbType.BigInt);
-            p_ActionId.Direction = ParameterDirection.Input;
-            p_ActionId.Value = "31";
-
-            SqlParameter p_ActionDate = command[j].Parameters.Add("ActionDate", DBNull.Value);
-            p_ActionDate.Direction = ParameterDirection.Input;
-            p_ActionDate.IsNullable = true;
-            if (strActionDate != "")
-                p_ActionDate.Value = Common.ReturnDate(strActionDate);
-
-            SqlParameter p_COLA = command[j].Parameters.Add("COLA", SqlDbType.Decimal);
-            p_COLA.Direction = ParameterDirection.Input;
-            p_COLA.Value = strCola;
-
-            SqlParameter p_GroupPer = command[j].Parameters.Add("GroupPer", SqlDbType.Decimal);
-            p_GroupPer.Direction = ParameterDirection.Input;
-            p_GroupPer.Value = strGroupPer;
-
-            SqlParameter p_InvPer = command[j].Parameters.Add("InvPer", SqlDbType.Decimal);
-            p_InvPer.Direction = ParameterDirection.Input;
-            p_InvPer.Value = strInvPer;
-
-            SqlParameter p_NewGrossSal = command[j].Parameters.Add("NewGrossSalary", DBNull.Value);
-            p_NewGrossSal.Direction = ParameterDirection.Input;
-            p_NewGrossSal.IsNullable = true;
-            if (grEmp.Rows[i].Cells[10].Text.Trim() != "")
-                p_NewGrossSal.Value = grEmp.Rows[i].Cells[10].Text.Trim();
-
-            decimal strIncPer =Convert.ToDecimal(strCola)+Convert.ToDecimal(strGroupPer)+Convert.ToDecimal(strInvPer);
-            
-            SqlParameter p_IncAmount = command[j].Parameters.Add("IncPercent", SqlDbType.Decimal);
-            p_IncAmount.Direction = ParameterDirection.Input;
-            p_IncAmount.Value = strIncPer.ToString();
-
-            SqlParameter p_IncAmnt = command[j].Parameters.Add("IncAmount", SqlDbType.Decimal);
-            p_IncAmnt.Direction = ParameterDirection.Input;
-            p_IncAmnt.Value = (Convert.ToDecimal(p_NewGrossSal.Value) - Convert.ToDecimal(grEmp.Rows[i].Cells[5].Text.Trim())).ToString();
-
-            SqlParameter p_Remarks = command[j].Parameters.Add("Remarks", SqlDbType.VarChar);
-            p_Remarks.Direction = ParameterDirection.Input;
-            p_Remarks.Value = strRemarks;
-
-            SqlParameter p_InsertedBy = command[j].Parameters.Add("InsertedBy", SqlDbType.VarChar);
-            p_InsertedBy.Direction = ParameterDirection.Input;
-            p_InsertedBy.Value = strInsBy;
-
-            SqlParameter p_InsertedDate = command[j].Parameters.Add("InsertedDate", SqlDbType.DateTime);
-            p_InsertedDate.Direction = ParameterDirection.Input;
-            p_InsertedDate.Value = strInsDate;
-
-            SqlParameter p_IsUpdate = command[j].Parameters.Add("IsUpdate", SqlDbType.Char);
-            p_IsUpdate.Direction = ParameterDirection.Input;
-            p_IsUpdate.Value = strIsUpdate;
-
-            j++;
-            if (strIsUpdate == "N")
+            CheckBox chkB = (CheckBox)gRow.Cells[0].FindControl("chkBox");
+            if (chkB.Checked == true)
             {
+                command[j] = new SqlCommand("proc_Insert_EmpSalaryIncrement");
+                command[j].CommandType = CommandType.StoredProcedure;
+
+                SqlParameter p_ConfirmId = command[j].Parameters.Add("LogId", SqlDbType.BigInt);
+                p_ConfirmId.Direction = ParameterDirection.Input;
+                p_ConfirmId.Value = strVID;
+
+                SqlParameter p_EmpId = command[j].Parameters.Add("EmpId", SqlDbType.Char);
+                p_EmpId.Direction = ParameterDirection.Input;
+                p_EmpId.Value = gRow.Cells[1].Text.Trim();
+
+                SqlParameter p_ActionId = command[j].Parameters.Add("ActionId", SqlDbType.BigInt);
+                p_ActionId.Direction = ParameterDirection.Input;
+                p_ActionId.Value = "31";
+
+                SqlParameter p_ActionDate = command[j].Parameters.Add("ActionDate", DBNull.Value);
+                p_ActionDate.Direction = ParameterDirection.Input;
+                p_ActionDate.IsNullable = true;
+                if (strActionDate != "")
+                    p_ActionDate.Value = Common.ReturnDate(strActionDate);
+
+                SqlParameter p_COLA = command[j].Parameters.Add("COLA", SqlDbType.Decimal);
+                p_COLA.Direction = ParameterDirection.Input;
+                p_COLA.Value = gRow.Cells[10].Text.Trim();
+
+                SqlParameter p_GroupPer = command[j].Parameters.Add("GroupPer", SqlDbType.Decimal);
+                p_GroupPer.Direction = ParameterDirection.Input;
+                p_GroupPer.Value = gRow.Cells[11].Text.Trim();
+
+                SqlParameter p_InvPer = command[j].Parameters.Add("InvPer", SqlDbType.Decimal);
+                p_InvPer.Direction = ParameterDirection.Input;
+                p_InvPer.Value = gRow.Cells[12].Text.Trim();
+
+                SqlParameter p_NewGrossSal = command[j].Parameters.Add("NewGrossSalary", DBNull.Value);
+                p_NewGrossSal.Direction = ParameterDirection.Input;
+                p_NewGrossSal.IsNullable = true;
+                if (grEmp.Rows[i].Cells[14].Text.Trim() != "")                    
+                    p_NewGrossSal.Value = gRow.Cells[14].Text.Trim();
+
+                decimal dclIncPer = Convert.ToDecimal(p_COLA.Value) + Convert.ToDecimal(p_GroupPer.Value) + Convert.ToDecimal(p_InvPer.Value);
+
+                SqlParameter p_IncAmount = command[j].Parameters.Add("IncPercent", SqlDbType.Decimal);
+                p_IncAmount.Direction = ParameterDirection.Input;
+                p_IncAmount.Value = dclIncPer.ToString();
+
+                SqlParameter p_IncAmnt = command[j].Parameters.Add("IncAmount", SqlDbType.Decimal);
+                p_IncAmnt.Direction = ParameterDirection.Input;
+                p_IncAmnt.Value = (Convert.ToDecimal(p_NewGrossSal.Value) - Convert.ToDecimal(gRow.Cells[9].Text.Trim())).ToString();
+
+                SqlParameter p_Remarks = command[j].Parameters.Add("Remarks", SqlDbType.VarChar);
+                p_Remarks.Direction = ParameterDirection.Input;
+                p_Remarks.Value = strRemarks;
+
+                SqlParameter p_InsertedBy = command[j].Parameters.Add("InsertedBy", SqlDbType.VarChar);
+                p_InsertedBy.Direction = ParameterDirection.Input;
+                p_InsertedBy.Value = strInsBy;
+
+                SqlParameter p_InsertedDate = command[j].Parameters.Add("InsertedDate", SqlDbType.DateTime);
+                p_InsertedDate.Direction = ParameterDirection.Input;
+                p_InsertedDate.Value = strInsDate;
+
+                SqlParameter p_IsUpdate = command[j].Parameters.Add("IsUpdate", SqlDbType.Char);
+                p_IsUpdate.Direction = ParameterDirection.Input;
+                p_IsUpdate.Value = strIsUpdate;
+
+                j++;
+
                 strVID = Convert.ToString(Convert.ToInt32(strVID) + 1);
-
-                ////command[1] = InsertEmpInfoLog(strEmpId);
-                command[j] = objEmpMgr.UpdateEmpHRBasicGross(grEmp.Rows[i].Cells[0].Text.Trim(), grEmp.Rows[i].Cells[9].Text.Trim(), grEmp.Rows[i].Cells[10].Text.Trim(), "31", p_ActionDate.Value.ToString(), strInsBy, strInsDate);
-                j++;
-
-                command[j] = InsertEmpActionLog(strLogId, grEmp.Rows[i].Cells[0].Text.Trim(), "31", strInsDate, strInsBy, strInsDate);
-                strLogId = Convert.ToString(Convert.ToInt32(strLogId) + 1);
-                j++;
-
-                //Basic, Housing, Medical & PF Allowance Update   
-
-                strSalPakID = this.GetEmpSalPakID(grEmp.Rows[i].Cells[0].Text.Trim());
-
-                if (string.IsNullOrEmpty(objEmpMgr.GetEmpIdWsSalHisPakId(strSalPakID, grEmp.Rows[i].Cells[0].Text.Trim())) == true)
+                if (strIsUpdate == "N")
                 {
-                    command[j] = objEmpMgr.InsertSalaryPakHisDetls(strSalPakID, grEmp.Rows[i].Cells[0].Text.Trim(),strActionDate, strInsBy, strInsDate, "Salary Package");
-                    j++;
+                    if (dclIncPer > 0)
+                    {
+                        ////command[1] = InsertEmpInfoLog(strEmpId);
+                        command[j] = objEmpMgr.UpdateEmpHRBasicGross(gRow.Cells[1].Text.Trim(), gRow.Cells[13].Text.Trim(), gRow.Cells[14].Text.Trim(), "31", p_ActionDate.Value.ToString(), strInsBy, strInsDate);
+                        j++;
+
+                        command[j] = InsertEmpActionLog(strLogId, gRow.Cells[1].Text.Trim(), "31", strInsDate, strInsBy, strInsDate);
+                        strLogId = Convert.ToString(Convert.ToInt32(strLogId) + 1);
+                        j++;
+
+                        //Basic, Housing, Medical & PF Allowance Update   
+
+                        strSalPakID = this.GetEmpSalPakID(grEmp.Rows[i].Cells[1].Text.Trim());
+
+                        if (string.IsNullOrEmpty(objEmpMgr.GetEmpIdWsSalHisPakId(strSalPakID, grEmp.Rows[i].Cells[1].Text.Trim())) == true)
+                        {
+                            command[j] = objEmpMgr.InsertSalaryPakHisDetls(strSalPakID, gRow.Cells[1].Text.Trim(), strActionDate, strInsBy, strInsDate, "Salary Package");
+                            j++;
+                        }
+
+                        command[j] = UpdateSalaryPakDetls(strSalPakID, "1", gRow.Cells[13].Text.Trim(), strInsBy, strInsDate, "Increment");
+                        j++;
+
+                        command[j] = UpdateSalaryPakDetls(strSalPakID, "2", gRow.Cells[15].Text.Trim(), strInsBy, strInsDate, "Increment");
+                        j++;
+
+                        command[j] = UpdateSalaryPakDetls(strSalPakID, "3", gRow.Cells[16].Text.Trim(), strInsBy, strInsDate, "Increment");
+                        j++;
+
+                        command[j] = objEmpMgr.InsertSalaryPakHisDetls(strSalPakID, gRow.Cells[1].Text.Trim(), strActionDate, strInsBy, strInsDate, "Increment");
+                        j++;
+                    }
                 }
-
-                command[j] = UpdateSalaryPakDetls(strSalPakID, "1", grEmp.Rows[i].Cells[9].Text.Trim(), strInsBy, strInsDate, "Increment");
-                j++;
-
-                command[j] = UpdateSalaryPakDetls(strSalPakID, "2", grEmp.Rows[i].Cells[11].Text.Trim(), strInsBy, strInsDate, "Increment");
-                j++;
-
-                command[j] = UpdateSalaryPakDetls(strSalPakID, "3", grEmp.Rows[i].Cells[12].Text.Trim(), strInsBy, strInsDate, "Increment");
-                j++;
-
-                command[j] = objEmpMgr.InsertSalaryPakHisDetls(strSalPakID, grEmp.Rows[i].Cells[0].Text.Trim(),strActionDate, strInsBy, strInsDate, "Increment");
-                j++;
             }
         }
         objDC.MakeTransaction(command);

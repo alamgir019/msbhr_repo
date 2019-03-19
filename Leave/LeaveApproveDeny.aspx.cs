@@ -66,7 +66,7 @@ public partial class LeaveApproveDeny : System.Web.UI.Page
         {
             strStartDate = Convert.ToString(Convert.ToInt32(strStartYear) - 1);
             strEndDate = Convert.ToString(Convert.ToInt32(strStartDate) + 1);
-            strStartDate = strStartDate + "-" + "07" + "-" + "01";
+            strStartDate = strStartDate + "-" + "01" + "-" + "01";
             strEndDate = strEndDate + "-" + "12" + "-" + "31";
         }
         if (Session["ISADMIN"].ToString() == "N")
@@ -269,7 +269,7 @@ public partial class LeaveApproveDeny : System.Web.UI.Page
                     grLeaveApp.DataKeys[_gridView.SelectedIndex].Values[10].ToString(), grLeaveApp.DataKeys[_gridView.SelectedIndex].Values[2].ToString(),
                     grLeaveApp.DataKeys[_gridView.SelectedIndex].Values[9].ToString(),
                     Session["USERID"].ToString(), Common.SetDateTime(DateTime.Now.ToString()), strPreYrLv, grLeaveApp.SelectedRow.Cells[6].Text.Trim());
-                
+
                 ////Email Notification                
                 //lblMsg.Text = objMail.LeaveApprovalBySupervisor(grLeaveApp.SelectedRow.Cells[1].Text.Trim(), grLeaveApp.DataKeys[_gridView.SelectedIndex].Values[0].ToString(),
                 //      Session["EMPID"].ToString(), Session["USERNAME"].ToString(),
@@ -457,7 +457,7 @@ public partial class LeaveApproveDeny : System.Web.UI.Page
                     hfLvEnjoyed.Value = "0";
 
                 this.CalculateLeaveDates("AC", grLeaveApprove.SelectedRow.Cells[4].Text.Trim(), grLeaveApprove.SelectedRow.Cells[5].Text.Trim());
-                this.GetWeekend(grLeaveApprove.SelectedRow.Cells[1].Text.Trim(), grLeaveApprove.SelectedRow.Cells[4].Text.Trim(), grLeaveApprove.SelectedRow.Cells[5].Text.Trim(), "AC");
+                this.GetWeekend(grLeaveApprove.DataKeys[_gridView.SelectedIndex].Values[11].ToString().Trim(), grLeaveApprove.SelectedRow.Cells[4].Text.Trim(), grLeaveApprove.SelectedRow.Cells[5].Text.Trim(), "AC");
                 LeaveApp objLeave = new LeaveApp(grLeaveApprove.DataKeys[_gridView.SelectedIndex].Values[0].ToString(), grLeaveApprove.DataKeys[_gridView.SelectedIndex].Values[11].ToString().Trim(), "",
                     grLeaveApprove.DataKeys[_gridView.SelectedIndex].Values[9].ToString(), "", "", "", "C", "R", Session["USERID"].ToString(),
                     Common.SetDateTime(DateTime.Now.ToString()), "Y", "N", grLeaveApprove.DataKeys[_gridView.SelectedIndex].Values[2].ToString(), grLeaveApprove.SelectedRow.Cells[4].Text.Trim(),

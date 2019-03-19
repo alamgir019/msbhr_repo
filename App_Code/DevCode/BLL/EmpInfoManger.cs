@@ -665,6 +665,15 @@ public class EmpInfoManager
         if (clEmp.TaxRegionId != "99999")
             p_TaxRegionId.Value = clEmp.TaxRegionId;
 
+        SqlParameter p_IncrementDate = cmd[0].Parameters.Add("IncrementDate", DBNull.Value);
+        p_IncrementDate.Direction = ParameterDirection.Input;
+        p_IncrementDate.IsNullable = true;
+        if (clEmp.IncrementDate != "")
+            p_IncrementDate.Value =clEmp.IncrementDate;
+
+        SqlParameter p_IsConfirmed = cmd[0].Parameters.Add("IsConfirmed", SqlDbType.Char);
+        p_IsConfirmed.Direction = ParameterDirection.Input;
+        p_IsConfirmed.Value = clEmp.IsConfirmed;
         #endregion
 
         //if (clEmp.IsMedicalEntmnt == "Y")
@@ -2678,14 +2687,13 @@ public class EmpInfoManager
         SqlParameter p_ReHiredId = command[0].Parameters.Add("ReHiredId", SqlDbType.BigInt);
         p_ReHiredId.Direction = ParameterDirection.Input;
         p_ReHiredId.Value = objReHired.ReHiredId;
+         
 
-        SqlParameter p_PayEmpID = command[0].Parameters.Add("PayEmpId", SqlDbType.Char);
-        p_PayEmpID.Direction = ParameterDirection.Input;
-        p_PayEmpID.Value = strPayEmpId;
-
-        SqlParameter p_ActionId = command[0].Parameters.Add("ActionId", SqlDbType.BigInt);
+        SqlParameter p_ActionId = command[0].Parameters.Add("ActionId", DBNull.Value);
         p_ActionId.Direction = ParameterDirection.Input;
-        p_ActionId.Value = objReHired.ActionId;
+        p_ActionId.IsNullable = true;
+        if (objReHired.ActionId != "")
+            p_ActionId.Value = objReHired.ActionId;        
 
         SqlParameter p_EffectiveDate = command[0].Parameters.Add("EffectiveDate", DBNull.Value);
         p_EffectiveDate.Direction = ParameterDirection.Input;
@@ -2709,9 +2717,10 @@ public class EmpInfoManager
         {
             //command[1] = InsertEmpInfoLog(objReHired.EmpID);
 
-            //command[2] = UpdateEmpHRActionReHiredStatus(objReHired.EmpID, strPayEmpId, objReHired.ActionId, objReHired.EffectiveDate, objReHired.InsertedBy, objReHired.InsertedDate);
+            command[2] = UpdateEmpHRActionReHiredStatus(objReHired.EmpID, strPayEmpId, objReHired.ActionId, objReHired.EffectiveDate, objReHired.InsertedBy, objReHired.InsertedDate);
 
-            command[3] = InsertEmpActionLog(objReHired.EmpID, objReHired.ActionId,  objReHired.EffectiveDate, objReHired.InsertedBy, objReHired.InsertedDate);
+            EmpLeaveProfileManager objLevProMgr = new EmpLeaveProfileManager();
+            //command[4] = objLevProMgr.InsertIntoEmpLevProfile(objReHired.EmpID, clEmp.LeavePakId, clEmp.JoiningDate, objReHired.InsertedBy, clEmp.EmpTypeID);
         }
 
         try
@@ -2728,6 +2737,22 @@ public class EmpInfoManager
         }
     }
 
+    public DataTable SelectEmpReHiredlog(Int32 LogId, string EmpId)
+    {
+        String strSql = "SELECT * FROM EmpRehiredLog WHere EmpId='" + EmpId + "'";
+        SqlCommand cmd = new SqlCommand(strSql);
+        cmd.CommandType = CommandType.Text;
+
+        SqlParameter p_LogId = cmd.Parameters.Add("LogId", SqlDbType.BigInt);
+        p_LogId.Direction = ParameterDirection.Input;
+        p_LogId.Value = LogId;
+
+        SqlParameter p_EmpId = cmd.Parameters.Add("EmpId", SqlDbType.Char);
+        p_EmpId.Direction = ParameterDirection.Input;
+        p_EmpId.Value = EmpId;
+
+        return objDC.CreateDT(strSql, "EmpReHiredlog");
+    }
     ////Insert into Employee Log File
     //public SqlCommand InsertEmpInfoLog(string strEmpId)
     //{
@@ -2760,8 +2785,8 @@ public class EmpInfoManager
 
     private SqlCommand UpdateEmpHRActionReHiredStatus(string strEmpId, string strPayEmpId, string strActionId, string strActionDate, string strInsertedBy, string strInsertedDate)
     {
-        string strSQL = "UPDATE EmpInfo SET PayEmpId='" + strPayEmpId + "', ActionId=" + strActionId + ",ActionDate='" + strActionDate + "',UpdatedBy='" + strInsertedBy
-            + "',UpdatedDate='" + strInsertedDate + "',Status='A' WHERE EmpId='" + strEmpId + "'";
+        string strSQL = "UPDATE EmpInfo SET SeparateTypeId=NULL,SeparateDate=NULL,ActionId=NULL,ActionDate=NULL,UpdatedBy='" + strInsertedBy
+            + "',UpdatedDate='" + strInsertedDate + "',EmpStatus='A' WHERE EmpId='" + strEmpId + "'";
 
         SqlCommand command = new SqlCommand(strSQL);
 
@@ -2769,20 +2794,15 @@ public class EmpInfoManager
         p_CourseId.Direction = ParameterDirection.Input;
         p_CourseId.Value = strEmpId;
 
+        //SqlParameter p_ActionId = command.Parameters.Add("ActionId", SqlDbType.BigInt);
+        //p_ActionId.Direction = ParameterDirection.Input;
+        //p_ActionId.Value = strActionId;
 
-        SqlParameter p_PayEmpId = command.Parameters.Add("PayEmpId", SqlDbType.Char);
-        p_PayEmpId.Direction = ParameterDirection.Input;
-        p_PayEmpId.Value = strPayEmpId;
-
-        SqlParameter p_ActionId = command.Parameters.Add("ActionId", SqlDbType.BigInt);
-        p_ActionId.Direction = ParameterDirection.Input;
-        p_ActionId.Value = strActionId;
-
-        SqlParameter p_ActionDate = command.Parameters.Add("ActionDate", DBNull.Value);
-        p_ActionDate.Direction = ParameterDirection.Input;
-        p_ActionDate.IsNullable = true;
-        if (strActionDate != "")
-            p_ActionDate.Value = strActionDate;
+        //SqlParameter p_ActionDate = command.Parameters.Add("ActionDate", DBNull.Value);
+        //p_ActionDate.Direction = ParameterDirection.Input;
+        //p_ActionDate.IsNullable = true;
+        //if (strActionDate != "")
+        //    p_ActionDate.Value = strActionDate;
 
         SqlParameter p_InsertedBy = command.Parameters.Add("InsertedBy", SqlDbType.VarChar);
         p_InsertedBy.Direction = ParameterDirection.Input;
@@ -5814,7 +5834,7 @@ public class EmpInfoManager
     public SqlCommand UpdateEmpHRBasicGross(string strEmpId, string strBasicSalary,string strGrossSalary,string strActionId,string strActionDate, string strInsertedBy, string strInsertedDate)
     {
         string strSQL = "UPDATE EmpInfo SET BasicSalary=" + strBasicSalary + ",GrossSalary=" + strGrossSalary + ",ActionId=" + strActionId + 
-            ",ActionDate='" + strActionDate + "',UpdatedBy='" + strInsertedBy + "',UpdatedDate='" + strInsertedDate + "' WHERE EmpId='" + strEmpId + "'";
+            ",ActionDate='" + strActionDate + "',IncrementDate='" + strActionDate + "',UpdatedBy='" + strInsertedBy + "',UpdatedDate='" + strInsertedDate + "' WHERE EmpId='" + strEmpId + "'";
 
         SqlCommand command = new SqlCommand(strSQL);
 
@@ -5839,6 +5859,12 @@ public class EmpInfoManager
         p_leavingDate.IsNullable = true;
         if (strActionDate != "")
             p_leavingDate.Value = strActionDate;
+
+        SqlParameter p_IncrementDate = command.Parameters.Add("IncrementDate", DBNull.Value);
+        p_IncrementDate.Direction = ParameterDirection.Input;
+        p_IncrementDate.IsNullable = true;
+        if (strActionDate != "")
+            p_IncrementDate.Value = strActionDate;
 
         SqlParameter p_InsertedBy = command.Parameters.Add("InsertedBy", SqlDbType.VarChar);
         p_InsertedBy.Direction = ParameterDirection.Input;
@@ -5929,8 +5955,10 @@ public class EmpInfoManager
     
     public DataTable SelectEmpForIncrement(string strClinicID)
     {
-        string strSQL = "SELECT E.EMPID,E.FULLNAME,E.EmpTypeId,E.BasicSalary,E.GrossSalary,D.DesigName,C.ClinicName FROM EMPINFO E,Designation D,ClinicList C" +
-            " WHERE E.DesigId=D.DesigId AND E.ClinicId=C.ClinicId AND E.ClinicId=@ClinicId ORDER BY EMPID";
+        string strSQL = "SELECT E.EMPID,E.FULLNAME,E.EmpTypeId,E.BasicSalary,E.GrossSalary,E.JoiningDate,E.IncrementDate,D.DesigName,C.ClinicName,ET.TypeName" +
+            " FROM EMPINFO E,Designation D,ClinicList C,EmpTypeList ET" +
+            " WHERE E.EmpStatus='A' AND E.DesigId=D.DesigId AND E.ClinicId=C.ClinicId AND E.EmpTypeId=ET.EmpTypeId AND E.ClinicId=@ClinicId" // AND E.EmpId IN('E006007','E006136')" 
+            + " ORDER BY EMPID";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
 

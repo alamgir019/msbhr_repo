@@ -398,7 +398,7 @@ public partial class Payroll_Payroll_ITCalculation : System.Web.UI.Page
             }
             else
             {
-                dclMonthDur = 6 - (Convert.ToDecimal(ddlMonth.SelectedValue.Trim()));
+                dclMonthDur = 6 - (Convert.ToDecimal(ddlMonth.SelectedValue.Trim()))+1;
             }
 
             //Calculate Joining to Fiscal Year end duration
