@@ -93,8 +93,6 @@ public partial class Appraisal_PerformanceAppraisal : System.Web.UI.Page
                 lblDesignation.Text = dRow["DesigName"].ToString().Trim();
                 lblJoiningDate.Text = dRow["JoiningDate"].ToString().Trim();
                 
-                //lblSuperId.Text = dRow["SupervisorId"].ToString().Trim();
-                //lblSuperName.Text = objEmpMgr.GetSupervisorName(dRow["SupervisorId"].ToString().Trim());
             }
             
             OpenRecordAppraisalMst();

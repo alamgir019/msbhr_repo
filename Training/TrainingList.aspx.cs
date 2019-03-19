@@ -30,19 +30,10 @@ public partial class Training_TrainingList : System.Web.UI.Page
             this.EntryMode(false);
             this.OpenRecord();
             this.CreateTable();
-            //DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
             Common.FillDropDownList(objTrMgr.SelectTrainingList("0"), ddlTrainingName, "TrainName", "TrainId", true);
-            //Common.FillDropDownList_Nil(objTrMgr.SelectTrainingList("0"), ddlTrainingName);
-            //Common.FillDropDownList(dtEmp, ddlTraineeName, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlOrganisedBy, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlSignBy1, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlSignBy2, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlSignBy3, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(objTrMgr.SelectLocation("0"), ddlLocation,"ClinicName","ClinicId",true );
             Common.FillDropDownList(objTrMgr.SelectLocation("0"), ddlLocation, "SalLocName", "SalLocId", true);
             Common.FillDropDownList(objSOFMgr.SelectProjectList(0), ddlFundedby, "ProjectName", "ProjectId", true);
             Common.FillDropDownList(objTrMgr.SelectTrainingVenue("A"), ddlVenue, "VenueName", "VenueId", true);
-           // Common.FillDropDownList(objTrMgr.SelectScheduleList(), ddlSchedule, "ScheDate", "ScheduleID", true);
         }
     }
     protected void EntryMode(bool IsUpdate)

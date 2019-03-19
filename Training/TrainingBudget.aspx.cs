@@ -30,15 +30,7 @@ public partial class Training_TrainingBudget : System.Web.UI.Page
             Common.FillDropDownList_Nil(objTrMgr.SelectTrainingList("0"), ddlTrainingName);
             Common.FillDropDownList_Nil(objTrMgr.SelectTrainingVenue("A"), ddlVenue);
 
-
-            //DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
-            //dtEmp = objEmp.SelectIntEmpWithID();
-            //Common.FillDropDownList(dtEmp, ddlPreparedBy, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlReviewedBy, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlRecommend1, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlRecommend2, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlRecommend3, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlApprovedBy, "EmpName", "EmpID", true);
+            
             this.CreateTable();
         }
     }

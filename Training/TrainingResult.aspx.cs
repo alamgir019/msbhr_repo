@@ -27,16 +27,9 @@ public partial class Training_TrainingResult : System.Web.UI.Page
             this.EntryMode(false);
             this.OpenRecord();
             this.CreateTable();
-            //DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
-            //Common.FillDropDownList_Nil(objTrMgr.SelectTrainingList("0"), ddlTrainingName);
             Common.FillDropDownList(objTrMgr.SelectScheduleList("A"), ddlSchedule, "ScheDate", "ScheduleID", true);
 
             Common.FillDropDownList(objEmp.SelectProjectList(0), ddlFundedby, "ProjectName", "ProjectId", true);
-            //Common.FillDropDownList(dtEmp, ddlEvaluationBy, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlSignatory1, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlSignatory2, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlSignatory3, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlSignatory4, "EmpName", "EmpID", true);
         }
     }
     private void CreateTable()

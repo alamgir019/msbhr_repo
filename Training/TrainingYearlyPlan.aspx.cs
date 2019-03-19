@@ -33,14 +33,7 @@ public partial class Training_TrainingYearlyPlan : System.Web.UI.Page
             Common.FillYearList(4, ddlYear);
             Common.FillDropDownList(objTrMgr.SelectTrainingVenue("A"), ddlVenue, "VenueName", "VenueId", true);
             Common.FillDropDownList(objTrMgr.SelectLocation("0"), ddlLocation, "SalLocName", "SalLocId", true);
-
-            //DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
-            //dtEmp = objEmp.SelectIntEmpWithID();
-            //Common.FillDropDownList(dtEmp, ddlSubtitledBy, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlReviewedBy, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlRecommend1, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlRecommend2, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlApprovedBy, "EmpName", "EmpID", true);
+            
         }
     }
 

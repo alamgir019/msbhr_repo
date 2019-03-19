@@ -32,15 +32,11 @@ public partial class Training_TrainingRequisition : System.Web.UI.Page
             this.OpenRecord();
 
             DataTable dtEmp = objEmp.SelectEmpNameWithID("A");
-            //Common.FillDropDownList(dtEmp, ddlTraineeName, "EmpName", "EmpID", true);
             Common.FillDropDownList(objEmpMgr.SelectScheduleList("A"), ddlSchedule, "ScheDate", "ScheduleID", true);
             Common.FillDropDownList(objSOFMgr.SelectProjectList(0), ddlProject, "ProjectName", "ProjectId", true);
 
             Common.FillDropDownList(dtEmp, ddlSigenBy1, "EmpName", "EmpID", true);
             Common.FillDropDownList(dtEmp, ddlSigenBy2, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlApproveBy, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlRecomandedBy, "EmpName", "EmpID", true);
-            //Common.FillDropDownList(dtEmp, ddlReviewBy, "EmpName", "EmpID", true);
             Common.FillDropDownList(dtEmp, ddlSeenBy, "EmpName", "EmpID", true);
           
             this.CreateTable();
