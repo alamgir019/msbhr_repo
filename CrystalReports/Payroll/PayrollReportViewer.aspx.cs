@@ -47,7 +47,16 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
     {
         MyDataTable = new DataTable();
         ReportDoc = new ReportDocument();
-        DateTime now= Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"].ToString()));
+        string strMonth="", strYear="";
+        if (Session["VMonth"] == null)
+            strMonth = DateTime.Now.Month.ToString();
+        else
+            strMonth = Session["VMonth"].ToString();
+        if (Session["VYear"]==null )
+             strYear = DateTime.Now.Year.ToString();
+        else
+            strYear = Session["VYear"].ToString();
+        DateTime now= Convert.ToDateTime(Common.ReturnDate("01/" + strMonth + "/" + strYear));
         // dsMainShftReport dsMSR = new dsMainShftReport();
 
         switch (Session["REPORTID"].ToString())

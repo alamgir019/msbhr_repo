@@ -590,6 +590,7 @@ public class Payroll_LoanAppManager
         string strCMDate="";
         string strCMLoanAmt="0";
         string strCMInts="0";
+        string strCLLoan = "0";
         string strCashDate = "";
         decimal decCash = 0;
         decimal decMonRepay = 0;
@@ -671,7 +672,7 @@ public class Payroll_LoanAppManager
             foundRowsCurrentMonthLoan = dtCurrentMonthLoan.Select("EMPID='" + dRow["EMPID"].ToString().Trim() + "'");
             if (foundRowsCurrentMonthLoan.Length > 0)
             {
-                strOpLoan = foundRowsCurrentMonthLoan[0]["LOANAMT"].ToString().Trim();
+                //strOpLoan = foundRowsCurrentMonthLoan[0]["LOANAMT"].ToString().Trim();
                 strCMDate = Common.SetDate(foundRowsCurrentMonthLoan[0]["CHEQUEDATE"].ToString().Trim());
                 strCMLoanAmt = foundRowsCurrentMonthLoan[0]["LOANAMT"].ToString().Trim();
                 strCMInts = foundRowsCurrentMonthLoan[0]["INSTALLMENT"].ToString().Trim();
@@ -695,23 +696,6 @@ public class Payroll_LoanAppManager
             p_CMLOANAMT.Direction = ParameterDirection.Input;
             p_CMLOANAMT.Value = strCMLoanAmt;
 
-          
-                // Current Month Loan Adjustment
-                foundRowsCurrentMonthLoanAdj = dtLoanAdjustment.Select("EMPID='" + dRow["EMPID"].ToString().Trim() + "'");
-            if (foundRowsCurrentMonthLoanAdj.Length > 0)
-            {
-                decCash = Common.RoundDecimal(foundRowsCurrentMonthLoanAdj[0]["ADJAMOUNT"].ToString().Trim(), 0);
-                strCashDate = foundRowsCurrentMonthLoanAdj[0]["TRANSDATE"].ToString().Trim();
-            }
-            SqlParameter p_CMCASH = cmd[i].Parameters.Add("CMCASH", SqlDbType.Decimal);
-            p_CMCASH.Direction = ParameterDirection.Input;
-            p_CMCASH.Value = decCash.ToString();
-
-            SqlParameter p_CMCASHDATE = cmd[i].Parameters.Add("CMCASHDATE", DBNull.Value);
-            p_CMCASHDATE.Direction = ParameterDirection.Input;
-            p_CMCASHDATE.IsNullable = true;
-            if (string.IsNullOrEmpty(strCashDate) == false)
-                p_CMCASHDATE.Value = Common.SetDate(strCashDate);
 
             // Current Month Loan Repay
             if (fPayRows.Length > 0)
@@ -723,6 +707,35 @@ public class Payroll_LoanAppManager
             {
                 decMonRepay = 0;
             }
+
+            // Current Month Loan Adjustment
+            foundRowsCurrentMonthLoanAdj = dtLoanAdjustment.Select("EMPID='" + dRow["EMPID"].ToString().Trim() + "'");
+            if (foundRowsCurrentMonthLoanAdj.Length > 0)
+            {
+                decCash = Common.RoundDecimal(foundRowsCurrentMonthLoanAdj[0]["ADJAMOUNT"].ToString().Trim(), 0);
+                strCashDate = foundRowsCurrentMonthLoanAdj[0]["TRANSDATE"].ToString().Trim();
+                strOpLoan = "0";
+                strCMInts = "0";
+                strCLLoan = "0";
+                decLMTotalInterest = Common.RoundDecimal(foundRowsCurrentMonthLoanAdj[0]["INTDUE"].ToString().Trim(), 0);
+            }
+            else
+            { 
+                strCLLoan = Convert.ToString(Convert.ToDecimal(strOpLoan) + Convert.ToDecimal(strCMLoanAmt) - decCash - decMonRepay);
+                if (fPayRows.Length > 0)
+                    decLMTotalInterest = decLMTotalInterest + Math.Abs(Common.RoundDecimal(fPayRows[0]["PFINT"].ToString().Trim(), 0));
+            }
+
+            SqlParameter p_CMCASH = cmd[i].Parameters.Add("CMCASH", SqlDbType.Decimal);
+            p_CMCASH.Direction = ParameterDirection.Input;
+            p_CMCASH.Value = decCash.ToString();
+
+            SqlParameter p_CMCASHDATE = cmd[i].Parameters.Add("CMCASHDATE", DBNull.Value);
+            p_CMCASHDATE.Direction = ParameterDirection.Input;
+            p_CMCASHDATE.IsNullable = true;
+            if (string.IsNullOrEmpty(strCashDate) == false)
+                p_CMCASHDATE.Value = Common.SetDate(strCashDate);
+
             SqlParameter p_CMREPAY = cmd[i].Parameters.Add("CMREPAY", SqlDbType.Decimal);
             p_CMREPAY.Direction = ParameterDirection.Input;
             p_CMREPAY.Value = decMonRepay;
@@ -745,7 +758,7 @@ public class Payroll_LoanAppManager
             // Closing Balance
             SqlParameter p_CLLOAN = cmd[i].Parameters.Add("CLLOAN", SqlDbType.Decimal);
             p_CLLOAN.Direction = ParameterDirection.Input;
-            p_CLLOAN.Value = Convert.ToDecimal(strOpLoan) + Convert.ToDecimal(strCMLoanAmt) - decCash - decMonRepay;
+            p_CLLOAN.Value = strCLLoan;//Convert.ToDecimal(strOpLoan) + Convert.ToDecimal(strCMLoanAmt) - decCash - decMonRepay;
 
             SqlParameter p_CMINTS = cmd[i].Parameters.Add("CMINTS", SqlDbType.Decimal);
             p_CMINTS.Direction = ParameterDirection.Input;
@@ -770,23 +783,20 @@ public class Payroll_LoanAppManager
             // Total Interest
             SqlParameter p_TOTALINTEREST = cmd[i].Parameters.Add("TOTALINTEREST", SqlDbType.Decimal);
             p_TOTALINTEREST.Direction = ParameterDirection.Input;
-            if (foundRowsCurrentMonthLoanAdj.Length > 0)
-                decTotalInterest = Common.RoundDecimal(foundRowsCurrentMonthLoanAdj[0]["INTDUE"].ToString().Trim(), 0);
-            else
-                decTotalInterest =Convert.ToDecimal(cmd[i].Parameters.Add("TOTALINTEREST", SqlDbType.Decimal));
+            p_TOTALINTEREST.Value = decLMTotalInterest;
+            //else
+            //    decTotalInterest = Convert.ToDecimal(cmd[i].Parameters.Add("TOTALINTEREST", SqlDbType.Decimal));
+            //p_TOTALINTEREST.Value = decTotalInterest.ToString();
+            //decLMTotalInterest = decTotalInterest;
 
-            p_TOTALINTEREST.Value = decTotalInterest.ToString();
-
-          
-
-            if (fPayRows.Length > 0)
-            {
-                p_TOTALINTEREST.Value = decLMTotalInterest + Math.Abs(Common.RoundDecimal(fPayRows[0]["PFINT"].ToString().Trim(), 0));
-            }
-            else
-            {
-                p_TOTALINTEREST.Value = decLMTotalInterest;
-            }
+            //if (fPayRows.Length > 0)
+            //{
+            //    p_TOTALINTEREST.Value = decLMTotalInterest + Math.Abs(Common.RoundDecimal(fPayRows[0]["PFINT"].ToString().Trim(), 0));
+            //}
+            //else
+            //{
+            //    p_TOTALINTEREST.Value = decLMTotalInterest;
+            //}
 
             SqlParameter p_LOANNO = cmd[i].Parameters.Add("LOANNO", SqlDbType.BigInt);
             p_LOANNO.Direction = ParameterDirection.Input;
@@ -1363,9 +1373,9 @@ public class Payroll_LoanAppManager
         else
             strFY = strFinYear;
 
-        string strSQL = "SELECT EMPID AS EMPID FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID1"// AND EMPID IN('E000333','E004348')"
+        string strSQL = "SELECT EMPID AS EMPID FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID1"// AND EMPID IN('E001729','E002730','E001997')"
                        + " UNION ALL "
-                       + " SELECT EMPID AS EMPID FROM EmpPFLoanMst WHERE LOANMONTH=@LOANMONTH AND FISCALYRID=@FISCALYRID2"//  AND EMPID IN('E000333','E004348')"
+                       + " SELECT EMPID AS EMPID FROM EmpPFLoanMst WHERE LOANMONTH=@LOANMONTH AND FISCALYRID=@FISCALYRID2"// AND EMPID IN('E001729','E002730','E001997')"
                        + " ORDER BY EMPID";
         SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;
