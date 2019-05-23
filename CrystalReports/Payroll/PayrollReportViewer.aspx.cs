@@ -334,7 +334,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
             case "PFLL":
                 ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptPFLoanLedger.rpt");
                 ReportDoc.Load(ReportPath);
-                MyDataTable = objPayRptMgr.GetPFLoanLedgerData(Session["VMonth"].ToString(), Session["FisYear"].ToString(), "M");
+                MyDataTable = objPayRptMgr.GetPFLoanLedgerData(Session["VMonth"].ToString(), Session["FisYear"].ToString(),Session["EmpId"].ToString());
                 ReportDoc.SetDataSource(MyDataTable);
                 ReportDoc.SetParameterValue("pMonthName", Common.ReturnFullMonthName(Session["VMonth"].ToString()));
                 CRV.ReportSource = ReportDoc;
@@ -470,9 +470,9 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
 
                     ReportDoc.SetDataSource(MyDataTable);
                     ReportDoc.SetParameterValue("P_Header", "Staff Salary Tax Deduction for The Fiscal Year -" + Session["FisYearText"].ToString());
-                   
-                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "ReortDetails");
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
                 CRV.ReportSource = ReportDoc;
+                ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Yearly_Income_Tax");
                 break;
             case "AITMD":
                 ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptMonthWsITDeduct.rpt");

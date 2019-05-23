@@ -561,19 +561,20 @@ public class Payroll_LoanAppManager
    
 
     public void InsertPFLoanLedgerData( DataTable dtEmpPayroll,string strMonth, string strYear,string strFinYear, 
-        string strType,
-        string strInsBy, string strInsDate)
+        string strType,        string strInsBy, string strInsDate,string strPrevFisYr)
     {
 
-        DataTable dtDistinctLoanee = this.GetDintinctLoaneeRecord(strMonth,strFinYear);
+        DataTable dtDistinctLoanee = this.GetDintinctLoaneeRecord(strMonth,strFinYear, strPrevFisYr);
         dtDistinctLoanee=Common.SelectDistinct("DistinctEmpForPFLoan", dtDistinctLoanee, "EMPID", "EMPID");       
 
         // Previous Month Loan Ledger Record
         string strFY = "";
-        if (strMonth == "4")
-            strFY = Convert.ToString(Convert.ToInt32(strFinYear) - 1);
+        if (strMonth == "1")
+            strFY = strPrevFisYr;
         else
             strFY = strFinYear;
+
+        
         DataTable dtPrevMonthLoanLedger = this.GetPreviousMonthLoanLedgerRecord(Common.GetPreviousMonth(strMonth), strFY);
         DataRow[] foundRowsPrevMonth;
 
@@ -717,13 +718,33 @@ public class Payroll_LoanAppManager
                 strOpLoan = "0";
                 strCMInts = "0";
                 strCLLoan = "0";
-                decLMTotalInterest = Common.RoundDecimal(foundRowsCurrentMonthLoanAdj[0]["INTDUE"].ToString().Trim(), 0);
+                decLMTotalInterest = decLMTotalInterest + Common.RoundDecimal(foundRowsCurrentMonthLoanAdj[0]["INTDUE"].ToString().Trim(), 0);
+
+                // Accumulated Total Loan Repaid
+                SqlParameter p_TOTALREPAID = cmd[i].Parameters.Add("TOTALREPAID", SqlDbType.Decimal);
+                p_TOTALREPAID.Direction = ParameterDirection.Input;
+                p_TOTALREPAID.Value = decLMTotalRepay + Common.RoundDecimal(foundRowsCurrentMonthLoanAdj[0]["PRINCIPALDUE"].ToString().Trim(), 0);
+
+                // Total Interest
+                SqlParameter p_TOTALINTEREST = cmd[i].Parameters.Add("TOTALINTEREST", SqlDbType.Decimal);
+                p_TOTALINTEREST.Direction = ParameterDirection.Input;
+                p_TOTALINTEREST.Value =  decLMTotalInterest;
             }
             else
             { 
                 strCLLoan = Convert.ToString(Convert.ToDecimal(strOpLoan) + Convert.ToDecimal(strCMLoanAmt) - decCash - decMonRepay);
                 if (fPayRows.Length > 0)
                     decLMTotalInterest = decLMTotalInterest + Math.Abs(Common.RoundDecimal(fPayRows[0]["PFINT"].ToString().Trim(), 0));
+
+                // Accumulated Total Loan Repaid
+                SqlParameter p_TOTALREPAID = cmd[i].Parameters.Add("TOTALREPAID", SqlDbType.Decimal);
+                p_TOTALREPAID.Direction = ParameterDirection.Input;
+                p_TOTALREPAID.Value = decLMTotalRepay + decCash + decMonRepay;
+
+                // Total Interest
+                SqlParameter p_TOTALINTEREST = cmd[i].Parameters.Add("TOTALINTEREST", SqlDbType.Decimal);
+                p_TOTALINTEREST.Direction = ParameterDirection.Input;
+                p_TOTALINTEREST.Value = decLMTotalInterest;
             }
 
             SqlParameter p_CMCASH = cmd[i].Parameters.Add("CMCASH", SqlDbType.Decimal);
@@ -750,10 +771,10 @@ public class Payroll_LoanAppManager
             p_TOTALLOAN.Direction = ParameterDirection.Input;
             p_TOTALLOAN.Value = decLMTotalLoan + decCMLoanAmt;
 
-            // Accumulated Total Loan Repaid
-            SqlParameter p_TOTALREPAID = cmd[i].Parameters.Add("TOTALREPAID", SqlDbType.Decimal);
-            p_TOTALREPAID.Direction = ParameterDirection.Input;
-            p_TOTALREPAID.Value = decLMTotalRepay + decCash + decMonRepay;
+            //// Accumulated Total Loan Repaid
+            //SqlParameter p_TOTALREPAID = cmd[i].Parameters.Add("TOTALREPAID", SqlDbType.Decimal);
+            //p_TOTALREPAID.Direction = ParameterDirection.Input;
+            //p_TOTALREPAID.Value = decLMTotalRepay + decCash + decMonRepay;
 
             // Closing Balance
             SqlParameter p_CLLOAN = cmd[i].Parameters.Add("CLLOAN", SqlDbType.Decimal);
@@ -780,10 +801,10 @@ public class Payroll_LoanAppManager
                 p_CMINTEREST.Value ="0";
             }
 
-            // Total Interest
-            SqlParameter p_TOTALINTEREST = cmd[i].Parameters.Add("TOTALINTEREST", SqlDbType.Decimal);
-            p_TOTALINTEREST.Direction = ParameterDirection.Input;
-            p_TOTALINTEREST.Value = decLMTotalInterest;
+            //// Total Interest
+            //SqlParameter p_TOTALINTEREST = cmd[i].Parameters.Add("TOTALINTEREST", SqlDbType.Decimal);
+            //p_TOTALINTEREST.Direction = ParameterDirection.Input;
+            //p_TOTALINTEREST.Value = decLMTotalInterest;
             //else
             //    decTotalInterest = Convert.ToDecimal(cmd[i].Parameters.Add("TOTALINTEREST", SqlDbType.Decimal));
             //p_TOTALINTEREST.Value = decTotalInterest.ToString();
@@ -1335,7 +1356,8 @@ public class Payroll_LoanAppManager
 
     private DataTable GetPreviousMonthLoanLedgerRecord(string strMonth,string strFY)
     {
-        string strSQL = "SELECT * FROM PFLOANLEDGER WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID";
+        //string strSQL = "SELECT * FROM PFLOANLEDGER WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID";
+        string strSQL = "SELECT * FROM PFLOANLEDGER WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID AND CMINTS>0";
         SqlCommand cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;
 
@@ -1365,19 +1387,27 @@ public class Payroll_LoanAppManager
         return objDC.CreateDT(cmd, "GetPreviousMonthLoanLedgerRecordCU");
     }
 
-    private DataTable GetDintinctLoaneeRecord(string strMonth, string strFinYear)
+    private DataTable GetDintinctLoaneeRecord(string strMonth, string strFinYear,string strPrevFinYear)
     {
         string strFY = "";
-        if (strMonth == "4")
-            strFY = Convert.ToString(Convert.ToInt32(strFinYear) - 1);
+        if (strMonth == "1")
+            strFY = strPrevFinYear;
         else
             strFY = strFinYear;
+        SqlCommand cmd = new SqlCommand();
 
-        string strSQL = "SELECT EMPID AS EMPID FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID1"// AND EMPID IN('E001729','E002730','E001997')"
-                       + " UNION ALL "
-                       + " SELECT EMPID AS EMPID FROM EmpPFLoanMst WHERE LOANMONTH=@LOANMONTH AND FISCALYRID=@FISCALYRID2"// AND EMPID IN('E001729','E002730','E001997')"
+        if (objDC.ds.Tables["GetDintinctLoaneeRecord"] != null)
+        {
+            objDC.ds.Tables["GetDintinctLoaneeRecord"].Rows.Clear();
+            objDC.ds.Tables["GetDintinctLoaneeRecord"].Dispose();
+        }       
+
+        string strSQL = "SELECT EMPID AS EMPID FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID1"// AND EMPID IN('E005528','E005642')"
+                       + " UNION " //+ " UNION ALL "
+                       + " SELECT EMPID AS EMPID FROM EmpPFLoanMst WHERE LOANMONTH=@LOANMONTH AND FISCALYRID=@FISCALYRID2"// AND EMPID IN('E005528','E005642')"
                        + " ORDER BY EMPID";
-        SqlCommand cmd = new SqlCommand(strSQL);
+
+        cmd = new SqlCommand(strSQL);
         cmd.CommandType = CommandType.Text;
 
         SqlParameter p_VMONTH = cmd.Parameters.Add("VMONTH", SqlDbType.BigInt);

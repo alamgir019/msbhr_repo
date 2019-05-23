@@ -988,7 +988,7 @@ public class PayrollReportManager
     #endregion
 
     #region Provident Fund
-    public DataTable GetPFLoanLedgerData(string strMonth, string strFinYear, string strGenFor)
+    public DataTable GetPFLoanLedgerData(string strMonth, string strFinYear,string strEmpId)
     {
         SqlCommand cmd = new SqlCommand("Proc_Payroll_Select_PFLoanLedgerMonthlyCrystalReportData");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -999,11 +999,11 @@ public class PayrollReportManager
 
         SqlParameter p_VMONTH = cmd.Parameters.Add("VMONTH", SqlDbType.BigInt);
         p_VMONTH.Direction = ParameterDirection.Input;
-        p_VMONTH.Value = strMonth;
+        p_VMONTH.Value = strMonth;   
 
-        SqlParameter p_EMPID = cmd.Parameters.Add("GENFOR", SqlDbType.Char);
+        SqlParameter p_EMPID = cmd.Parameters.Add("EmpId", SqlDbType.Char);
         p_EMPID.Direction = ParameterDirection.Input;
-        p_EMPID.Value = strGenFor;
+        p_EMPID.Value = strEmpId;
 
         objDC.CreateDSFromProc(cmd, "GetPFLoanLedgerData");
         return objDC.ds.Tables["GetPFLoanLedgerData"];

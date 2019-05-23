@@ -114,7 +114,7 @@ public partial class Payroll_Payroll_PayrollAttndClearance : System.Web.UI.Page
             //else
             //{
                 //DateTime dtToDate = new DateTime();
-                AttnDateTo = AttnDateTo.AddDays(10);  
+                //AttnDateTo = AttnDateTo.AddDays(10);  
                 strAttnEndDate = Common.SetDate(AttnDateTo.ToShortDateString());
             //}
         }

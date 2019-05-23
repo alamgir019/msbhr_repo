@@ -110,7 +110,7 @@ public class FileUploadManager
 
                 if (strIsUpdate == "N")
                     strVID = Convert.ToString(Convert.ToInt32(strVID) + 1);
-            }
+            }            
         }
         objDC.MakeTransaction(command);
     }
@@ -962,6 +962,14 @@ public class FileUploadManager
                 p_COLA.Direction = ParameterDirection.Input;
                 p_COLA.Value = gRow.Cells[10].Text.Trim();
 
+                SqlParameter p_OldBasicSalary = command[j].Parameters.Add("OldBasicSalary", SqlDbType.Decimal);
+                p_OldBasicSalary.Direction = ParameterDirection.Input;
+                p_OldBasicSalary.Value = gRow.Cells[8].Text.Trim();
+
+                SqlParameter p_OldGrossSalary = command[j].Parameters.Add("OldGrossSalary", SqlDbType.Decimal);
+                p_OldGrossSalary.Direction = ParameterDirection.Input;
+                p_OldGrossSalary.Value = gRow.Cells[9].Text.Trim();
+
                 SqlParameter p_GroupPer = command[j].Parameters.Add("GroupPer", SqlDbType.Decimal);
                 p_GroupPer.Direction = ParameterDirection.Input;
                 p_GroupPer.Value = gRow.Cells[11].Text.Trim();
@@ -1041,6 +1049,7 @@ public class FileUploadManager
                     }
                 }
             }
+            i++;
         }
         objDC.MakeTransaction(command);
     }

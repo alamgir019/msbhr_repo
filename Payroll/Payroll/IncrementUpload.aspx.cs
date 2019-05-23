@@ -91,12 +91,16 @@ public partial class Payroll_Payroll_IncrementUpload : System.Web.UI.Page
 
             foreach (GridViewRow gRow in grIncrementList.Rows)
             {
-                // validate with From date
-                if (objVarMgr.IsDuplicateIncDate(gRow.Cells[1].Text.Trim(), Common.ReturnDate(txtActionDate.Text.Trim())) == true)
+                CheckBox chkB = (CheckBox)gRow.Cells[0].FindControl("chkBox");
+                if (chkB.Checked == true)
                 {
-                    lblMsg.Text = "Record cannot save because of duplicate record exist. Please remove duplicate record.";
-                    gRow.BackColor = System.Drawing.Color.Yellow;
-                    return false;
+                    // validate with From date
+                    if (objVarMgr.IsDuplicateIncDate(gRow.Cells[1].Text.Trim(), Common.ReturnDate(txtActionDate.Text.Trim())) == true)
+                    {
+                        lblMsg.Text = "Record cannot save because of duplicate record exist. Please remove duplicate record.";
+                        gRow.BackColor = System.Drawing.Color.Yellow;
+                        return false;
+                    }
                 }
             }
             return true;

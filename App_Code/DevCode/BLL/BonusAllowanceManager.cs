@@ -23,32 +23,32 @@ public class BonusAllowanceManager
         int i = 1;
         long lngVID = objDC.GerMaxIDNumber("BonusAllowance", "VID");
 
-        //cmd[0] = new SqlCommand("Proc_Payroll_Delete_BonusAllowance");
-        //cmd[0].CommandType = CommandType.StoredProcedure;
+        cmd[0] = new SqlCommand("Proc_Payroll_Delete_BonusAllowance");
+        cmd[0].CommandType = CommandType.StoredProcedure;
 
-        //SqlParameter p_VMONTH = cmd[0].Parameters.Add("VMONTH", SqlDbType.BigInt);
-        //p_VMONTH.Direction = ParameterDirection.Input;
-        //p_VMONTH.Value = strMonth;
+        SqlParameter p_VMONTH = cmd[0].Parameters.Add("VMONTH", SqlDbType.BigInt);
+        p_VMONTH.Direction = ParameterDirection.Input;
+        p_VMONTH.Value = strMonth;
 
-        //SqlParameter p_VYEAR = cmd[0].Parameters.Add("VYEAR", SqlDbType.BigInt);
-        //p_VYEAR.Direction = ParameterDirection.Input;
-        //p_VYEAR.Value = strYear;
+        SqlParameter p_VYEAR = cmd[0].Parameters.Add("VYEAR", SqlDbType.BigInt);
+        p_VYEAR.Direction = ParameterDirection.Input;
+        p_VYEAR.Value = strYear;
 
-        //SqlParameter p_FISCALYRID = cmd[0].Parameters.Add("FISCALYRID", SqlDbType.BigInt);
-        //p_FISCALYRID.Direction = ParameterDirection.Input;
-        //p_FISCALYRID.Value = strFinYear;
+        SqlParameter p_FISCALYRID = cmd[0].Parameters.Add("FISCALYRID", SqlDbType.BigInt);
+        p_FISCALYRID.Direction = ParameterDirection.Input;
+        p_FISCALYRID.Value = strFinYear;
 
-        //SqlParameter p_SHEADID = cmd[0].Parameters.Add("SHEADID", SqlDbType.BigInt);
-        //p_SHEADID.Direction = ParameterDirection.Input;
-        //p_SHEADID.Value = strSheadID;
+        SqlParameter p_SHEADID = cmd[0].Parameters.Add("SHEADID", SqlDbType.BigInt);
+        p_SHEADID.Direction = ParameterDirection.Input;
+        p_SHEADID.Value = strSheadID;
 
-        //SqlParameter p_Religion = cmd[0].Parameters.Add("Religion", SqlDbType.VarChar);
-        //p_Religion.Direction = ParameterDirection.Input;
-        //p_Religion.Value = strReligion;
+        SqlParameter p_Religion = cmd[0].Parameters.Add("Religion", SqlDbType.VarChar);
+        p_Religion.Direction = ParameterDirection.Input;
+        p_Religion.Value = strReligion;
 
-        //SqlParameter p_FestivalID = cmd[0].Parameters.Add("FestivalID", SqlDbType.BigInt);
-        //p_FestivalID.Direction = ParameterDirection.Input;
-        //p_FestivalID.Value = FestivalID;
+        SqlParameter p_FestivalID = cmd[0].Parameters.Add("FestivalID", SqlDbType.BigInt);
+        p_FestivalID.Direction = ParameterDirection.Input;
+        p_FestivalID.Value = FestivalID;
 
         //SqlParameter p_EmpTypeId = cmd[0].Parameters.Add("EmpTypeId", SqlDbType.BigInt);
         //p_EmpTypeId.Direction = ParameterDirection.Input;
@@ -74,19 +74,19 @@ public class BonusAllowanceManager
                 p_EMPTYPEID.Direction = ParameterDirection.Input;
                 p_EMPTYPEID.Value = gr.DataKeys[gRow.DataItemIndex].Values[2].ToString().Trim();
 
-                SqlParameter p_VMONTH = cmd[i].Parameters.Add("VMONTH", SqlDbType.BigInt);
+                p_VMONTH = cmd[i].Parameters.Add("VMONTH", SqlDbType.BigInt);
                 p_VMONTH.Direction = ParameterDirection.Input;
                 p_VMONTH.Value = strMonth;
 
-                SqlParameter p_VYEAR = cmd[i].Parameters.Add("VYEAR", SqlDbType.BigInt);
+                p_VYEAR = cmd[i].Parameters.Add("VYEAR", SqlDbType.BigInt);
                 p_VYEAR.Direction = ParameterDirection.Input;
                 p_VYEAR.Value = strYear;
 
-                SqlParameter p_FISCALYRID = cmd[i].Parameters.Add("FISCALYRID", SqlDbType.BigInt);
+                p_FISCALYRID = cmd[i].Parameters.Add("FISCALYRID", SqlDbType.BigInt);
                 p_FISCALYRID.Direction = ParameterDirection.Input;
                 p_FISCALYRID.Value = strFinYear;
 
-                SqlParameter p_SHEADID = cmd[i].Parameters.Add("SHEADID", SqlDbType.BigInt);
+                p_SHEADID = cmd[i].Parameters.Add("SHEADID", SqlDbType.BigInt);
                 p_SHEADID.Direction = ParameterDirection.Input;
                 p_SHEADID.Value = strSheadID;
 
@@ -128,7 +128,7 @@ public class BonusAllowanceManager
                 p_FESTIVEDATE.Direction = ParameterDirection.Input;
                 p_FESTIVEDATE.Value = strFestiveDate;
 
-                SqlParameter p_FestivalID = cmd[i].Parameters.Add("FestivalID", SqlDbType.BigInt);
+                p_FestivalID = cmd[i].Parameters.Add("FestivalID", SqlDbType.BigInt);
                 p_FestivalID.Direction = ParameterDirection.Input;
                 p_FestivalID.Value = FestivalID;
 

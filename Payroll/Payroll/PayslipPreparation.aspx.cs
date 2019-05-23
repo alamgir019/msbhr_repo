@@ -419,7 +419,12 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
         DataRow[] foundFBRow;
         DataRow[] foundAddResponeRow;
         //PF
-        DataTable dtPFLoanLedger = objPreMgr.GetPFLoanLedgerForPayrollPreparation(Common.GetPreviousMonth(ddlMonth.SelectedValue.ToString().Trim()), ddlFiscalYearPF.SelectedValue.ToString());
+        //DataTable dtPFLoanLedger = objPreMgr.GetPFLoanLedgerForPayrollPreparation(Common.GetPreviousMonth(ddlMonth.SelectedValue.ToString().Trim()), ddlFiscalYearPF.SelectedValue.ToString());
+        DataTable dtPFLoanLedger = new DataTable();
+        if (ddlMonth.SelectedValue != "1")
+            dtPFLoanLedger = objPreMgr.GetPFLoanLedgerForPayrollPreparation(Common.GetPreviousMonth(ddlMonth.SelectedValue.ToString().Trim()), ddlFiscalYearPF.SelectedValue.ToString());
+        else
+            dtPFLoanLedger = objPreMgr.GetPFLoanLedgerForPayrollPreparation(Common.GetPreviousMonth(ddlMonth.SelectedValue.ToString().Trim()), objPayrollMgr.GetPrevPFFisYr(ddlFiscalYearPF.SelectedValue.ToString() ));
         DataTable dtPFLoan = objPreMgr.GetPFLoanDataForPayrollPreparation(ddlMonth.SelectedValue.ToString().Trim(), ddlFiscalYearPF.SelectedValue.ToString());
         DataTable dtPFLoanRepay = objPreMgr.GetPFLoanAdjustmentForPayrollPreparation(ddlMonth.SelectedValue.ToString().Trim(), ddlFiscalYearPF.SelectedValue.Trim());
 

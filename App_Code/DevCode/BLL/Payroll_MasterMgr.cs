@@ -973,7 +973,22 @@ public class Payroll_MasterMgr
         return Convert.ToInt32(strRetValue);
     }
 
-    public DataTable SelectSalaryHead(Int32 SHEADID, string strISOTHERPAYMENT)
+    public string GetPrevPFFisYr(string strFiscalYrId)
+    {
+        string strRetValue = "";
+        string strSQL = "SELECT MAX(FiscalYrId) FROM FiscalYearList WHERE IsFYPF='Y' AND FiscalYrId<>@FiscalYrId";
+        SqlCommand cmd = new SqlCommand(strSQL);
+        cmd.CommandType = CommandType.Text;
+
+        SqlParameter p_FiscalYrId = cmd.Parameters.Add("FiscalYrId", SqlDbType.BigInt);
+        p_FiscalYrId.Direction = ParameterDirection.Input;
+        p_FiscalYrId.Value = strFiscalYrId;
+
+        strRetValue = objDC.GetScalarVal(cmd);
+        return strRetValue;
+    }
+
+public DataTable SelectSalaryHead(Int32 SHEADID, string strISOTHERPAYMENT)
     {
         SqlCommand command = new SqlCommand("proc_Payroll_Select_SalaryHead");
 

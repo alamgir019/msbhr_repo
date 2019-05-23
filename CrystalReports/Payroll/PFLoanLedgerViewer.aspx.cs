@@ -40,7 +40,7 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
         ReportDoc.Load(ReportPath);
 
 
-        ReportDoc.SetDataSource(objPayRptMgr.GetPFLoanLedgerData(strMonth, strFinYear, "M"));
+        ReportDoc.SetDataSource(objPayRptMgr.GetPFLoanLedgerData(strMonth, strFinYear, ""));
 
         ReportDoc.SetParameterValue("pMonthName", Common.ReturnFullMonthName(strMonth));
         CRV.ReportSource = ReportDoc;

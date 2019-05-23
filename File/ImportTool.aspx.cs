@@ -2234,13 +2234,13 @@ public partial class File_ImportTool : System.Web.UI.Page
             if (string.IsNullOrEmpty(gRow.Cells[1].Text.Trim()) == false)
             {
                 this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[2].Text.Trim(),
-                   gRow.Cells[3].Text.Trim(),"Increment");
+                   gRow.Cells[3].Text.Trim(),"Increment For Jan19");
                 this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[4].Text.Trim(),
-                    gRow.Cells[5].Text.Trim(), "Increment");
+                    gRow.Cells[5].Text.Trim(), "Increment For Jan19");
                 this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[6].Text.Trim(),
-                    gRow.Cells[7].Text.Trim(), "Increment");
-                //this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[8].Text.Trim(),
-                //  "-" + gRow.Cells[9].Text.Trim());
+                    gRow.Cells[7].Text.Trim(), "Increment For Jan19");
+                this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[8].Text.Trim(),
+                  "-" + gRow.Cells[9].Text.Trim(), "Increment For Jan19");
                 //this.UpdateSalPackDetls(Common.CheckNullString(gRow.Cells[1].Text.Trim()), gRow.Cells[11].Text.Trim(),
                 //    "-" + gRow.Cells[12].Text.Trim());
             }
@@ -2250,7 +2250,10 @@ public partial class File_ImportTool : System.Web.UI.Page
 
     public void UpdateSalPackDetls(string sSalPakId, string sSHeadId,string sPayAmt,string sLastupdatedFrom)
     {
-        string strSQL = "UPDATE SALARYPAKDETLS SET PayAmt=@PayAmt,TotAmnt=@TotAmnt,UpdatedBy=@UpdatedBy,UpdatedDate=@UpdatedDate,"
+        //string strSQL = "UPDATE SALARYPAKDETLS SET PayAmt=@PayAmt,TotAmnt=@TotAmnt,UpdatedBy=@UpdatedBy,UpdatedDate=@UpdatedDate,"
+        //        + " LastUpdatedFrom=@LastUpdatedFrom WHERE SalPakId=@SalPakId AND SHeadId=@SHeadId";
+
+        string strSQL = "UPDATE SALARYPAKDETLS SET PayAmt=@PayAmt,TotAmnt=@TotAmnt,UpdatedDate=@UpdatedDate,"
                 + " LastUpdatedFrom=@LastUpdatedFrom WHERE SalPakId=@SalPakId AND SHeadId=@SHeadId";
         SqlCommand command = new SqlCommand(strSQL);
         command.CommandType = CommandType.Text;
@@ -2271,9 +2274,9 @@ public partial class File_ImportTool : System.Web.UI.Page
         p_TotAmnt.Direction = ParameterDirection.Input;
         p_TotAmnt.Value = Math.Round(Convert.ToDecimal(sPayAmt), 2);
 
-        SqlParameter p_InsertedBy = command.Parameters.Add("UpdatedBy", SqlDbType.Char);
-        p_InsertedBy.Direction = ParameterDirection.Input;
-        p_InsertedBy.Value = "admin";
+        //SqlParameter p_InsertedBy = command.Parameters.Add("UpdatedBy", SqlDbType.Char);
+        //p_InsertedBy.Direction = ParameterDirection.Input;
+        //p_InsertedBy.Value = "admin";
 
         SqlParameter p_InsertedDate = command.Parameters.Add("UpdatedDate", SqlDbType.DateTime);
         p_InsertedDate.Direction = ParameterDirection.Input;
@@ -2288,7 +2291,7 @@ public partial class File_ImportTool : System.Web.UI.Page
 
     protected void btnUploadSalaryPackageTitle0_Click(object sender, EventArgs e)
     {
-        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\Salary Imput From Jan  to Aug  2018.xls;Extended Properties=Excel 8.0";
+        string connstr = "Provider=Microsoft.Jet.Oledb.4.0;Data Source=D:\\UploadFile\\MSB\\SalaryPakDetls.xls;Extended Properties=Excel 8.0";
         OleDbConnection conn = new OleDbConnection(connstr);
         string strSQL = "SELECT * FROM [Sheet1$]";
 

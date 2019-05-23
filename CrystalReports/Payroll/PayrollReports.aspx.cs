@@ -285,7 +285,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             #region Salary
             case "ESPS":
                 {
-                    PanelVisibilityMst("0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    PanelVisibilityMst("0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
                     Common.FillDropDownList_All(objPayMgr.SelectClinic(), this.ddlClinic);
                     Common.FillDropDownList_All(MasMgr.SelectDesignation(0), this.ddlDesig);
                     break;
@@ -351,7 +351,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 }
             case "PFLL":
                 {
-                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
                     Common.FillDropDownList(objPayMgr.SelectFiscalYear(0, "P"), ddlFisYear, "FISCALYRTITLE", "FISCALYRID", false);
 
                     //this.FillEmpList(radBtnListEmp.SelectedValue.ToString());
@@ -1222,8 +1222,9 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
                 Session["FisYear"] = ddlFisYear.SelectedValue.ToString();              
                 Session["REPORTID"] = tvReports.SelectedNode.Value;
+                Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
                 ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptPFLoanLedger.rpt");
-                MyDataTable = objPayRptMgr.GetPFLoanLedgerData(Session["VMonth"].ToString(), Session["FisYear"].ToString(), "M");
+                MyDataTable = objPayRptMgr.GetPFLoanLedgerData(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["EmpId"].ToString().Trim()  );
                 ReportDoc.Load(ReportPath);
                 ReportDoc.SetDataSource(MyDataTable);
 
@@ -1260,7 +1261,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
                     Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
                     Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
-                    Session["EmpTypeId"] = "1";
+                    Session["EmpTypeId"] = ddlEmpType.SelectedValue.ToString();   
                     Session["REPORTID"] = tvReports.SelectedNode.Value;
 
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyITDeduct.rpt");
@@ -2372,12 +2373,22 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     //this.ExPortReport(ReportDoc, fileName);
                     break;
                 }
+         
+            case "AITD":            
+                    //this.DivEmpLoad();    
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
+                    Session["RptType"] = tvReports.SelectedValue.ToString();
+                    Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
+                    Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
+                    Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
+                    Session["EmpTypeId"] = ddlEmpType.SelectedValue.ToString();
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;
+                break;
             case "YPFC":
             case "YPFB":
             case "YPFLD":
             case "IPFC":
             case "AI":
-            case "AITD":
             case "TDR":
                 {
                     //this.DivEmpLoad();    
@@ -2386,7 +2397,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
                     Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
                     Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
-                    Session["EmpTypeId"] = "1";
+                    Session["EmpTypeId"] = ddlEmpType.SelectedValue.ToString();   
                     Session["REPORTID"] = tvReports.SelectedNode.Value;
                     break;
                 }
@@ -2905,6 +2916,14 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     this.DivEmpLoad();
                     Session["REPORTID"] = tvReports.SelectedNode.Value;  
 
+                    break;
+                }
+            case "PFLL":
+                {
+                    Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
+                    Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;
+                    Session["EmpId"] = txtEmpCode.Text.Trim() == "" ? "" : txtEmpCode.Text.Trim();
                     break;
                 }
             case "OTC":

@@ -204,12 +204,13 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
             grEmployee.DataSource = null;
             grEmployee.DataBind();
 
-            DataTable dtBonusRecord = new DataTable();// objBonMgr.GetBonusAllowanceData(ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(),
-            //ddlFiscalYear.SelectedValue.Trim(), "14", ddlReligion.SelectedValue.Trim(),ddlFestival.SelectedValue.Trim() );
+            //DataTable dtBonusRecord = new DataTable();
+            DataTable dtBonusRecord = objBonMgr.GetBonusAllowanceData(ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(),
+            ddlFiscalYear.SelectedValue.Trim(), "14", ddlReligion.SelectedValue.Trim(),ddlFestival.SelectedValue.Trim() );
 
             if (dtBonusRecord.Rows.Count > 0)
             {
-                if (dtBonusRecord.Rows[0]["VSTATUS"].ToString().Trim() == "A")
+                if (dtBonusRecord.Rows[0]["VSTATUS"].ToString().Trim() != "P")
                 {
                     lblMsg.Text = "All or some records has been Approved for disbursement. These data cannnot be modify or delete";
                     btnDelete.Enabled = false;

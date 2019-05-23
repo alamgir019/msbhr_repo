@@ -1253,7 +1253,8 @@ public class Payroll_PreparationManager
     #region PF
     public DataTable GetPFLoanLedgerForPayrollPreparation(string strMonth, string strFY)
     {
-        SqlCommand cmd = new SqlCommand("SELECT EMPID,CMREPAY,CLLOAN,OPLOAN,CMINTEREST,CMLOANAMT,CMCASH FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID");
+        //SqlCommand cmd = new SqlCommand("SELECT EMPID,CMREPAY,CLLOAN,OPLOAN,CMINTEREST,CMLOANAMT,CMCASH FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID");
+        SqlCommand cmd = new SqlCommand("SELECT EMPID,CMREPAY,CLLOAN,OPLOAN,CMINTEREST,CMLOANAMT,CMCASH FROM PFLoanLedger WHERE VMONTH=@VMONTH AND FISCALYRID=@FISCALYRID AND CMINTS>0");
         cmd.CommandType = CommandType.Text;
 
         SqlParameter p_LOANMONTH = cmd.Parameters.Add("VMONTH", SqlDbType.BigInt);

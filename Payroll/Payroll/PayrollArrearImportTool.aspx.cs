@@ -1015,7 +1015,7 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
 
                 foreach (GridViewRow gRow in grPayrollArrear.Rows)
                 {
-                    DataRow[] foundRows = dtPayrollProcess.Select("EMPID=" + gRow.Cells[1].Text.Trim());
+                    DataRow[] foundRows = dtPayrollProcess.Select("EMPID='" + gRow.Cells[1].Text.Trim()+ "'");
 
                     if (foundRows.Length > 0)
                     {

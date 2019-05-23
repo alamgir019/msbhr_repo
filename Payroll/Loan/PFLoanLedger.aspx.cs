@@ -36,7 +36,7 @@ public partial class Payroll_Loan_PFLoanLedger : System.Web.UI.Page
         string fileName = "";
         ReportDoc = new ReportDocument();
         ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptPFLoanLedger.rpt");
-        DataTable MyDataTable = objPayRptMgr.GetPFLoanLedgerData(ddlMonth.SelectedValue.ToString()  , ddlFiscalYear.SelectedValue.ToString()  , "M");
+        DataTable MyDataTable = objPayRptMgr.GetPFLoanLedgerData(ddlMonth.SelectedValue.ToString()  , ddlFiscalYear.SelectedValue.ToString()  , "");
         ReportDoc.Load(ReportPath);
         ReportDoc.SetDataSource(MyDataTable);
 

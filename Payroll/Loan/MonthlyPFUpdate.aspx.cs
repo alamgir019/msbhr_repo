@@ -27,6 +27,7 @@ public partial class Payroll_Loan_MonthlyPFUpdate : System.Web.UI.Page
             ddlMonth.SelectedValue = Convert.ToString(DateTime.Today.Month);
             ddlYear.SelectedValue = Convert.ToString(DateTime.Today.Year);
             Common.FillDropDownList(objPayrollMgr.SelectFiscalYear(0, "P"), ddlFiscalYear, "FISCALYRTITLE", "FISCALYRID", false);
+            
         }
     }
 
@@ -156,11 +157,11 @@ public partial class Payroll_Loan_MonthlyPFUpdate : System.Web.UI.Page
         {
             DataTable dtEmpPayroll = this.GeneratePayrollReport("A", "", ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), "", "S");
             objLoanMgr.InsertPFLoanLedgerData(dtEmpPayroll, ddlMonth.SelectedValue.Trim(), ddlYear.SelectedValue.Trim(), ddlFiscalYear.SelectedValue.Trim(),
-                "PF", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()));
-            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() +  " PF Loan Ledger Prepared Successfully.";
+                "PF", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()), objPayrollMgr.GetPrevPFFisYr(ddlFiscalYear.SelectedValue.Trim()));
+            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() + " PF Loan Ledger Prepared Successfully.";
         }
         else
-            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() +  " PF Loan Ledger has Already Prepared.";
+            lblMsg.Text = ddlMonth.SelectedItem.Text.Trim() + " PF Loan Ledger has Already Prepared.";
     }
     protected void btnDelete_Click(object sender, EventArgs e)
     {
