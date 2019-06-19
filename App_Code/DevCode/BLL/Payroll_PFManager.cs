@@ -364,46 +364,46 @@ public class Payroll_PFManager
         return cmd;
     }
 
-    public void UpdatePFInterest(GridView grv, string strInsBy, string strInsDate, string strIntRate)
-    {
-        SqlCommand[] cmd = new SqlCommand[grv.Rows.Count];
-        int i = 0;
-        foreach (GridViewRow gRow in grv.Rows)
-        {
-            cmd[i] = new SqlCommand("Proc_Payroll_Update_PFLedgerForInterest");
-            cmd[i].CommandType = CommandType.StoredProcedure;
+    //public void UpdatePFInterest(GridView grv, string strInsBy, string strInsDate, string strIntRate)
+    //{
+    //    SqlCommand[] cmd = new SqlCommand[grv.Rows.Count];
+    //    int i = 0;
+    //    foreach (GridViewRow gRow in grv.Rows)
+    //    {
+    //        cmd[i] = new SqlCommand("Proc_Payroll_Update_PFLedgerForInterest");
+    //        cmd[i].CommandType = CommandType.StoredProcedure;
 
-            SqlParameter p_LEDGERID = cmd[i].Parameters.Add("LEDGERID", SqlDbType.BigInt);
-            p_LEDGERID.Direction = ParameterDirection.Input;
-            p_LEDGERID.Value = gRow.Cells[26].Text.Trim();
+    //        SqlParameter p_LEDGERID = cmd[i].Parameters.Add("LEDGERID", SqlDbType.BigInt);
+    //        p_LEDGERID.Direction = ParameterDirection.Input;
+    //        p_LEDGERID.Value = gRow.Cells[26].Text.Trim();
 
-            SqlParameter p_CMPFINTREST = cmd[i].Parameters.Add("CMPFINTREST", SqlDbType.BigInt);
-            p_CMPFINTREST.Direction = ParameterDirection.Input;
-            p_CMPFINTREST.Value = gRow.Cells[14].Text.Trim();
+    //        SqlParameter p_CMPFINTREST = cmd[i].Parameters.Add("CMPFINTREST", SqlDbType.BigInt);
+    //        p_CMPFINTREST.Direction = ParameterDirection.Input;
+    //        p_CMPFINTREST.Value = gRow.Cells[14].Text.Trim();
 
-            SqlParameter p_MonthofInterest = cmd[i].Parameters.Add("MonthofInterest", SqlDbType.BigInt);
-            p_MonthofInterest.Direction = ParameterDirection.Input;
-            p_MonthofInterest.Value = gRow.Cells[27].Text.Trim();
+    //        SqlParameter p_MonthofInterest = cmd[i].Parameters.Add("MonthofInterest", SqlDbType.BigInt);
+    //        p_MonthofInterest.Direction = ParameterDirection.Input;
+    //        p_MonthofInterest.Value = gRow.Cells[27].Text.Trim();
 
-            SqlParameter p_InterestRate = cmd[i].Parameters.Add("InterestRate", SqlDbType.Decimal);
-            p_InterestRate.Direction = ParameterDirection.Input;
-            p_InterestRate.Value = string.IsNullOrEmpty(strIntRate) == false ? strIntRate : "0";
+    //        SqlParameter p_InterestRate = cmd[i].Parameters.Add("InterestRate", SqlDbType.Decimal);
+    //        p_InterestRate.Direction = ParameterDirection.Input;
+    //        p_InterestRate.Value = string.IsNullOrEmpty(strIntRate) == false ? strIntRate : "0";
 
-            SqlParameter p_UPDATEDBY = cmd[i].Parameters.Add("UPDATEDBY", SqlDbType.VarChar);
-            p_UPDATEDBY.Direction = ParameterDirection.Input;
-            p_UPDATEDBY.Value = strInsBy;
+    //        SqlParameter p_UPDATEDBY = cmd[i].Parameters.Add("UPDATEDBY", SqlDbType.VarChar);
+    //        p_UPDATEDBY.Direction = ParameterDirection.Input;
+    //        p_UPDATEDBY.Value = strInsBy;
 
-            SqlParameter p_UPDATEDDATE = cmd[i].Parameters.Add("UPDATEDDATE", SqlDbType.DateTime);
-            p_UPDATEDDATE.Direction = ParameterDirection.Input;
-            p_UPDATEDDATE.Value = strInsDate;
+    //        SqlParameter p_UPDATEDDATE = cmd[i].Parameters.Add("UPDATEDDATE", SqlDbType.DateTime);
+    //        p_UPDATEDDATE.Direction = ParameterDirection.Input;
+    //        p_UPDATEDDATE.Value = strInsDate;
 
-            i = i + 1;
+    //        i = i + 1;
 
-        }
+    //    }
 
-        objDC.MakeTransaction(cmd);
+    //    objDC.MakeTransaction(cmd);
         
-    }
+    //}
 
     public string GetEmpName(string strEmpID)
     {
@@ -672,6 +672,105 @@ public class Payroll_PFManager
                 p_IsUpdate.Direction = ParameterDirection.Input;
                 p_IsUpdate.Value = "N";
                 strVIDi = strVIDi + 1;
+            }
+            objDC.MakeTransaction(command);
+        }
+    }
+
+    public void UpdatePFBF(GridView grPay, string strFisYrId, string strInsBy, string strInsDate)
+    {
+        int i = 0;
+        int j = 0;
+        int empCount = grPay.Rows.Count == 0 ? 1 : grPay.Rows.Count;
+
+        SqlCommand[] command;
+        command = new SqlCommand[empCount];
+        string strSQL = "";
+        for (i = 0; i < empCount; i++)
+        {
+            if (Common.CheckNullString(grPay.Rows[i].Cells[0].Text.Trim()) != "" && grPay.Rows[i].Cells[1].Text.Trim() != "0")
+            {
+                strSQL= "UPDATE ProvidentFundBF SET EmpContribution=EmpContribution+@EmpContribution,CompContribution=CompContribution+@CompContribution,TotalContribution=TotalContribution+@EmpContribution+@CompContribution,"
+                    + " UpdatedBy=@UpdatedBy,UpdatedDate=@UpdatedDate WHERE EmpId= @EmpId AND PFFiscalYrId= @PFFiscalYrId";
+                command[j] = new SqlCommand(strSQL);
+                command[j].CommandType = CommandType.Text;
+                
+                SqlParameter p_EMPID = command[j].Parameters.Add("EMPID", SqlDbType.Char);
+                p_EMPID.Direction = ParameterDirection.Input;
+                p_EMPID.Value = grPay.Rows[i].Cells[1].Text.Trim();
+
+                SqlParameter p_SHEADID = command[j].Parameters.Add("PFFiscalYrID", SqlDbType.BigInt);
+                p_SHEADID.Direction = ParameterDirection.Input;
+                p_SHEADID.Value = "7";
+
+                SqlParameter p_EmpContribution = command[j].Parameters.Add("EmpContribution", SqlDbType.Decimal);
+                p_EmpContribution.Direction = ParameterDirection.Input;
+                p_EmpContribution.Value = grPay.Rows[i].Cells[2].Text.Trim();
+
+                SqlParameter p_CompContribution = command[j].Parameters.Add("CompContribution", SqlDbType.Decimal);
+                p_CompContribution.Direction = ParameterDirection.Input;
+                p_CompContribution.Value = grPay.Rows[i].Cells[3].Text.Trim();
+
+                SqlParameter p_INSERTEDBY = command[j].Parameters.Add("UpdatedBy", SqlDbType.VarChar);
+                p_INSERTEDBY.Direction = ParameterDirection.Input;
+                p_INSERTEDBY.Value = strInsBy;
+
+                SqlParameter p_INSERTEDDATE = command[j].Parameters.Add("UpdatedDate", SqlDbType.DateTime);
+                p_INSERTEDDATE.Direction = ParameterDirection.Input;
+                p_INSERTEDDATE.Value = strInsDate;
+
+            }
+            objDC.MakeTransaction(command);
+        }
+    }
+
+
+    public void UpdatePFInterest(GridView grPay, string strFisYrId, string strInsBy, string strInsDate)
+    {
+        int i = 0;
+        int j = 0;
+        int empCount = grPay.Rows.Count == 0 ? 1 : grPay.Rows.Count;
+
+        SqlCommand[] command;
+        command = new SqlCommand[empCount];
+        string strSQL = "";
+        for (i = 0; i < empCount; i++)
+        {
+            if (Common.CheckNullString(grPay.Rows[i].Cells[0].Text.Trim()) != "" && grPay.Rows[i].Cells[1].Text.Trim() != "0")
+            {
+                strSQL = "UPDATE ProvidentFundBF SET TotalInterest=@TotalInterest,TotalContribution=TotalContribution+@TotalInterest,"
+                    + " UpdatedBy=@UpdatedBy,UpdatedDate=@UpdatedDate WHERE EmpId= @EmpId AND PFFiscalYrId= @PFFiscalYrId";
+                command[j] = new SqlCommand(strSQL);
+                command[j].CommandType = CommandType.Text;
+
+                SqlParameter p_EMPID = command[j].Parameters.Add("EMPID", SqlDbType.Char);
+                p_EMPID.Direction = ParameterDirection.Input;
+                p_EMPID.Value = grPay.Rows[i].Cells[1].Text.Trim();
+
+                SqlParameter p_SHEADID = command[j].Parameters.Add("PFFiscalYrID", SqlDbType.BigInt);
+                p_SHEADID.Direction = ParameterDirection.Input;
+                p_SHEADID.Value = strFisYrId;
+
+                SqlParameter p_TotalInterest = command[j].Parameters.Add("TotalInterest", SqlDbType.Decimal);
+                p_TotalInterest.Direction = ParameterDirection.Input;
+                p_TotalInterest.Value = grPay.Rows[i].Cells[4].Text.Trim();
+
+                //SqlParameter p_TotalContribution = command[j].Parameters.Add("TotalContribution", SqlDbType.Decimal);
+                //p_TotalContribution.Direction = ParameterDirection.Input;
+                //p_TotalContribution.Value = grPay.Rows[i].Cells[5].Text.Trim();
+
+                //SqlParameter p_BroadForward = command[j].Parameters.Add("BroadForward", SqlDbType.Decimal);
+                //p_BroadForward.Direction = ParameterDirection.Input;
+                //p_BroadForward.Value = grPay.Rows[i].Cells[5].Text.Trim();
+
+                SqlParameter p_INSERTEDBY = command[j].Parameters.Add("UpdatedBy", SqlDbType.VarChar);
+                p_INSERTEDBY.Direction = ParameterDirection.Input;
+                p_INSERTEDBY.Value = strInsBy;
+
+                SqlParameter p_INSERTEDDATE = command[j].Parameters.Add("UpdatedDate", SqlDbType.DateTime);
+                p_INSERTEDDATE.Direction = ParameterDirection.Input;
+                p_INSERTEDDATE.Value = strInsDate;
+
             }
             objDC.MakeTransaction(command);
         }

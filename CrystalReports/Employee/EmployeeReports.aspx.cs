@@ -159,6 +159,7 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
                     break;
                 }
             case "CL":
+            case "CEL":
                 {
                     PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0", "0");
                     LabelFromDate.Text = "Confirmation Date From:";
@@ -568,6 +569,7 @@ public partial class CrystalReports_Employee_EmployeeReports : System.Web.UI.Pag
                     break;
                 }
             case "CL":
+            case "CEL":
                 {
                     Session["REPORTID"] = tvReports.SelectedNode.Value;
                     Session["DeptId"] = ddlDepartment.SelectedValue;

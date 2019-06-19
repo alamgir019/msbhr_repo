@@ -90,17 +90,17 @@ public partial class Payroll_Payroll_ProvidentFundBFUpload : System.Web.UI.Page
         {
             if (TabContainer2.ActiveTabIndex == 0)
             {
-                objPFMgr.InsertPFBalanceUploadData(grPayroll, ddlFiscalYear.SelectedValue.ToString(), Session["USERID"].ToString(), Common.SetDateTime(DateTime.Now.ToString()));
+                objPFMgr.UpdatePFInterest(grPayroll, ddlFiscalYear.SelectedValue.ToString(), Session["USERID"].ToString(), Common.SetDateTime(DateTime.Now.ToString()));
                 this.EntryMode();
                 lblMsg.Text = "Record Saved Successfully";
             }
-            else {
+            //else {
 
-                objPFMgr.InsertUploadPFBalanceData(grPFBF, hfId.Value.ToString(), Session["USERID"].ToString(), Common.SetDateTime(DateTime.Now.ToString()));
-                this.EntryMode();
-                lblMsg.Text = "Record Saved Successfully";
+            //    objPFMgr.InsertUploadPFBalanceData(grPFBF, hfId.Value.ToString(), Session["USERID"].ToString(), Common.SetDateTime(DateTime.Now.ToString()));
+            //    this.EntryMode();
+            //    lblMsg.Text = "Record Saved Successfully";
 
-            }
+            //}
         }
         catch (Exception ex)
         {
@@ -141,14 +141,10 @@ public partial class Payroll_Payroll_ProvidentFundBFUpload : System.Web.UI.Page
 
             DataTable dtPFAmt = objPFMgr.SelectPaySlipDetlsPFAmount(ddlFiscalYear.SelectedValue.ToString());
 
-            //foreach (GridViewRow gRow in grPayroll.Rows)
-            //{
-            //    DataRow[] foundRow = dtPFAmt.Select("EmpId='" + gRow.Cells[0].Text.Trim() + "'");
-            //    if (foundRow.Length > 0)
-            //        gRow.Cells[2].Text = foundRow[0]["TotPayAmt"].ToString();
-            //    else
-            //        gRow.Cells[2].Text = "0";
-            //}
+            foreach (GridViewRow gRow in grPayroll.Rows)
+            {
+                gRow.Cells[4].Text = Math.Round(Convert.ToDecimal(gRow.Cells[4].Text), 0).ToString();
+            }
         }
     }
 

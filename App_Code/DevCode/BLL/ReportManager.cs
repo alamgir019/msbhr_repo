@@ -2381,7 +2381,39 @@ public DataTable Get_TimeSheetReportForAbsent(string strEmpId, string strMonth, 
             return objDC.ds.Tables["tblConfirmationList"];
         }
 
-        public DataTable GetEmpEduInfoDetails(string empId, string deptId, string salLocId, string empTypeId)
+    public DataTable GetContExpireList(string deptId, string fromDate, string toDate, string empTypeId)
+    {
+        SqlCommand command = new SqlCommand("proc_Get_ContExpireList");
+
+        SqlParameter p_DeptId = command.Parameters.Add("DeptId", SqlDbType.BigInt);
+        p_DeptId.Direction = ParameterDirection.Input;
+        p_DeptId.Value = Convert.ToInt32(deptId);
+
+        SqlParameter p_FromDate = command.Parameters.Add("FromDate", DBNull.Value);
+        p_FromDate.Direction = ParameterDirection.Input;
+        p_FromDate.IsNullable = true;
+        if (string.IsNullOrEmpty(fromDate) == false)
+            p_FromDate.Value = Common.ReturnDateFormat_ddmmyyyy(fromDate, false);
+        else
+            p_FromDate.Value = "";
+
+        SqlParameter p_ToDate = command.Parameters.Add("ToDate", DBNull.Value);
+        p_ToDate.Direction = ParameterDirection.Input;
+        p_FromDate.IsNullable = true;
+        if (string.IsNullOrEmpty(toDate) == false)
+            p_ToDate.Value = Common.ReturnDateFormat_ddmmyyyy(toDate, true);
+        else
+            p_ToDate.Value = "";
+
+        SqlParameter p_EmpTypeID = command.Parameters.Add("EmpTypeID", SqlDbType.BigInt);
+        p_EmpTypeID.Direction = ParameterDirection.Input;
+        p_EmpTypeID.Value = Convert.ToInt32(empTypeId);
+
+        objDC.CreateDSFromProc(command, "tblConfirmationList");
+        return objDC.ds.Tables["tblConfirmationList"];
+    }
+
+    public DataTable GetEmpEduInfoDetails(string empId, string deptId, string salLocId, string empTypeId)
         {
 
             SqlCommand command = new SqlCommand("proc_Get_EmpEduInfoDetails");

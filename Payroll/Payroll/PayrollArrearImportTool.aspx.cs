@@ -47,11 +47,11 @@ public partial class Payroll_Payroll_PayrollArrearImportTool : System.Web.UI.Pag
             this.EntryMode();
 
 
-            ddlArrearCase.SelectedValue = "1";
-            ddlJoiningMonth.Visible = true;
-            ddlJoiningMonth.SelectedValue = "11";
-            ddlArrearMonth.SelectedValue = "11";
-            ddlMonth.SelectedValue = "11";
+            //ddlArrearCase.SelectedValue = "1";
+            //ddlJoiningMonth.Visible = true;
+            //ddlJoiningMonth.SelectedValue = "11";
+            //ddlArrearMonth.SelectedValue = "11";
+            //ddlMonth.SelectedValue = "11";
         }
     }
 

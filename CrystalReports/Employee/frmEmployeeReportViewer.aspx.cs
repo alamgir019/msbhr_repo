@@ -244,6 +244,15 @@ public partial class frmEmployeeReportViewer : System.Web.UI.Page
                 ReportDoc.SetParameterValue("ComLogo", LogoPath);
                 CRVT.ReportSource = ReportDoc;
                 break;
+            case "CEL":
+                ReportPath = Server.MapPath("~/CrystalReports/Employee/rptContExpireList.rpt");
+                ReportDoc.Load(ReportPath);
+                MyDataTable = rptManager.GetContExpireList(Session["DeptId"].ToString(), Session["FromDate"].ToString(), Session["ToDate"].ToString(), Session["EmpTypeID"].ToString());
+                ReportDoc.SetDataSource(MyDataTable);
+                ReportDoc.SetParameterValue("pHeader", "Contract Expire List ");
+                ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                CRVT.ReportSource = ReportDoc;
+                break;
             case "EEID":
                 ReportPath = Server.MapPath("~/CrystalReports/Employee/rptEmpEduInfoDetails.rpt");
                 ReportDoc.Load(ReportPath);

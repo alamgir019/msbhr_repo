@@ -1210,12 +1210,12 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 Session["REPORTID"] = tvReports.SelectedNode.Value;
                
                 ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFBalance.rpt");
-                MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFC", Session["EmpTypeId"].ToString());               
+                MyDataTable = objPayRptMgr.Get_YearlyPFBalance(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFB", Session["EmpTypeId"].ToString());               
                 ReportDoc.Load(ReportPath);
                 ReportDoc.SetDataSource(MyDataTable);
-                ReportDoc.SetParameterValue("P_Header", "Yearly PF Contribution For The Fiscal Year " + Session["FisYearText"].ToString());
+                ReportDoc.SetParameterValue("P_Header", "Yearly PF Balance For The Fiscal Year " + Session["FisYearText"].ToString());
                 ReportDoc.SetParameterValue("ComLogo", LogoPath);
-                fileName = Session["USERID"].ToString() + "_" + "Yearly PF Contribution" + ".pdf";
+                fileName = Session["USERID"].ToString() + "_" + "Yearly PF Balance" + ".pdf";
                 this.ExPortReport(ReportDoc, fileName);
                 break;
             case "PFLL":

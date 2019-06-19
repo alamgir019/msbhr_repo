@@ -1,12 +1,12 @@
 <?xml version="1.0" standalone="yes"?>
 <dsPayroll_Payslip xmlns="http://tempuri.org/dsPayroll_Payslip.xsd">
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>1</SalHeadID>
     <SalHeadTitle>Basic</SalHeadTitle>
     <IsBasicSal>Y</IsBasicSal>
-    <PayAmnt>20114</PayAmnt>
+    <PayAmnt>7094</PayAmnt>
     <IsDeducted>N</IsDeducted>
     <IsOtherPayment>N</IsOtherPayment>
     <IsAdvanceDeducttion>N</IsAdvanceDeducttion>
@@ -22,12 +22,12 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>2</SalHeadID>
     <SalHeadTitle>House Rent</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
-    <PayAmnt>10057</PayAmnt>
+    <PayAmnt>3547</PayAmnt>
     <IsDeducted>N</IsDeducted>
     <IsOtherPayment>N</IsOtherPayment>
     <IsAdvanceDeducttion>N</IsAdvanceDeducttion>
@@ -43,12 +43,12 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>3</SalHeadID>
     <SalHeadTitle>Medical</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
-    <PayAmnt>3352</PayAmnt>
+    <PayAmnt>1182</PayAmnt>
     <IsDeducted>N</IsDeducted>
     <IsOtherPayment>N</IsOtherPayment>
     <IsAdvanceDeducttion>N</IsAdvanceDeducttion>
@@ -64,8 +64,8 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>4</SalHeadID>
     <SalHeadTitle>Conveyance</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
@@ -85,8 +85,8 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>5</SalHeadID>
     <SalHeadTitle>Others</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
@@ -106,8 +106,8 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>6</SalHeadID>
     <SalHeadTitle>Arrear(+)</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
@@ -127,8 +127,8 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>7</SalHeadID>
     <SalHeadTitle>Arrear(-)</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
@@ -148,8 +148,8 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>8</SalHeadID>
     <SalHeadTitle>PF</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
@@ -169,8 +169,8 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>9</SalHeadID>
     <SalHeadTitle>LWOP/Absent</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
@@ -190,8 +190,8 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>10</SalHeadID>
     <SalHeadTitle>Add. Resp. Allowance</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
@@ -211,8 +211,8 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>11</SalHeadID>
     <SalHeadTitle>PF Arrear</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
@@ -232,8 +232,8 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>12</SalHeadID>
     <SalHeadTitle>PF Loan</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
@@ -253,8 +253,8 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>13</SalHeadID>
     <SalHeadTitle>PF Loan Interest</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
@@ -274,8 +274,8 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>14</SalHeadID>
     <SalHeadTitle>Festival Bonus</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
@@ -295,12 +295,12 @@
     <IsArea>N</IsArea>
   </dtPaySlipDets>
   <dtPaySlipDets>
-    <PSBookID>158</PSBookID>
-    <EmployeeID>E006204</EmployeeID>
+    <PSBookID>176</PSBookID>
+    <EmployeeID>E006172</EmployeeID>
     <SalHeadID>15</SalHeadID>
     <SalHeadTitle>Tax</SalHeadTitle>
     <IsBasicSal>N</IsBasicSal>
-    <PayAmnt>-500</PayAmnt>
+    <PayAmnt>0</PayAmnt>
     <IsDeducted>Y</IsDeducted>
     <IsOtherPayment>N</IsOtherPayment>
     <IsAdvanceDeducttion>N</IsAdvanceDeducttion>

@@ -43,6 +43,7 @@
                                 <asp:TreeNode Text="Employee List With Address " Value="ELWA"></asp:TreeNode>
                                 <asp:TreeNode Text="Employees Disciplinary Action " Value="EDA"></asp:TreeNode>
                                 <asp:TreeNode Text="Confirmation List " Value="CL"></asp:TreeNode>
+                                <asp:TreeNode Text="Contract Expire List" Value="CEL"></asp:TreeNode>
                                 <asp:TreeNode Text="Employee Education Information(Details) " Value="EEID"></asp:TreeNode>
                                 <asp:TreeNode Text="Employee Education Information(In Brief) " Value="EEIIB"></asp:TreeNode>                                
                                 <asp:TreeNode Text="Employee Nominee Information" Value="ENI"></asp:TreeNode>

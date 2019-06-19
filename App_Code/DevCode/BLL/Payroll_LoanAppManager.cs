@@ -1654,72 +1654,101 @@ public class Payroll_LoanAppManager
             }
         }
 
+        //Committed on 2019.06.16
+        strPFTOtal = Convert.ToString(Convert.ToInt64(strPFAmount) * 2);
 
-        if (dtPFLedger.Rows.Count > 0)
-        {
-            if (Convert.ToInt64(dtPFLedger.Rows[0]["NETBALANCE"].ToString().Trim()) == 0)
-                strNetBalance = Convert.ToString(Convert.ToInt64(dtPFLedger.Rows[0]["NETBALANCE"].ToString().Trim()) + Convert.ToInt64(strPFTOtal));
-            else
-                strNetBalance = Convert.ToString(Convert.ToInt64(dtPFLedger.Rows[0]["NETBALANCE"].ToString().Trim()) + Convert.ToInt64(strPFTOtal) - Convert.ToInt64(strTotalPayment));
-            cmd = new SqlCommand();
-            cmd = objPFMgr.GetCommandOfInsertPFLedger(strLedgerID,
-                                                                strEMPID,
-                                                                strMonth,
-                                                                strYear,
-                                                                strFinYear,
-                // Opening Balance
-                                                                dtPFLedger.Rows[0]["OPPFOWN"].ToString().Trim(),
-                                                                dtPFLedger.Rows[0]["OPPFCARE"].ToString().Trim(),
-                                                                dtPFLedger.Rows[0]["OPPFINTREST"].ToString().Trim(),
-                                                                dtPFLedger.Rows[0]["OPTOTAL"].ToString().Trim(),
-                // Current Month Credit
-                                                                "0",
-                                                                "0",
-                                                                "0",
-                                                                "0",
-                // Current Payment
-                                                                strCPDate, strCPAmount,
-                // Total Payment
-                                                                strTotalPayment,
-                // Net balance
-                                                                strNetBalance,
-                                                                strInsBy, strInsDate, "N");
-            return cmd;
+        //strPFAmount = Convert.ToString(Convert.ToInt64(strPFAmount));
+        strPFTOtal = Convert.ToString(Convert.ToDecimal(strPFTOtal) + Convert.ToDecimal(strPFInt));
+        strNetBalance = Convert.ToString(Convert.ToInt64(strPFTOtal) - Convert.ToInt64(strTotalPayment));
+        cmd = new SqlCommand();
+        cmd = objPFMgr.GetCommandOfInsertPFLedger(strLedgerID,
+                                                            strEMPID,
+                                                            strMonth,
+                                                            strYear,
+                                                            strFinYear,
+                                                            // Opening Balance
+                                                            strPFAmount,
+                                                            strPFAmount,
+                                                            strPFInt,
+                                                            strPFTOtal,
+                                                            // Current Month Credit
+                                                            "0",
+                                                            "0",
+                                                            "0",
+                                                            "0",
+                                                            // Current Payment
+                                                            strCPDate, strCPAmount,
+                                                            // Total Payment
+                                                            strTotalPayment,
+                                                            // Net balance
+                                                            strNetBalance,
+                                                            strInsBy, strInsDate, "N");
+        return cmd;
+        ////if (dtPFLedger.Rows.Count > 0)
+        ////{
+        ////    if (Convert.ToInt64(dtPFLedger.Rows[0]["NETBALANCE"].ToString().Trim()) == 0)
+        ////        strNetBalance = Convert.ToString(Convert.ToInt64(dtPFLedger.Rows[0]["NETBALANCE"].ToString().Trim()) + Convert.ToInt64(strPFTOtal));
+        ////    else
+        ////        strNetBalance = Convert.ToString(Convert.ToInt64(dtPFLedger.Rows[0]["NETBALANCE"].ToString().Trim()) + Convert.ToInt64(strPFTOtal) - Convert.ToInt64(strTotalPayment));
+        ////    cmd = new SqlCommand();
+        ////    cmd = objPFMgr.GetCommandOfInsertPFLedger(strLedgerID,
+        ////                                                        strEMPID,
+        ////                                                        strMonth,
+        ////                                                        strYear,
+        ////                                                        strFinYear,
+        ////        // Opening Balance
+        ////                                                        dtPFLedger.Rows[0]["OPPFOWN"].ToString().Trim(),
+        ////                                                        dtPFLedger.Rows[0]["OPPFCARE"].ToString().Trim(),
+        ////                                                        dtPFLedger.Rows[0]["OPPFINTREST"].ToString().Trim(),
+        ////                                                        dtPFLedger.Rows[0]["OPTOTAL"].ToString().Trim(),
+        ////        // Current Month Credit
+        ////                                                        "0",
+        ////                                                        "0",
+        ////                                                        "0",
+        ////                                                        "0",
+        ////        // Current Payment
+        ////                                                        strCPDate, strCPAmount,
+        ////        // Total Payment
+        ////                                                        strTotalPayment,
+        ////        // Net balance
+        ////                                                        strNetBalance,
+        ////                                                        strInsBy, strInsDate, "N");
+        ////    return cmd;
 
-        }
-        // Preveious Month PF Ledger Not Exist
-        else
-        {
-            strPFTOtal = Convert.ToString(Convert.ToInt64(strPFAmount) * 2);
-            
-            //strPFAmount = Convert.ToString(Convert.ToInt64(strPFAmount));
-            strPFTOtal = Convert.ToString(Convert.ToDecimal(strPFTOtal) + Convert.ToDecimal(strPFInt));
-            strNetBalance = Convert.ToString(Convert.ToInt64(strPFTOtal) - Convert.ToInt64(strTotalPayment));
-            cmd = new SqlCommand();
-            cmd = objPFMgr.GetCommandOfInsertPFLedger(strLedgerID,
-                                                                strEMPID,
-                                                                strMonth,
-                                                                strYear,
-                                                                strFinYear,
-                // Opening Balance
-                                                                strPFAmount,
-                                                                strPFAmount,
-                                                                strPFInt,
-                                                                strPFTOtal, 
-                // Current Month Credit
-                                                                "0",
-                                                                "0",
-                                                                "0",
-                                                                "0",
-                // Current Payment
-                                                                strCPDate, strCPAmount,
-                // Total Payment
-                                                                strTotalPayment,
-                // Net balance
-                                                                strNetBalance,
-                                                                strInsBy, strInsDate, "N");
-            return cmd;
-        }
+        ////}
+        ////// Preveious Month PF Ledger Not Exist
+        ////else
+        ////{
+        //    strPFTOtal = Convert.ToString(Convert.ToInt64(strPFAmount) * 2);
+
+        //    //strPFAmount = Convert.ToString(Convert.ToInt64(strPFAmount));
+        //    strPFTOtal = Convert.ToString(Convert.ToDecimal(strPFTOtal) + Convert.ToDecimal(strPFInt));
+        //    strNetBalance = Convert.ToString(Convert.ToInt64(strPFTOtal) - Convert.ToInt64(strTotalPayment));
+        //    cmd = new SqlCommand();
+        //    cmd = objPFMgr.GetCommandOfInsertPFLedger(strLedgerID,
+        //                                                        strEMPID,
+        //                                                        strMonth,
+        //                                                        strYear,
+        //                                                        strFinYear,
+        //        // Opening Balance
+        //                                                        strPFAmount,
+        //                                                        strPFAmount,
+        //                                                        strPFInt,
+        //                                                        strPFTOtal, 
+        //        // Current Month Credit
+        //                                                        "0",
+        //                                                        "0",
+        //                                                        "0",
+        //                                                        "0",
+        //        // Current Payment
+        //                                                        strCPDate, strCPAmount,
+        //        // Total Payment
+        //                                                        strTotalPayment,
+        //        // Net balance
+        //                                                        strNetBalance,
+        //                                                        strInsBy, strInsDate, "N");
+        //    return cmd;
+        ////}
         return null;
     }
 
