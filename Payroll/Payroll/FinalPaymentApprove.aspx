@@ -73,6 +73,10 @@
                                 <asp:DropDownList ID="ddlBank" runat="server" Width="270px" CssClass="textlevelleft">
                                 </asp:DropDownList>
                             </td>
+                            <td class="textlevel">Emp Id :</td>
+                            <td><asp:TextBox ID="txtEmpID" runat="server" MaxLength="20" onkeyup="ToUpper(this)"
+                                    Width="80px" ToolTip="Enter the Emp. Code"></asp:TextBox></td>
+                            <td>
                             <td>
                                 <asp:DropDownList ID="ddlMonth" runat="server" Width="100px" CssClass="textlevelleft">
                                 </asp:DropDownList>
@@ -99,6 +103,15 @@
                         <SelectedRowStyle BackColor="#D1DDF1" ForeColor="#333333" CssClass="ListHeader" Font-Bold="True"></SelectedRowStyle>
                         <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
                         <Columns>
+                            <asp:BoundField DataField="EmpId" HeaderText="Emp Id">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>       
+                              <asp:BoundField DataField="TotServiceYr" HeaderText="Service Year">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>  
+                             <asp:BoundField DataField="ELBalance" HeaderText="EL Balance">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>          
                             <asp:BoundField DataField="LeaveEncash" HeaderText="Leave Encash">
                                 <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
                             </asp:BoundField>
@@ -106,6 +119,13 @@
                                 <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
                             </asp:BoundField>
                             <asp:BoundField DataField="Gratuity" HeaderText="Gratuity">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>
+                           
+                             <asp:BoundField DataField="LastMonthSalary" HeaderText="Last Month Salary">
+                                <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
+                            </asp:BoundField>
+                             <asp:BoundField DataField="SeperateMonthSalary" HeaderText="Seperate Month Salary">
                                 <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
                             </asp:BoundField>
                             <asp:BoundField DataField="TripAdvPay" HeaderText="TripAdvPay">
@@ -126,9 +146,12 @@
                             <asp:BoundField DataField="NetPay" HeaderText="NetPay">
                                 <ItemStyle CssClass="ItemStylecssRight" Width="5%"></ItemStyle>
                             </asp:BoundField>
+                             <asp:BoundField DataField="SeparateDate" HeaderText="Separate Date">
+                                <ItemStyle CssClass="ItemStylecssCenter" Width="5%"></ItemStyle>
+                            </asp:BoundField>  
                             <asp:BoundField DataField="ProcessDate" HeaderText="Process Date">
                                 <ItemStyle CssClass="ItemStylecssCenter" Width="5%"></ItemStyle>
-                            </asp:BoundField>
+                            </asp:BoundField> 
                         </Columns>
                     </asp:GridView>
                 </div>

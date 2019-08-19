@@ -223,7 +223,7 @@ public class Payroll_PFManager
     }
 
     public SqlCommand GetCommandOfInsertProvidentFundBF(string strLedgerID, string strEmpID,  string strFiscalYear,
-        string strEmpContri, string strCompContri, string strTotalContri, string strInsBy, string strInsDate, string strIsUpdate)
+        string strEmpContri, string strCompContri,string strTotalInt, string strTotalContri, string strInsBy, string strInsDate, string strIsUpdate)
     {
         SqlCommand cmd = new SqlCommand("Proc_Payroll_Insert_ProvidentFundBF");
         cmd.CommandType = CommandType.StoredProcedure;
@@ -247,6 +247,10 @@ public class Payroll_PFManager
         SqlParameter p_CompContribution = cmd.Parameters.Add("CompContribution", SqlDbType.Decimal);
         p_CompContribution.Direction = ParameterDirection.Input;
         p_CompContribution.Value = strCompContri;
+
+        SqlParameter p_TotalInterest = cmd.Parameters.Add("TotalInterest", SqlDbType.Decimal);
+        p_TotalInterest.Direction = ParameterDirection.Input;
+        p_TotalInterest.Value = strTotalInt;
 
         SqlParameter p_TotalContribution = cmd.Parameters.Add("TotalContribution", SqlDbType.Decimal);
         p_TotalContribution.Direction = ParameterDirection.Input;
@@ -446,6 +450,12 @@ public class Payroll_PFManager
 
     public DataTable GetProvidentFundBF(string strFiscalYr, string strEmpID)
     {
+        if (objDC.ds.Tables["GetProvidentFundBF"] != null)
+        {
+            objDC.ds.Tables["GetProvidentFundBF"].Clear();
+            objDC.ds.Tables["GetProvidentFundBF"].Dispose();
+        }    
+            
         string strSQL = "";
         if (strEmpID == "")
             strSQL = "Select * from ProvidentFundBF BF WHERE PFFiscalYrID= @PFFiscalYrID  order by empid";
@@ -465,6 +475,8 @@ public class Payroll_PFManager
        
         return objDC.CreateDT(command,"GetProvidentFundBF");
     }
+
+
 
     public DataTable GetGratuityLedgerData(string strFiscalYr, string strMonth, string strYear, string strEmpID)
     {

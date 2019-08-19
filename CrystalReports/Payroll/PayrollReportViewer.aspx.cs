@@ -312,9 +312,19 @@ public partial class CrystalReports_Payroll_PFLoanLedgerViewer : System.Web.UI.P
                 ReportDoc.ExportToHttpResponse(ExportFormatType.ExcelRecord, Response, true, "Yearly_PF_Contribution");
                 break;
             case "YPFB":
+                //ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFBalance.rpt");
+                //MyDataTable = objPayRptMgr.Get_YearlyPFBalance(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFB", Session["EmpTypeId"].ToString());
+                //ReportDoc.Load(ReportPath);
+                //ReportDoc.SetDataSource(MyDataTable);
+                //ReportDoc.SetParameterValue("P_Header", "Yearly PF Balance For The Fiscal Year " + Session["FisYearText"].ToString());
+                //ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                //fileName = Session["USERID"].ToString() + "_" + "Yearly PF Balance" + ".pdf";
+                //this.ExPortReport(ReportDoc, fileName);
+
+
                 ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptYearlyPFBalance.rpt");
                 ReportDoc.Load(ReportPath);
-                MyDataTable = objPayRptMgr.Get_AnnualReport(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFC", Session["EmpTypeId"].ToString()); //Session["YearlyType"].ToString()
+                MyDataTable = objPayRptMgr.Get_YearlyPFBalance(Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["EmpID"].ToString(), "YPFB", Session["EmpTypeId"].ToString()); //Session["YearlyType"].ToString()
                 ReportDoc.SetDataSource(MyDataTable);
                 ReportDoc.SetParameterValue("P_Header", "Yearly PF Contribution For The Fiscal Year " + Session["FisYearText"].ToString());
                 ReportDoc.SetParameterValue("ComLogo", LogoPath);

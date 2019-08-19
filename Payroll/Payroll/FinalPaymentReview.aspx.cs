@@ -48,7 +48,7 @@ public partial class Payroll_Payroll_FinalPaymentReview : System.Web.UI.Page
         }
 
         //Prepared Data
-        dtFinalPay = objFinalPayMgr.SelectEmpFinalPayment(ddlGeneratefor.SelectedValue.ToString(), ddlBank.SelectedValue.Trim(),
+        dtFinalPay = objFinalPayMgr.SelectEmpFinalPayment(ddlGeneratefor.SelectedValue.ToString(), ddlBank.SelectedValue.Trim(),txtEmpID.Text.Trim (),  
             ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.ToString(),"P");
         
         grList.DataSource = dtFinalPay;
@@ -95,8 +95,9 @@ public partial class Payroll_Payroll_FinalPaymentReview : System.Web.UI.Page
                 break;
         }
 
-        //objFinalPayMgr.UpdatePayslipMst(dtEmpPayroll, ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.Trim(), "R", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()));
-        //lblMsg.Text = "Records has been Reviewed Successfully";
-        //this.GeneratePayrollReport();
+        objFinalPayMgr.UpdateFinalPayStatus(grList, ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.Trim(), "R", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()));
+        lblMsg.Text = "Records has been Reviewed Successfully";
+        grList.DataSource = null;
+        grList.DataBind();
     }
 }

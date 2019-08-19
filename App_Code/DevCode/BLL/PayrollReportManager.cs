@@ -2128,13 +2128,13 @@ public class PayrollReportManager
         SqlCommand cmd = new SqlCommand("proc_Rpt_FaynalPaymentList");
         cmd.CommandType = CommandType.StoredProcedure;
 
-        SqlParameter p_VMonth = cmd.Parameters.Add("VMonth", SqlDbType.BigInt);
-        p_VMonth.Direction = ParameterDirection.Input;
-        p_VMonth.Value = Convert.ToInt32(VMonth);
+        //SqlParameter p_VMonth = cmd.Parameters.Add("VMonth", SqlDbType.BigInt);
+        //p_VMonth.Direction = ParameterDirection.Input;
+        //p_VMonth.Value = Convert.ToInt32(VMonth);
 
-        SqlParameter p_VYear = cmd.Parameters.Add("VYear", SqlDbType.BigInt);
-        p_VYear.Direction = ParameterDirection.Input;
-        p_VYear.Value = Convert.ToInt32(VYear);
+        //SqlParameter p_VYear = cmd.Parameters.Add("VYear", SqlDbType.BigInt);
+        //p_VYear.Direction = ParameterDirection.Input;
+        //p_VYear.Value = Convert.ToInt32(VYear);
 
         SqlParameter p_FisYear = cmd.Parameters.Add("FiscalYrID", SqlDbType.BigInt);
         p_FisYear.Direction = ParameterDirection.Input;

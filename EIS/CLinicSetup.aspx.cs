@@ -132,7 +132,8 @@ public partial class EIS_CLinicSetup : System.Web.UI.Page
                 ddlClinicType.SelectedValue = grClinic.DataKeys[_gridView.SelectedIndex].Values[2].ToString();
                 txtSunCode.Text = Common.CheckNullString(grClinic.SelectedRow.Cells[3].Text.Trim());
                 txtBankAccNo.Text = Common.CheckNullString(grClinic.SelectedRow.Cells[4].Text.Trim());
-                if (string.IsNullOrEmpty(grClinic.DataKeys[_gridView.SelectedIndex].Values[3].ToString()) == false)
+                if ((string.IsNullOrEmpty(grClinic.DataKeys[_gridView.SelectedIndex].Values[3].ToString()) == false) &&
+                        (Common.CheckNullString(grClinic.DataKeys[_gridView.SelectedIndex].Values[3].ToString().Trim() ) != "-1"))
                     ddlBank.SelectedValue = grClinic.DataKeys[_gridView.SelectedIndex].Values[3].ToString();
                 Common.FillDropDownList(objEmpInfoMgr.SelectBranchList(ddlBank.SelectedValue.ToString()), ddlBranch, "BranchName", "Routingno", true, "Nil");
                 ddlBranch.SelectedValue = Common.RetrieveddL(ddlBranch, grClinic.DataKeys[_gridView.SelectedIndex].Values[4].ToString().Trim() , "-1");

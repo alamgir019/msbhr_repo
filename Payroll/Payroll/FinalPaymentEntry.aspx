@@ -97,7 +97,8 @@
                             <td style="height: 16px" class="textlevel">
                                 EL Balance :</td>
                             <td style="height: 16px">
-                                <asp:Label ID="lblLeave" runat="server"></asp:Label>
+                            <asp:TextBox ID="txtELLeave" runat="server" MaxLength="20" 
+                                ToolTip="Enter Payment Amount" Width="80px" CssClass="TextBoxAmt60"></asp:TextBox>
                                 (In Days)</td>
                         </tr>                        
                                                                      
@@ -137,7 +138,7 @@
 
                       <tr>
                         <td class="textlevel">
-                            Total Pay:</td>
+                            Gross Salary:</td>
                         <td>
                             <asp:TextBox ID="txtTotalPay" runat="server" MaxLength="20" 
                                 ToolTip="Enter Payment Amount" Width="80px" CssClass="TextBoxAmt60" 
@@ -329,6 +330,9 @@
                         </SelectedRowStyle>
                         <AlternatingRowStyle BackColor="#EFF3FB"></AlternatingRowStyle>
                         <Columns>      
+                              <asp:ButtonField CommandName="DoubleClick" HeaderText="Edit" Text="Edit">
+                            <ItemStyle Width="5%" CssClass="ItemStylecss" />
+                        </asp:ButtonField>
                             <asp:BoundField DataField="EmpId" HeaderText="Emp Id">
                                 <ItemStyle CssClass="ItemStylecssRight" Width="10%"></ItemStyle>
                             </asp:BoundField>       
@@ -394,6 +398,7 @@
                 <asp:Button ID="btnSave" runat="server" Text="Save" Width="70px" 
                        OnClick="btnSave_Click"
                      ToolTip="Click this button to store the information after providing all necessary fields." />
+                <asp:Button ID="btnDelete" runat="server" Text="Delete" Width="70px" OnClientClick="javascript:return DeleteConfirmation();" OnClick="btnDelete_Click" />
             </div>
             
         </div>

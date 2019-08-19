@@ -51,7 +51,7 @@
                                 </asp:DropDownList>
                                     <asp:CompareValidator ID="CompareValidator2" runat="server" 
                                     ErrorMessage="*" ControlToValidate="ddlFestival"
-                                        Operator="NotEqual" ValueToCompare="99999"></asp:CompareValidator>
+                                        Operator="NotEqual" ValueToCompare="99999" ForeColor="Red"></asp:CompareValidator>
                             </td>
                             <td>
                                 <asp:DropDownList ID="ddlFiscalYear" runat="server" Width="150px" CssClass="textlevelleft">

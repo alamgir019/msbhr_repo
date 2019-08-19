@@ -152,11 +152,11 @@
                                             ErrorMessage="*"></asp:RequiredFieldValidator>
                                     </td>
                                     <td>
-                                        <asp:Label ID="Label2" runat="server" CssClass="textlevel" Text="Participant Level :"></asp:Label>
+                                        <asp:Label ID="Label2" runat="server" CssClass="textlevel" Text="Participant Level :" Visible="False"></asp:Label>
                                     </td>
                                     <td>
                                         <asp:DropDownList ID="ddlParticipantLevel" runat="server" CssClass="textlevelleft"
-                                            ToolTip="Select Training Nmae" Width="200px">
+                                            ToolTip="Select Training Nmae" Width="200px" Visible="False">
                                         </asp:DropDownList>
                                         &nbsp;&nbsp;</td>
                                 </tr>

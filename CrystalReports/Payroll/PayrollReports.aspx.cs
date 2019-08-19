@@ -43,8 +43,11 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             Common.FillDropDownList_All(MasMgr.SelectGrade(0), ddlGrade);
             Common.FillDropDownList_All(MasMgr.SelectEmpType(0, "Y"), ddlEmpType);
         }
-    }           
-  
+    }
+
+    protected void Page_UnLoad(object sender, EventArgs e)
+    {
+    }
     //protected void Bind_ddlDivision()
     //{
     //    Common.FillDropDownList_All(MasMgr.SelectDivision(0), ddlDivision);
@@ -392,7 +395,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             #region Bonus
             case "BST":
                 {
-                    PanelVisibilityMst("0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "0", "0");
+                    PanelVisibilityMst("0", "1", "0", "0", "0", "0", "1", "0", "0", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "1", "0", "0", "0", "0", "1", "0", "0", "0");
                     Common.FillDropDownList_All(objPayMgr.SelectSalDivision(0), this.ddlLocation);
                     //this.AddAllinDDL(ddlSubLoc);
                     //Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType,false);
@@ -459,7 +462,14 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     //Common.FillDropDownList(MasMgr.SelectEmpType(0,"Y"), ddlEmpType, false);
                     break;
                 }
-                #endregion
+            #endregion
+            #region Gratuity
+            case "GBR":
+                {
+                    PanelVisibilityMst("0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0");
+                    break;
+                }
+                #endregion 
                 #region Commit
                 //case "ITC":
                 //case "ITA":
@@ -747,7 +757,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0");
                 //        break;
                 //    }
-                //case "SBR":
+                //case "GBR":
                 //    {
                 //        PanelVisibilityMst("0", "0", "0", "0", "0", "1", "0", "0", "0", "1", "0", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "0", "0", "0", "0", "0", "0");
                 //        break;
@@ -834,7 +844,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
         this.chkSelectAll.Checked = false;
     }
 
-    private void ExPortReport(ReportDocument ReportDoc,string rptPath)
+    private void ExPortReport(ReportDocument ReportDoc, string rptPath)
     {
 
         CrystalDecisions.Shared.ExportOptions CrExportOptions;
@@ -849,6 +859,10 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             CrExportOptions.FormatOptions = CrFormatTypeOptions;
         }
         ReportDoc.Export();
+
+
+        ReportDoc.Close();
+        ReportDoc.Dispose();
     }
     private void ExPortExcell(ReportDocument ReportDoc, string rptPath)
     {
@@ -865,6 +879,9 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
             CrExportOptions.FormatOptions = CrFormatTypeOptions;
         }
         ReportDoc.Export();
+
+        ReportDoc.Close();
+        ReportDoc.Dispose();
     }
     protected void btnShow_Click(object sender, EventArgs e)
     {
@@ -1108,9 +1125,10 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     ReportDoc.SetDataSource(MyDataTable);
                     DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString()  + "/" + Session["VYear"].ToString() ));
                     ReportDoc.SetParameterValue("P_Header", "Staff List for The Month of " + now.ToString("MMMM") + ", " + now.ToString("yyyy"));
-
+                    ReportDoc.SetParameterValue("P_CompName", ddlCompany.SelectedItem.Text.Trim());  
+                    ReportDoc.SetParameterValue("P_CompAddr", "Address : House no 6/2, Flock-F, Lalmatia Housing Estate, Dhaka- 1207");
                     ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
-                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                    //ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     fileName = Session["USERID"].ToString() + "_" + "StaffSalaryList" + ".pdf";
 
                     this.ExPortReport(ReportDoc, fileName);
@@ -1414,6 +1432,31 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                     break;
                 }
 
+            case "GBR":
+                {
+                    Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
+                    Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
+                    Session["VYear"] = ddlYear.SelectedValue.ToString();
+                    string Type = ddlReportBy.SelectedValue.ToString();
+                    Session["SalDiv"] = ddlClinic.SelectedValue.ToString();
+                    Session["Company"] = ddlCompany.SelectedValue.ToString();
+                    Session["EmpTypeId"] = ddlEmpType.SelectedValue.ToString();
+                    Session["REPORTID"] = tvReports.SelectedNode.Value;
+                    ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptGratuityBenefitsSummery.rpt");
+                    MyDataTable = objPayRptMgr.Get_ITDedStatement(Session["VMonth"].ToString(), Session["FisYear"].ToString(), Session["SalDiv"].ToString(), Session["Company"].ToString());
+
+                    ReportDoc.Load(ReportPath);
+                    ReportDoc.SetDataSource(MyDataTable);
+                    DateTime now = Convert.ToDateTime(Common.ReturnDate("01/" + Session["VMonth"].ToString() + "/" + Session["VYear"]));
+                    ReportDoc.SetParameterValue("P_Header", "Statement of MSB Staffs Gratuity Balance" );
+
+                    ReportDoc.PrintOptions.PaperOrientation = PaperOrientation.Portrait;
+                    ReportDoc.SetParameterValue("ComLogo", LogoPath);
+                    fileName = Session["USERID"].ToString() + "_" + "StatementofGratuityBalance" + ".pdf";
+
+                    this.ExPortReport(ReportDoc, fileName);
+                    break;
+                }
             case "EBPS":
                 {                   
                     Session["FisYearText"] = ddlFisYear.SelectedItem.Text.ToString();
@@ -1838,9 +1881,11 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
 
                 tableA.TableName = "dtFaynalPaymentList";
                 dso2.Tables.Add(tableA);
-                tableB.TableName = "dtYearlyPFContribution";
-                dso2.Tables.Add(tableB);
-
+                if (tableB.Rows.Count > 0)
+                {
+                    tableB.TableName = "dtYearlyPFContribution";
+                    dso2.Tables.Add(tableB);
+                }
                 ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptFinalPayment.rpt");
                 ReportDoc.Load(ReportPath);
 
@@ -1870,18 +1915,19 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     string FisYear = ddlFisYear.SelectedValue.ToString();
                     string VMonth = ddlMonthFrm.SelectedValue.ToString();
+                    string VYear = ddlYear.SelectedValue.ToString();
                     string Division = ddlClinic.SelectedValue.ToString();
                     string Religion = ddlReligion.SelectedValue.ToString();
                     string Festival = ddlFestival.SelectedValue.Trim();
                     string FestivalName = ddlFestival.SelectedValue.Trim() == "-1" ? " " : this.ddlFestival.SelectedItem.Text.ToString();
                     string EmpTypeId = ddlEmpType.SelectedValue.ToString();
                     string REPORTID = tvReports.SelectedNode.Value;
-
+                    
                     ReportPath = Server.MapPath("~/CrystalReports/Payroll/rptdtBonusStatFastival.rpt");
                     ReportDoc.Load(ReportPath);
                     MyDataTable = objPayRptMgr.Get_BonusStatementFastival(FisYear, VMonth, Division, Religion,Festival,EmpTypeId);
                     ReportDoc.SetDataSource(MyDataTable);
-                    ReportDoc.SetParameterValue("P_Header", "Bonus Statement For the Festival of " + FestivalName + "  For The Month - " + VMonth);
+                    ReportDoc.SetParameterValue("P_Header", "Bonus Sheet for the Month of - " + Common.ReturnFullMonthName(VMonth) + ", " + VYear);
                     ReportDoc.SetParameterValue("ComLogo", LogoPath);
                     fileName = Session["USERID"].ToString() + "_" + "BonusStatFastival" + ".pdf";
 
@@ -2841,6 +2887,7 @@ public partial class CrystalReports_Payroll_PayrollReports : System.Web.UI.Page
                 {
                     Session["FisYear"] = ddlFisYear.SelectedValue.ToString();
                     Session["VMonth"] = ddlMonthFrm.SelectedValue.ToString();
+                    Session["VYear"] = ddlYear.SelectedValue.ToString();
                     Session["SalLoc"] = this.ddlLocation.SelectedValue.ToString();
                     //Session["SalSubLoc"] = this.ddlSubLoc.SelectedValue.ToString() == "-1" ? "0" : this.ddlSubLoc.SelectedValue.ToString();
                     Session["Religion"] = ddlReligion.SelectedValue.ToString();

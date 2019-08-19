@@ -50,7 +50,7 @@ public partial class Payroll_Payroll_FinalPaymentApprove : System.Web.UI.Page
         }
 
         //Prepared Data
-        dtFinalPay = objFinalPayMgr.SelectEmpFinalPayment(ddlGeneratefor.SelectedValue.ToString(), ddlBank.SelectedValue.Trim(),
+        dtFinalPay = objFinalPayMgr.SelectEmpFinalPayment(ddlGeneratefor.SelectedValue.ToString(), ddlBank.SelectedValue.Trim(), txtEmpID.Text.Trim(),
             ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.ToString(), "R");
         
         grList.DataSource = dtFinalPay;
@@ -60,13 +60,16 @@ public partial class Payroll_Payroll_FinalPaymentApprove : System.Web.UI.Page
             btnSave.Enabled = false;
             foreach (GridViewRow gRow in grList.Rows)
             {
-                if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[9].Text)) == false)
-                    gRow.Cells[9].Text = Common.DisplayDate(gRow.Cells[9].Text);
+                if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[14].Text)) == false)
+                    gRow.Cells[14].Text = Common.DisplayDate(gRow.Cells[14].Text);
 
-                string diff = Common.CalculateYearMonthDay(gRow.Cells[9].Text, 1);
+                if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[15].Text)) == false)
+                    gRow.Cells[15].Text = Common.DisplayDate(gRow.Cells[15].Text);
+
+                string diff = Common.CalculateYearMonthDay(gRow.Cells[15].Text, 1);
                 if (Convert.ToInt32(diff) < 6)
                 {
-                    btnSave.Enabled = true;                   
+                    btnSave.Enabled = true;
                 }
             }
         }
@@ -94,8 +97,9 @@ public partial class Payroll_Payroll_FinalPaymentApprove : System.Web.UI.Page
                 break;
         }
 
-        //objPayAppMgr.UpdatePayslipMst(dtEmpPayroll, ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.Trim(), "R", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()));
-        //lblMsg.Text = "Records has been Reviewed Successfully";
-        //this.GeneratePayrollReport();
+        objFinalPayMgr.UpdateFinalPayStatus(grList, ddlMonth.SelectedValue.ToString(), ddlYear.SelectedValue.Trim(), "A", Session["USERID"].ToString().Trim(), Common.SetDateTime(DateTime.Now.ToString()));
+        lblMsg.Text = "Records has been Approved Successfully";
+        grList.DataSource = null;
+        grList.DataBind();
     }
 }

@@ -62,7 +62,7 @@
                         <td class="textlevel">
                             Bank Acc No.</td>
                         <td>
-                            <asp:TextBox ID="txtBankAccNo" runat="server" Width="100px"></asp:TextBox>
+                            <asp:TextBox ID="txtBankAccNo" runat="server" Width="238px"></asp:TextBox>
                         </td>
                       </tr>
                      <tr>

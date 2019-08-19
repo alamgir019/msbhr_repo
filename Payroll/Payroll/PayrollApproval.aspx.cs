@@ -193,7 +193,8 @@ public partial class Payroll_Payroll_PayrollApproval : System.Web.UI.Page
     {
         string strEmpID = "";
         decimal dclSalHeadAmt = 0;
-        this.InitializeSummaryTable(dtSalaryHead.Rows.Count + 11);
+        decimal dclPFAmt = 0;
+        this.InitializeSummaryTable(dtSalaryHead.Rows.Count + 8);
         int i = 5;
         int j = 1;
         foreach (DataRow dEmpRow in dtEmpPayroll.Rows)
@@ -219,8 +220,10 @@ public partial class Payroll_Payroll_PayrollApproval : System.Web.UI.Page
             {
                 if (i - 5 == dtGrossSalHead.Rows.Count)
                 {
-                    nRow[i] = Common.RoundDecimal(dEmpRow["GROSSAMNT"].ToString(), 0);
+                    nRow[i] = Common.RoundDecimal(dEmpRow["GROSSAMNT"].ToString(), 0) + dclPFAmt;
                     i++;
+                    //if (dSalRow["SHEADID"].ToString().Trim() == "8")
+                    //    nRow[i] = dclPFAmt;
                 }
                 //if ((i - 5) - dtGrossSalHead.Rows.Count == inBenefitHeadCount + 1)
                 //{
@@ -231,18 +234,25 @@ public partial class Payroll_Payroll_PayrollApproval : System.Web.UI.Page
                 if ((i - 5) - dtGrossSalHead.Rows.Count == inBenefitHeadCount + 1)
                 {
 
-                    nRow[i] = dclTotalSalary.ToString();
-                    i++;
+                    //nRow[i] = dclTotalSalary.ToString();
+                    //i++;
 
                     dclSalHeadAmt = 0;
                     dclSalHeadAmt = this.GetSalHeadAmt(dEmpRow["EMPID"].ToString().Trim(), dSalRow["SHEADID"].ToString().Trim());
                     if (dSalRow["DISPLAYTYPE"].ToString().Trim() == "D")
                     {
-                        if (dclSalHeadAmt > 0)
+                        if (dclSalHeadAmt < 0)
                             dclSalHeadAmt = dclSalHeadAmt * -1;
+                        if (dSalRow["SHEADID"].ToString().Trim() == "8")
+                            dclPFAmt = dclSalHeadAmt;
                     }
 
-                    nRow[i] = dclSalHeadAmt.ToString();
+
+                    //nRow[i] = dclSalHeadAmt.ToString();
+                    if (dSalRow["SHEADID"].ToString().Trim() != "19")
+                        nRow[i] = dclSalHeadAmt.ToString();
+                    else
+                        nRow[i] = (dclPFAmt*2).ToString();
                     i++;
                 }
 
@@ -252,15 +262,32 @@ public partial class Payroll_Payroll_PayrollApproval : System.Web.UI.Page
                     dclSalHeadAmt = this.GetSalHeadAmt(dEmpRow["EMPID"].ToString().Trim(), dSalRow["SHEADID"].ToString().Trim());
                     if (dSalRow["DISPLAYTYPE"].ToString().Trim() == "D")
                     {
-                        if (dclSalHeadAmt > 0)
+                        if (dclSalHeadAmt < 0)
                             dclSalHeadAmt = dclSalHeadAmt * -1;
+                        if (dSalRow["SHEADID"].ToString().Trim() == "8")
+                            dclPFAmt = dclSalHeadAmt;
                     }
 
-                    nRow[i] = dclSalHeadAmt.ToString();
+                    //nRow[i] = dclSalHeadAmt.ToString();
+
+                    if (dSalRow["SHEADID"].ToString().Trim() != "19")
+                        nRow[i] = dclSalHeadAmt.ToString();
+                    else
+                        nRow[i] = (dclPFAmt*2).ToString();
                     i++;
                 }
-            }
 
+
+                //if (i < dtSalaryHead.Rows.Count)
+                //{
+                //    grv.HeaderRow.Cells[j].Text = dtSalaryHead.Rows[i]["SHORTNAME"].ToString();
+                //    //strRowIndx = strRowIndx + "," + j.ToString();
+                //    j++;
+                //}
+                
+
+            }
+            dclPFAmt = 0;
 
             nRow[i] = dclEmpDeduct.ToString();
             i++;
@@ -268,10 +295,10 @@ public partial class Payroll_Payroll_PayrollApproval : System.Web.UI.Page
             nRow[i] = Common.RoundDecimal(dEmpRow["NETPAY"].ToString(), 0);
             i++;
 
-            nRow[i] = "0";
-            i++;
+            //nRow[i] = "0";
+            //i++;
 
-            nRow[i] = dclEmpPF.ToString();
+            //nRow[i] = dclEmpPF.ToString();
 
             dtPayrollSummary.Rows.Add(nRow);
             dtPayrollSummary.AcceptChanges();
@@ -325,11 +352,13 @@ public partial class Payroll_Payroll_PayrollApproval : System.Web.UI.Page
             //    strRowIndx = strRowIndx + "," + j.ToString();
             //    j++;
             //}
+            //grv.HeaderRow.Cells[j].Text = "PF Comp.";
+
             if ((j - 5) - dtGrossSalHead.Rows.Count == inBenefitHeadCount + 1)
             {
-                grv.HeaderRow.Cells[j].Text = "Total Salary";
-                strRowIndx = strRowIndx + "," + j.ToString();
-                j++;
+                //grv.HeaderRow.Cells[j].Text = "Total Salary";
+                //strRowIndx = strRowIndx + "," + j.ToString();
+                //j++;
 
                 if (i < dtSalaryHead.Rows.Count)
                 {
@@ -357,12 +386,12 @@ public partial class Payroll_Payroll_PayrollApproval : System.Web.UI.Page
         strRowIndx = strRowIndx + "," + j.ToString();
         j++;
 
-        grv.HeaderRow.Cells[j].Text = "Net US$";
-        strRowIndx = strRowIndx + "," + j.ToString();
-        j++;
+        //grv.HeaderRow.Cells[j].Text = "Net US$";
+        //strRowIndx = strRowIndx + "," + j.ToString();
+        //j++;
 
-        grv.HeaderRow.Cells[j].Text = "Comp. PF";
-        strRowIndx = strRowIndx + "," + j.ToString();
+        //grv.HeaderRow.Cells[j].Text = "Comp. PF";
+        //strRowIndx = strRowIndx + "," + j.ToString();
 
         this.HighlightGridViewCells(grv, strRowIndx);
     }
@@ -381,8 +410,11 @@ public partial class Payroll_Payroll_PayrollApproval : System.Web.UI.Page
                 case "D":
                     dclSalHeadAmt=this.GetSalHeadAmt(strEmpID, dRow["SHEADID"].ToString());
                     
-                    if(dclSalHeadAmt > 0)
+                    if(dclSalHeadAmt < 0)
                         dclSalHeadAmt=dclSalHeadAmt * -1;
+
+                    if (dRow["SHEADID"].ToString().Trim() == "8")
+                        dclSalHeadAmt = dclSalHeadAmt * 2;
 
                     dclEmpDeduct = dclEmpDeduct + dclSalHeadAmt;
                     break;                    

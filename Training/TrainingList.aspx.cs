@@ -292,8 +292,9 @@ public partial class Training_TrainingList : System.Web.UI.Page
                     if (grList.DataKeys[_gridView.SelectedIndex].Values[6].ToString() == "Y")
                         chkIsResidential.Checked = false;
                     else
-                        chkIsResidential.Checked = true;   
-                   ddlFundedby.SelectedValue = grList.DataKeys[_gridView.SelectedIndex].Values[4].ToString();
+                        chkIsResidential.Checked = true;
+                    if (string.IsNullOrEmpty(grList.DataKeys[_gridView.SelectedIndex].Values[4].ToString()) == false)
+                        ddlFundedby.SelectedValue = grList.DataKeys[_gridView.SelectedIndex].Values[4].ToString();
                     DataRow[] drr = personTable.Select("TraineeId='" + grList.DataKeys[_gridView.SelectedIndex].Values[0].ToString() + "'");
                     for (int i = 0; i < drr.Length; i++)
                     {
@@ -403,6 +404,17 @@ public partial class Training_TrainingList : System.Web.UI.Page
                         lblMsg.Text = "Please select Sign By3";
                         return false;
                     }
+
+                    int i = 0;
+                    foreach (GridViewRow grRow in grList.Rows)
+                    {
+                        if (string.IsNullOrEmpty(grList.DataKeys[i].Values[4].ToString()) == true)
+                        {
+                            lblMsg.Text = "Please assign funded by for the staff " + grRow.Cells[2].Text.Trim();  
+                            return false;
+                        }
+                        i++;
+                    }
                     break;
                 case "Add":
                     if (txtTraineeName.Text.Trim()=="")
@@ -417,6 +429,8 @@ public partial class Training_TrainingList : System.Web.UI.Page
                     }
                     break;
             }
+
+
             return true;
         }
         catch (Exception ex)
@@ -542,6 +556,18 @@ public partial class Training_TrainingList : System.Web.UI.Page
                     ddlLocation.SelectedValue = dt.Rows[0]["SalLocId"].ToString().Trim();
             }
         }
+
+
+
+        //Add Emp. from requisition
+        personTable = objTrMgr.SelectTrainingReqWsScheduleList(ddlSchedule.SelectedValue.ToString().Trim());
+        if (personTable.Rows.Count > 0)
+        {
+            grList.DataSource = personTable;
+            grList.DataBind();
+        }
+        ViewState["dt"] = personTable;
+        //this.EntryMode(true);
     }
 
     protected void grList_SelectedIndexChanged(object sender, EventArgs e)

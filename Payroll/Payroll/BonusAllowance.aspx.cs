@@ -103,10 +103,10 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
                 if (dclTotDay<30)                
                     txtBonus.Text = "0";
                 
-                else if(dclTotDay<=180)
+                else if(dclTotDay<180)//(dclTotDay<=180)
                     txtBonus.Text = Convert.ToString(Math.Round(((1 * basic) / 180) * Convert.ToDecimal(dclTotDay+1)));  
 
-                 else if(dclTotDay>180)
+                 else if(dclTotDay>=180)
                     txtBonus.Text = (1 * basic).ToString();
 
                 gRow.Cells[10].Text = Convert.ToString(dclTotDay + 1);
@@ -236,10 +236,10 @@ public partial class Payroll_Payroll_BonusAllowance : System.Web.UI.Page
             {
                 this.GenerateRecord();
                 btnDelete.Enabled = false;
-                btnSave.Enabled = true;                
+                btnSave.Enabled = true;
             }
         }
-    }
+        }
 
     protected void btnRefresh_Click(object sender, EventArgs e)
     {

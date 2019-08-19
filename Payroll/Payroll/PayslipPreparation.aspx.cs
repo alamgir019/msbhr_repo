@@ -636,7 +636,7 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                                  }
                                  if (dclCashPay > 0)
                                  {
-                                     if (dclCLLAmount == dclCashPay)
+                                     if (dclCLLAmount<= dclCashPay)
                                          dclSalHeadAmount = 0;
                                  }
                                  dclSalHeadAmount = dclSalHeadAmount * -1;
@@ -667,7 +667,10 @@ public partial class Payroll_Payroll_PayslipPreparation : System.Web.UI.Page
                                             dclRepay = Common.RoundDecimal(dCRow["INTDUE"].ToString().Trim(), 0);
                                         }
                                     }
-                                    dclSalHeadAmount = dclRepay * -1;
+                                    if (dclCLLAmount <= dclRepay)
+                                        dclSalHeadAmount = 0;
+                                    else
+                                        dclSalHeadAmount = dclRepay * -1;
                                 }
                                 else
                                 {

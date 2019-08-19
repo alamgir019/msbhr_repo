@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 public class Payroll_LoanAppManager
 {
     DBConnector objDC = new DBConnector();
+    Payroll_PFManager objPFMgr = new Payroll_PFManager();
     public DataTable GetEmployeeInfoforLoan(string strEmpID)
     {
         string strSQL = " SELECT a.EmpID,a.FullName, b.JobTitle,c.DivisionName,a.SalaryPakId,a.joiningDate,d.TOTALGROSSSAL "
@@ -1538,14 +1539,20 @@ public class Payroll_LoanAppManager
             i++;
         }
 
-        ////foreach (DataRow dRow in dt.Rows)
-        ////{
-        ////    // Update Provident Fund Balance
-        ////    command[i] = this.InsertProvidentFundBF(strMonth, strYear,  dRow["EMPID"].ToString().Trim(), strFinYear,
-        ////        strInsBy, strInsDate, dRow["STATUS"].ToString().Trim());
-        ////    lngLedgerID++;
-        ////    i++;
-        ////}
+        long lngPFBFID = Convert.ToInt64(Common.getMaxId("ProvidentFundBF", "PFBFID"));
+        foreach (DataRow dRow in dt.Rows)
+        {
+            // Update Provident Fund Balance           
+            DataTable dtPFBF = objPFMgr.GetProvidentFundBF(strFinYear, dRow["EMPID"].ToString().Trim());
+            if(dtPFBF.Rows.Count ==0 )
+                lngPFBFID++;
+            command[i] = this.InsertProvidentFundBF(strMonth, strYear, lngPFBFID.ToString(), dRow["EMPID"].ToString().Trim(), strFinYear,
+                strInsBy, strInsDate, dRow["STATUS"].ToString().Trim());
+            //lngPFBFID++;
+            i++;
+        }
+        ////command[i] = this.InsertProvidentFundBF(strMonth, strYear, "E000333", strFinYear,
+        ////       strInsBy, strInsDate, "A".Trim());
         objDC.MakeTransaction(command);
     }
 
@@ -1752,7 +1759,7 @@ public class Payroll_LoanAppManager
         return null;
     }
 
-    protected SqlCommand InsertProvidentFundBF(string strMonth, string strYear,  string strEMPID, string strFinYear,
+    protected SqlCommand InsertProvidentFundBF(string strMonth, string strYear, string strPFBFID, string strEMPID, string strFinYear,
         string strInsBy, string strInsDate, string strEmpStatus)
     {
         Payroll_PFManager objPFMgr = new Payroll_PFManager();
@@ -1762,16 +1769,17 @@ public class Payroll_LoanAppManager
         string strPFAmountArr = "0";     
         string strEmpContri = "0";
         string strCompContri = "0";
+        string strTotalInt = "0";
         string strTotalContri = "0";
         string strPrevMonth = "";
         string strPrevYear = strYear;
-        string strPFBFId = "";
+        //string strPFBFId = "";
 
         strPrevMonth = Common.GetPreviousMonth(strMonth);
         if (strMonth == "1")
             strPrevYear = Convert.ToString(Convert.ToInt32(strYear) - 1);
         DataTable dtPFBF = objPFMgr.GetProvidentFundBF(strFinYear, strEMPID);
-        strPFBFId = Common.getMaxId("ProvidentFundBF", "PFBFId"); 
+        //strPFBFId = Common.getMaxId("ProvidentFundBF", "PFBFId");
         if (strEmpStatus == "A")
         {
             // Current Month PF AMount
@@ -1796,10 +1804,11 @@ public class Payroll_LoanAppManager
             {
                 strEmpContri = Convert.ToString(Convert.ToDecimal(dtPFBF.Rows[0]["EmpContribution"].ToString().Trim()) + (-Convert.ToDecimal(strPFAmount)));
                 strCompContri = Convert.ToString(Convert.ToDecimal(dtPFBF.Rows[0]["CompContribution"].ToString().Trim()) + (-Convert.ToDecimal(strPFAmount)));
+                strTotalInt = Convert.ToString(Convert.ToDecimal(dtPFBF.Rows[0]["TotalInterest"].ToString().Trim()));
                 strTotalContri = Convert.ToString(Convert.ToDecimal(dtPFBF.Rows[0]["TotalContribution"].ToString().Trim()) + (-Convert.ToDecimal(strPFAmount) * 2));
 
                 cmd = new SqlCommand();
-                cmd = objPFMgr.GetCommandOfInsertProvidentFundBF(dtPFBF.Rows[0]["PFBFId"].ToString().Trim(), strEMPID, strFinYear, strEmpContri, strCompContri, strTotalContri, strInsBy, strInsDate, "Y");
+                cmd = objPFMgr.GetCommandOfInsertProvidentFundBF(dtPFBF.Rows[0]["PFBFId"].ToString().Trim(), strEMPID, strFinYear, strEmpContri, strCompContri, strTotalInt,strTotalContri, strInsBy, strInsDate, "Y");
                 return cmd;
             }
             // Preveious Month PF Ledger Not Exist
@@ -1811,8 +1820,8 @@ public class Payroll_LoanAppManager
                 strTotalContri = Convert.ToString(-Convert.ToDecimal(strPFAmount) * 2);
 
                 cmd = new SqlCommand();
-                cmd = objPFMgr.GetCommandOfInsertProvidentFundBF(strPFBFId, strEMPID, strFinYear, strEmpContri, strCompContri, strTotalContri, strInsBy, strInsDate, "N");
-                strPFBFId = Convert.ToString(Convert.ToInt32(strPFBFId) + 1);
+                cmd = objPFMgr.GetCommandOfInsertProvidentFundBF(strPFBFID, strEMPID, strFinYear, strEmpContri, strCompContri, strTotalInt,strTotalContri, strInsBy, strInsDate, "N");
+                //strPFBFID = Convert.ToString(Convert.ToInt32(strPFBFID) + 1);
                 return cmd;
             }
         }
@@ -1822,13 +1831,12 @@ public class Payroll_LoanAppManager
     protected SqlCommand UpdateProvidentFundBF(string strMonth, string strYear, string strEMPID, string strPFAmount, string strFinYear,
         string strInsBy, string strInsDate)
     {
-        Payroll_PFManager objPFMgr = new Payroll_PFManager();
-       
+        Payroll_PFManager objPFMgr = new Payroll_PFManager();       
         SqlCommand cmd;
-       
-        string strPFAmountArr = "0";
+      
         string strEmpContri = "0";
         string strCompContri = "0";
+        string strTotalInt = "0";
         string strTotalContri = "0";
         string strPrevMonth = "";
         string strPrevYear = strYear;
@@ -1842,10 +1850,11 @@ public class Payroll_LoanAppManager
         {
             strEmpContri = Convert.ToString(Convert.ToDecimal(dtPFBF.Rows[0]["EmpContribution"].ToString().Trim()) -Convert.ToDecimal(strPFAmount));
             strCompContri = Convert.ToString(Convert.ToDecimal(dtPFBF.Rows[0]["CompContribution"].ToString().Trim()) - Convert.ToDecimal(strPFAmount));
+            strTotalInt = Convert.ToString(Convert.ToDecimal(dtPFBF.Rows[0]["TotalInterest"].ToString().Trim()));
             strTotalContri = Convert.ToString(Convert.ToDecimal(dtPFBF.Rows[0]["TotalContribution"].ToString().Trim()) - Convert.ToDecimal(strPFAmount) * 2);
 
             cmd = new SqlCommand();
-            cmd = objPFMgr.GetCommandOfInsertProvidentFundBF(dtPFBF.Rows[0]["PFBFId"].ToString().Trim(), strEMPID, strFinYear, strEmpContri, strCompContri, strTotalContri, strInsBy, strInsDate, "Y");
+            cmd = objPFMgr.GetCommandOfInsertProvidentFundBF(dtPFBF.Rows[0]["PFBFId"].ToString().Trim(), strEMPID, strFinYear, strEmpContri, strCompContri, strTotalInt, strTotalContri, strInsBy, strInsDate, "Y");
             return cmd;
         }       
         return null;
@@ -1899,13 +1908,15 @@ public class Payroll_LoanAppManager
         p_FISCALYRID.Value = strFinYear;
 
         i++;
-        ////foreach (DataRow dRow in dtPFLedger.Rows)
-        ////{
-        ////    // Update Provident Fund Balance
-        ////    cmd[i] = this.UpdateProvidentFundBF(strMonth, strYear, dRow["EMPID"].ToString().Trim(), dRow["OPPFOWN"].ToString().Trim(), strFinYear, strInsBy, strInsDate);
-            
-        ////    i++;
-        ////}
+
+        foreach (DataRow dRow in dtPFLedger.Rows)
+        {
+            // Update Provident Fund Balance
+            cmd[i] = this.UpdateProvidentFundBF(strMonth, strYear, dRow["EMPID"].ToString().Trim(), dRow["OPPFOWN"].ToString().Trim(), strFinYear, strInsBy, strInsDate);
+
+            i++;
+        }
+        ////cmd[i] = this.UpdateProvidentFundBF(strMonth, strYear,"E000333", "5971.00", strFinYear, strInsBy, strInsDate);
         objDC.MakeTransaction(cmd);
     }
 

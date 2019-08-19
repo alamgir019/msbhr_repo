@@ -1665,16 +1665,43 @@ tv.VenueName+' ['+convert(varchar(12),ts.VenueId)+']' as VenueName
         p_ReqId.Value = Convert.ToInt32(strReqId);
         return objDC.CreateDT(cmd, "TrRequisitionDtls");
     }
-//    public DataTable SelectTrainingBudgetList(string strBudgetId)
-//    {
-//        string strSQL = @"select tb.BudgetId,tb.TrainId,tl.TrainName+' ['+CONVERT(varchar(5),tb.TrainId)+']' as TrainName,tb.ScheduleID,CONVERT(varchar(10),ts.StrDate,103) as StrDate,CONVERT(varchar(10),ts.EndDate,103) as EndDate,ts.Duration,ts.NoofPerson,
-//                            ei.FullName+' ['+ts.CoordinatorName+']' as CoordinatorName,pl.ProjectName+' ['+CONVERT(varchar(5),ts.FundedBy)+']' as FundedBy,case when ts.Residential='R' then 'Residential' when ts.Residential='N' then 'Non-Residential' 
-//                            when ts.Residential='O' then 'Outside' end as Residential,tb.FeePerPerson,tb.IncomePerPerson,tb.ResidencialCost,tb.OtherIncome,tb.IsActive from TrTrainingBudget tb left join TrSchedule ts on ts.ScheduleID=tb.ScheduleID 
-//                            left join TrTrainingList tl on tl.TrainId=tb.TrainId left join ProjectList pl on pl.ProjectId=ts.FundedBy left join EmpInfo ei on ei.EmpId=  ts.CoordinatorName where tb.IsDeleted='N';";
 
-     
-//        return objDC.CreateDT(strSQL, "TrTrainingBudget");
-//    }
+    public DataTable SelectTrainingReqWsScheduleList(string strReqId)
+    {
+        //string strSQL = @"SELECT tr.TraineeId,ei.FULLNAME + ' [' + ei.EMPID + ']' AS TraineeName,tr.ProjectId,pl.ProjectName,
+        //                    D.DesigName AS Designation,DEPT.DeptName AS Dept,TSD.FundedBy,TD.Residential AS IsResidential
+        //                    FROM TrRequisitionDtls tr left join TrSchedule TD on tr.ScheduleId =TD.ScheduleId 
+        //                    left join TrScheduleDtls TSD on tr.ScheduleId =TSD.ScheduleId AND TD.ScheduleId=TSD.ScheduleId AND TD.FundedBy=TSD.FundedBy
+        //                    left join EMPINFO ei on tr.TraineeId =ei.EMPID left join ProjectList pl on pl.ProjectId=tr.ProjectId
+        //                    left join Designation D ON D.DesigId=ei.DesigId
+        //                    left join DepartmentList DEPT ON DEPT.DeptId=ei.DeptId
+        //                        WHERE tr.IsDeleted='N' and tr.ScheduleId=@ScheduleId and ei.ISDELETED='N' ORDER BY EMPID ";
+
+        string strSQL = @"SELECT tr.TraineeId,ei.FULLNAME + ' [' + ei.EMPID + ']' AS TraineeName,
+                            D.DesigName AS Designation,DEPT.DeptName AS Dept,'' AS FundedBy,'' AS ProjectName,'' AS IsResidential
+                            FROM TrRequisitionDtls tr                            
+                            left join EMPINFO ei on tr.TraineeId =ei.EMPID left join ProjectList pl on pl.ProjectId=tr.ProjectId
+                            left join Designation D ON D.DesigId=ei.DesigId
+                            left join DepartmentList DEPT ON DEPT.DeptId=ei.DeptId
+                                WHERE tr.ScheduleId=@ScheduleId ORDER BY EMPID ";
+
+        SqlCommand cmd = new SqlCommand(strSQL);
+        cmd.CommandType = CommandType.Text;
+        SqlParameter p_ReqId = cmd.Parameters.Add("ScheduleId", SqlDbType.BigInt);
+        p_ReqId.Direction = ParameterDirection.Input;
+        p_ReqId.Value = Convert.ToInt32(strReqId);
+        return objDC.CreateDT(cmd, "TrScheduleDtls");
+    }
+    //    public DataTable SelectTrainingBudgetList(string strBudgetId)
+    //    {
+    //        string strSQL = @"select tb.BudgetId,tb.TrainId,tl.TrainName+' ['+CONVERT(varchar(5),tb.TrainId)+']' as TrainName,tb.ScheduleID,CONVERT(varchar(10),ts.StrDate,103) as StrDate,CONVERT(varchar(10),ts.EndDate,103) as EndDate,ts.Duration,ts.NoofPerson,
+    //                            ei.FullName+' ['+ts.CoordinatorName+']' as CoordinatorName,pl.ProjectName+' ['+CONVERT(varchar(5),ts.FundedBy)+']' as FundedBy,case when ts.Residential='R' then 'Residential' when ts.Residential='N' then 'Non-Residential' 
+    //                            when ts.Residential='O' then 'Outside' end as Residential,tb.FeePerPerson,tb.IncomePerPerson,tb.ResidencialCost,tb.OtherIncome,tb.IsActive from TrTrainingBudget tb left join TrSchedule ts on ts.ScheduleID=tb.ScheduleID 
+    //                            left join TrTrainingList tl on tl.TrainId=tb.TrainId left join ProjectList pl on pl.ProjectId=ts.FundedBy left join EmpInfo ei on ei.EmpId=  ts.CoordinatorName where tb.IsDeleted='N';";
+
+
+    //        return objDC.CreateDT(strSQL, "TrTrainingBudget");
+    //    }
 
     public DataTable SelectTrainingBudgetList(string strBudgetId)
     {

@@ -674,6 +674,14 @@ public class EmpInfoManager
         SqlParameter p_IsConfirmed = cmd[0].Parameters.Add("IsConfirmed", SqlDbType.Char);
         p_IsConfirmed.Direction = ParameterDirection.Input;
         p_IsConfirmed.Value = clEmp.IsConfirmed;
+
+        SqlParameter p_UpdatedBy = cmd[0].Parameters.Add("UpdatedBy", SqlDbType.VarChar);
+        p_UpdatedBy.Direction = ParameterDirection.Input;
+        p_UpdatedBy.Value = clEmp.InsertedBy;
+
+        SqlParameter p_UpdatedDate = cmd[0].Parameters.Add("UpdatedDate", SqlDbType.DateTime);
+        p_UpdatedDate.Direction = ParameterDirection.Input;
+        p_UpdatedDate.Value = clEmp.InsertedDate;
         #endregion
 
         //if (clEmp.IsMedicalEntmnt == "Y")

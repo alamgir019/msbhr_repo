@@ -28,7 +28,7 @@
                                     <asp:TreeNode Text="Salary Certificate" Value="SC"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Sheet" Value="SSS"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Sheet Summary" Value="SSSum"></asp:TreeNode> 
-                                    <asp:TreeNode Text="Staff Salary List" Value="SSL"></asp:TreeNode>   
+                                    
                                     <asp:TreeNode Text="Salary Charging" Value="PRLW"></asp:TreeNode> 
                                     <asp:TreeNode Text="Company Wise Salary Charging" Value="CWSC"></asp:TreeNode>                                   
                                 </asp:TreeNode>
@@ -58,10 +58,14 @@
                                     <asp:TreeNode Text="Month Wise Income Tax" Value="AITMD"></asp:TreeNode>
                                     <asp:TreeNode Text="Tax Certificate" Value="TC"></asp:TreeNode>
                                     <asp:TreeNode Text="Statement of Tax Deduction" Value="STD"></asp:TreeNode>
+                                    <asp:TreeNode Text="Staff Salary List with Tax Paid" Value="SSL"></asp:TreeNode>   
                                   </asp:TreeNode>
                                  <asp:TreeNode Text="Salary Reconciliation" Value="SR">
                                 <asp:TreeNode Text="Salary Reconciliation Report" Value="SRR"></asp:TreeNode>
                                      </asp:TreeNode> 
+                                 <asp:TreeNode Text="Gratuity" Value="GR">
+                                    <asp:TreeNode Text="Gratuity Benefits Report" Value="GBR"></asp:TreeNode>
+
                                 <asp:TreeNode Text="Salary SC" Value="SR">
                                     <asp:TreeNode Text="Salary Statement" Value="SS"></asp:TreeNode>
                                     <asp:TreeNode Text="Salary Summary" Value="SalSum"></asp:TreeNode>
@@ -108,10 +112,10 @@
                                     <asp:TreeNode Text="Income Tax Assessment" Value="ITA"></asp:TreeNode>
                                     <asp:TreeNode Text="Computation of Income Tax" Value="ITC"></asp:TreeNode>
                                     --%>
-                              
-                                <asp:TreeNode Text="Gratuity" Value="GR">
+                              <asp:TreeNode Text="Gratuity" Value="GR">
                                     <asp:TreeNode Text="Severance Benefits Report" Value="SBR"></asp:TreeNode>
                                     <asp:TreeNode Text="Severance Benefits Summery Report" Value="SBSR"></asp:TreeNode>
+                                </asp:TreeNode> 
                                 </asp:TreeNode>
                                 <asp:TreeNode Text="Increment" Value="Inc">
                                     <asp:TreeNode Text="Increment Report" Value="IR"></asp:TreeNode>

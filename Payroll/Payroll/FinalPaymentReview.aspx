@@ -73,6 +73,9 @@
                                 <asp:DropDownList ID="ddlBank" runat="server" Width="270px" CssClass="textlevelleft">
                                 </asp:DropDownList>
                             </td>
+                            <td class="textlevel">Emp Id :</td>
+                            <td><asp:TextBox ID="txtEmpID" runat="server" MaxLength="20" onkeyup="ToUpper(this)"
+                                    Width="80px" ToolTip="Enter the Emp. Code"></asp:TextBox></td>
                             <td>
                                 <asp:DropDownList ID="ddlMonth" runat="server" Width="100px" CssClass="textlevelleft">
                                 </asp:DropDownList>

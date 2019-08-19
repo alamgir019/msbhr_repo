@@ -23,7 +23,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
-        {            
+        {
             hfIsUpdate.Value = "N";
             this.EntryMode(false);
         }
@@ -36,14 +36,14 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
             this.ClearControls();
             this.FillEmpInfo(txtEmpID.Text.Trim());
             this.OpenRecord();
-           // this.EntryMode(false);
+            // this.EntryMode(false);
         }
     }
 
     private void FillEmpInfo(string EmpId)
     {
-       
-        dtEmpInfo = objEmpInfoMgr.SelectEmpInfoWithAwardLength(txtEmpID.Text.Trim());        
+
+        dtEmpInfo = objEmpInfoMgr.SelectEmpInfoWithAwardLength(txtEmpID.Text.Trim());
 
         if (dtEmpInfo.Rows.Count > 0)
         {
@@ -61,7 +61,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
 
                 lblJoiningDate.Text = Common.DisplayDate(row["JoiningDate"].ToString().Trim());
                 lblSeprateDate.Text = Common.DisplayDate(row["SeparateDate"].ToString().Trim());
-                
+
                 lblSeparateType.Text = row["ActionName"].ToString().Trim();
                 lblServiceYr.Text = Math.Round(Convert.ToDecimal(row["ServiceLength"].ToString().Trim()), 2).ToString();
 
@@ -71,8 +71,10 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
                 else
                     lblGratuityYr.Text = "0";
 
-                txtBasicPay.Text = Math.Round(Convert.ToDecimal(row["BasicSalary"].ToString().Trim())).ToString();                
+                txtBasicPay.Text = Math.Round(Convert.ToDecimal(row["BasicSalary"].ToString().Trim())).ToString();
                 txtBasicPay.ToolTip = row["GrossSalary"].ToString().Trim();
+
+                txtTotalPay.Text = row["GrossSalary"].ToString().Trim();
 
                 this.CalculateBalance(Convert.ToInt32(row["SalPakId"].ToString()));
 
@@ -86,7 +88,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
             lblName.Text = "";
             lblDeg_Project.Text = "";
             lblOffice_Loc.Text = "";
-           
+
             return;
         }
         lblMsg.Text = "";
@@ -98,28 +100,28 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         string[] arInfo = new string[2];
         char[] splitter = { '.' };
         string strGrYr = "";
-        arInfo = Common.str_split(Math.Round( dclGratuityYr,2).ToString()  , splitter);
+        arInfo = Common.str_split(Math.Round(dclGratuityYr, 2).ToString(), splitter);
 
-        strGrYr = Math.Round(Convert.ToDecimal(arInfo[1]),2).ToString ();
+        strGrYr = Math.Round(Convert.ToDecimal(arInfo[1]), 2).ToString();
 
-        if ((Convert.ToDecimal(strGrYr) >= 25)&& Convert.ToDecimal(strGrYr) < 50)
+        if ((Convert.ToDecimal(strGrYr) >= 25) && Convert.ToDecimal(strGrYr) < 50)
             arInfo[1] = "25";
-        else if ((Convert.ToDecimal(strGrYr) > 50)&& (Convert.ToDecimal(strGrYr) < 75))
+        else if ((Convert.ToDecimal(strGrYr) > 50) && (Convert.ToDecimal(strGrYr) < 75))
             arInfo[1] = "50";
-        else if ((Convert.ToDecimal(strGrYr) > 75)&& (Convert.ToDecimal(strGrYr) < 100))
+        else if ((Convert.ToDecimal(strGrYr) > 75) && (Convert.ToDecimal(strGrYr) < 100))
             arInfo[1] = "75";
         else
             arInfo[1] = "0";
         strGrYr = arInfo[0] + "." + arInfo[1];
 
-        dclGrYr = Convert.ToDecimal(strGrYr); 
-        return  dclGrYr;
+        dclGrYr = Convert.ToDecimal(strGrYr);
+        return dclGrYr;
     }
 
     protected void btnRefresh_Click(object sender, EventArgs e)
     {
         this.ClearControls();
-        this.EntryMode(false); 
+        this.EntryMode(false);
     }
 
     private void CalculateBalance(int iSalPakId)
@@ -137,7 +139,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
                 dclTotalSalary = dclTotalSalary + Convert.ToDecimal(fRow["PayAmt"]);
             }
         }
-        txtTotalPay.Text = Math.Round(dclTotalSalary).ToString();
+        //txtTotalPay.Text = Math.Round(dclTotalSalary).ToString();
 
         dclTotalSalary = 0;
         dtSalPakDtls.Rows.Clear();
@@ -146,17 +148,14 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         //EL Balance
         decimal dclELBalance = 0;
         DataTable dtLv = new DataTable();
-        dtLv = objLvMgr.SelectEmpLeaveProfileHistory(txtEmpID.Text.Trim(), "2018-01-01", "2018-12-31");
+        dtLv = objLvMgr.SelectEmpLeaveProfileHistory(txtEmpID.Text.Trim(), "2019-01-01", "2019-12-31");
         DataRow[] foundELRows;
         foundELRows = dtLv.Select("LTypeId=2");
         if (foundELRows.Length > 0)
         {
             dclELBalance = (Convert.ToDecimal(foundELRows[0]["LCarryOverd"].ToString()) + Convert.ToDecimal(foundELRows[0]["LEntitled"].ToString())) - Convert.ToDecimal(foundELRows[0]["LeaveEnjoyed"].ToString());
-            lblLeave.Text = dclELBalance.ToString() ;
-            decimal dclLvEncash;
-
-            dclLvEncash = Math.Round( ((Convert.ToDecimal(txtBasicPay.ToolTip)) / 30)* Convert.ToDecimal(lblLeave.Text),0) ;
-            txtLeaveEncash.Text = dclLvEncash.ToString() ; 
+            txtELLeave.Text = dclELBalance.ToString();
+            this.LeaveEncashment();
         }
 
         dtLv.Rows.Clear();
@@ -177,11 +176,11 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         else
             txtLastMonthSalary.Text = txtBasicPay.ToolTip.ToString();
 
-       //PF Balance      
+        //PF Balance      
         DataTable dtPF = objPFMgr.SelectEmpWisePFBF(txtEmpID.Text.Trim());
         if (dtPF.Rows.Count > 0)
-            txtPF.Text = Convert.ToString(Math.Round(Convert.ToDecimal(dtPF.Rows[0]["TotalPF"]),0));
-        
+            txtPF.Text = Convert.ToString(Math.Round(Convert.ToDecimal(dtPF.Rows[0]["TotalPF"]), 0));
+
         dtPF.Rows.Clear();
         dtPF.Dispose();
 
@@ -194,12 +193,19 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         int iSalaryDays = Convert.ToInt32(Common.CalculateTotalDays("01/" + strMonth + "/" + strYear, lblSeprateDate.Text.Trim()));
         lblSalaryDays.Text = Convert.ToString(iSalaryDays - 1);
 
-        txtSeperateMonthSal.Text =Convert.ToString(Math.Round(Convert.ToDecimal(txtTotalPay.Text) / Common.GetMonthDay(Convert.ToInt32(strMonth), strYear) * Convert.ToDecimal(lblSalaryDays.Text), 0));
+        txtSeperateMonthSal.Text = Convert.ToString(Math.Round(Convert.ToDecimal(txtTotalPay.Text) / Common.GetMonthDay(Convert.ToInt32(strMonth), strYear) * Convert.ToDecimal(lblSalaryDays.Text), 0));
 
         dtEmpPayroll.Rows.Clear();
-        dtEmpPayroll.Dispose();     
+        dtEmpPayroll.Dispose();
     }
 
+    private void LeaveEncashment()
+    {
+        decimal dclLvEncash=0;
+        if (string.IsNullOrEmpty(txtELLeave.Text) == false)
+            dclLvEncash = Math.Round(((Convert.ToDecimal(txtBasicPay.ToolTip)) / 30) * Convert.ToDecimal(txtELLeave.Text), 0);
+        txtLeaveEncash.Text = dclLvEncash.ToString();
+    }
     protected void btnCalculateNet_Click(object sender, EventArgs e)
     {
         decimal dclAddtion = 0, dclDeduction = 0, dclNetPay = 0;
@@ -221,6 +227,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
 
         dclNetPay = dclAddtion - dclDeduction;
         txtNetPay.Text = dclNetPay.ToString();
+        this.LeaveEncashment();
     }
 
     protected void EntryMode(bool IsUpdate)
@@ -243,7 +250,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
             lblSeprateDate.Text = "";
             lblSeparateType.Text = "";
             lblServiceYr.Text = "";
-            lblLeave.Text = "";
+            txtELLeave.Text = "";
             lblConfirmationDate.Text = "";
             lblGratuityYr.Text = "";
 
@@ -264,13 +271,13 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
             btnSave.Enabled = false;
             foreach (GridViewRow gRow in grList.Rows)
             {
-                if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[14].Text)) == false)
-                    gRow.Cells[14].Text = Common.DisplayDate(gRow.Cells[14].Text);
-
                 if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[15].Text)) == false)
                     gRow.Cells[15].Text = Common.DisplayDate(gRow.Cells[15].Text);
 
-                string diff = Common.CalculateYearMonthDay(gRow.Cells[15].Text, 1);
+                if (string.IsNullOrEmpty(Common.CheckNullString(gRow.Cells[16].Text)) == false)
+                    gRow.Cells[16].Text = Common.DisplayDate(gRow.Cells[16].Text);
+
+                string diff = Common.CalculateYearMonthDay(gRow.Cells[16].Text, 1);
                 if (Convert.ToInt32(diff)<6)
                 {
                     btnSave.Enabled = true;
@@ -356,7 +363,7 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         nRow["TotServiceYr"] = lblServiceYr.Text.Trim() == "" ? "0" : lblServiceYr.Text.Trim();
         nRow["BasicPay"] = txtBasicPay.Text.Trim() == "" ? "0" : txtBasicPay.Text.Trim();
         nRow["TotalPay"] = txtTotalPay.Text.Trim() == "" ? "0" : txtTotalPay.Text.Trim();
-        nRow["ELBalance"] = lblLeave.Text.Trim() == "" ? "0" : lblLeave.Text.Trim();
+        nRow["ELBalance"] = txtELLeave.Text.Trim() == "" ? "0" : txtELLeave.Text.Trim();
         nRow["LeaveEncash"] = txtLeaveEncash.Text.Trim() == "" ? "0" : txtLeaveEncash.Text.Trim();
         nRow["PF"] = txtPF.Text.Trim() == "" ? "0" : txtPF.Text.Trim();
         nRow["Gratuity"] = txtGratuity.Text.Trim() == "" ? "0" : txtGratuity.Text.Trim();
@@ -398,5 +405,27 @@ public partial class Payroll_Payroll_FinalPaymentEntry : System.Web.UI.Page
         {
             lblMsg.Text = ex.ToString();
         }
-    }    
+    }
+
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (objFinalPayMgr.CheckFinalPaymentStatus(hfId.Value.ToString(), txtEmpID.Text.Trim()) == true)
+            {
+                lblMsg.Text = "Final payment has already reviewed or approved. Cannot delete this entry.";
+                return;
+            }
+            objFinalPayMgr.DeleteFinalPayment(hfId.Value.ToString(), txtEmpID.Text.Trim(), Session["USERID"].ToString(), Common.SetDateTime(DateTime.Now.ToString()), hfIsUpdate.Value, "N");
+
+            lblMsg.Text = "Record Deleted Successfully";
+            this.EntryMode(false);
+            this.FillEmpInfo(txtEmpID.Text.Trim());
+        }
+        catch (Exception ex)
+        {
+            lblMsg.Text = "";
+            throw (ex);
+        }
+    }
 }
